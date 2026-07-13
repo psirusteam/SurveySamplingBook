@@ -1,0 +1,36 @@
+/* Keep MathJax visually aligned with body text in the HTML book. */
+:root {
+  --math-inline-scale: 0.95em;
+  --math-display-scale: 0.9rem;
+  --math-compact-display-scale: 0.86rem;
+}
+
+mjx-container {
+  font-size: var(--math-inline-scale) !important;
+}
+
+span.math.inline mjx-container,
+p mjx-container:not([display="true"]),
+li mjx-container:not([display="true"]),
+td mjx-container:not([display="true"]),
+th mjx-container:not([display="true"]) {
+  font-size: var(--math-inline-scale) !important;
+}
+
+mjx-container[jax="CHTML"][display="true"],
+.math.display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.1rem 0;
+  font-size: var(--math-display-scale) !important;
+  line-height: 1.25;
+}
+
+.callout-body mjx-container[jax="CHTML"][display="true"],
+.callout-body .math.display,
+td mjx-container[jax="CHTML"][display="true"],
+th mjx-container[jax="CHTML"][display="true"] {
+  font-size: var(--math-compact-display-scale) !important;
+}

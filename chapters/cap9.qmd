@@ -1,0 +1,764 @@
+```{r, echo=FALSE, message=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+library(ggplot2)
+library(gridExtra)
+options(scipen = 100, digits = 2)
+set.seed(12345)
+library(knitr)
+opts_chunk$set(cache = TRUE)
+knit_theme$set("acid")
+```
+# Estimación con información auxiliar
+
+> Si los datos son útiles en la estimación  o no, dependerá de la manera en que
+> $\mathbf{x}$ esté relacionado con $\mathbf{y}$. Si el conocimiento y experiencia del estadístico le dicen que efectivamente $\mathbf{x}$ tiene una fuerte relación con $\mathbf{y}$, entonces el modelo comienza a tener sentido. Entre más conocimiento se tenga, se ajustará un mejor modelo.
+> @Intertres
+
+Las nociones de la inferencia en poblaciones finitas fueron expresadas hace más de 60  años en muchos libros clásicos como Cochran, Hansen, Hurwitz y Madow, Deming, Muthy, Des Raj y otros. La teoría de muestreo era aplicada desde la perspectiva misma de la selección aleatorizada de posibles muestras en la población finita. Dependiendo de las circunstancias prácticas, la selección se hacía de distintas maneras: muestreo aleatorio simple, muestreo aleatorio estratificado, muestreo de conglomerados, muestreo en dos etapas, etc.  El muestreo era considerado como la actividad primaria y la estimación nunca fue considerada como una práctica separada sino como una consecuencia automática. Lo anterior se debía a que cada tipo de diseño de muestreo inducía un estimador cuyas propiedades estadísticas como el insesgamiento y la varianza eran establecidas de antemano con el diseño y así, la varianza era calculable y estimable.
+
+Así que, para la década de los sesenta, muchos creyeron que la investigación en el campo del muestreo y de la inferencia en poblaciones finitas ya estaba muerta porque se deberían inventar nuevas formas de selección de muestras (tarea ardua y difícil), más allá de las que se cubrían en los libros clásicos del muestreo. Aunque el estimador de razón fue considerado en algún detalle por los textos de referencia, la inclusión de varias variables de información auxiliar no se vio como un tópico que prometiera rédito alguno para emprender el camino de la investigación en esa vía. En la década de los setenta, varios autores dieron un viraje en su perspectiva epistemológica de la inferencia en poblaciones finitas. Es así como Basú, Brewer,  Godambe y Royall, entre otros, consideraron los modelos estadísticos (en sintonía con la estadística clásica Fisheriana) como los verdaderos fundamentos de la estimación e inferencia en poblaciones finitas. Su trabajo se cimentó alrededor de la posibilidad de tener una inferencia que dependiera estrictamente del modelo propuesto y no tuviera nada que ver con el diseño de muestreo utilizado en la recolección de los datos. Como consecuencia, la atención se tornó alrededor de la estimación y se dejo de lado el muestreo por la relación existente o propuesta entre la característica de interés y las variables de información auxiliar.
+
+El camino que tomó la historia del muestreo fue, precisamente, la incorporación de las dos corrientes de pensamiento bajo una sola sombrilla.  Así que, fue posible combinar la aleatorización clásica con un percepción más general de la relación de y con x. No hubo necesidad de sacrificar los principios basados en la aleatorización. Así nació la inferencia asistida por modelos pero basada en ala aleatorización (*model assisted design-based inference* por su original en inglés). Este nuevo tipo de inferencia se hizo muy atractiva porque la regresión y los modelos acompañan al estadístico desde sus primeros cursos y van tomando más fuerzas a medida que se avanza en el camino universitario. Así que, este pensamiento “asistido por modelos” es un matrimonio efectivo y tolerante que permite las ideas de la regresión junto con el paradigma de la aleatorización.
+
+Jan Wrettman @Intertres opina que el ajuste de un modelo se ha convertido en parte integral de la teoría clásica del muestreo, aunque los principios de la misma deben permanecer intocables porque las propiedades de los estimadores son evaluadas con respecto al mecanismo de probabilidad que genera la muestra y no con respecto a cualquier modelo asumido.
+
+## Introducción
+
+<!-- index: Información auxiliar -->En los capítulos anteriores de este texto, el lector ha sido introducido en los diferentes diseños de muestreo que, dependiendo de la configuración de los valores de la característica de interés, mejoran la eficiencia de los estimadores de Horvitz-Thompson o Hansen-Hurwitz, según sea el caso. En algunas ocasiones, el uso correcto de la información auxiliar en la etapa de diseño hace que la eficiencia de los estimadores mejore dramáticamente. Por ejemplo, si la información auxiliar es de tipo categórico y está bien correlacionada con el comportamiento estructural de la característica de interés, es posible acudir a un diseño de muestreo estratificado. De otra forma, si la información auxiliar disponible en la población es de tipo continuo, podemos utilizar un diseño de muestreo PPT o $\pi$PT para mejorar la precisión de las estimaciones. En cualquiera de los casos, es necesario:
+
+1. Conocer los valores de la información auxiliar, ya sea de tipo continua o categórica, para todos los elementos que conforman la población.
+1. Tener la certeza de que la característica de interés guarda una estrecha correlación positiva con la información auxiliar.
+
+En este capítulo, el interés está centrado en mejorar la eficiencia de las estimaciones incorporando al estimador la información auxiliar, que puede ser de tipo categórico o continuo, fijando el diseño de muestreo utilizado. En otras palabras, se quiere hacer uso de la información auxiliar en la etapa de estimación. Para este fin es necesario:
+
+1. Contar con la experticia del investigador que ha sabido discernir y escoger el mejor diseño de muestreo para la configuración de los valores de la característica de interés.
+1. Saber que la característica de interés está bien relacionada con la información auxiliar. Como se verá más adelante no es necesario el conocimiento estricto de los valores de la información auxiliar en todos los elementos de la población, aunque sí es necesario conocer estos valores para la muestra junto con el total poblacional de la información auxiliar en la población^[Esta información puede ser suministrada por alguna entidad oficial.].
+
+Por supuesto, los nuevos estimadores, que incorporan información auxiliar, apuntan a la mejora dramática en la eficiencia de las estrategias de estimación de totales poblacionales. Además de esta característica, existen muchas otras que tienen que ver con la consistencia y el insesgamiento. Sin embargo, una característica importante de un estimador construido a partir de la información auxiliar está dada por la siguiente definición.
+
+::: {.callout-important title="Definición"}
+<!-- index: Estrategia de muestreo representativa -->Una estrategia de muestreo se dice **representativa** con respecto a la información auxiliar $\mathbf{x}$, sí y sólo sí
+
+$$
+\hat{t}_S(\mathbf{x})=t_{\mathbf{x}}.
+$$ {#eq-rep}
+
+Es decir, si el estimador aplicado a las variables auxiliares reproduce exactamente el total poblacional de las mismas.
+:::
+
+La idea detrás del principio de representatividad de la estrategia es que si se tiene el conocimiento de que la característica de interés guarda una estrecha relación lineal con la información auxiliar entonces podemos pensar en que la siguiente igualdad se cumple
+
+$$
+    t_\mathbf{x}\approx t_y
+$$
+
+y, una consecuencia inmediata de esta propiedad, bajo los anteriores supuestos es que
+
+$$
+    \hat{t}_S(y)\approx t_y
+$$
+
+Sin importar el diseño de muestreo utilizado para la selección de la muestra, si el total poblacional de las variables auxiliares, $t_\mathbf{x}$, es conocido, se puede utilizar esta información para construir un estimador aún más preciso. En este capítulo se consideran los estimadores lineales de la forma
+
+$$
+\hat{t}_S(y)=w_0+\sum_{k\in S}w_ky_k,
+$$
+
+En donde los pesos<!-- index: Peso --> $w_k$ pueden depender del vector de información auxiliar. Es claro que no todos los estimadores lineales cumplen la ecuación de representatividad. Por ejemplo, el estimador de Horvitz-Thompson es insesgado pero no utiliza información auxiliar por tanto no cumple la ecuación de representatividad para la información auxiliar. Aunque de manera teórica no es difícil mostrar que, utilizando un diseño de muestreo de tamaño de muestra fijo, el estimador de $\hat{t}_{y\pi}$ arroja una estrategia representativa sobre el vector de probabilidades de inclusión $\pi_1, \ldots, \pi_N$.
+
+Si $\hat{t}_{y,\pi}$ y $\hat{t}_{\mathbf{x},\pi}$ son los estimadores de Horvitz-Thompson de $y$ y $\mathbf{x}$ respectivamente, entonces es posible construir nuevos estimadores que, sin importar el diseño de muestreo, arrojen estrategias representativas sobre el vector de información auxiliar $\mathbf{x}$. Bajo estas condiciones la precisión de la estimación queda asegurada mediante la aplicación del siguiente resultado.
+
+::: {.callout-tip title="Resultado"}
+Si el estimador $\hat{t}_S(\cdot)$ induce una estrategia representativa sobre el vector de información auxiliar $\mathbf{x}$, tal que (@eq-rep) se satisface. Entonces $\hat{t}_S(\mathbf{x})$ estimará el total $t_{\mathbf{x}}$ con varianza nula.
+
+**Prueba.**
+Si (@eq-rep) se cumple, entonces
+$$
+\begin{aligned}
+Var(\hat{t}_S(\mathbf{x}))=Var(t_\mathbf{x})=0
+\end{aligned}
+$$
+Nótese que el operador $Var(\cdot)$ se calcula sobre todas las posibles muestras del soporte $Q$ inducido por el diseño de muestreo. Es decir, para todas las muestras pertenecientes a $Q$ el estimador $\mathbf{\hat{t}}_S(\mathbf{x})$ reproducirá el total $\mathbf{t}_\mathbf{x}$
+:::
+
+Este resultado es muy importante porque si es cierto que la característica de interés está relacionada con la información auxiliar, entonces $\hat{t}_S(y)$ tenderá a contar con una varianza muy pequeña.
+
+Ahora es tiempo de discutir sobre la incorporación de la información auxiliar al estimador. ¿Cómo es posible introducir esta información en una expresión matemática que intenta estimar un parámetro? La respuesta es simple y clara: mediante un modelo de super-población $\xi$.
+
+## Estimador general de regresión
+
+<!-- index: Estimador general de regresión -->En esta sección se construye un estimador del total poblacional de la característica de interés $t_y$ que mejora dramáticamente en eficiencia al incorporar información auxiliar. La manera en que esta incorporación se realiza es mediante el supuesto de que las variables de información auxiliar están relacionadas con la característica de interés mediante un modelo $\xi$. Este modelo es un modelo lineal general y le da el nombre al estimador que se propone en este capítulo. Así que si existen $N$ variables aleatorias $Y_1,Y_2,\ldots,Y_N$ y un vector de variables aleatorias $\mathbf{X}_1,\mathbf{X}_2,\ldots,\mathbf{X}_N$ y la relación entre estas variables aleatorias está dada por un modelo de super-población, de tal forma que:
+
+$$
+Y_k=\mathbf{X}_k'\boldsymbol{\beta}+\varepsilon_k
+$$
+
+Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza $c_k\sigma^2$, tales que:
+$$
+\begin{aligned}
+E_{\xi}(Y_k)&=\mathbf{X}_k'\boldsymbol{\beta} \\
+Var_{\xi}(Y_k)&=c_k\sigma^2.
+\end{aligned}
+$$
+
+Al considerar este modelo general es posible construir un estimador del total poblacional que conciba esta relación.
+
+### Construcción
+
+<!-- index: Estimador general de regresión -->Sea $U$ el conjunto de elementos en la población finita y *S* el conjunto de los elementos que conforman la muestra aleatoria. Sean $y_k$, $k\in S$ y $\mathbf{x}_{k}$, $k\in U$, los valores de la característica de interés *y* y el vector de información auxiliar asociados al k-ésimo
+elemento de la población. Siendo $\pi_k$ la probabilidad de inclusión de primer orden, se asume que los totales poblacionales de la información auxiliar $\mathbf{t}_{\mathbf{x}}=\sum_{k \in U}\mathbf{x_k}$ son conocidos.
+
+De manera general, se asume que existe una relación entre la variable de interés y la información auxiliar por el modelo de super-población $\xi$. Es decir,
+$$
+y_k=f(x_{1k}, x_{2k}, \ldots, x_{pk})+E_k
+$$
+
+En particular, bajo $\xi$ existe una relación de tipo lineal entre $y_k$ y $\mathbf{x_k}$. Por tanto, en la población finita se tiene que
+$$
+\begin{aligned}
+y_k&=\mathbf{x}_k'\mathbf{B}+E_k\\
+&=y_kº+E_k
+\end{aligned}
+$$
+
+Entonces, el parámetro poblacional que se quiere estimar se puede escribir como
+$$
+\begin{aligned}
+t_y&=\sum_U(y_kº+y_k-y_kº)\\
+&=\sum_U\mathbf{x}_k'\mathbf{B}+\sum_U(y_k-y_kº)\\
+&=\sum_U\mathbf{x}_k'\mathbf{B}+\sum_UE_k\\
+&=\sum_Uy_kº+\sum_UE_k
+\end{aligned}
+$$
+
+Como el objetivo es estimar $t_y$ con los datos suministrados en la muestra. Entonces es necesario estimar dos cantidades. La  primera es $\mathbf{B}$ que corresponde a un vector de coeficientes de regresión y que puede ser estimado siguiendo los principios del capítulo anterior. La segunda cantidad corresponde al total $t_E$ que puede ser estimado utilizando los principios del estimador de Horvitz-Thompson. De esta manera, se tiene la construcción del estimador general de regresión.
+
+::: {.callout-important title="Definición"}
+<!-- index: Estimador general de regresión -->El estimador general de regresión está definido por la siguiente expresión
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\sum_U\mathbf{x}_k'\mathbf{\hat{B}}+\sum_s\frac{y_k-\mathbf{x}_k'\mathbf{\hat{B}}}{\pi_k}
+\end{aligned}
+$$
+
+:::
+
+Desarrollando la expresión del estimador general de regresión y factorizando convenientemente, llegamos a que el estimador general de regresión se puede escribir como:
+
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\sum_U\mathbf{x}_k'\mathbf{\hat{B}}+\sum_s\frac{y_k}{\pi_k}-\sum_s\frac{\mathbf{x}_k'\mathbf{\hat{B}}}{\pi_k}\\
+&=\hat{t}_{y\pi}+\sum_{j=1}^J\hat{B}_j(t_{xj}-\hat{t}_{xj\pi})
+\end{aligned}
+$$
+
+Que matricialmente se deja escribir como:
+
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\hat{t}_{y\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{\hat{B}}
+\end{aligned}
+$$
+
+Como el estimador de $\mathbf{B}$ se halló utilizando la técnica de mínimos cuadrados, entonces
+
+$$
+\hat{\mathbf{B}}=\hat{\mathbf{T}}^{-1}\hat{\mathbf{t}}
+$$
+donde
+$$
+\begin{aligned}
+\mathbf{\widehat{T}}=\sum_S\dfrac{\mathbf{x}_k\mathbf{x}_k'}{\pi_kc_k}
+\end{aligned}
+$$
+y
+$$
+\begin{aligned}
+\mathbf{\hat{t}}=\sum_S\dfrac{\mathbf{x}_ky_k}{\pi_kc_k}
+\end{aligned}
+$$
+
+Por tanto, al descomponer $\mathbf{\hat{B}}$\footnote{Nótese que $\mathbf{\hat{B}}$ no es un estimador insesgado para $\mathbf{{B}}$.}, el estimador toma la siguiente forma
+
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\sum_s\frac{y_k}{\pi_k}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{T}^{-1}\sum_s\frac{\mathbf{x}_ky_k}{c_k\pi_k}\\
+&=\sum_s\left(1+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{T}^{-1}\frac{\mathbf{x}_k}{c_k}\right)\frac{y_k}{\pi_k}\\
+&=\sum_sg_{ks}\frac{y_k}{\pi_k}
+\end{aligned}
+$$
+
+Por lo tanto, se tienen distintas formas de escribir el mismo estimador; las últimas expresiones son particularmente útiles, pues los pesos<!-- index: Peso --> $g_{ks}$ tienen la propiedad de inducir estrategias representativas sobre cualquier variable del vector auxiliar. Es decir, al aplicar los pesos, sobre la muestra, a una variable de la información auxiliar, el resultado será el total poblacional de dicha variable.
+
+$$
+\hat{\mathbf{t}}_{\mathbf{x},greg}=\sum_Sg_{ks}\frac{\mathbf{x}_k'}{\pi_k}=\mathbf{t}_{\mathbf{x}}
+$$
+
+Volviendo atrás a la introducción de este capítulo, se puede concluir que el estimador de regresión general es un estimador de tipo lineal con $w_0=0$ y $w_k=\frac{g_{ks}}{\pi_k}$. De tal forma que
+
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\sum_Sw_ky_k\\
+&=\sum_Sg_{ks}\frac{y_k}{\pi_k}
+\end{aligned}
+$$
+
+con
+
+$$
+g_{ks}=1+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{T}^{-1}\frac{\mathbf{x}_k}{c_k}
+$$
+
+A los pesos $w_k$ se les conoce con el nombre de **pesos de calibración**<!-- index: Peso de calibración --> y son usados ampliamente en la construcción de estimadores asistidos en modelos de superpoblación. De esta manera, al usar los pesos calibrados el estimador asistido por modelos está dado por
+
+$$
+\hat{t}_{y,cal}=\sum_{k\in S} w_ky_k.
+$$
+
+Nótese que una propiedad de los pesos de calibración es que el estimador de la información auxiliar reproduce exactamente los totales poblacionales de la misma. De esta forma, tenemos que
+
+$$
+t_{x,cal}=\sum_{k\in S} w_kx_k=t_x.
+$$
+
+::: {.callout-tip title="Resultado"}
+Para cualquier diseño de muestreo, el estimador $\widehat{t}_{y,greg}$ induce una estrategia representativa sobre el vector de variables auxiliares. Es decir
+
+$$
+\mathbf{\widehat{t}}_{\mathbf{x},greg}=\mathbf{t}_{\mathbf{x}}
+$$
+
+**Prueba.**
+Utilizando la forma matricial del estimador general de regresión dada por la expresión (9.2.11) se tiene que
+$$
+\begin{aligned}
+\mathbf{\widehat{t}}_{\mathbf{x},greg}&=\hat{\mathbf{t}}_{\mathbf{x}\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{\hat{B}}
+\end{aligned}
+$$
+
+Sin embargo, $\mathbf{\hat{B}}$ será los coeficiente de regresión, ajustados por mínimos cuadrados, entre la información auxiliar contra ella misma. Por lo tanto, se tratará de una matriz identidad. Esto es claro al desarrollarlo, por tanto
+
+$$
+\begin{aligned}
+\mathbf{\hat{B}}=\mathbf{\widehat{T}}^{-1}\mathbf{\widehat{T}}=
+\left(\sum_S\dfrac{\mathbf{x}_k\mathbf{x}_k'}{\pi_kc_k}\right)^{-1}\left(\sum_S\dfrac{\mathbf{x}_k\mathbf{x}_k'}{\pi_kc_k}\right)=\mathbf{I}_{p\times p}
+\end{aligned}
+$$
+
+Entonces, el estimador general de regresión del vector de totales de la información auxiliar será
+
+$$
+\begin{aligned}
+\mathbf{\widehat{t}}_{\mathbf{x},greg}&=\hat{\mathbf{t}}_{\mathbf{x}\pi}+
+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{I}_{p\times p}\\
+&=\hat{\mathbf{t}}_{\mathbf{x}\pi}+\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi}\\
+&=\mathbf{t}_{\mathbf{x}}
+\end{aligned}
+$$
+
+:::
+
+Es importante resaltar que la conformación estructural de los pesos de calibración<!-- index: Peso de calibración --> depende de
+
+1. El modelo de superpoblación y sus condicionamientos para la estimación de los parámetros de regresión. Es decir, la forma del modelo per se (con o sin intercepto y la cantidad de variables de información auxiliar) y la estructura de varianza (el valor que toma $c_k$).
+1. El vector de probabilidades de inclusión en la muestra.
+1. La muestra realizada. Para cada posible muestra del soporte definido por el diseño de muestreo, existe una configuración distinta de pesos de calibración.
+
+::: {.callout-note title="Ejemplo"}
+Retomando nuestra población ejemplo $U$, suponga que el modelo de super-población $\xi$ es tal que
+
+$$
+Y_k=\beta_0+\beta_1X_k+\varepsilon_k
+$$
+
+Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias independientes e idénticamente distribuidas con media cero y estructura de varianza constante. Los valores de la característica de interés y de la información auxiliar continua se muestran a continuación
+
+```{r}
+x <- c(32, 34, 46, 89, 35)
+y <- c(52, 60, 75, 100, 50)
+```
+
+Mediante un diseño de muestreo aleatorio simple se selecciona una muestra de tamaño $n=4$. Por supuesto, este diseño de muestreo induce probabilidades de inclusión `pik` para cada uno de los elementos.
+
+```{r}
+sam <- sample(5, 4)
+pik <- rep(4/5, 5)
+```
+
+Suponga que la muestra realizada está dada por los elementos 1, 2, 3 y 5 de la población, correspondientes a **Yves, Ken, Erik, Leslie**. Los valores de `y`, `x`, y de `pik` para cada uno de los elementos en la muestra están dados por
+
+```{r}
+x.s <- x[sam]
+y.s <- y[sam]
+pik.s <- pik[sam]
+```
+
+Con la ayuda de la función `Wk` del paquete `TeachingSampling` es posible realizar el cálculo de los pesos de calibración para los elementos seleccionados en la muestra. Esta función tiene cinco argumentos descritos a continuación: `x`, que es la matriz de información auxiliar conteniendo los valores para cada uno de los elementos de la muestra de la información auxiliar continua o discreta. Este argumento puede ser un vector, en el caso de una sola variable de información auxiliar, o una matriz, en el caso de múltiple información auxiliar. `tx`, que es el vector de totales poblacionales (que se suponen conocidos) de la información auxiliar. `pik`, es el vector de probabilidades de inclusión en los elementos incluidos en la muestra. `b0`, que por defecto toma el valor `FALSE` indicando que el modelo fue propuesto sin intercepto. De otra forma, si el modelo propuesto contiene intercepto, `b0` debe tomar el valor `TRUE`. El último argumento de la función es `ck` que hace alusión a la estructura de varianza del modelo. `ck` toma el valor 1 por defecto. Si la estructura de varianza es como en el modelo de razón, entonces `ck` deberá ser el mismo vector que se introdujo en el argumento `x`.
+
+De esta manera, se utiliza la función `Wk` del paquete `TeachingSampling` para encontrar los pesos de calibración<!-- index: Peso de calibración -->. Nótese que como el modelo fue propuesto con intercepto, eso quiere decir que la primera columna de la matriz de diseño es de sólo unos; por lo tanto, el argumento `tx` debe ser un vector conteniendo el total poblacional y el total de la variable de información auxiliar, así `tx=c(5,236)`. Como la estructura de varianza es constante, `ck` toma el valor uno.
+
+```{r}
+w <- Wk(x.s, tx=c(5, 236), pik.s, ck=1, b0=TRUE)
+w
+```
+
+De esta manera se obtienen los pesos calibrado cuya agradable propiedad es que reproducen el total poblacional exacto de la información auxiliar.
+
+```{r}
+sum(x.s * w)
+sum(y.s * w)
+```
+
+Sin embargo, si el modelo $\xi$ hubiese sido formulado de manera distinta, como por ejemplo:
+
+$$
+Y_k=\beta_1X_k+\varepsilon_k
+$$
+
+Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias independientes e idénticamente distribuidas con media cero y estructura de varianza constante. Entonces, los argumentos en la función `Wk` del paquete `TeachingSampling` deben cambiar, de tal forma que
+
+```{r}
+w <- Wk(x.s, tx=236, pik.s, ck=1, b0=FALSE)
+w
+```
+
+Nótese que aunque el modelo cambie, la propiedad de calibración se mantiene ante distintas configuraciones en los pesos.
+
+```{r}
+sum(x.s * w)
+sum(y.s * w)
+```
+
+Para este modelo de super-población, haga un ejercicio léxico-gráfico de todas las posibles muestras aleatorias simples de tamaño $n=4$, donde calcule los pesos de calibración y verifique la propiedad de representatividad sobre el vector de información auxiliar.
+:::
+
+### Otras propiedades del estimador general de regresión
+
+<!-- index: Estimador general de regresión -->Por otro lado, acudiendo a la definición del estimador general de regresión, éste toma la siguiente forma
+
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\sum_U\mathbf{x}_k'\mathbf{\hat{B}}+\sum_s\frac{y_k-\mathbf{x}_k'\mathbf{\hat{B}}}{\pi_k}\\
+&=\sum_U\hat{y}_k+\sum_s\frac{e_k}{\pi_k}
+\end{aligned}
+$$
+
+En algunas ocasiones, el modelo $\xi$ que establece la relación entre la característica de interés y la información auxiliar es tal que
+
+$$
+\begin{aligned}
+\sum_s\frac{e_k}{\pi_k}=0.
+\end{aligned}
+$$
+
+Si la anterior ecuación se satisface, entonces el estimador general de regresión tomaría una forma mucho más sencilla dada por
+
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\sum_U\hat{y}_k\\
+&=\sum_U\mathbf{x}_k'\mathbf{\hat{B}}\\
+&=\mathbf{t'_x}\mathbf{\hat{B}}
+\end{aligned}
+$$
+
+Por lo que sólo se necesitaría del conocimiento del vector de totales poblacionales de las variables de información auxiliar $\mathbf{t}_{\mathbf{x}}$, que pueden estar disponibles en alguna entidad administrativa, y de los valores que toman la característica de interés y el vector de información auxiliar, $y_k$ y $\mathbf{x}_k$  respectivamente, en la muestra realizada.
+
+::: {.callout-tip title="Resultado"}
+Una condición suficiente para que
+$$
+\begin{aligned}
+\sum_s\frac{e_k}{\pi_k}=0.
+\end{aligned}
+$$
+es que exista un vector $\mathbf{v}$ tal que
+$$
+\begin{aligned}
+\mathbf{v}'\mathbf{x}_k=c_k.
+\end{aligned}
+$$
+
+**Prueba.**
+Si la ecuación (9.2.21) se satisface, entonces
+
+$$
+\begin{aligned}
+\sum_S\frac{e_k}{\pi_k}&=\sum_S\frac{1}{\pi_k}\left(y_k-\mathbf{x}_k'\mathbf{\hat{B}}\right)\\
+&=\sum_S\frac{1}{\pi_k}\left(y_k-\frac{\mathbf{v}'\mathbf{x}_k}{c_k}\mathbf{x}_k'\mathbf{\hat{B}}\right)\\
+&=\hat{t}_{y,\pi}-\mathbf{v}'\left(\sum_S\frac{\mathbf{x}_k\mathbf{x}_k'}{\pi_kc_k}\right)\mathbf{\hat{T}}^{-1}\mathbf{\widehat{t}}\\
+&=\hat{t}_{y,\pi}-\sum_S\frac{\mathbf{v}'\mathbf{x}_ky_k}{\pi_kc_k}\\
+&=\hat{t}_{y,\pi}-\hat{t}_{y,\pi}=0
+\end{aligned}
+$$
+
+:::
+
+@Sar afirman que algunos ejemplos de estructuras de varianza que satisfacen la ecuación (9.2.21) son:
+
+- Modelo de regresión lineal con intercepto $x_{1k}=1$ $\forall k\in U$ y estructura de varianza constante $c_k=1$.
+- Modelo de regresión lineal con estructura de varianza proporcional a alguna variable del vector de información auxiliar. Es decir,
+$$
+            \sigma^2c_k\propto x_{jk}
+$$
+        Para algún $j=1,\ldots,p$ y para todo $k\in U$
+- Modelo de regresión lineal con estructura de varianza proporcional a una combinación lineal de las variables de información auxiliar. Es decir,
+$$
+            \sigma^2c_k\propto \sum_{j=1}^pa_jx_{jk}
+$$
+        Para todo $k\in U$ y algunas constantes $a_1,\ldots,a_p$
+
+Acerca de la filosofía que cubre el modelo $\xi$ en el estimador de regresión, @Sar afirman que el papel que juega este modelo se limita a la descripción, mas no explicación, de la nube de puntos en la población finita. Argumentan que se espera que el modelo propuesto ajuste razonablemente bien y que haga pensar que pudo haber generado el comportamiento particular de la característica de interés. Nótese que el supuesto es flexible y no exige la certeza de que el modelo en verdad haya generado los valores de $y$. Por tanto, aunque el modelo induce aleatoriedad per se, las conclusiones de las estimaciones son independientes del mismo. Aún más, el modelo $\xi$ es un vehículo para encontrar una expresión matemática que permita estimar los coeficientes de regresión y la eficiencia de $\hat{t}_{y,greg}$ comparada con la del estimador de Horvitz-Thompson dependerá de la bondad del ajuste inducida por el modelo supuesto. Sin embargo, no depende de ninguna manera, de si el modelo es cierto o no. Por tanto todo tipo de inferencias acerca del estimador están basados en el diseño de muestreo y no en el modelo supuesto.
+
+Bajo la anterior argumentación, es necesario calcular y estimar la varianza del estimador general de regresión desde un punto de vista basado en el diseño de muestreo. Así que, siguiendo los lineamentos de la sección 8.1.1. en cuanto a la técnica de linealización de Taylor, se tiene el siguiente resultado.
+
+::: {.callout-tip title="Resultado"}
+El estimador general de regresión es aproximadamente insesgado para el total poblacional de la característica de interés $t_y$. Además la aproximación de la varianza y la varianza estimada del estimador general de regresión están dadas por
+
+$$
+AVar(\hat{t}_{y,greg})=\sum\sum_U\Delta_{kl}\frac{E_k}{\pi_k}\frac{E_l}{\pi_l}.
+$$
+$$
+\widehat{Var}(\hat{t}_{y,greg})=\sum\sum_S \dfrac{\Delta_{kl}}{\pi_{kl}}\frac{e_k}{\pi_k}\frac{e_l}{\pi_l}
+$$
+
+respectivamente. Donde $E_k=y_k-\mathbf{x}_k'\mathbf{B}$ son los errores en la población finita y $e_k=y_k-\mathbf{x}_k'\mathbf{\hat{B}}$ son los errores en la muestra seleccionada.
+
+**Prueba.**
+Siguiendo los pasos de la linealización de Taylor, debemos expresar el estimador como una función de totales.
+
+$$
+\begin{aligned}
+\hat{t}_{y,greg}&=\hat{t}_{y\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{\hat{B}}\\
+&=f(\hat{t}_{y\pi},\hat{\mathbf{t}}_{\mathbf{x}\pi},\hat{\mathbf{T}},\hat{\mathbf{t}})
+\end{aligned}
+$$
+
+Nótese que
+$$
+\left.\frac{\partial f}{\partial\hat{\mathbf{T}}}\right|_{\hat{t}_{y\pi}=t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
+=\mathbf{T},\hat{\mathbf{t}}=\mathbf{t}}
+=(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'
+\left.\frac{\partial\hat{\mathbf{B}}}{\partial}\right|_{\hat{t}_{y\pi}
+=t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
+=\mathbf{T},\hat{\mathbf{t}}=\mathbf{t}}=\mathbf{0}
+$$
+
+y análogamente, se tiene que
+$$
+\left.\frac{\partial f}{\partial\hat{\mathbf{t}}}\right|_{\hat{t}_{y\pi}=t_y,
+\hat{\mathbf{t}}_{\mathbf{x}\pi}=\mathbf{t}_{\mathbf{x}},
+\hat{\mathbf{T}}=\mathbf{T},
+\hat{\mathbf{t}}=\mathbf{t}}
+=(\mathbf{t}_{\mathbf{x}}-\hat{t}_{\mathbf{x}\pi})'
+\left.\frac{\partial\hat{\mathbf{B}}}{\partial}\right|_{\hat{\mathbf{t}}_{y\pi}=t_y,
+\hat{\mathbf{t}}_{\mathbf{x}\pi}=\mathbf{t}_{\mathbf{x}},
+\hat{\mathbf{T}}=\mathbf{T},
+\hat{\mathbf{t}}=\mathbf{t}}
+=\mathbf{0}.
+$$
+
+Por consiguiente, sólo se calcula las derivadas de $f$ con respecto a $\hat{t}_{y\pi}$ y $\hat{\mathbf{t}}_{\mathbf{x}\pi}$, y se tiene que
+
+$$
+\begin{aligned}
+a_1&=\left.\dfrac{\partial f(\hat{t}_{y\pi},\hat{\mathbf{t}}_{\mathbf{x}\pi})}{\partial \hat{t}_{y\pi}}\right|_{\hat{t}_{y\pi}=t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}=\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
+=\mathbf{T},\hat{\mathbf{t}}=\mathbf{t}}\\
+&=1\\
+a_2&=\left.\dfrac{\partial f(\hat{t}_{y\pi},\hat{\mathbf{t}}_{\mathbf{x}\pi})}{\partial \hat{\mathbf{t}}_{\mathbf{x}\pi}}\right|_{\hat{t}_{y\pi}=t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}=\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
+=\mathbf{T},\hat{\mathbf{t}}=\mathbf{t}}\\\\
+&=-\left.\hat{\mathbf{B}}'\right|_{\hat{t}_{y\pi}=t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}=\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
+=\mathbf{T},\hat{\mathbf{t}}=\mathbf{t}}\\
+&=-\mathbf{B}'
+\end{aligned}
+$$
+
+Por tanto, se tiene que
+$$
+\hat{t}_{y,greg}\cong t_y+(\hat{t}_{y\pi}-t_y)-
+\mathbf{B}'(\hat{\mathbf{t}}_{\mathbf{x}\pi}-\hat{\mathbf{t}}_{\mathbf{x}}),
+$$
+y tomando esperanza, se tiene que $E(\hat{t}_{y,greg})\cong t_y$.
+
+Al definir la nueva variable linealizada dada por la expresión (8.1.14), se tiene que
+$$
+\begin{aligned}
+E_k=y_k-\mathbf{x}_k'\mathbf{B}
+\end{aligned}
+$$
+
+cuya aproximación con los datos recolectados en la muestra es
+$$
+\begin{aligned}
+e_k=y_k-\mathbf{x}_k'\mathbf{\widehat{B}}
+\end{aligned}
+$$
+
+Por tanto, la varianza se escribe, recurriendo al resultado 8.1.3, como
+
+$$
+AVar(\hat{t}_{y,greg})=Var\left(\sum_S\frac{E_k}{\pi_k}\right)
+$$
+
+Utilizando los principios del estimador de Horvitz-Thompson se llega a los resultados de la aproximación de la varianza y de la varianza estimada.
+:::
+
+@Sar proponen un estimador de la varianza que integra los pesos<!-- index: Peso --> $g_{ks}$. La motivación de este nuevo estimador de la varianza recae en que una forma de escribir el estimador de regresión general está dada por
+
+$$
+\hat{t}_{y,greg}=\sum_Uy_kº+\sum_S\frac{g_{ks}E_k}{\pi_k}
+$$
+
+Por lo tanto, al calcular su varianza tenemos
+
+$$
+\begin{aligned}
+Var\left(\hat{t}_{y,greg}\right)&=Var\left(\sum_Uy_kº+\sum_S\frac{g_{ks}E_k}{\pi_k}\right)\\
+&=Var\left(\sum_S\frac{g_{ks}E_k}{\pi_k}\right)
+\end{aligned}
+$$
+
+Utilizando los principios del estimador de Horvitz-Thompson, un estimador alternativo para la varianza del estimador general de regresión está dada por
+
+$$
+\widehat{Var}(\hat{t}_{y,greg})=\sum\sum_S \dfrac{\Delta_{kl}}{\pi_{kl}}\frac{g_{ks}e_k}{\pi_k}\frac{g_{ls}e_l}{\pi_l}
+$$
+
+El lector debe tener muy claro que la propiedad de insesgamiento no aplica a esta clase de estimadores. Sin embargo, cuando el tamaño de muestra y el tamaño poblacional son grandes, entonces el sesgo del estimador general de regresión es despreciable. Se debe tener sumo cuidado en las muestras de tamaño pequeño, máxime cuando se realiza el proceso de estimación por intervalos de confianza. @Sar afirman al respecto que, aunque el sesgo afecta la validez de los intervalos de confianza generados con el estimador general de regresión, es válido utilizar el siguiente intervalo de confianza
+
+$$
+\hat{t}_{y,greg} \pm z_{1-\alpha/2}\sqrt{\widehat{Var}(\hat{t}_{y,greg})}
+$$
+
+incluso cuando el tamaño de muestra es modesto.
+
+::: {.callout-tip title="Resultado"}
+Bajo la familia de diseños de muestreo MAS, el estimador general de regresión es consistente en el sentido Cochran. Es decir, si $s=U$, entonces
+$$
+\hat{t}_{y,greg}=t_y
+$$
+
+:::
+Hasta este momento, hemos definido el estimador general de regresión como un intento de conciliar la teoría clásica de modelos con el muestreo de poblaciones finitas. Este estimador ha ganado mucho campo en las últimas décadas y su uso, dadas sus propiedades deseables, es aún mayor a medida que el tiempo pasa. Sin embargo, el estimador general de regresión es el resultado de décadas de desarrollo teórico y construcción de estimadores asistidos por modelos que se constituyen como casos particulares de éste.
+
+En las próximas secciones, estudiaremos cada uno de estos casos particulares más utilizados en la práctica. El lector debe notar que cada uno de los estimadores que siguen en las siguientes secciones, fueron propuestos en los tiempos antiguos sin tener en cuenta un modelo de super-población sino con una motivación puramente empírica. Sin embargo, como se verá en desarrollo de las siguientes secciones, todos estos estimadores están cubiertos bajo los principios del estimador general de regresión y por los coeficientes de regresión que el modelo induzca.
+
+Para terminar la exposición del estimador general de regresión, el lector debe notar que este estimador es completamente inútil en la práctica. En otras palabras, su basta generalidad hace que este estimador sea inutilizable. Como en todo proceso estadístico, el modelo general y sus correspondientes expresiones matemáticas carecen de sentido sin el conocimiento del comportamiento particular de cada característica de interés. Con lo anterior, no es mi intención desactivar al lector. Por el contrario, cuando el estadístico logra entender qué es un modelo de super población, y obtiene un estimador particular conforme al comportamiento de la población de estudio, entonces la ganancia en eficiencia es tremenda.
+
+En las siguientes secciones se darán ejemplos particulares del estimador de regresión cuando el modelo que rige la población finita ya se ha especificado. Nótese que todos y cada uno de los estimadores que a continuación se presentan son casos particulares del estimador general de regresión. Por supuesto, cada uno de ellos recibe un nombre particular, que en la mayoría de los casos está supeditado al modelo que rige la población particular.
+
+El lector debe retomar en cada una de las siguientes páginas el espíritu del estimador general de regresión como una familia que cobija casos particulares de estimadores. Todos y cada uno de los estimadores que se revisan en este capítulo nacieron bajo especificaciones propias que los caracterizaban de manera singular. Por tanto, el desarrollo histórico de cada uno de ellos no estuvo fundamentado, en principio, como un caso particular de algún otro estimador. El estimador de razón, el estimador de regresión, el estimador de post-estratificación, entre otros, fueron concebidos aparte de la idea de los modelos lineales. Sus creadores no estaban pensando en calcular o estimar un coeficiente de regresión. Por supuesto, con el trascurrir del tiempo y los avances en términos de la teoría estadística de los modelos lineales, se creó una familia que unifica a todos los estimadores de este capítulo en un sólo estimador general.
+
+## Estimador de media común
+
+<!-- index: Estimador de media común -->Recuerde que la construcción de la estrategia de muestreo es la tarea más importante antes de realizar cualquier estudio por muestreo. Sin embargo, se debe reconocer que cada una de las posibles estrategias de muestreo tiene ventajas y desventajas sobre las restantes estrategias. Suponga que el diseño de muestreo que se ha propuesto consiste en un diseño de muestreo Bernoulli. ¿Qué tipo de estimador es el mejor para este diseño de muestreo?. En teoría, existen muchos estimadores insesgados para este diseño particular, por ejemplo el estimador de Horvitz-Thompson. Sin embargo, desde un punto de vista práctico, es posible que la muestra realizada o seleccionada para este diseño de muestreo consista en todas y cada una de las unidades de la población. Bajo el anterior escenario el estimador de Horvitz-Thompson no plantea ningún tipo de ventajas pues la estimación para el total poblacional será una estimación totalmente errónea, igual a $t_y/\pi$ y estrictamente mayor a $t_y$.
+
+Como se vio en capítulos anteriores, aunque la probabilidad de que la muestra seleccionada o realizada contenga todas las unidades poblacionales, el estimador alternativo del total poblacional, dado en la expresión (2.2.17), proporciona una mejor opción que el estimador de Horvitz-Thompson. Este estimador alternativo se conoce con el nombre de estimador de media común y está motivado por el **modelo de media común** que supone que la población se comporta de la misma manera de acuerdo a una pendiente común para cada uno de los individuos que conforman. De esta manera $p=1$, $\mathbf{x}_k=1$ y $c_k=1$ para todo $k\in U$. La formulación del modelo de superpoblación está dada por
+
+$$
+Y_k=\beta+\varepsilon_k
+$$
+
+Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza $\sigma^2$. Como resultado de lo anterior se tiene que
+
+$$
+\begin{aligned}
+E_{\xi}(Y_k)&=\beta \\
+Var_{\xi}(Y_k)&=\sigma^2.
+\end{aligned}
+$$
+
+A simple vista el estimador resultante del modelo anterior no es mejor que el estimador de Horvitz-Thompson pues la información auxiliar es siempre constante. Sin embargo, el estimador resultante es muchas veces mejor que el estimador de Horvitz-Thompson como cuando la estrategia de muestreo implica un diseño de muestreo tipo Bernoulli. Es común utilizar el estimador de media común cuando el gráfico de dispersión entre la característica de interés y la característica de información auxiliar define una recta de regresión constante y paralela al eje de las abscisas. Por supuesto, el cociente entre estas dos características también definirá un gráfico de dispersión cuyo comportamiento sea constante con ligeras desviaciones uniformes como se puede observar en la siguiente figura.
+
+```{r}
+#| label: fig-f9-1
+#| fig-height: 4
+#| fig-cap: 'Relación en un modelo de media común.'
+N <- 500
+b <- 10
+sigma <- 2
+
+z <- c(1:N)
+x <- rep(1, N)
+e <- rnorm(N, 0, sigma)
+y <- b * x + e 
+
+data <- data.frame(z, y, x)
+p1 <- ggplot(data, aes(x = z, y = y)) + geom_point(shape=1) + 
+  geom_smooth(method = lm)
+p2 <- ggplot(data, aes(x = z, y = y / x)) + geom_point(shape=1) + 
+  geom_smooth(method = lm)
+grid.arrange(p1, p2, ncol = 2)
+```
+
+Si se tuviese acceso a toda la población finita, el estimador del coeficiente de regresión $\beta$ estaría dado por la minimización de la siguiente función de dispersión
+
+$$
+D=\sum_U \frac{\left(y_k-B \right)^2}{\sigma^2}.
+$$
+
+Utilizando el resultado 8.4.2 y recurriendo a la ecuación (8.4.6), el estimador $B$ en la población finita toma la siguiente forma
+$$
+B=\frac{t_y}{N}=\bar{y}_U
+$$
+
+Por supuesto, como en la práctica sólo se tiene acceso a una muestra particular de población finita, $B$ debe ser estimado de tal manera que siguiendo el resultado 8.4.3. llegamos a la siguiente expresión
+$$
+\hat{B}=\frac{\hat{y}_{y,\pi}}{\hat{N}_{\pi}}=\widetilde{y}_S
+$$
+
+Con estas herramientas es posible ahora construir un estimador del total poblacional de la característica de interés el cual está dado por el siguiente resultado.
+
+::: {.callout-tip title="Resultado"}
+Bajo el modelo de media común, el estimador del total poblacional está dado por
+$$
+\hat{t}_{y,mc}=N\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}=N\widetilde{y}_S
+$$
+cuya varianza aproximada es
+$$
+AVar(\hat{t}_{y,mc})=\sum\sum_U\Delta_{kl}\frac{E_k}{\pi_k}\frac{E_l}{\pi_l}.
+$$
+con
+$$
+\begin{aligned}
+E_k&=y_k-B\\
+&=y_k-\frac{t_y}{N}=y_k-\bar{y}_U.
+\end{aligned}
+$$
+El estimador de la varianza es
+$$
+\widehat{Var}(\hat{t}_{y,greg})=\sum\sum_S \dfrac{\Delta_{kl}}{\pi_{kl}}\frac{e_k}{\pi_k}\frac{e_l}{\pi_l}
+$$
+con
+$$
+\begin{aligned}
+e_k&=y_k-\hat{B}\\
+&=y_k-\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}=y_k-\widetilde{y}_S.
+\end{aligned}
+$$
+
+**Prueba.**
+Antes de empezar la demostración, el lector debe tener en cuenta que estimador es un caso particular del estimador general de regresión. Por lo tanto, como $\mathbf{x}_k=1$ para todo $k\in U$, adecuando la expresión (9.2.11) se tiene que
+
+$$
+\begin{aligned}
+\hat{t}_{y,mc}&=\hat{t}_{y,\pi}+\hat{B}(t_x-\hat{t}_{x,\pi})\\
+&=\hat{t}_{y,\pi}+\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}(N-\hat{N}_{\pi})\\
+&=N\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}=N\widetilde{y}_S
+\end{aligned}
+$$
+
+El cálculo de la varianza aproximada y la estimación de la varianza del estimador de razón son inmediatos al utilizar el resultado 9.2.3.
+:::
+
+El espíritu y la ventaja de este estimador está en la corrección que hace al estimador de Horvitz-Thompson mediante el cociente $\frac{N}{\hat{N}_{\pi}}$. De esta manera, cuando el estimador de Horvitz-Thompson está subestimando o sobreestimando el total poblacional, entonces este cociente corrige inmediatamente esta sub o sobre estimación.
+
+A continuación se presentan otras características importantes del estimador de media común para el total poblacional. En primer lugar, nótese que fácilmente se puede demostrar que
+
+$$
+\begin{aligned}
+\sum_s\frac{e_k}{\pi_k}=0
+\end{aligned}
+$$
+
+Lo anterior se tiene puesto que, recurriendo al resultado 9.2.2, $\mathbf{x}_k=c_k=1$ y por lo tanto $\mathbf{v}'=1$. Como consecuencia de lo anterior, es posible escribir al estimador de media común en una forma simplificada
+
+$$
+\begin{aligned}
+\hat{t}_{y,mc}=\sum_U\hat{y}_k&=\sum_U\hat{B}\\
+&=\sum_U\widetilde{y}_S=N\widetilde{y}_S
+\end{aligned}
+$$
+
+Además recurriendo a las expresiones (9.2.16) y (9.2.17) se tiene que
+
+$$
+\begin{aligned}
+g_{ks}&=1+\left(t_x-\hat{t}_{x,\pi}\right)\left(\hat{t}_{x,\pi}\right)^{-1}\\
+&=1+\left(\dfrac{N-\hat{N}_{\pi}}{\hat{N}_{\pi}}\right)=\dfrac{N}{\hat{N}_{\pi}}
+\end{aligned}
+$$
+
+### Algunos diseños de muestreo
+
+#### Diseño de muestreo Bernoulli
+
+<!-- index: Diseño de muestreo Bernoulli -->Bajo el diseño de muestreo Bernoulli, el estimador de media común toma una forma idéntica al estimador alternativo propuesto en la expresión (3.1.14) de la sección 3.1. En esos apartados, no se dieron las expresiones para la varianza y la varianza estimada puesto que se requería de herramientas de las que no se disponían. Sin embargo, el siguiente resultado da cuenta de las expresiones exactas para este estimador alternativo.
+
+::: {.callout-tip title="Resultado"}
+Si el diseño de muestreo es Bernoulli, el estimador de media común, su varianza aproximada y el estimador de la varianza están dados por
+
+$$
+\hat{t}_{y,mc}=N\widetilde{y}_S=N\dfrac{\sum_S y_k}{n(S)}=N\bar{y}_S.
+$$
+
+$$
+AV_{BER}\hat{t}_{y,mc}=N\left( \dfrac{1}{\pi}-1\right)S^2_{y_U}
+$$
+
+$$
+\hat{Var}_{BER}\hat{t}_{y,mc}=(n(S) - 1)\dfrac{1}{\pi}\left( \dfrac{1}{\pi}-1\right)S^2_{y_S}
+$$
+
+respectivamente. Con $S^2_{y_U}$ la varianza poblacional de la característica de interés y $S^2_{y_S}$ la varianza muestral de la característica de interés.
+
+**Prueba.**
+El resultado se sigue inmediatamente al evaluar la expresión (3.1.12) en cada una de las ecuaciones del resultado.
+:::
+
+#### Diseño de muestreo aleatorio simple
+<!-- index: Diseño de muestreo aleatorio simple -->
+::: {.callout-tip title="Resultado"}
+Si el diseño de muestreo es aleatorio simple, el estimador de media común toma la misma forma que el estimador de Horvitz-Thompson. Por supuesto, la varianza aproximada y el estimador de la varianza son los mismos que los del estimador de Horvitz-Thompson. En general, se tiene que
+
+$$
+\hat{t}_{y,mc}=N\widetilde{y}_S=\frac{N}{n}\sum_Sy_k
+$$
+
+$$
+Var_{MAS}(\hat{t}_{y,mc})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{E_U}
+$$
+
+$$
+\widehat{Var}_{MAS}(\hat{t}_{y,mc})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{e_S}
+$$
+
+respectivamente. Con $S^2_{E_U}$ la varianza poblacional de los errores $E_k=y_k-\bar{y}_U$ y $S^2_{e_S}$ la varianza muestral de los errores $e_k=y_k-\bar{y}_S$.
+
+**Prueba.**
+El resultado se sigue inmediatamente al aplicar los principios del estimador de Horvitz-Thompson a las expresiones (9.3.7) y (9.3.10) bajo el diseño de muestreo aleatorio simple. Nótese que bajo el diseño de muestreo aleatorio simple, $\bar{E}=0$ y $\bar{e}=0$, por lo tanto $S^2_{E_U}=S^2_{y_U}$ y $S^2_{e_S}=S^2_{y_S}$.
+:::
+
+### Marco y Lucy
+
+<!-- index: Marco y Lucy -->Retomando la población de empresas pertenecientes al sector industrial, suponga que se desea estimar el total de las características de interés mediante un estimador de regresión que obedezca al modelo dado por la expresión (9.3.2), en donde las características de interés están relacionadas con una variable que es constante y que supone el mismo comportamiento estructural a lo largo de toda la población. Suponga que se selecciona una muestra aleatoria simple de tamaño $n=400$
+
+```{r, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+
+N <- dim(BigLucy)[1]
+n <- 2000
+sam <- S.SI(N, n)
+muestra <- BigLucy[sam,]
+attach(muestra)
+```
+
+Para computar el estimador del total de las características de interés se define la matriz de información auxiliar, que en este caso particular corresponde a un vector de unos y se utiliza la función `GREG.SI` del paquete `TeachingSampling` que cuenta con siete argumentos: `N`, el tamaño poblacional, `n`, el tamaño de la muestra, `y`, correspondiente al vector o matriz de datos que contienen las observaciones de los individuos incluidos en la muestra, `x`, concerniente al vector o matriz de información auxiliar en la muestra, `tx`, el total poblacional de las variables de información auxiliar, `b`, el estimador de coeficientes de regresión y, por último, `b0`, que indica si el modelo está definido con o sin intercepto.
+
+Por consiguiente, definiendo correctamente los parámetros según el modelo dado por (9.3.2), tenemos el siguiente código computacional para el cálculo del estimador del total poblacional.
+
+```{r, results='hide'}
+estima <- data.frame(Income, Employees, Taxes)
+x <- rep(1, n)
+model <- E.Beta(N, n, estima, x, ck=1, b0=FALSE)
+b <- t(as.matrix(model[1,,]))
+tx <- c(N)
+GREG.SI(N,n,estima,x,tx, b, b0=FALSE)
+```
+
+```{r}
+#| label: tbl-t9-1
+#| tbl-cap: 'Estimaciones del estimador de regresión para el diseño de muestreo aleatorio simple sin reemplazo.'
+Estimaciones <- GREG.SI(N, n, estima, x, tx, b, b0 = FALSE)
+knitr::kable(Estimaciones)
+```

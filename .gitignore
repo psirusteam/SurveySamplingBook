@@ -1,0 +1,19 @@
+_book/
+.quarto/
+_freeze/
+.Rproj.user/
+*.html
+*.pdf
+*.log
+*.aux
+*.toc
+*.lof
+*.lot
+.Rhistory
+
+/.quarto/
+**/*.quarto_ipynb
+
+# GitHub Pages output
+!docs/
+!docs/**

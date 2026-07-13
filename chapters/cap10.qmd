@@ -1,0 +1,1321 @@
+```{r, echo=FALSE, message=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+library(ggplot2)
+library(gridExtra)
+options(scipen = 100, digits = 2)
+set.seed(12345)
+library(knitr)
+opts_chunk$set(cache = TRUE)
+knit_theme$set("acid")
+```
+# Estimadores de calibración
+
+::: {.blockquote}
+La calibración [como proceso] se ha establecido como un importante instrumento metodológico en la producción de grandes masas de estadísticas. La mayoría de agencias estadísticas han desarrollado software especialmente diseñado para calcular las ponderaciones resultantes, usualmente calibradas a la información auxiliar disponible en registros administrativos y otras fuentes precisas.
+@Sar08
+:::
+
+El proceso de calibración es el tema principal de los más recientes artículos publicados acerca de estimación en poblaciones finitas y muestreo. Este fenómeno se presenta debido a que la calibración provee una forma sistemática para la incorporación de la información auxiliar en la etapa de estimación en una encuesta. Un estimador de calibración es aquel estimador lineal<!-- index: Estimador lineal --> que tiene la agradable propiedad de la representatividad bajo cualquier diseño de muestreo; aunque el término calibración es nuevo, hay autores que coinciden en afirmar que han usado calibración desde mucho tiempo atrás, antes de conocer este proceso con éste nombre.
+
+Como @Sar08 afirma, el ítem más importante en la calibración, como proceso sistemático de estimación, es la existencia de información auxiliar. Si no hay información auxiliar no hay nada a lo que se pueda calibrar, y por tanto no habrán estimadores de calibración que aplicar. Como se verá a lo largo del capítulo, los estimadores generales de regresión pueden arrojar los mismos resultados que los estimadores de calibración; sin embargo, el espíritu y la esencia de su aplicación tienen direcciones marcadamente diferentes.
+
+¿Pero qué es un estimador de calibración? ¿cuál es su esencia?. A continuación una breve descripción de este método:
+1. Suponga que se tiene acceso a un vector de información auxiliar, $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$, de $p$ variables auxiliares y conocido para los individuos seleccionados en la muestra.
+1. Además, por registros administrativos u otras fuentes de confianza, se tiene el conocimiento del total del vector de información auxiliar $\mathbf{t_X}=\sum_{k\in U}\mathbf{x}_k$.
+1. El propósito del estudio es estimar el total de la característica de interés usando la información dada por $\mathbf{x}_k \ \ \ k\in S$.
+1. Aunque el estimador de Horvitz-Thompson es insesgado, se requiere que las estimaciones cumplan con la siguiente restricción dada por
+$$
+  \sum_{k\in S}w_k\mathbf{x}_k = \mathbf{t_X}
+$$
+y conocida como ecuación de calibración.
+1. La idea consiste en buscar estos pesos $w_k$ tan cercanos como sea posible al inverso de la probabilidad de inclusión del $k$-ésimo elemento $d_k=1/\pi_k$
+
+Aunque el concepto de calibración es nuevo en la teoría de muestreo, la esencia del método y el espíritu práctico de obtener estimaciones que ajusten exactamente con totales conocidos no es nuevo. De hecho, este método se ha utilizado, y algunos investigadores lo están utilizando, sin saber que se llama calibración. Este fue el caso de @Dem quienes abordaron este tema utilizando tablas de contingencia con estimaciones internas y totales marginales conocidos. Ellos fueron los pioneros del **proceso iterativo de ajuste proporcional** o IPFP, por sus siglas en inglés.
+
+## IPFP
+
+<!-- index: Proceso iterativo de ajuste proporcional -->Suponga que existen dos variables cualitativas que dividen la poblaciones en subgrupos poblacionales. Por un lado una variable permite dividir la población en $H$ subgrupos poblacionales, $U_{1 \cdot},\ldots,U_{h \cdot}, \ldots, U_{H \cdot}$, y por otro lado una variable que permite dividir la población en $G$ subgrupos poblacionales, $U_{\cdot1},\ldots,U_{\cdot g}, \ldots, U_{\cdot G}$. Como resultado la población se particiona en $H\times G$ subgrupos poblacionales como lo muestra la siguiente tabla.
+
+| $U_{11}$ | $\cdots$ | $U_{1g}$ | $\cdots$ | $U_{1G}$ | $U_{1 \cdot}$ |
+| --- | --- | --- | --- | --- | --- |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $U_{h1}$ | $\cdots$ | $U_{hg}$ | $\cdots$ | $U_{hG}$ | $U_{h \cdot}$ |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $U_{H1}$ | $\cdots$ | $U_{Hg}$ | $\cdots$ | $U_{HG}$ | $U_{H \cdot}$ |
+| $U_{\cdot 1}$ | $\cdots$ | $U_{\cdot g}$ | $\cdots$ | $U_{\cdot G}$ | $U$ |
+
+: Distribución de la población en la tabla de contingencia. {#tbl-t10-static-1}
+
+Los tamaños de los subgrupos poblacionales se definen así: $N_{hg}=\#U_{hg}$, $N_{h\cdot}=\#U_{h\cdot}$, $N_{\cdot g}=\#U_{\cdot g}$. Nótese que se tiene que
+
+$$
+N=\sum_{h=1}^H N_{h \cdot} = \sum_{g=1}^G N_{\cdot g}.
+$$
+
+Además de esto, los totales de las celdas de la tabla de contingencia siguen la siguiente relación:
+
+| $N_{11}$ | $\cdots$ | $N_{1g}$ | $\cdots$ | $N_{1G}$ | $N_{1 \cdot}$ |
+| --- | --- | --- | --- | --- | --- |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $N_{h1}$ | $\cdots$ | $N_{hg}$ | $\cdots$ | $N_{hG}$ | $N_{h \cdot}$ |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $N_{H1}$ | $\cdots$ | $N_{Hg}$ | $\cdots$ | $N_{HG}$ | $N_{H \cdot}$ |
+| $N_{\cdot 1}$ | $\cdots$ | $N_{\cdot g}$ | $\cdots$ | $N_{\cdot G}$ | $N$ |
+
+: Distribución de los tamaños poblacionales en la tabla de contingencia. {#tbl-t10-static-2}
+
+Después de la recolección y observación de los datos en la encuesta, se tiene la estimación definitiva de los totales de cada una de las celdas internas y de las celdas marginales. Así, $\hat{N}_{hg}$ corresponde a la estimación de $N_{hg}$, $\hat{N}_{h\cdot}$ corresponde a la estimación de $N_{h\cdot}$, $N_{\cdot g}$ corresponde a la estimación de $N_{\cdot g}$ y por último, $\hat{N}$ corresponde a la estimación de $N$. De está manera, es posible utilizar el estimador de Horvitz-Thompson, definiendo
+
+$$
+\begin{aligned}
+N_{\cdot g}=\sum_{k\in U}z_{hk}  \  \ \ \ \ \
+N_{h \cdot}=\sum_{k\in U}z_{gk}.
+\end{aligned}
+$$
+
+Donde,
+
+$$
+z_{hk}=
+ \begin{cases}
+ 1 &\text{si $k\in U_{h \cdot}$}\\
+ 0  &\text{en otro caso}
+ \end{cases} \  \ \ \ \ \
+z_{gk}=
+ \begin{cases}
+ 1 &\text{si $k\in U_{\cdot g}$}\\
+ 0  &\text{en otro caso}
+ \end{cases}
+$$
+
+Al utilizar el estimador de Horvitz-Thompson se garantiza el insesgamiento y se tiene la relación dada por la siguiente tabla
+
+| $\hat{N}_{11}$ | $\cdots$ | $\hat{N}_{1g}$ | $\cdots$ | $\hat{N}_{1G}$ | $\hat{N}_{1 \cdot}$ |
+| --- | --- | --- | --- | --- | --- |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $\hat{N}_{h1}$ | $\cdots$ | $\hat{N}_{hg}$ | $\cdots$ | $\hat{N}_{hG}$ | $\hat{N}_{h \cdot}$ |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $\hat{N}_{H1}$ | $\cdots$ | $\hat{N}_{Hg}$ | $\cdots$ | $\hat{N}_{HG}$ | $\hat{N}_{H \cdot}$ |
+| $\hat{N}_{\cdot 1}$ | $\cdots$ | $\hat{N}_{\cdot g}$ | $\cdots$ | $\hat{N}_{\cdot G}$ | $\hat{N}$ |
+
+: Distribución de los tamaños poblacionales estimados en la tabla de contingencia. {#tbl-t10-static-3}
+
+Hasta el momento, se ha cumplido con el objetivo de estimar las celdas internas y las marginales de la tabla de contingencia. Sin embargo, suponga que, debido a registros administrativos u otras fuentes de confianza, es posible tener acceso a los totales de las celdas marginales tanto por columnas como por filas. Es decir, suponga que $N_{\cdot g}$, $g=1,\ldots,G$ y  $N_{h \cdot}$, $g=1,\ldots,G$ son conocidos.
+
+Bajo el anterior supuesto, es posible construir un algoritmo que ajuste las estimaciones de las celdas internas y que tenga la agradable propiedad que, finalizado el algoritmo, al sumar por filas y columnas, las estimaciones correspondan a los totales conocidos de las celdas marginales. Este método de estimación basado en un algoritmo muy simple se conoce como **proceso iterativo de ajuste proporcional** o IPFP, por sus siglas en inglés, y fue propuesto por @Dem.
+
+### Algoritmo
+
+<!-- index: Algoritmo IPFP -->Aunque simple e intuitivo, el siguiente algoritmo es muy potente y tiene la buena propiedad de converger muy rápidamente si la tabla de contingencia no tiene valores nulos en sus celdas internas y si los totales marginales conocidos tienen sentido con la puesta en marcha de la encuesta.
+
+1. Inicializar con
+$$
+  N_{hg}^{(0)}= \hat{N}_{hg} \ \ \ \ \ \ \ \ g=1,\ldots,G, h=1,\ldots,H
+$$
+1. Para $t=1,2,3,\ldots$
+$$
+\begin{aligned}
+  N_{hg}^{(2t-1)} &=& N_{hg}^{(2t-2)}\frac{N_{h \cdot}}{\sum_{g=1}^GN_{hg}^{(2t-2)}} \ \ \ g=1,\ldots,G, h=1,\ldots,H \\ \\ \\
+  N_{hg}^{(2t)}   &=& N_{hg}^{(2t-1)}\frac{N_{\cdot g}}{\sum_{h=1}^HN_{hg}^{(2t-1)}} \ \ \ g=1,\ldots,G, h=1,\ldots,H
+\end{aligned}
+$$
+
+A simple vista, un defecto significativo de este método es que no tiene en cuenta el diseño de muestreo del cual provienen los datos para calibrar con respecto a la información auxiliar conocida. Sin embargo, como se verá en las próximas secciones, @DS y @Sautor probaron que efectivamente, el proceso iterativo de ajuste proporcional se podía tratar como un caso especial de los estimadores de calibración bajo el espíritu del numeral 5 de la introducción. A los estimadores de calibración que surgen bajo este marco de referencia se les conoce con el nombre de estimadores generalizados de raking.
+
+### Marco y Lucy
+
+<!-- index: Marco y Lucy -->Volviendo con nuestra población de empresas del sector industrial, se sabe que las variables cualitativas Nivel y SPAM conforman una partición de la población. Por un lado, la variable Nivel, divide a la población en tres subgrupos de acuerdo a características de la empresa, a saber: Grande, Mediana y Pequeña. Por otro lado, la variable SPAM, divide a la población en dos subgrupos poblacionales, de acuerdo a sus estrategias publicitarias, así: `SPAM.SI` y `SPAM.NO`. En total la población se divide en $2\times 3= 6$ subgrupos poblacionales.
+
+Ahora, suponga que se ha planeado un diseño de muestreo aleatorio simple con un tamaño de muestra $n=400$ y que se desea estimar el total de empresas por grupo industrial, el total de empresas que usan y no usan SPAM y su respectiva anidación interna en la tabla de contingencias, como lo muestra la siguiente tabla.
+
+|  | SPAM.NO | SPAM.SI | Total |
+| --- | --- | --- | --- |
+| Grande | $N_{11}$ | $N_{12}$ | $N_{1 \cdot}$ |
+| Mediana | $N_{21}$ | $N_{22}$ | $N_{2 \cdot}$ |
+| Pequeña | $N_{31}$ | $N_{32}$ | $N_{3 \cdot}$ |
+| Total | $N_{\cdot 1}$ | $N_{\cdot 2}$ | $N$ |
+
+: Tabla de contingencia para SPAM. {#tbl-t10-static-4}
+
+En primer lugar, con ayuda de la función `S.SI` perteneciente al paquete\\ `TeachingSampling`, se debe seleccionar una muestra probabilística de tamaño $n=2000$.
+
+```{r, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+
+N <- dim(BigLucy)[1]
+n <- 2000
+sam <- S.SI(N,n)
+muestra <- BigLucy[sam,]
+
+attach(muestra)
+head(muestra)
+```
+
+Una vez que se ha observado y recolectado la información de cada una de las empresas seleccionadas en la muestra, se utiliza la función `Domains` del paquete `TeachingSampling` para obtener dos matrices, `SPAM.no` y `SPAM.si`, que indican la pertenencia o no de cada empresa seleccionada en la muestra a cada uno de los tres niveles del sector industrial.
+
+```{r, message=FALSE}
+estima   <- data.frame(Domains(Level))
+Dominios <- data.frame(Domains(SPAM))
+SPAM.no <- Dominios[,1]*estima
+SPAM.si <- Dominios[,2]*estima
+```
+
+A continuación se muestran los cinco primeros elementos de las dos matrices creadas.
+
+```{r, message=FALSE}
+head(SPAM.no)
+head(SPAM.si)
+```
+
+Para estimar los totales marginales correspondientes a las variables `Level` y `SPAM`, utilizamos la función `E.SI` del paquete `TeachingSampling`, la cual se aplica sobre los objetos `estima` y `dominios`, creados en el paso anterior.
+
+```{r, message=FALSE}
+E.SI(N,n,estima)
+E.SI(N,n,Dominios)
+```
+
+Para estimar las celdas internas de la tabla de contingencia, utilizamos la función `E.SI` del paquete `TeachingSampling`, la cual se aplica sobre las matrices `SPAM.no` y `SPAM.si`, creadas anteriormente.
+
+```{r, message=FALSE}
+E.SI(N,n,SPAM.no)
+E.SI(N,n,SPAM.si)
+```
+
+Por tanto, la estimación de Horvitz-Thompson bajo muestreo aleatorio simple está dada por la tabla @tbl-t10-1. Ahora, suponga que, debido a registros administrativos u otras fuentes de confianza, es posible conocer el valor de los totales marginales para `Level` y `SPAM`; dadas por 2905 empresas grandes, 25795 empresas medianas y 56596 empresas pequeñas, para la variable `Level` y por 33355 empresas que no utilizan SPAM y 51941 empresas que sí utilizan SPAM, para la variable `SPAM`. Es posible, entonces, utilizar el procedimiento iterativo de ajuste proporcional para calibrar las estimaciones internas de la tabla de contingencia para que ajusten exactamente a los valores poblacionales conocidos. Lo primero que se debe hacer, se debe crear la tabla de contingencia en R.
+
+```{r, message=FALSE}
+t1 <- as.matrix(E.SI(N,n,SPAM.no)[1,2:4])
+t2 <- as.matrix(E.SI(N,n,SPAM.si)[1,2:4])
+Tab <- data.frame(SPAM.NO = t1, SPAM.SI = t2)
+```
+
+```{r}
+#| label: tbl-t10-1
+#| tbl-cap: 'Estimación de Horvitz-Thompson para la tabla de contingencia de SPAM'
+knitr::kable(Tab)
+```
+
+Una vez creada la tabla de contingencias, procedemos a implementar el algoritmo mediante la función `IPFP` del paquete `TeachingSampling`. Esta función consta de cuatro argumentos. El primer argumento es `Tab`, concerniente a la tabla de contingencias resultante de la estimación mediante el diseño probabilístico. El segundo argumento es `Col` y es un vector que contiene los totales marginales (poblacionales y conocidos) de las columnas de la tabla de contingencia. El tercer argumento es `Row` y es un vector que contiene los totales marginales (poblacionales y conocidos) de las filas de la tabla de contingencia. Por último `tol`, que por defecto es equivalente a 0.00001, corresponde a la tolerancia del algoritmo. La función `IPFP` arroja como resultado una tabla de contingencias calibrada según los argumentos `Col` y `Tol`. Para este ejemplo particular, se tiene la siguiente salida:
+
+```{r, message=FALSE}
+Col <- table(BigLucy$SPAM)
+Row <- table(BigLucy$Level)
+CalIPFP <- IPFP(Tab,Col,Row,tol=0.00001)
+CalIPFP
+```
+
+A continuación se encuentran las tablas comparativas de las estimaciones calibradas mediante el proceso iterativo de ajuste proporcional y la información correspondiente a los totales poblacionales, respectivamente.
+
+```{r}
+#| label: tbl-t10-2
+#| tbl-cap: 'Distribución poblacional (no conocida) para la tabla de contingencia de SPAM.'
+Tab2 <- table(BigLucy$Level, BigLucy$SPAM)
+knitr::kable(Tab2)
+```
+
+```{r}
+#| label: tbl-t10-3
+#| tbl-cap: 'Estimación IPFP de calibración para la tabla de contingencia de SPAM.'
+knitr::kable(CalIPFP)
+```
+
+Nótese que la diferencia relativa es muy pequeña y que las estimaciones se acercan a la verdad. En estos términos relativos, esta estimación resulta mejor que la inducida por el estimador de Horvitz-Thompson.
+
+## Fundamentos teóricos
+
+<!-- index: Estimador de calibración -->Como se estableció en la anterior sección, los estadísticos han intentado utilizar la incorporación de información auxiliar para mejorar las estimaciones de la encuesta. Es así como el estimador de regresión en todas sus posibles formas, requiere el conocimiento del total de un vector de variables auxiliares. Como @DS lo explican, los estimadores de calibración son una familia o clase de estimadores que tienen una forma muy atractiva y que se caracteriza por usar pesos calibrados, los cuales son tan cercanos como sea posible a los pesos originales o inversos de la probabilidad de inclusión del elemento seleccionado en la muestra y además estos estimadores de calibración respetan un conjunto de restricciones, las ecuaciones de calibración<!-- index: Ecuación de calibración -->.
+
+Considere una población finita $U=\{1,\ldots, k, \ldots, N\}$, de la cual se ha seleccionado una muestra probabilística $s$ $(s\subseteq U)$ inducida por un diseño de muestreo $p(\cdot)$. Luego, $p(s)$ es la probabilidad de que la muestra $s$ haya sido seleccionada. Se asume que las probabilidades de inclusión de primer y segundo orden son estrictamente positivas.
+
+Sea $y_k$ el valor de la característica de interés para el $k$-ésimo individuo de la población, el cual también tiene asociado un vector de valores auxiliares dado por $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$. Nótese que $y_k$ y $\mathbf{x}_k$ se observan y se conocen para todos los elementos en la muestra. Además, se asume que se conoce, mediante registros administrativos u otras fuentes de confianza, el total poblacional del vector de información auxiliar $\mathbf{t}_{\mathbf{x}}=\sum_{k\in U}\mathbf{x}_k$.
+
+Como en la mayoría de situaciones que se presentan en este libro, el objetivo es estimar el total poblacional de la característica de interés, $t_y$. Sin embargo, el estimador de $t_y$ debe ser un estimador lineal<!-- index: Estimador lineal --> de la forma
+
+$$
+\hat{t}_S(y)=\sum_{k\in S}w_ky_k,
+$$
+
+Nótese que el estimador de Horvitz-Thompson toma la anterior forma pues
+
+$$
+\hat{t}_{y,\pi}=\sum_{k\in S}\frac{y_k}{\pi_k}=\sum_{k\in S}d_ky_k,
+$$
+
+Además de la linealidad, la familia de estimadores de calibración debe inducir una estrategia de muestreo representativa para cualquier diseño de muestreo $p(\cdot)$. Es decir, se deben construir unos nuevos pesos $w_k$, que sean tan cercanos como sea posible a $d_k=1/\pi_k$ considerando alguna métrica y, que además cumplan con las ecuaciones de calibración
+
+$$
+\sum_{k\in S}w_k\mathbf{x}_k = \mathbf{t_X}.
+$$
+
+Nótese que los pesos $w_k$ dependen de $S$. Por ejemplo bajo el diseño MAS, el estimador de razón se puede escribir como
+
+$$
+\begin{aligned}
+\hat{t}_{yr}=\hat
+t_{y\pi}\frac{t_x}{\hat{t}_{x\pi}}&=\sum_{k\in S}\frac{N}{n}\frac{\bar{x}_U}{\bar{x}_S}y_k=\sum_{k\in S}w_ky_k
+\end{aligned}
+$$
+
+Además los pesos $w_k$ tienen la propiedad de calibración puesto que
+
+$$
+\begin{aligned}
+\sum_Sw_kx_k=\sum_S\frac{N}{n}\frac{\bar{x}_U}{\bar{x}_S}x_k=N\frac{\bar{x}_U}{\bar{x}_S}\sum_s\frac{x_k}{n}=N\bar{x}_U=t_x
+\end{aligned}
+$$
+
+Dado que existe una variedad de estimadores que cumplen la restricción (10.2.3), se deben encontrar unos pesos<!-- index: Peso de calibración --> $w_k$ que tengan las siguientes propiedades [@Este]
+1. **Consistencia**: un sistema de pesos o ponderaciones que satisfaga (10.2.3) es atractivo, porque reproduce exactamente el total poblacional conocido para cada variable auxiliar<!-- index: Variable auxiliar -->.
+1. **Cercanía a los pesos básicos**: los pesos básicos $d_k=1/\pi_k$ tienen la atractiva propiedad de inducir estimaciones insesgadas con respecto al diseño de muestreo utilizado. Se quiere que cualquier desviación de estos pesos sea pequeña para preservar esta propiedad, al menos aproximadamente o asintóticamente.
+1. **Control sobre los totales de las variables auxiliares**: lo que dice la intuición es que entre más variables auxiliares sean usadas en el proceso de calibración, entonces mejor la estimación. Este argumento intuitivo es soportado por la teoría; de esta manera, @Este demuestran que la varianza de un estimador de calibración decrece mientras más variables auxiliares sean tenidas en cuenta en la calibración.
+
+## Construcción
+
+<!-- index: Peso de calibración -->Para construir estos nuevos pesos $w_k$, se debe minimizar una pseudo-distancia<!-- index: Pseudo-distancia -->^[Una función de distancia $D(x_1,x_2)$ debe cumplir con las siguientes propiedades: i) ser estrictamente positiva (no negativa), decir que $D(x_1,x_2)\geq 0$; ii) $D(x_1,x_2)=0$ únicamente cuando $x_1=x_2$; iii) ser simétrica, es decir $D(x_1,x_2)=D(x_2,x_1)$; cumplir con la desigualdad triángular, es decir $D(x_1,x_3)\leq D(x_1,x_2)+D(x_2,x_3)$. La función $G(w_k/d_k)$ es una pseudo-distancia puesto que no necesariamente debe cumplir con la propiedad de simetría.] $G(w_k/d_k)$ entre $w_k$ y $d_k$ en toda la muestra. Éste se puede tomar como un problema de optimización de la distancia en toda la muestra dada por
+
+$$
+\sum_{k\in S} d_k \frac{G(w_k/d_k)}{q_k}
+$$
+
+sujeto a la restricción (10.2.3). Donde, $q_k$ $(k\in S)$ forman un conjunto de ponderaciones conocidas y estrictamente positivos. Acerca de la pseudo-distancia $G(w_k/d_k)$, se supone que
+
+- Debe ser estrictamente no negativa (para que tenga sentido como una función de distancia).
+- Debe ser estrictamente convexa^[Una función $G(x)$ es estrictamente convexa sí y sólo sí $G(ax_1+(1-a)x_2) < aG(x_1)+ (1-a)G(x_2)$ para todo $a\in (0,1)$ y todo $x_1\neq x_2$. Por otro lado, si la segunda derivada de $G$ es positiva en todo su dominio, entonces $G(x)$ es convexa.] (para que cualquier mínimo local sea un mínimo absoluto).
+- $G(1)=0$, esto es que la distancia entre pesos iguales es cero.
+- $G'(1)=0$, cuando los pesos son iguales la función debe tener un punto crítico.
+- $G?(1)=1$, ese punto crítico debe corresponder al minimizador.
+
+En resumen, la técnica de calibración induce un nuevo conjunto de pesos $w_k$ que surge de la minimización de una pseudo-distancia $G(\cdot)$ en la muestra que está sujeta a las ecuaciones de calibración. Es decir, que los nuevos pesos deben ser tales que
+$$
+\sum_{k\in S} w_k\mathbf{x}_k=\sum_U\mathbf{x}_k=\mathbf{t_x}
+$$
+
+Para resolver este problema de optimización, recurrimos a la técnica de los multiplicadores de Lagrange. De esta manera, la ecuación de Lagrange estará dada por la siguiente expresión
+
+$$
+\mathcal{L}(w_1,\ldots,w_n,\boldsymbol{\lambda})=\sum_{k\in S} d_k \frac{G(w_k/d_k)}{q_k}-\boldsymbol{\lambda}'\left(\sum_{S}w_k\mathbf{x}_k - \mathbf{t_X}\right)
+$$
+
+Derivando la ecuación de Lagrange con respecto a $w_k$ e igualando a cero, se tiene
+
+$$
+\frac{\partial \mathcal{L}}{\partial w_k}= \frac{d_k}{q_k}\frac{g(w_k/d_k)}{d_k}-\boldsymbol{\lambda}' \mathbf{x}_k=0
+$$
+
+Donde $g(\omega)=\frac{dG(\omega)}{d\omega}$, y por tanto se llega a que
+
+$$
+g(w_k/d_k)=q_k\boldsymbol{\lambda}'\mathbf{x}_k
+$$
+
+En este paso es necesario definir una función $F(\cdot)$, tal que $F(\cdot)=g^{-1}(\cdot)$, es decir $F(g(\omega))=\omega$, por lo tanto
+
+$$
+F(g(w_k/d_k))= F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)
+$$
+
+Lo que nos guía al valor de los nuevos pesos
+
+$$
+w_k=d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)
+$$
+
+El vector $\boldsymbol{\lambda}$ se obtiene al resolver el siguiente sistema de ecuaciones
+
+$$
+\sum_{k\in S}\underbrace{d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)}_{w_k}\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
+$$
+
+### Distancias $G(\cdot)$, $g(\cdot)$ y $F(\cdot)$
+
+<!-- index: Distancias -->En general, hay varios tipos de distancias que pueden utilizarse en la construcción de un estimador de calibración. Sin embargo, @DS demuestran que todas ellas guían asintóticamente al mismo estimador. Las pseudo-distancias más utilizadas están dadas en tabla 10.8º. Dependiendo de la escogencia de cada distancia, se obtendrán distintos estimadores de calibración. También es posible fijar dos constantes $L$ y $U$ y restringir el rango de los pesos resultantes $w_k$ al intervalo $(L,U)$. Este método se utiliza para evadir los pesos extremos o negativos, que se pueden eliminar con una buena escogencia de $L$ y $U$.
+
+En resumen, el proceso para obtener un estimador de calibración es el siguiente:
+
+1. Definir una distancia $G(\cdot)$ y observar los datos $y_k$ y $\mathbf{x}_k$.
+1. Resolver (10.3.4) para el vector $\boldsymbol{\lambda}$. En algunos casos esta solución requiere de procedimientos iterativos.
+1. Usar $\boldsymbol{\lambda}$ para obtener un estimador del total poblacional de la característica de interés dado por
+$$
+\hat{t}_{y,cal}=\sum_{k\in S}w_ky_k=\sum_{k\in S}d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)y_k
+$$
+
+@DS asegura que el estimador $\hat{t}_{y,cal}$ arrojará estimaciones cercanas al total poblacional desconocido de la característica de interés si existe una fuerte relación entre $y$ y $\mathbf{x}$. De hecho, si $y$ estuviera perfectamente explicado por $\mathbf{x}$, la varianza del estimador $\hat{t}_{y,cal}$ sería nula para cada posible muestra.
+
+| Distancia | $G(x)$ | $g(x)$ | $F(u)$ |
+| --- | --- | --- | --- |
+| Ji cuadrado | $\frac{1}{2}(x-1)^2$ | $x-1$ | $1+u$ |
+| Entropía | $x\ln(x)-x+1$ | $\ln(x)$ | $\exp(u)$ |
+| Hellingster | $2(\sqrt{x}-1)^2$ | $2\left(1-\sqrt{\frac{1}{x}}\right)$ | $(1+\frac{u}{2})^{-2}$ |
+| Entropía inversa | $\ln(\frac{1}{x})+x-1$ | $1-\frac{1}{x}$ | $(1+u)^{-1}$ |
+| Ji cuadrado inversa | $\frac{1}{2}\frac{(x-1)^2}{x}$ | $\frac{1}{2}\left(1-\frac{1}{x}\right)^2$ | $(1+2u)^{-1/2}$ |
+
+: Ejemplos de pseudo-distancias para el proceso de calibración. {#tbl-t10-static-5}
+
+## Algunos casos particulares
+
+<!-- index: Estimador de calibración -->@DS examinaron las propiedades estadísticas de $\hat{t}_{y,cal}$ bajo una serie de pseudo-distancias $G(\dot)$. En esta sección se revisarán algunos casos particulares que arrojan estimadores de calibración, algunos conocidos y otros nuevos.
+
+### Método lineal: distancia Ji cuadrado
+
+Este método, quizás el más usado y uno de los más importantes en calibración, se obtiene cuando se escoge la utilizaremos la distancia Ji cuadrado que calcula la distancia, en toda la muestra, de los nuevos pesos $w_k$ a los pesos clásicos $d_k$ como
+$$
+\begin{aligned}
+\sum_{S}d_kG(w_k/d_k)=\frac{1}{2}\sum_{S}\frac{(w_k-d_k)^2}{d_k}
+\end{aligned}
+$$
+
+::: {.callout-tip title="Resultado"}
+Bajo la distancia Ji cuadrado, y suponiendo que las ponderaciones $q_k=1/c_k$, el estimador de calibración toma la forma del estimador general de regresión.
+
+**Prueba.**
+De (10.3.3), y utilizando el hecho de que, para este pseudo-distancia, $F(u)=1+u$, entonces se tiene que
+
+$$
+\begin{aligned}
+w_k&=d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\\
+&=d_k(1+q_k \boldsymbol{\lambda}' \mathbf{x}_k)\\
+&=d_k+d_kq_k \boldsymbol{\lambda}' \mathbf{x}_k
+\end{aligned}
+$$
+
+y reemplazando en la ecuación de calibración (10.3.4)
+
+$$
+\sum_{s}d_k\mathbf{x}_k'+\sum_{s}d_kq_k \boldsymbol{\lambda}' \mathbf{x}_k\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
+$$
+
+Al despejar convenientemente, el multiplicador de Lagrange se resuelve como
+
+$$
+\boldsymbol{\lambda}'=(\mathbf{t}_{\mathbf{x}}-\mathbf{t_{x\pi}})'\left(\sum_{S}d_kq_k\mathbf{x}_k \mathbf{x}_k'\right)^{-1}
+$$
+
+Así, suponiendo que $q_k=1/c_k$, se llega al estimador de calibración para el total de la característica de interés, puesto que
+
+$$
+\begin{aligned}
+w_k&=d_k + d_k(\mathbf{t}_{\mathbf{x}}-\mathbf{t_{x\pi}})'\mathbf{T}^{-1} q_k\mathbf{x}_k
+\end{aligned}
+$$
+
+donde $\mathbf{T}^{-1}$ está definido en (9.2.13). Entonces, se tiene que
+
+$$
+\begin{aligned}
+\hat{t}_{y,cal}&=\sum_{S}w_ky_k\\
+&=\sum_s\frac{y_k}{\pi_k}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{T}^{-1}\sum_s\frac{\mathbf{x}_ky_k}{c_k\pi_k}
+\end{aligned}
+$$
+que coincide exactamente con la expresión (9.2.15) que define el estimador general de regresión.
+:::
+
+El autor recalca que el estimador general de regresión es un caso particular de la familia de estimadores de calibración. Es un error hacer aserciones acerca de los estimadores de calibración basados solamente en la forma funcional del estimador general de regresión (GREG). Aunque es cierto que una gran mayoría de artículos están basados bajo el espíritu del estimador general de regresión, se debe recalcar que la filosofía de un estimador de calibración, aunque no contradice el uso del estimador general de regresión, es bien diferente a la filosofía de éste. <!-- index: Método lineal --><!-- index: Distancia Ji cuadrado -->
+
+```{r}
+#| label: fig-f10-1
+#| message: false
+#| fig-height: 5
+#| echo: false
+#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando la distancia Ji cuadrado.'
+x <- sort(runif(100, -2, 2))
+G <- (1/2) * (x - 1) ^ 2
+F <-  1 + x
+
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "G(x)")
+
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "F(x)")
+
+plot <- gridExtra::grid.arrange(G_x,F_x, nrow = 1)
+```
+
+Nótese que el estimador general de regresión utiliza un modelo para incorporar la información auxiliar en el proceso de estimación, al igual que los estimadores de calibración, no todos los casos particulares del estimador general de regresión son estimadores de calibración. El espíritu más influyente de los estimadores de calibración no es incorporar un modelo al proceso de estimación sino conseguir un conjunto de pesos $w_k$. Como @Sar08 lo afirma, el concepto de *estimación GREG* y *estimación de calibración* reflejan una clara diferencia de pensamiento. La gran variedad de posibles modelos generan una amplia familia de estimadores tipo GREG. Por otro lado, la escogencia de una distancia en el proceso de calibración generan una amplia familia de estimadores de calibración, cuyo caso particular es la familia de estimadores GREG lineales.
+
+::: {.callout-tip title="Resultado"}
+Bajo la distancia Ji cuadrado, y suponiendo que las ponderaciones $q_k=1/x_k$ y que sólo existe una variable de información auxiliar; es decir $\mathbf{x}_k=x_k$, el estimador de calibración toma la forma del estimador de razón.
+
+**Prueba.**
+Bajo las anteriores condiciones, se tiene que
+
+$$
+\boldsymbol{\lambda}=\frac{\sum_Ux_k}{\sum_Sd_kx_k}-1=\frac{t_x}{\hat{t}_{x,\pi}}-1
+$$
+
+Por tanto
+
+$$
+w_k=d_k(1+q_kx_k\boldsymbol{\lambda})=d_k(1+\boldsymbol{\lambda})=d_k\left(\frac{t_x}{\hat{t}_{x,\pi}}\right)
+$$
+
+Luego, el estimador de calibración toma la forma siguiente
+
+$$
+\begin{aligned}
+\hat{t}_{y,cal}&=\sum_Sw_ky_k\\
+&=\sum_Sd_k\frac{t_x}{\hat{t}_{x,\pi}}y_k\\
+&=t_x\frac{\hat{t}_{y,\pi}}{\hat{t}_{x,\pi}}=\hat{t}_{y,r}
+\end{aligned}
+$$
+
+que coincide con la forma del estimador de razón dada por (9.4.15).
+:::
+
+### Método de raking: distancia de entropía
+
+El método de raking utiliza la distancia de entropía como base de construcción del estimador de calibración. Esta distancia se define como:
+
+$$
+G(x)=x\log(x)-x+1
+$$
+
+Nótese que la distancia, en toda la muestra, de los nuevos pesos $w_k$ a los pesos clásicos $d_k$ como:
+
+$$
+\sum_Sd_kG(w_k/d_k)=\sum_Sd_k\left( \frac{w_k}{d_k} \ln\left(\frac{w_k}{d_k}\right)-\frac{w_k}{d_k}+1 \right)
+$$
+
+De (10.3.3), y utilizando el hecho de que, para este pseudo-distancia, $F(u) = \exp(u)$, entonces se tiene que
+
+$$
+\begin{aligned}
+w_k&=d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\\
+&=d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)
+\end{aligned}
+$$
+
+y reemplazando en la ecuación de calibración (10.3.4)
+
+$$
+\sum_{s}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
+$$
+
+El anterior sistema debe ser resuelto para $\boldsymbol{\lambda}$ (que es un vector columna de multiplicadores de Lagrange). Después de que $\boldsymbol{\lambda}$ sea determinado, se calculan los pesos calibrados como $w_k=d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)$ y se obtiene el estimador de calibración para el total poblacional de la característica de interés, definido como:
+
+$$
+\hat{t}_{y,cal}=\sum_{S}w_ky_k=\sum_{S}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)y_k
+$$
+
+¿Qué interpretación teórico-práctica tiene que algún $w_k$ resulte negativo? Un aspecto realmente importante de este método de raking es que induce pesos $w_k$ que son estrictamente positivos, lo cual no sucede con el método lineal. <!-- index: Método de raking --><!-- index: Distancia de entropía -->
+
+```{r}
+#| label: fig-f10-2
+#| warning: false
+#| message: false
+#| fig-height: 5
+#| echo: false
+#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando la distancia de Entropía.'
+x <- sort(runif(100, -1, 3))
+G <- x * log(x) - x + 1
+F <-  exp(x)
+
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "G(x)")
+
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "F(x)")
+
+plot <- gridExtra::grid.arrange(G_x,F_x,nrow = 1)
+```
+
+#### Aspectos computacionales para el cálculo de $\boldsymbol{\lambda}$
+
+Para calcular el estimador de calibración dado por (10.4.7), es necesario resolver el sistema de ecuaciones (10.4.6) para $\boldsymbol{\lambda}$. En @DS, se demuestra que una solución general pede ser obtenida usando el método iterativo de Newthon-Raphson. Nótese que el sistema de ecuaciones de calibración<!-- index: Ecuación de calibración --> puede ser re-escrito como una función $\phi$ en términos de $\boldsymbol{\lambda}$, así:
+
+$$
+\phi(\boldsymbol{\lambda})=\sum_{S}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'-\mathbf{t}_{\mathbf{x}}'
+$$
+
+Nótese que la derivada de esta función con respecto a $\boldsymbol{\lambda}$ está dada por:
+
+$$
+\phi'(\boldsymbol{\lambda})=\frac{\partial\phi(\boldsymbol{\lambda})}{\partial\boldsymbol{\lambda}}=\sum_{S}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'\mathbf{x}_k
+$$
+
+para algún vector $\boldsymbol{\lambda}$. Entonces, de acuerdo con el método de Newton-Raphson, una solución estaría dada por la iteración hasta convergencia de la siguiente expresión
+
+$$
+\boldsymbol{\lambda}^{(a+1)}=\boldsymbol{\lambda}^{(a)}-\left[\phi'\left(\boldsymbol{\lambda}^{(a)}\right)\right]^{-1}\phi(\boldsymbol{\lambda}^{(a)})
+$$
+
+Nótese que el procedimiento converge cuando la diferencia entre $\boldsymbol{\lambda}^{(a+1)}$ y $\boldsymbol{\lambda}^{(a)}$ sea menor que una tolerancia fijada de antemano. Además, se debe tener en cuenta que $\boldsymbol{\lambda}^{(0)}=\mathbf{0}$.
+
+::: {.callout-tip title="Resultado"}
+Bajo el método de Newton-Raphson, la primera iteración del algoritmo da como resultado la solución para $\boldsymbol{\lambda}$ cuando se utilizaba la
+distancia Ji cuadrado. Es decir,
+$$
+\begin{aligned}
+\boldsymbol{\lambda}^{(1)}=\hat{\mathbf{T}}^{-1}[\mathbf{t}_{\mathbf{x}}-\mathbf{\hat{t}_{x\pi}}]
+\end{aligned}
+$$
+
+**Prueba.**
+$$
+\begin{aligned}
+\boldsymbol{\lambda}^{(1)}&=\boldsymbol{\lambda}^{(0)}-\left[\phi'\left(\boldsymbol{\lambda}^{(0)}\right)\right]^{-1}\phi(\boldsymbol{\lambda}^{(0)})\\
+&=-\left[\sum_{s}d_k\exp(\mathbf{x}_k\boldsymbol{\lambda}^{(0)})\mathbf{x'}_k\mathbf{x}_k\right]^{-1}
+\left[\sum_{s}d_k\exp(\mathbf{x}_k\boldsymbol{\lambda}^{(0)})\mathbf{x}_k-\mathbf{t}_x\right]\\
+&=-\left[\sum_{s}d_k\mathbf{x'}_k\mathbf{x}_k\right]^{-1}
+\left[\sum_{s}d_k\mathbf{x}_k-\mathbf{t}_x\right]\\
+&=-\hat{\mathbf{T}}^{-1}[\hat{\mathbf{t}}_{\mathbf{x}\pi}-\mathbf{t}_{\mathbf{x}}]=\hat{\mathbf{T}}^{-1}(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})
+\end{aligned}
+$$
+
+que coincide con la solución para $\boldsymbol{\lambda}$ dada por la expresión (10.4.2).
+:::
+
+Del anterior resultado se tiene que el estimador de calibración en la primera iteración estaría dado por
+
+$$
+\hat{t}_{y,cal}^{(1)}=\sum_{S}d_k\exp(q_k (\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\hat{\mathbf{T}}^{-1} \mathbf{x}_k)y_k
+$$
+
+#### Programación del estimador con R
+
+<!-- index: R -->En esta sección se dan las ideas básicas para la programación computacional de un estimador de calibración basado en el método de raking para el caso en que se utiliza una sola variable de información auxiliar. Nótese que en el cálculo del vector $\boldsymbol{\lambda}$, cuya expresión está dada por la ecuación (10.4.8), están involucradas las funciones $\phi$ y $\phi'$. La programación computacional de esta técnica de los estimadores de calibración puede ser fácilmente implementada en cuatro sencillos pasos. A saber:
+
+1. Programar la función $\phi$
+1. Programar la función $\phi'$
+1. Utilizar las anteriores expresiones para realizar el cálculo del vector $\boldsymbol{\lambda}$
+1. Iterar hasta convergencia
+
+En la programación de la función $\phi$ intervienen cuatro *objetos computacionales* los cuales son el vector $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, el vector $\boldsymbol{\lambda}$, el vector de valores auxiliares para cada elemento incluido en la muestra, dado por $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$ y el vector de totales poblacionales de las variables de información auxiliar $\mathbf{t}_{\mathbf{x}}$. De esta manera, el siguiente código crea una función que permite el cálculo de la función $\phi$.
+
+```{r, eval=FALSE}
+Fi <- function(dk, l, x, tx){
+  e <- matrix(0, n, 1)
+  for (k in 1:n) {
+    e[k] <- exp(x[k] * l)
+    }
+  res <- sum(dk * e * x) - tx
+  res
+  }
+```
+
+Por otra parte, en la programación de la función $\phi'$ intervienen sólo tres *objetos computacionales* que también estuvieron involucrados en la programación de la función $\phi$. La razón de lo anterior es porque $\phi'$ es la derivada de $\phi$. Estos elementos son $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, $\boldsymbol{\lambda}$ y $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$. Luego, el siguiente código crea una función que permite el cálculo de la función $\phi'$.
+
+```{r, eval=FALSE}
+Fiprima <- function(dk, l, x){
+  e <- matrix(0, n, 1)
+  for(k in 1:n) {
+    e[k] <- exp(x[k] * l)
+    }
+  res <- sum(dk * e * x * x)
+  res
+  }
+```
+
+Simultáneamente, se debe crear una función que calcule el estimador de calibración. En esta función intervienen cuatro *objetos computacionales* que son: $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, $\boldsymbol{\lambda}$, $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$ y por último el vector de valores de la característica de interés para los elementos de la muestra $y_k=(y_1, y_2,\ldots,y_n)$.
+
+```{r, eval=FALSE}
+Cal <- function(dk, l, x, y){
+  w <- matrix(0, n, 1)
+  for(k in 1:n) {
+    w[k] <- exp(x[k] * l)
+    }
+  res <- sum(dk * w * y)
+  res
+  }
+```
+
+Por supuesto, los anteriores códigos no funcionan por sí solos. Nótese que las anteriores funciones tienen al elemento computacional $\boldsymbol{\lambda}$ en común; sin embargo, este elemento no existe aún y debe ser calculado con métodos iterativos como el de Newton-Raphson. Estas funciones deben ser ensambladas por una función que las recoja y que sea capaz de realizar el cálculo final del estimador de calibración.
+
+En primer lugar se debe fijar una tolerancia deseada, en este caso la tolerancia está dada por 0.000001. Esto quiere decir que el proceso iterativo se detiene cuando suceda que $|\boldsymbol{\lambda}^{(a+1)}-\boldsymbol{\lambda}^{(a)}| <- 0.000001$. Sin embargo, si esta condición no se satisface, entonces el proceso sigue iterándose repetitivamente. Cuando el proceso converge, entonces es posible utilizar las funciones que se declararon anteriormente y así calcular el valor de la estimación.
+
+```{r, eval=FALSE}
+tol <- 0.000001
+l <- 0
+l.k <- 4
+
+while(abs(l - l.k)>tol) {
+  l.k <- l - Fi(l, xs, sum(xu)) / Fiprima(l, xs)
+  l <- l.k
+  }
+
+tcal <- Cal(l.k, xs, ys)
+```
+
+Los anteriores códigos de programación pretenden ser una guía para el estudiante y no se declaran como la única alternativa de lógica computacional.
+
+Nótese, sin embargo, que aunque el método de Raking posee la característica de que los pesos no son negativos, como suele suceder cuando se utiliza el método lineal, éstos pueden ser muy variables. Para resolver este inconveniente, @DS proponen los métodos logístico y lineal truncado. Éstas técnicas surgen motivadas por el deseo de restringir el rango de variación de los nuevos pesos de calibración sin alterar demasiado el estimador de calibración. En la práctica, el estadístico desea evadir los pesos extremos; en la siguientes secciones se muestra cómo estos pueden ser eliminados.
+
+### Método logístico
+
+<!-- index: Método logístico -->
+```{r}
+#| label: fig-f10-3
+#| warning: false
+#| message: false
+#| fig-height: 5
+#| echo: false
+#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando el método logístico con $L=0.4$ y $U=2.5$la distancia de Entropía.'
+x <- sort(runif(100, -3, 3))
+U <- 2.5
+L <- 0.4
+A <- (U - L) / ((1 - L) * (U - 1))
+G1 <- (x - L) * log((x - L) / (1 - L))
+G2 <- (U - x) * log((U - x) / (U - 1))
+G <- (1 / A) * (G1 + G2)
+F1 <- L * (U - 1) + U * (1 - L) * exp(A * x)
+F2 <- (U - 1) + (1 - L) * exp(A * x)
+F <- F1 / F2
+
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "G(x)")
+
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "F(x)")
+
+plot <- gridExtra::grid.arrange(G_x,F_x,nrow = 1)
+```
+
+Conocido comúnmente como el método de calibración Logit $(L,U)$. Este método fija dos constantes $L$ y $U$ tales que $L<1<U$. De esta forma se define la siguiente cantidad
+
+$$
+A=\frac{(U-L)}{(1-L)(U-1)}
+$$
+
+Luego, se define la siguiente función
+
+$$
+G(x)=
+ \begin{cases}
+ \frac{1}{A}\left[(x-L)\lg \frac{x-L}{1-L}+(U-x)\lg  \frac{U-x}{U-1}\right] &\text{si $L<x<U$}\\ \\
+ \infty  &\text{en otro caso}
+ \end{cases}
+$$
+
+La correspondiente función $F$ está dada por
+
+$$
+F(u)=
+\frac{L(U-1)+U(1-L)\exp(Au)}{U-1+(1-L)\exp(Au)}
+$$
+
+La anterior función toma valores restringidos al intervalo $(L,U)$ puesto que $F(-\infty)=L$ y $F(\infty)=U$. Por lo tanto los nuevos pesos de calibración están siempre en el intervalo $[Ld_k,Ud_k]$.
+
+### Método truncado lineal
+<!-- index: Método truncado lineal -->
+
+Para restringir el intervalo de soluciones de los pesos de calibración es posible utilizar la misma función lineal pero restringida a dos valores $L$ y $U$, tales que $L<1<U$. De esta forma,
+$$
+G(x)=
+ \begin{cases}
+ \frac{1}{2}(x-1)^2 &\text{si $L<x<U$}\\ \\
+ \infty             &\text{en otro caso}
+ \end{cases}
+$$
+
+De esta manera, la correspondiente función $F$, está dada por
+$$
+F(u)=
+ \begin{cases}
+ 1+u             &\text{si $u\in [L-1,U-1]$} \\ \\
+ L               &\text{si $u < L-1$}     \\ \\
+ U               &\text{si $u > U-1$}     \\ \\
+ \end{cases}
+$$
+
+Así, los nuevos pesos de calibración están siempre en el intervalo $[Ld_k,Ud_k]$.
+
+<!-- index: Método lineal truncado -->
+```{r}
+#| label: fig-f10-4
+#| warning: false
+#| message: false
+#| fig-height: 5
+#| echo: false
+#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando el método truncado lineal con $L=0.4$ y $U=2.5$la distancia de Entropía.'
+x <- sort(runif(100, -3, 3))
+U <- 2.5
+L <- 0.4
+A <- (U - L)/((1 - L) * (U - 1))
+
+Gw <- function(x,L,U){
+n <- length(x)
+Ge <- matrix(0,n,1)
+for(k in 1:n){
+if (L<x[k] && x[k]<U)
+  Ge[k] <- (1/2)*(x[k]-1)^2
+else
+  Ge[k] <- NA
+}
+return(Ge)
+}
+
+Fw <- function(x,L,U){
+n <- length(x)
+Fe <- matrix(0,n,1)
+for(k in 1:n){
+if ((L-1)<=x[k] && x[k]<=(U-1))
+  Fe[k] <- 1+x[k]
+if (x[k]<(L-1))
+  Fe[k] <- L
+if (x[k]>(U-1))
+Fe[k] <- U
+}
+return(Fe)
+}
+
+G <- Gw(x,L,U)
+F <- Fw(x,L,U)
+
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "G(x)")
+
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
+  geom_line() + geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) + labs(title = "F(x)")
+
+plot <- gridExtra::grid.arrange(G_x, F_x, nrow = 1)
+```
+
+## Calibración y Post-estratificación
+
+<!-- index: Estimador de calibración --><!-- index: Estimador de post-estratificación -->@Sautor derivaron en primer lugar el estimador de calibración y luego explicaron el estimador de post-estratificación y el estimador de Raking (bajo el algoritmo IPFP) como casos particulares del método de calibración bajo distintas distancias. En esta sección se dan las bases estadísticas para la construcción de estos estimadores.
+
+### Post-estratificación
+
+<!-- index: Estimador de post-estratificación -->Un caso especial muy importante de los estimadores de calibración corresponde al estimador de post-estratificación completa^[El término post-estratificación completa se usa cuando los totales internos de la tabla de contingencia son conocidos y se usan para el proceso de calibración.]. En este caso el número de variables de información auxiliar es igual al número de post-estratos que particionan la población. Este proceso supone la partición en $G$ grupos de la población finita. Así que $U=(U_1,U_2,\ldots,U_G)$. Se asume que la característica de interés está relacionada con $G$ vectores o variables dummy que toman el valor uno si el elemento pertenece al subgrupo $U_g$ $(g=1,\ldots,G)$ o cero si el elemento no pertenece al grupo. Así que $p=G$, $\mathbf{x}_k=\mathbf{d}_k=(\underbrace{0,0,\ldots, 1, \ldots,0,0}_{G` grupos`})'$ y $q_k=1$ para todo $k\in U$.
+
+Bajo la anterior formulación tenemos que el vector $\lambda$ toma la siguiente forma
+
+$$
+\boldsymbol{\lambda}'=(\lambda_1,\ldots,\lambda_g,\ldots,\lambda_G)
+$$
+
+y cada entrada del vector de información auxiliar para el $k$-ésimo elemento está dada por
+
+$$
+x_{kg}=
+ \begin{cases}
+ 1 &\text{si $k\in U_g$}\\ \\
+ 0 &\text{en otro caso}
+ \end{cases}
+$$
+
+Nótese que
+
+$$
+\mathbf{t_x=}\sum_{k\in U} \mathbf{x}_k'= (N_1,\ldots,N_g,\ldots,N_G),
+$$
+
+donde $N_g$ corresponde al total de elementos pertenecientes al subgrupo poblacional $U_g$.
+
+::: {.callout-tip title="Resultado"}
+Los pesos de calibración para el caso de post-estratificación están dados por
+
+$$
+w_k=d_k\frac{N_g }{\hat{N}_{g,\pi}}\ \ \ \ \ \ \ g=1,\ldots,G
+$$
+
+y son invariantes a la escogencia de cualquier distancia.
+
+**Prueba.**
+La construcción del estimador de calibración para este esquema particular es como sigue. En primer lugar, nótese que si el $k$-ésimo elemento pertenece al subgrupo $U_g$, entonces
+
+$$
+\boldsymbol{\lambda}' \mathbf{x}_k= \lambda_g
+$$
+
+Por tanto la restricción de calibración dada por
+
+$$
+\sum_{k\in S}d_k F(\boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
+$$
+
+puede ser re-escrita como
+
+$$
+\sum_{k\in U_g}d_k F(\lambda_g)=N_g \ \ \ \ \ \ \ g=1,\ldots,G
+$$
+
+Por tanto, despejando la anterior ecuación, se tiene finalmente que
+
+$$
+F(\lambda_g) =\frac{N_g }{\sum_{k\in U_g}d_k}=\frac{N_g }{\hat{N}_{g,\pi}}\ \ \ \ \ \ \ g=1,\ldots,G
+$$
+
+Luego, de (10.3.3) los pesos de calibración están dados por
+
+$$
+w_k=d_k\frac{N_g }{\hat{N}_{g,\pi}}\ \ \ \ \ \ \ g=1,\ldots,G
+$$
+
+Nótese que en la construcción de los pesos de calibración no importó la escogencia de la distancia.
+:::
+
+Por tanto el estimador de calibración está dado por
+
+$$
+\begin{aligned}
+\hat{t}_{y,cal}&=\sum_{k\in S}w_ky_k\\
+&=\sum_{g=1}^G\sum_{k\in S_g}\frac{N_g }{\hat{N}_{g,\pi}}\frac{y_k}{\pi_k}
+\end{aligned}
+$$
+
+que equivale al estimador de post-estratificación.
+
+### Raking
+
+<!-- index: Método de raking -->Si Deming hubiese dado cuenta de los estimadores de calibración cuando se usa la distancia multiplicativa como marco de referencia, hubiera estado muy contento al darse cuenta de que su método pudo ser generalizado e incluido en el contenido de la ciencia estadística. Al principio, el IPFP se usó de manera totalmente pragmática, simplemente se trataba de realizar un ajuste para que las estimaciones internas de la tabla de contingencia calibraran los totales conocidos. Bajo este marco de referencia, el IPFP era criticado por ser un método matemático y no estadístico cuyos resultados no tenían en cuenta el diseño de muestro que se había usado para la recolección de la información. Como se verá en esta sección, el estimador de calibración que apunta a la estimación de las celdas internas en tablas de contingencia es equivalente al resultante del método IPFP. De hecho, el método IPFP es un caso particular de este escenario que se conoce con el nombre de Raking.
+
+Como caso particular se considera la estimación de una tabla de contingencia a dos vías con calibración sobre los totales marginales. Por lo anterior, la partición de la población sigue el patrón de la siguiente tabla.
+
+| $U_{11}$ | $\cdots$ | $U_{1g}$ | $\cdots$ | $U_{1G}$ | $U_{1 \cdot}$ |
+| --- | --- | --- | --- | --- | --- |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $U_{h1}$ | $\cdots$ | $U_{hg}$ | $\cdots$ | $U_{hG}$ | $U_{h \cdot}$ |
+| $\vdots$ |  | $\vdots$ |  | $\vdots$ | $\vdots$ |
+| $U_{H1}$ | $\cdots$ | $U_{Hg}$ | $\cdots$ | $U_{HG}$ | $U_{H \cdot}$ |
+| $U_{\cdot 1}$ | $\cdots$ | $U_{\cdot g}$ | $\cdots$ | $U_{\cdot G}$ | $U$ |
+
+: Partición de la población. {#tbl-t10-static-6}
+
+Se supone que $q_k=1$ para todo $k\in U$ y $\mathbf{x}_k=(\mathbf{d}_{1k}',\mathbf{d}_{1k}')$, donde $\mathbf{d}_{1k}$ es un vector de $H$ variables dummy denotando a cuál post-estrato pertenece el $k$-ésimo elemento y $\mathbf{d}_{2k}$ es un vector de $G$ variables dummy denotando a cuál post-estrato pertenece el $k$-ésimo elemento. Nótese que
+
+$$
+\mathbf{t_x=}\sum_{k\in U} \mathbf{x}_k'= (N_{1\cdot},\ldots,N_{h\cdot},\ldots,N_{H\cdot},N_{\cdot1},\ldots,N_{\cdot g},\ldots,N_{\cdot G})
+$$
+
+Sea $\mathbf{u}=(u_1,\ldots,u_H)'$ un vector de orden $H$ y $\mathbf{v}=(v_1,\ldots,v_G)'$ un vector de orden $G$. Definiendo $\boldsymbol{\lambda}'=(\mathbf{u}',\mathbf{v}')$, se tiene que si el $k$-ésimo elemento pertenece a la celda $U_{hg}$, entonces
+
+$$
+F(q_k\boldsymbol{\lambda}'\mathbf{x}_k)=F(u_h+v_g)
+$$
+
+Por tanto las ecuaciones de calibración<!-- index: Ecuación de calibración --> (10.5.6) pueden ser escritas como el siguiente sistema de ecuaciones
+
+$$
+\begin{aligned}
+\sum_{h=1}^H \hat{N}_{hg,\pi}F(u_h+v_g)=N_{\cdot g} \ \ \ \ \ \ \ g=1,\ldots,G \\
+\sum_{g=1}^G \hat{N}_{hg,\pi}F(u_h+v_g)=N_{h \cdot} \ \ \ \ \ \ \ h=1,\ldots,H
+\end{aligned}
+$$
+
+donde $\hat{N}_{hg,\pi}$ corresponde al estimador de Horvitz-Thompson de $N_{hg}$. Si se utiliza la distancia de entropía, se tiene que
+
+$$
+F(u_h+v_g)=\exp(u_h+v_g)=\exp(u_h)\exp(v_g)
+$$
+
+Por tanto el sistema de ecuaciones dado por (10.5.12) y (10.5.13) toma la siguiente forma
+
+$$
+\begin{aligned}
+\exp(u_h)=\dfrac{N_{\cdot g}}{\sum_{g=1}^G \hat{N}_{hg}\exp(v_g)} \ \ \ \ \ \ \ h=1,\ldots,H \\
+\exp(v_g)=\dfrac{N_{h \cdot}}{\sum_{h=1}^H \hat{N}_{hg}\exp(v_h)} \ \ \ \ \ \ \ g=1,\ldots,G
+\end{aligned}
+$$
+
+Una solución para el anterior sistema de ecuaciones se obtiene al iterar hasta convergencia el algoritmo IPFP como sigue.
+
+1. Fijar $\exp(v_g)=1$ y calcular $\exp(u_h)$ en (10.5.15)
+1. Luego insertar este valor de $\exp(u_h)$ en (10.5.16) y calcular un nuevo valor de $\exp(v_g)$
+1. Iterar hasta convergencia
+
+Después de que el algoritmo ha finalizado, el estimador de calibración para el total de la celda $U_{hg}$ está dado por
+
+$$
+\hat{N}_{hg,cal}=\hat{N}_{hg,\pi}\exp(u_h+v_g)=\hat{N}_{hg,\pi}\exp(u_h)\exp(v_g)
+$$
+
+y los nuevos pesos calibrados son $w_k=d_k\exp(u_h+v_g)=d_k\exp(u_h)\exp(v_g)$ si el $k$-ésimo elemento pertenece a la celda $U_{hg}$.
+
+## Varianza de los estimadores de calibración
+
+<!-- index: Varianza de los estimadores de calibración -->Cerramos este capítulo con una importante propiedad de los estimadores de calibración.
+
+::: {.callout-tip title="Resultado"}
+El estimador de calibración es asintóticamente equivalente al estimador general de regresión bajo las siguientes condiciones de regularidad:
+1. $\lim \dfrac{\mathbf{t}_{\mathbf{x}}}{N}$ existe
+1. $\dfrac{\hat{\mathbf{t}}_{\mathbf{x}\pi}-\mathbf{t}_{\mathbf{x}}}{N}\rightarrow \mathbf{0}$ en probabilidad^[El marco de referencia de esta medida de probabilidad está dado por el diseño muestral que se utilizó en la estrategia de muestreo.]
+1. $\sqrt{n}\dfrac{\hat{\mathbf{t}}_{\mathbf{x}\pi}-\mathbf{t}_{\mathbf{x}}}{N}$ converge en distribución a la normal multivariante $N(\mathbf{0},\mathbf{A})$
+
+**Prueba.**
+La demostración del anterior resultado se sale del alcance de este libro. Sin embargo, el lector interesado puede consultar en @DS.
+:::
+
+En particular, bajo el anterior resultado, el estimador de calibración comparte las mismas esperanzas asintóticas y las mismas varianzas asintóticas que el estimador general de regresión. Esto puede ser visto mediante el siguiente argumento heurístico:
+
+- Se asume que para tamaños de muestra grandes el estimador de Horvitz-Thompson, $\hat{\mathbf{t}}_{\mathbf{x}\pi}$, es cercano al total poblacional de las características de información auxiliar, $\mathbf{t}_{\mathbf{x}}$. Lo anterior se tiene puesto que $\hat{\mathbf{t}}_{\mathbf{x}\pi}$ es un estimador consistente para $\mathbf{t}_{\mathbf{x}}$.
+- Entonces, siguiendo la ecuación (10.3.4), el valor de $F(\cdot)$ debería ser cercano a uno y el valor de $\boldsymbol{\lambda}$ debería ser cercano a $\mathbf{0}$
+- Sin embargo, por la construcción de las funciones $F(\cdot)$ y dado que $F(0)=F'(0)=1$, entonces todas las funciones $F(\cdot)$ deberían tener el mismo comportamiento en la vecindad de $0$.
+- Por tanto, todas las funciones $F(\cdot)$ pueden ser aproximadas mediante la función $F(u)=u+1$.
+- Es decir, la misma función que corresponde al estimador general de regresión.
+
+::: {.callout-tip title="Resultado"}
+La varianza aproximada y la estimación de la varianza del estimador de calibración está dada por.
+$$
+AV(\hat{t}_{y,cal})=\sum\sum_U\Delta_{kl}(d_kE_k)(d_lE_l)
+$$
+$$
+\widehat{Var}(\hat{t}_{y,cal})=\sum\sum_S\frac{\Delta_{kl}}{\pi_{kl}}(w_ke_k)(w_le_l)
+$$
+respectivamente. Donde $E_k=y_k-\mathbf{x}_k'\mathbf{B}$ y $\mathbf{B}$ satisface las ecuaciones normales en la construcción del estimador de regresión. También $e_k=y_k-\mathbf{x}_k'\hat{\mathbf{B}}$ y $\hat{\mathbf{B}}$ es un estimador de $\mathbf{B}$.
+
+:::
+## Marco y Lucy
+
+<!-- index: Marco y Lucy -->Volviendo con el ejercicio práctico de estimación, suponga que el gobierno desea obtener una estimación del total de impuestos que el sector industrial aportó en el último año fiscal. Estas estimaciones se requiere que sean muy precisas puesto que con base en estos resultados se replanteará una parte del presupuesto nacional.
+
+En esta ocasión, el gobierno pone a disposición del estadístico un marco de muestreo que incluye la identificación y ubicación de todas las empresas pertenecientes al sector industrial. Además de esto, el gobierno tiene la disponibilidad de conocimiento del total poblacional de dos características de información auxiliar; a saber, el total poblacional de la variable `Employees` correspondiente a 151950, el total poblacional de la variable `Income` correspondiente a 1035217 y, por supuesto, el total poblacional del número de empresas del sector industrial correspondiente a 2396.
+
+Bajo el anterior esquema, se planearon varias estrategias de muestreo que manejaban un diseño aleatorio simple de 400 empresas y estimadores de calibración bajo varias distancias. Para la selección de tal muestra se utilizó el siguiente código computacional
+
+```{r, warning=FALSE, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+N <- dim(BigLucy)[1]
+n <- 2000 
+sam <- sample(N, n)
+muestra <- BigLucy[sam, ]
+attach(muestra)
+```
+
+Una vez que la muestra fue seleccionada se utilizó el paquete `sampling` del software R para calcular lo estimadores de calibración. En particular se utilizó la función `calib` que calcula los pesos $w_k$ del estimador de calibración. Esta función cuenta con varios argumentos; entre ellos están lo siguientes: `Xs`, la matriz que contiene los valores de las características de información auxiliar para los individuos incluidos en la muestra, `d`, correspondiente al inverso de los pesos de las probabilidades de inclusión de los elementos en la muestra, `tx`, que corresponde al total poblacional de las variables de calibración, `method` que incluye cuatro posibles distancias que son la distancia Ji cuadrado cuyo acepción en la función `calib` está dada por `method=?linear?`, la distancia de entropía cuya acepción en la función `calib` está dada por `method=?raking?` y los métodos logístico y truncado cuyas acepciones en la función `calib` están dadas por `method=?logit?` y por `method=?truncated?`, respectivamente.
+
+Se calcularon las estimaciones de calibración usando los cuatro métodos y el código utilizado se muestra a continuación.
+
+```{r}
+library(sampling)
+tx1 <- sum(BigLucy$Income)
+tx2 <- sum(BigLucy$Employees)
+
+ys <- data.frame(Income, Employees, Taxes)
+Xs <- cbind(1, Income, Employees)
+piks <- rep(n/N, times = n)
+tx <- c(N, tx1, tx2)
+
+w1 <- calib(Xs, d = 1/piks, tx, method = "linear")
+w2 <- calib(Xs, d = 1/piks, tx, method = "raking")
+w3 <- calib(Xs, d = 1/piks, tx, method = "logit", bounds = c(0.75,1.2))
+w4 <- calib(Xs, d = 1/piks, tx, method = "truncated", bounds = c(0.75,1.2))
+```
+
+La función `calib` solamente calcula los pesos que intervienen en las ecuaciones de calibración. Para calcular las estimación final del total de la característica de interés `Taxes` se debe proceder a multiplicar las cantidades pertinentes. De esta manera, el siguiente código se utilizó para el cálculo de las cuatro estimaciones.
+
+```{r}
+tcal1 <- t(w1/piks) %*% as.matrix(ys)
+tcal1
+tcal2 <- t(w2/piks) %*% as.matrix(ys)
+tcal2
+tcal3 <- t(w3/piks) %*% as.matrix(ys)
+tcal3
+tcal4 <- t(w4/piks) %*% as.matrix(ys)
+tcal4
+```
+
+## Discusión
+
+<!-- index: Estimador de calibración -->@Sar08 afirma que la definición del enfoque de calibración para la estimación de totales en poblaciones finitas sigue los siguientes procesos:
+
+1. Calcular nuevos pesos que incorporen información auxiliar específica y que están restringidos a la ecuación de calibración.
+1. Utilizar estos nuevos pesos para la construcción de estimadores lineales.
+1. Obtener estimaciones aproximadamente insesgadas en presencia de no respuesta<!-- index: Ausencia de respuesta --> y otros errores no muestrales.
+
+Al mismo tiempo, @Sar08 concluye que existen seis ideas sobre las cuales vale la pena profundizar un poco más. A continuación se exponen estos criterios que algunos estadísticos han usado para enfatizar el uso práctico de los estimadores de calibración:
+
+- **Como un método de ponderación lineal:** la calibración tiene un vínculo íntimo con la práctica. La fijación con métodos de ponderación de las agencias que manejan las estadísticas oficiales es una poderosa costumbre en la práctica que empezó con la ponderación de unidades mediante el inverso de su probabilidad de inclusión y siguió con las ponderaciones surgidas del enfoque de post-estratificación. Las ponderaciones de calibración extienden las anteriores ideas. La calibración es nueva como término en el muestreo (casi 15 años) pero no es nueva como una técnica para producir ponderaciones, por ejemplo, el muestreo por cuotas<!-- index: Muestreo por cuotas --> es una forma de muestreo no probabilístico que induce estimaciones calibradas con los totales demográficos de la población de estudio. La ponderación de los valores observados de las características de interés fue un tópico muy importante antes que el término calibración comenzara a ser popular. Algunos autores derivaron estas ponderaciones con el argumento que deberían diferir de la manera más mínima posible de los pesos originales. Otros autores encontraron las ponderaciones al reconocer que un estimador de regresión lineal podría ser escrito como una suma ponderada de los valores de la característica de interés. De allí surgieron términos tales como ponderación de muestreo, ponderación de regresión y ponderación de caso.
+- **Como una forma sistemática para utilizar la información auxiliar:** la calibración provee una forma sistemática para involucrar la información auxiliar. En la mayoría de aplicaciones práctica la calibración provee un enfoque simple para incorporar esta información dentro de la etapa de estimación. La información auxiliar fue usada para mejorar la precisión de los estimativos mucho antes que el término calibración fuera popular. Existen cientos de artículos que fueron escritos con este propósito en mente. Hoy en día la calibración ofrece un camino para incorporar esta información auxiliar. Por ejemplo la calibración puede ser usada efectivamente en encuestas donde la información auxiliar está disponible en diferentes niveles. Al realizar un muestreo en dos etapas la información auxiliar puede existir para las unidades de la primera etapa (los conglomerados) y puede existir otra información para las unidades de la segunda etapa (elementos o conglomerados).
+- **Como un enfoque para conseguir consistencia:** en algunas ocasiones el término calibración se refiere a una forma de conseguir estimativos consistentes^[En este apartado la palabra consistente se da en el sentido de la consistencia con los totales de la información auxiliar.]. Las ecuaciones de calibración<!-- index: Ecuación de calibración --> imponen la característica de consistencia sobre el vector de ponderaciones; así que, cuando éste se aplica a las variables auxiliares el resultado será consistente con los totales de estas variables. Un deseo de promover la credibilidad en las estadísticas oficiales es una razón para que las entidades busquen la consistencia. Cuando la motivación primaria para la calibración no es la concordancia con los totales de la información auxiliar sino el reducir la varianza y el sesgo debido a la ausencia de respuesta entonces el vector de ponderaciones se dice balanceado.
+- **Como excusa de transparencia y conveniencia:** el enfoque de calibración ha ganado popularidad en las aplicaciones reales debido a que las estimaciones resultantes son fáciles de interpretar y de motivar puesto que están directamente relacionadas a los pesos inducidos por el diseño de muestreo. La calibración sobre los totales conocidos brinda al usuario una forma natural y transparente de estimación. El usuario que entiende la ponderación muestral aprecia el método de calibración puesto que modifica sutilmente los pesos originales, pero al mismo tiempo respeta los totales de la información auxiliar y mantiene el sesgo despreciable. Existe otra ventaja que es apreciada por los usuarios, en la mayoría de aplicaciones, la calibración induce un único vector de ponderaciones aplicable a todas las variables involucradas en el estudio. Esta última razón hace que este método sea muy apetecido en las entidades oficiales que manejan encuestas muy extensas.
+- **En combinación cono otros términos:** Algunos autores usan la palabra calibración en combinación con otros términos para describir varias direcciones de pensamientos, entre esta proliferación de términos están: calibración modelo, calibración G, calibración armonizada, calibración a un nivel más alto, calibración de regresión, calibración no lineal, calibración super-generalizada, calibración de modelos de redes neuronales y calibración basada en modelos locales polinomiales, entre otras. La calibración juega un rol significativo en los métodos de muestreo indirectos (ver capítulo 12). Este término también ha sido usado, aunque en un espíritu diferente, en conceptos tales como imputación calibrada y calibración sesgada.
+- **Como una nueva dirección de pensamiento:** si la calibración representa un nuevo enfoque demarcado claramente de sus predecesores, entonces es tiempo de hacer la pregunta: ¿La calibración generaliza las teorías anteriores? ¿La calibración da mejores respuestas a las preguntas de importancia, que los enfoques de estimación anteriores? En la práctica el estadístico encuentra algunos pormenores tales como ausencia de respuestas, deficiencias del marco muestral y errores de medición. Es cierto que algunos procesos como la imputación y la reponderación para no respuestas son ampliamente difundidos y usados en la práctica. Sin embargo queda un sinsabor al utilizar estos métodos pues no están enmarcados dentro de una teoría exhaustiva de inferencias en poblaciones finitas. La mayoría de artículos teóricos tratan con la estimación de parámetros bajo un mundo ideal, que no existe en la práctica, donde la ausencia de respuesta y otros errores no muestrales están ausentes.
+
+## Estimadores óptimos de calibración
+
+<!-- index: Estimador óptimo de calibración -->Como lo afirma @Wu1 existen dos variantes en la construcción de un estimador de calibración: una está dada por la escogencia de la distancia y la otra por el conjunto de ecuaciones de calibración^[Nótese que si el vector de información auxiliar tiene $P$ variables auxiliares, entonces habrán $P$ ecuaciones de calibración.] en áreas como la demografía existe la costumbre de calibrar sobre muchas variables, para que se logre estimar con varianza nula los totales conocidos de las variables auxiliares, sin importar que el estimador resultante pueda perder eficiencia. En estos términos, sería mejor utilizar la menor cantidad de ecuaciones de calibración para no estropear el buen comportamiento del estimador. La pregunta que debe plantearse el investigador es ¿cuál es la mejor ecuación de calibración que se debe usar en la construcción de un estimador de este tipo?
+
+Si $u_k=u(\mathbf{x}_k)$, donde $u(\cdot)$ es una función de valor real, entonces una nueva forma de construir un estimador de calibración estaría dada por la consecución de unos pesos $w_k$ restringidos^[Bajo este marco de referencia aparece una reducción en la cantidad de restricciones que se utilizan en la calibración.] a
+$$
+\sum_{k\in S}w_ku(\mathbf{x}_k)=\sum_{k\in U}u(\mathbf{x}_k)
+$$ {#eq-caloptu}
+Por tanto, la pregunta se torna más diáfana y se convierte en ¿cuál función $u(\cdot)$ hace al estimador $\hat{t}_{ycal}$ más eficiente?  Ahora, es bien sabido que bajo la inferencia basada en el diseño de muestreo, no existe un estimador insesgado de mínima varianza uniformemente [@CSW]. Sin embargo, es posible obtener un estimador óptimo bajo la inferencia asistida por modelos de super-población. La respuesta a estas preguntas está dada por la propuesta de @Wu1 que construyó un estimador óptimo de calibración suponiendo que las respuestas de $y_k$ pueden ser vistas como realizaciones del siguiente modelo de super-población semi-paramétrica
+$$
+E_\xi(y_k|\mathbf{x}_k)=\mu(\mathbf{x}_k,\boldsymbol{\theta}),\ \ \
+Var_\xi(y_k|\mathbf{x}_k)=[\nu(\mathbf{x}_k)]^2\sigma^2 \ \ \ \ \ ,
+$$ {#eq-modeloopt}
+
+donde $\mu(\cdot\ , \cdot)$ y $v(\cdot)$ son funciones conocidas, $\boldsymbol{\theta}$ y $\sigma^2$ son parámetros desconocidos del modelo. Se asume que los $y_k$, $k\in U$, son condicionalmente independientes dadas las $\mathbf{x}_k$. Nótese que $\nu$ puede ser una función conocida de $\mu$ como en los modelos lineales generalizados.
+
+Los estimadores óptimos, asistidos por un modelo de super-población $\xi$, que minimizan el valor esperado de la varianza basada en un diseño de muestreo, $E_\xi(Var_p(\hat{Y}))$, han sido discutidos^[Los términos $E_p$ y $Var_p$ se refieren a la esperanza y varianza bajo un diseño muestral $p(\cdot)$, y $E_\xi$ y $Var_\xi$ denotan la esperanza y varianza bajo un modelo de super-población $\xi$.] por muchos autores. Por ejemplo, en @Isaki esta varianza esperada tomó el nombre de varianza anticipada.
+
+::: {.callout-tip title="Teorema 1 de @Wu1"}
+Sea $t_{y,C_u}$ un estimador de calibración del total poblacional de la característica de interés, construido utilizado la restricción (@eq-caloptu), donde $C_u=\left\{ u(\mathbf{x}_1),u(\mathbf{x}_2),\ldots,u(\mathbf{x}_N)\right\}$ es la familia de vectores de todas las posibles funciones de valor real aplicadas a la información auxiliar. Dentro de la clase de estimadores de calibración $t_{y,C_u}$, la escogencia de
+$$
+C_{\mu}=\left\{\mu(\mathbf{x}_1,\boldsymbol{\theta}),\mu(\mathbf{x}_2,\boldsymbol{\theta}),\ldots,\mu(\mathbf{x}_N,\boldsymbol{\theta})\right\}
+$$
+minimiza $E_\xi(Var_p(\hat{Y}))$ bajo el modelo de super-población dado por (@eq-modeloopt) y suponiendo condiciones de regularidad en el diseño de muestreo.
+
+:::
+Con este resultado podemos proseguir a la construcción del estimador óptimo de calibración resultante de minimizar Ji-cuadrado sujeta a la siguiente restricción
+$$
+\sum_{k\in S}w_k\hat{\mu}_k=\sum_{k\in U}\hat{\mu}_k
+$$
+
+Donde $\hat{\mu}_k=\mu(\mathbf{x}_k,\hat{\boldsymbol{\theta}})$. La razón para esto se debe a que los valores del vector $\boldsymbol{\theta}$ son desconocidos y se deben reemplazar por un estimador basado en la muestra seleccionada dado por $\hat{\boldsymbol{\theta}}$. La minimización se realiza usando un multiplicador de Lagrange como en @Dev. De esta manera, es muy fácil conseguir la expresión del estimador óptimo de calibración, el cual está dado por [@Wu3]
+$$
+\begin{aligned}
+\hat{t}_{y,opt}&=\sum_{k\in S}w_ky_k\\
+&=\hat{t}_{y\pi}+(t_{\hat{\mu}}-\hat{t}_{\hat{\mu}\pi}){\hat{B}_y}
+\end{aligned}
+$$
+
+en donde $t_{\hat{\mu}}=\sum_{k\in U}\hat{\mu}_k$ es el total poblacional de las funciones $\hat{\mu}$, $\hat{t}_{\hat{\mu}\pi}$ su correspondiente estimador de Horvitz-Thompson y
+$$
+\hat{B}_y=\frac{\sum_{k\in S}d_kq_k\hat{\mu}_ky_k}{\sum_{k\in S}d_kq_k\hat{\mu}_k^2}
+$$
+
+En resumen, los estimadores óptimos de calibración se han estudiado y profundizado en @Wu3 y  @Wu1 y su fundamento se encuentra en la inferencia asistida por modelos. Para motivar las condiciones de optimalidad se utilizó un modelo de super-población semi-paramétrica general dado por (@eq-modeloopt). Estos estimadores de calibración para el total poblacional de la característica de interés tiene las siguientes características:
+1. Una distancia Ji-cuadrado cuyos factores de peso satisfacen $q_k>0$ y además sean tales que $N^{-1}\sum_{k=1}^N q_k^2=O(1)$.
+1. Una sola restricción, dada por una reducción de dimensión $u_k=\mu(\mathbf{x}_k,\boldsymbol{\theta})$, donde la forma funcional
+$\mu(\cdot\ ,\cdot)$ puede ser arbitraria.
+
+Algunos de los resultados más importantes de este método pueden ser resumidos de la siguiente manera [@Wu1]:
+
+- Sea $\hat{\boldsymbol{\theta}}=(\sum_{k\in S}d_kq_k\mathbf{x}_k\mathbf{x}_k')^{-1} \sum_{k\in S}d_kq_k\mathbf{x}_ky_k$. Si se usa $u_k=\mathbf{x}_k'\boldsymbol{\theta}$ como variable de calibración, el estimador de calibración resultante es idéntico al estimador convencional de calibración dado por $\hat{t}_{ycal}$. Por tanto la clase de estimadores resultantes de este método es muy general pues incluye al estimador original como un caso particular.
+- Para cualquier estimador consistente de $\boldsymbol{\theta}$ tal que $\hat{\boldsymbol{\theta}}=\boldsymbol{\theta} + o_p(1)$, si se reemplaza $\boldsymbol{\theta}$ por $\hat{\boldsymbol{\theta}}$, en las ecuaciones de calibración, el estimador de calibración resultante no cambia asintóticamente.
+- Los estimadores óptimos de calibración obtenidos usando $u_k=E_\xi(y_k \mid \mathbf{x}_k)=\mu(\mathbf{x}_i,\boldsymbol{\theta})$ son óptimos bajo el criterio del mínima varianza esperada.
+- Los estimadores óptimos de calibración son óptimos bajo el modelo de super-población $\xi$, pero aun si el modelo considerado es incorrectamente especificado, estos estimadores permanecen consistentes.
+
+Dado que no existe un estimador insesgado con varianza mínima uniforme, la única escogencia de $u(\cdot)$ que hace a $\hat{t}_{yopt}$ un estimador con las anteriores características es $u(\mathbf{x}_k)=y_i$, y por supuesto esto es prácticamente inútil. Por tanto se debe hacer $u(\mathbf{x}_k)\approx y_k$.
+
+El lector debe notar que la estructura del modelo $\xi$ dado por (@eq-modeloopt) es muy general e incluye dos importantes casos: el primero el modelo de regresión lineal o no lineal dado por
+$$
+y_k=\mu(\mathbf{x}_k,\boldsymbol{\theta})+\nu_k\varepsilon_k
+$$
+
+donde los $\varepsilon_k$ son variables aleatorias independientes e idénticamente distribuidas con $E_\xi(\varepsilon_k)=0$, $Var_\xi(\varepsilon_k)=\sigma^{2}$ y $\nu_k=\nu(\mathbf{x}_k)$ es una función conocida y estrictamente positiva.
+
+El segundo caso se refiere al modelo lineal generalizado dado por
+$$
+g(\mu_i)=\mathbf{x}'_k\boldsymbol{\theta}, \ \ \ Var_\xi(y_k|\mathbf{x}_k)=\nu(\mu_k)
+$$ {#eq-glmopt}
+
+donde $\mu_k=E_\xi(y_k|\mathbf{x}_k)$, $g(\cdot)$ es una función de vínculo y $\nu(\cdot)$ es una función de varianza.
+
+A continuación se describe el comportamiento de los estimadores óptimos de calibración bajo un modelo lineal y un modelo log-lineal.
+
+```{r}
+#| label: fig-f10-5
+#| warning: false
+#| message: false
+#| fig-height: 5
+#| echo: false
+#| fig-cap: 'Comportamiento lineal de la característica de interés explicada por la información auxiliar.'
+x <- runif(1000, 1, 30)
+y <- rnorm(1000, 1.2 * x, sqrt(x))
+dat <- data.frame(x = x, y = y)
+
+ggplot(dat, aes(x = x, y = y)) + geom_point(shape = 1) + geom_smooth()  
+```
+
+Si la información auxiliar explica a la característica de interés de forma lineal, como se observa en la figura 10.5, entonces tendría sentido el argumento que se expresa en @DS, en donde motivados por el estimador de razón, se argumenta que \textsl{?...las ponderaciones [de calibración] que se ajustan bien a las variables auxiliares [reproducen exactamente su total poblacional], también se ajustan bien a la variable de estudio...?}
+
+En el caso multivariado, la función que hace óptimo al estimador de calibración está dada por
+$$
+u(\mathbf{x}_k,\boldsymbol{\theta})=\mathbf{x}_k'\boldsymbol{\theta}=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}
+$$
+
+en donde $\boldsymbol{\theta}=(\theta_0,\theta_1,...,\theta_P)$ es estimado a través de mínimos cuadrados ponderados, como en una regresión múltiple. Por lo tanto la característica de interés sigue el siguiente modelo de super-población
+
+$$
+y_k=\mathbf{x}_k'\boldsymbol{\theta}+\nu_k\varepsilon_k
+$$
+
+donde los $\varepsilon_k$ son independientes e idénticamente distribuidos con $E_\xi(\varepsilon_k)=0$ y $Var_\xi(\varepsilon_k)=\sigma^{2}$, y $\nu_k=\nu(\mathbf{x}_k)=1$. Por tanto al estimar $\boldsymbol{\theta}$ usando la técnica de mínimos cuadrados se tiene que
+$$
+\begin{aligned}
+\hat{\boldsymbol{\theta}}&=\left(\sum_{k\in S}q_kd_k\mathbf{x}_k\mathbf{x}_k'\right)^{-1}\sum_{k\in S}q_kd_k\mathbf{x}_ky_k\\
+&=(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}
+\end{aligned}
+$$
+
+donde $\mathbf{V}=diag(d_1q_1,\ldots,d_nq_n)=\frac{1}{\sigma^2}diag(d_1,\ldots,d_n)$.
+
+::: {.callout-tip title="Resultado"}
+De esta forma, el estimador de calibración del total poblacional resultante del anterior modelo de super-población está dado por
+$$
+\hat{t}_{y,opt}=t_{y\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\hat{\boldsymbol{\theta}}
+$$
+
+**Prueba.**
+$$
+\begin{aligned}
+\hat{t}_{y,opt}&=\hat{t}_{y\pi}+(t_{\hat{\mu}}-\hat{t}_{\hat{\mu}\pi}){\hat{B}_y}\\
+&=\hat{t}_{y\pi}+(\sum_{k\in U}\hat{\mu_k}-\sum_{k\in U}d_k\hat{\mu}_k){\hat{B}_y}\\
+&=\hat{t}_{y\pi}+(\sum_{k\in U}\mathbf{x}_k'\hat{\boldsymbol{\theta}}-\sum_{k\in U}d_k\mathbf{x}_k'\hat{\boldsymbol{\theta}}){\hat{B}_y}\\
+&=\hat{t}_{y\pi}+(\sum_{k\in U}\mathbf{x}_k'-\sum_{k\in U}d_k\mathbf{x}_k')\hat{\boldsymbol{\theta}}{\hat{B}_y}\\
+&=\hat{t}_{y\pi}+(\sum_{k\in U}\mathbf{x}_k-\sum_{k\in U}d_k\mathbf{x}_k)'\hat{\boldsymbol{\theta}}{\hat{B}_y}\\
+&=\hat{t}_{y\pi}+(\sum_{k\in U}\mathbf{x}_k-\sum_{k\in U}d_k\mathbf{x}_k)'\hat{\boldsymbol{\theta}}
+\end{aligned}
+$$
+puesto que ${\hat{B}_y}=1$. Lo anterior se tiene de la definición de $\hat{B}_y$ teniendo en cuenta que
+$$
+\hat{\mu}_k=\mathbf{x}_k'\boldsymbol{\theta}=x_k'(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}
+$$
+Por tanto,
+$$
+\begin{aligned}
+\sum_{k\in S}d_kq_k\hat{\mu}_k^2&=\mathbf{y}'\mathbf{V}^{-1}\mathbf{X}
+(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{X}
+(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}\\
+&=\mathbf{y}'\mathbf{V}^{-1}\mathbf{X}(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}\\
+&=\sum_{k\in S}d_kq_k\hat{\mu}_ky_k
+\end{aligned}
+$$
+
+:::
+
+Nótese que el termino $\hat{B}_Y$ es igual a uno y por tanto desaparece, lo que hace que el estimador óptimo de calibración sea idéntico al estimador de calibración clásico dado por (10.4.5).
+
+#### $u(\mathbf{x})$ Vía modelo lineal generalizado
+
+<!-- index: Modelo lineal generalizado -->¿Qué sucede si la información auxiliar no describe a la característica de interés con un comportamiento lineal?, como se observa en la figura 10.6
+
+```{r}
+#| label: fig-f10-6
+#| warning: false
+#| message: false
+#| fig-height: 5
+#| echo: false
+#| fig-cap: 'Comportamiento no lineal de la característica de interés explicada por la información auxiliar.'
+x <- runif(1000, 1, 3)
+y <- rnorm(1000, 4 * exp(x), 2*x)
+dat <- data.frame(x = x, y = y)
+
+ggplot(dat, aes(x = x, y = y)) + geom_point(shape = 1) + geom_smooth()  
+```
+
+Es ésta la parte más importante del desarrollo práctico en los estimadores óptimos de calibración. Al respecto, el
+usuario puede pensar por un instante en los siguientes cuestionamientos:
+
+- Si una característica de información auxiliar explica muy bien a la característica de interés, entonces calibrar con respecto a esta información auxiliar sería muy conveniente. Sin embargo, esta relación no siempre será lineal.
+- Si queremos estimaciones perfectas deberíamos utilizar a la misma característica de interés para calibrar, pero como esto es un absurdo se debe utilizar $u(\mathbf{x})$ semejante a $y$.
+
+Si se conoce que la información auxiliar disponible no describe a la característica de interés de forma lineal, se ponen en tela de juicio la aplicación de los estimadores clásicos de calibración motivadas por @Dev. Por tanto, si los valores de la característica de interés son considerados como realizaciones de un modelo de super-población $\xi$ como en (@eq-modeloopt) que puede ser descrito a través de su primer y segundo momento, entonces claramente el modelo lineal generalizado (MLG), descrito detalladamente en @nelder y dado por (@eq-glmopt). La mayor particularidad del MLG es que la varianza de la característica de interés depende de la media $\mu_k$. Además, en el MLG se considera que la característica de interés se relaciona con las variables de información auxiliar mediante la media $\mu_k$ y una función de vínculo $g(\cdot)$ tal que
+$$
+g(\mu_k)=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}
+$$
+
+Nótese que el modelo clásico de regresión lineal es un caso particular del MLG en donde $g(\mu_k)=\mu_k$ y $V(\mu_k)=1$. Por supuesto, existen otras formas de la función de varianza y, vínculos no lineales también son permitidos. Por ejemplo, entre las funciones de vínculo y de varianza más populares están el vínculo logarítmico dado por $g(\mu_k)=\log(\mu_k)$ y las funciones de varianza de Poisson dada por $V(\mu_k)=\mu_k$ y la varianza Gamma dada por $V(\mu_k)=\mu_k^2$.
+
+El MLG es un método semi-paramétrico y requiere especificaciones solamente en el primer y segundo momento. La función de vínculo $\mu_k$ está relacionada a las variables independientes y la función de varianza describe cómo la variación en la característica de interés está relacionada con la media.
+
+Los coeficientes $(\theta_0,\theta_1,...,\theta_k)$ pueden ser estimados, como en nuestro caso, usando el método de máxima
+cuasi-verosimilitud. Para el caso más general, el estimador del vector de parámetros poblacionales
+$\hat{\boldsymbol{\theta}}=(\hat{\theta_0},\hat{\theta_1},...,\hat{\theta_P})'$, es la solución de la siguiente ecuación
+$$
+\mathbf{D}'\mathbf{V}^{-1}(\mathbf{y}-\boldsymbol{\mu})=0
+$$ {#eq-cap10-4-13}
+La anterior, no es más que una generalización de las ecuaciones normales en un modelo de regresión múltiple. Donde $\mathbf{y}=(y_1,...,y_n)'$ y $\boldsymbol{\mu}=(\mu_1,...,\mu_n)'$, $\mathbf{V}=diag(V(\mu_1),...,V(\mu_n))$
+son las estructuras de media y varianza del modelo respectivamente, y $\mathbf{D}=\partial\mu/\partial\theta$. Los parámetros $\theta_p$, $p=1,\ldots,P$, se encuentran implícitos en (@eq-cap10-4-13). En el caso más simple, el modelo lineal clásico, se tiene que $\mu_k=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}$, $\boldsymbol{\mu}=\mathbf{X}'\boldsymbol{\theta}$ y $\mathbf{D}=\mathbf{X}'$. Luego, (@eq-cap10-4-13) queda convertida en $\mathbf{X}'\mathbf{V}^{-1}\mathbf{X}\boldsymbol{\theta}=\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}$, las cuales corresponden a las ecuaciones normales de la regresión múltiple.
+
+Por otro lado, en cualquier otro modelo, en donde la función de vínculo sea distinta de la identidad, la mayor dificultad para encontrar el estimador máximo cuasi-verosímil de $\boldsymbol{\theta}$ es que para resolver (@eq-cap10-4-13) se necesita utilizar procedimientos iterativos.
+
+::: {.callout-tip title="Resultado"}
+Bajo un modelo de super-población MLG, el estimador óptimo de calibración está dado por
+$$
+\begin{aligned}
+\hat{t}_{y,opt}=\hat{t}_{y\pi}+(t_{\hat{\mu}}-\hat{t}_{\hat{\mu}\pi}){\hat{B}_y}
+\end{aligned}
+$$
+con
+$$
+\hat{B}_y=\frac{\sum_{k\in S}d_kq_k\hat{\mu}_ky_k}{\sum_{k\in S}d_kq_k\hat{\mu}_k^2}
+$$
+donde $\hat{\mu}_k=g^{-1}(\mathbf{x}_k'\boldsymbol{\theta})$ y $g^{-1}(\cdot)$ es la inversa de la función de vínculo.
+
+:::
+El software estadístico R tiene implementada la función `glm`, la cual permite estimar los parámetros del MLG. Suponga que se desea encontrar el estimador de máxima cuasi-verosimilitud de $\boldsymbol{\theta}=(\theta_0,\theta_1,...,\theta_P)'$ para el modelo
+
+$$
+\mu_k=\exp(\theta_0+\theta_1x_{k1}), \ \ \ Var_\xi(y_k|\mathbf{x}_k)=\nu(\mu_k)^2=\mu_k^2
+$$
+
+Por supuesto, desde (10.9.3), se tiene que la función de vínculo es el logaritmo. Las siguientes líneas de código muestran cómo obtener $\hat{\boldsymbol{\theta}}$
+
+```{r, eval=FALSE}
+theta0 <- lm(Y ~ X)
+theta1 <- glm(Y ~ X, start = theta0, quasi(var = "mu^2", link = "log"))
+```
+
+Nótese que `theta0` es el estimador de mínimos cuadrados y sirve como estimador inicial para el proceso iterativo. Análogamente, es posible crear un código propio para computar las estimaciones del vector de parámetros basado en @nelder.
+
+```{r, eval=FALSE}
+tol <- 0.000000001
+theta0 <- solve(t(X) %*% X, t(X) %*% (Y))  ## valores iniciales
+dif <- 1
+while(dif >= tol) { ## condición de iteración
+  mu <- exp(as.vector(X %*% theta0))
+  V <- diag(1 / mu)
+  theta1 <- theta0 + solve(t(X) %*% X, t(X) %*% V %*% (Y - mu))
+  dif <- max(abs(theta1 - theta0))
+  theta0 <- theta1
+}
+```
+
+Por supuesto, el anterior código debe coincidir con la salida que arroje el procedimiento `glm` de R.
+
+## Ejercicios
+
+1. [@TiAr, Ejercicio 7.1] Usando un procedimiento de muestreo, se obtuvieron las siguientes estimaciones para los tamaños absolutos $\hat{N}_{ij}$ de dos sub-poblaciones de interés:
+
+| 80 | 170 | 150 | 400 |
+| --- | --- | --- | --- |
+| 90 | 80 | 210 | 380 |
+| 10 | 80 | 130 | 220 |
+| 180 | 330 | 490 | 1000 |
+
+Por otro lado, mediante fuentes oficiales, los tamaños marginales sí se conocen con certeza. Los verdaderos totales para las filas son $(430, 360, 210)$ y los totales verdaderos para las columnas son $(150, 300, 550)$.
+
+1. Ajuste la tabla sobre los verdaderos totales marginales de la población usando el algoritmo IPFP.
+1. Ajuste la tabla sobre los verdaderos totales marginales de la población usando el enfoque de calibración con el método de *raking*.
+1. Explique las diferencias o similitudes entre las anteriores estimaciones.
+
+1. [@TiAr, Ejercicio 7.4] Suponga que se obtuvo la siguiente tabla y que los verdaderos totales para las filas son $(84, 37, 444, 464)$ y los totales verdaderos para las columnas son $(49, 859, 11, 10)$.
+
+| 78 | 6 | 0 | 0 | 84 |
+| --- | --- | --- | --- | --- |
+| 32 | 5 | 0 | 0 | 37 |
+| 0 | 0 | 427 | 17 | 444 |
+| 0 | 0 | 432 | 32 | 464 |
+| 110 | 11 | 859 | 49 | 1029 |
+
+Como se puede notar, los totales estimados por fila coinciden plenamente con los verdaderos totales. Explique por qué está tabla no se puede ajustar al utilizar el algoritmo IPFP.
+
+1. Considere una region agrícola consistente en $N=2010$ fincas, para la cual se seleccionó una muestra aleatoria simple de fincas de tamaño $n=100$. Además, se sabe que hay 1580 fincas con menos de 160 hectáreas (post-estrato 1) y  430 fincas con más de 160 hectáreas (post-estrato 2). La característica de interés medida en cada finca incluida en la muestra es el área de cereal cultivada en cada finca. Si se tuvo una muestra realizada en donde $n_1=70$, $n_2=30$, $\bar{y}_1=19.4$ y $\bar{y}_2=51.63$, estime usando la técnica de calibración, la media poblacional del área de cereal cultivada en la región agrícola y reporte el coeficiente de variación estimado.
+
+1. Considere un diseño de muestreo de Poisson con probabilidades de inclusión desiguales $\pi_k$, $k\in U$. Suponga que se tiene interés en la estimación del total poblacional $t_y$. Construya un estimador de calibración usando una sola característica de información auxiliar $x_k=1$ y $q_k=1$, para todo $k\in U$, usando la siguiente pseudo-distancia (parametrizada por $\alpha$):
+
+$$
+G(x)=
+\begin{cases}
+\frac{1}{\alpha(\alpha-1)}(x^{\alpha}+(\alpha-1)-\alpha x), & \text{si $\alpha \in \mathbb{R}-\{0,1\}$} \\
+x\ln(x)+1-x, & \text{si $\alpha=1$} \\
+\ln(1/x)-1+x, & \text{si $\alpha=0$}
+\end{cases}
+$$
+
+1. Escriba las ecuaciones de calibración.
+1. Obtenga la función $g(x)$ para los tres casos de $\alpha$.
+1. Demuestre que la función $F(u)$ es fija e igual a $N/\hat{N}$.
+1. Deduzca los pesos de calibración.
+1. Obtenga el estimador de calibración resultante. ¿Qué forma tiene el estimador resultante?.
+
+1. Suponga que la información del ejercicio 8.7. es el resultado de un plan de muestreo Poisson con probabilidad de inclusión $\pi_k=n (x_k/t_x)$. Utilizando los resultados del ejercicio anterior y suponiendo que $x_k=1$ y $q_k=1$, para todo $k\in U$, obtenga una estimación de calibración para el total de habitantes en el municipio, el numero de automóviles en el municipio y el número de efectivos militares en el municipio. Obtenga los correspondientes coeficientes de variación estimados.
+
+1. Sustente o refute las siguientes afirmaciones
+1. Los estimadores de calibración inducidos por la distancia Ji-cuadrado coinciden plenamente con los estimadores de regresión general.
+1. La cantidad $q_k$ es constante para todos los individuos bajo la distancia de entropía.
+1. Bajo la distancia Ji-cuadrado inversa, al minimizar la distancia con respecto a las restricciones de calibración, siempre se llega a que los pesos $w_k$ son iguales al inverso de la probabilidad de inclusión del $k$-ésimo elemento.

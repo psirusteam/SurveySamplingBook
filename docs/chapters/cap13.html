@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Muestreo indirecto – Estrategias de muestreo</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/cap14.html" rel="next">
+<link href="../chapters/cap12.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/cap13.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Muestreo indirecto</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Estrategias de muestreo</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prólogo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Encuestas y estudios por muestreo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Muestras probabilísticas y estimadores</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Muestras con probabilidades simples</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Muestras con probabilidades proporcionales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo estratificado</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Muestreo de conglomerados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Muestreo en varias etapas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimación de parámetros diferentes al total</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimación con información auxiliar</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimadores de calibración</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Muestreo balanceado</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Muestreo en dos fases</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap13.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Muestreo indirecto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Encuestas multi-propósito</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/cap15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Inferencia basada en modelos poblacionales</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#notación" id="toc-notación" class="nav-link active" data-scroll-target="#notación"><span class="header-section-number">13.1</span> Notación</a></li>
+  <li><a href="#estimación-del-total" id="toc-estimación-del-total" class="nav-link" data-scroll-target="#estimación-del-total"><span class="header-section-number">13.2</span> Estimación del total</a></li>
+  <li><a href="#método-de-ponderación-generalizada" id="toc-método-de-ponderación-generalizada" class="nav-link" data-scroll-target="#método-de-ponderación-generalizada"><span class="header-section-number">13.3</span> Método de ponderación generalizada</a>
+  <ul class="collapse">
+  <li><a href="#propiedades" id="toc-propiedades" class="nav-link" data-scroll-target="#propiedades"><span class="header-section-number">13.3.1</span> Propiedades</a></li>
+  <li><a href="#algunas-matrices-especiales" id="toc-algunas-matrices-especiales" class="nav-link" data-scroll-target="#algunas-matrices-especiales"><span class="header-section-number">13.3.2</span> Algunas matrices especiales</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-léxico-gráfico" id="toc-ejemplo-léxico-gráfico" class="nav-link" data-scroll-target="#ejemplo-léxico-gráfico"><span class="header-section-number">13.4</span> Ejemplo léxico-gráfico</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">13.5</span> Ejercicios</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Muestreo indirecto</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="blockquote">
+<p>En algunas situaciones el estadístico no tiene a su disposición nigún marco de muestreo… Esta ausencia implica que no es posible definir la probabilidad de selección de una muestra, haciendo imposible el cálculo del error de muestreo. En otras situaciones, el estadístico sí tiene acceso a marcos de muestreo que no corresponden directamente a las unidades de muestreo de la población objetivo. <span class="citation" data-cites="Lav2007">Lavallé (<a href="#ref-Lav2007" role="doc-biblioref">2007</a>)</span></p>
+</div>
+<p>En la práctica los marcos de muestreo de elementos no están siempre disponibles. Sin embargo, en algunas ocasiones, es posible tener acceso a diferentes marcos de lista de elementos que, si bien no hacen parte de la población objetivo, sí están indirectamente relacionados con ésta. Al proceso de selección de muestras bajo las anteriores condiciones se le llama Muestreo Indirecto que está caracterizado porque la producción de estimaciones de simples totales o medias se puede volver una pesadilla para el estadístico. Para resolver este problema se apela al método de ponderación generalizada, caracterizado por su simplicidad y cuyos estimadores comparten la buena propiedad del insesgamiento, incluso bajo muestreo indirecto.</p>
+<p>Para producir estimaciones, en investigaciones de tipo social, económico, etc., generadas mediante una estrategia de muestreo <span class="math inline">\((p(s),\hat{T}(S))\)</span> es imprescindible el acceso, al menos de manera implícita, a un marco de muestreo de elementos de la población objetivo, denotada como <span class="math inline">\(U_B\)</span>. Desafortunadamente, el acceso a tal marco de muestreo es, en la mayoría de ocasiones, difícil de conseguir. Sin embargo, a veces, es posible considerar la disponibilidad de un marco muestral de elementos<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> de alguna otra población <span class="math inline">\(U_A\)</span> vinculados con los elementos de la población objetivo.</p>
+<p>Se pretende seleccionar una muestra probabilística <span class="math inline">\(s_A\)</span> de la población <span class="math inline">\(U_A\)</span> para obtener estimaciones para la población <span class="math inline">\(U_B\)</span> usando la correspondencia entre las dos poblaciones. Por ejemplo, asuma que se desean obtener estimaciones de una población de niños con la restricción de que sólo se tiene acceso a una lista de padres conteniendo la respectiva identificación y ubicación de cada uno de ellos. La población objetivo son los niños, pero es necesario seleccionar una muestra de padres para poder entrevistar a los niños.</p>
+<section id="notación" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="notación"><span class="header-section-number">13.1</span> Notación</h2>
+<!-- index: Muestreo indirecto -->
+<p>La población <span class="math inline">\(U_A\)</span> contiene <span class="math inline">\(N_A\)</span> unidades. Cada unidad perteneciente a la población de <span class="math inline">\(U_A\)</span> será rotulada con la letra <span class="math inline">\(j\)</span>. Cada unidad perteneciente a la población objetivo <span class="math inline">\(U_B\)</span> de tamaño <span class="math inline">\(N_B\)</span> será rotulada con la letra <span class="math inline">\(i\)</span>. La correspondencia entre las dos poblaciones <span class="math inline">\(U_A\)</span> y <span class="math inline">\(U_B\)</span> pueden ser representadas por una matriz de vínculos, denotada por <span class="math inline">\(\Theta_{AB}=[\theta_{ij}^{AB}]\)</span> de tamaño <span class="math inline">\(N_A\times N_B\)</span>. Los posibles valores de la matriz están dados de la siguiente manera <span id="eq-matrizab"><span class="math display">\[
+    \theta_{ij}^{AB}\left\{
+                      \begin{array}{ll}
+                        &gt;0, &amp; \hbox{si $j$ está relacionado con $i$;} \\
+                        =0, &amp; \hbox{en otro caso.}
+                      \end{array}
+                    \right.
+\tag{13.1}\]</span></span></p>
+<p>En el ejemplo de los padres, si la matriz de vínculos está dada por <span class="math display">\[
+\Theta_{AB}=
+\left(
+  \begin{array}{ccc}
+    \theta_{11}^{AB} &amp; \theta_{12}^{AB} &amp; 0 \\
+    0 &amp; \theta_{22}^{AB} &amp; 0 \\
+    0 &amp; 0 &amp; \theta_{33}^{AB} \\
+    0 &amp; 0 &amp; \theta_{43}^{AB} \\
+  \end{array}
+\right)
+\]</span></p>
+<p>entonces los vínculos existentes entre las dos poblaciones serían los siguientes</p>
+<ul>
+<li>La primera pareja, dada por los elementos 1 y 2 de la población <span class="math inline">\(U_A\)</span> tiene un hijo notado como el segundo elemento de la población <span class="math inline">\(U_B\)</span>.</li>
+<li>Sin embargo, el elemento 1 de la población <span class="math inline">\(U_A\)</span> tiene otro hijo por fuera del matrimonio y es notado como el primer elemento de la población <span class="math inline">\(B\)</span>.</li>
+<li>La segunda pareja, dada por los elementos 3 y 4 de la población <span class="math inline">\(U_A\)</span>, tiene sólo un hijo notado como el tercer y último elemento de la población <span class="math inline">\(U_B\)</span></li>
+</ul>
+<p>Usualmente, cuando existe un vínculo entre el elemento <span class="math inline">\(j\)</span>-ésimo de la población <span class="math inline">\(U_A\)</span> y el <span class="math inline">\(i\)</span>-ésimo elemento de la población <span class="math inline">\(U_B\)</span>, <span class="math inline">\(\theta_{ij}^{AB}\)</span> toma el valor uno. Aunque el vínculo puede ser distinto de uno como es discutido en <span class="citation" data-cites="Lav2007">(<a href="#ref-Lav2007" role="doc-biblioref">Lavallé 2007</a>)</span>.</p>
+<p>Usando muestreo indirecto, una muestra <span class="math inline">\(s_A\)</span> de tamaño <span class="math inline">\(n_A\)</span> es seleccionada (realizada) mediante el uso de un diseño muestral <span class="math inline">\(p_A(s_A)\)</span>. Sean <span class="math inline">\(\pi^A_j&gt;0\)</span> <span class="math inline">\(\forall j \in U_A\)</span>la probabilidad de inclusión del <span class="math inline">\(j\)</span>-ésimo elemento. Para cada elemento en la muestra <span class="math inline">\(s_A\)</span> se identifican las unidades en <span class="math inline">\(U_B\)</span> cuya correspondencia con los elementos de la población <span class="math inline">\(U_A\)</span> es no nula, es decir tales que <span class="math inline">\(\theta_{ij}^{AB}&gt;0\)</span>. Sea <span class="math inline">\(s_B\)</span> el conjunto de <span class="math inline">\(n_B\)</span> unidades de la población objetivo que se lograron identificar con ayuda de los elemento pertenecientes a la población <span class="math inline">\(U_A\)</span>. Por tanto</p>
+<p><span class="math display">\[
+s_B=\{i\in B \mid \exists j\in s_A\text{ y }\theta_{ij}^{AB}&gt; 0 \}
+\]</span></p>
+<p>Para cada elemento identificado en la población objetivo se realiza el proceso de medición de la característica de interés <span class="math inline">\(y\)</span>. Sin embargo, el número de elementos de la población objetivo identificadas por el proceso de muestreo indirecto es generalmente aleatorio porque no sólo depende de la muestra seleccionada <span class="math inline">\(s_A\)</span> sino que también de la matriz de vínculo <span class="math inline">\(\Theta_{AB}\)</span>. Así que se torna muy complicado establecer un presupuesto para la etapa de recolección de la información; afortunadamente, en algunas poblaciones (como la de los padres e hijos) es posible predecir el número de vínculos entre las poblaciones (por ejemplo, un padre tiene uno, dos o incluso tres hijos).</p>
+<p>Un requisito importante, a la hora de aplicar el muestreo indirecto, es que para todas las unidades seleccionadas en al muestra <span class="math inline">\(s_A\)</span> se puede obtener la correspondencia a la población objetivo y viceversa. Este es un supuesto muy fuerte, aunque necesario. Por ejemplo, es fácil que un padre pueda identificar a todos sus hijos, por otro lado no es tan sencillo que un niño muy joven pueda identificar a sus padres divorciados. Sin embargo, este problema operativo se considera despreciable en términos del desarrollo teórico. De tal forma que es posible conocer los valores de la matriz <span class="math inline">\(\Theta_{AB}\)</span> para las filas <span class="math inline">\(j\in s_A\)</span> así como también para las columnas <span class="math inline">\(i\in s_B\)</span>.</p>
+</section>
+<section id="estimación-del-total" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="estimación-del-total"><span class="header-section-number">13.2</span> Estimación del total</h2>
+<!-- index: Estimación del total en muestreo indirecto -->
+<p>El objetivo es estimar el total de <span class="math inline">\(y\)</span> en la población objetivo <span class="math display">\[
+\begin{aligned}
+t_y&amp;=\sum_{i\in U_B}y_i\\
+&amp;=\mathbf{1}_B\mathbf{y}
+\end{aligned}
+\]</span></p>
+<p>donde <span class="math inline">\(\mathbf{1}_B\)</span> es el vector de unos de tamaño <span class="math inline">\(N_B\)</span> y <span class="math inline">\(\mathbf{y}=(y_1,\ldots,y_{N_B})'\)</span>. Ahora, se tiene la siguiente definición que coadyuvará en la estimación del total poblacional.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definición">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<!-- index: Matriz de vínculo -->
+<p>La matriz de vínculo estándar se define como <span class="math display">\[
+\begin{aligned}
+\tilde{\Theta}_{AB}=\Theta_{AB}[\textrm{diag}(\mathbf{1}_A\Theta_{AB})]^{-1}
+\end{aligned}
+\]</span> Con base en lo anterior, nótese que <span class="math display">\[
+\begin{aligned}
+\mathbf{1}_A'\Theta_{AB}=(\theta_{+1}^{AB},\theta_{+2}^{AB},\ldots,\theta_{+N_B}^{AB})
+\end{aligned}
+\]</span></p>
+<p>donde <span class="math inline">\(\theta_{+i}^{AB}=\sum_{j\in U_A}\theta_{ji}^{AB}\)</span> debe ser no nula<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> para todo <span class="math inline">\(i\in U_B\)</span>. Con esto (14.2.3) está bien definida y por lo tanto <span class="math inline">\(\tilde{\Theta}_{ji}^{AB}=\dfrac{\theta_{ji}^{AB}}{\theta_{+i}^{AB}}\)</span>.</p>
+</div>
+</div>
+<p>En la población de ejemplo, significaría que todo hijo debe estar vinculado al menos a un padre, lo cual es lógico en este contexto específico. Sin embargo esta lógica no siempre se cumple y en algunas ocasiones la definición propia de la población <span class="math inline">\(U_A\)</span> es compleja.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Resultado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <span class="math inline">\(\tilde{\Theta}_{AB}\)</span> es una matriz de vínculo estándar, entonces <span class="math display">\[
+\begin{aligned}
+\tilde{\Theta}_{AB}'\mathbf{1}_A=\mathbf{1}_B
+\end{aligned}
+\]</span></p>
+<p><strong>Prueba.</strong> Desarrollando algebraicamente, se tiene la demostración directamente al aplicar la anterior definición, de la siguiente manera: <span class="math display">\[
+\begin{aligned}
+\tilde{\Theta}_{AB}'\mathbf{1}_A&amp;=\left(\left[\textrm{diag}(\mathbf{1}_A\Theta_{AB})\right]^{-1}\right)'\Theta_{AB}'\mathbf{1}_A\\
+&amp;=[\textrm{diag}(\mathbf{1}_A\Theta_{AB})]^{-1}(\mathbf{1}_A'\Theta_{AB})'\\
+&amp;=\left(
+    \begin{array}{cccc}
+      \frac{1}{\theta_{+1}^{AB}} &amp; 0 &amp; \cdots &amp; 0 \\
+      0 &amp; \frac{1}{\theta_{+2}^{AB}} &amp; \cdots &amp; 0 \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      0 &amp; 0 &amp; \ldots &amp; \frac{1}{\theta_{+N_B}^{AB}}
+    \end{array}
+  \right)\left(
+           \begin{array}{c}
+             \theta_{+1}^{AB} \\
+             \theta_{+2}^{AB} \\
+             \vdots \\
+             \theta_{+N_B}^{AB} \\
+           \end{array}
+         \right)=\mathbf{1}_B
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Resultado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El total poblacional de la característica de interés puede ser reescrito de la siguiente manera <span class="math display">\[
+\begin{aligned}
+t_y=\sum_{j \in U_A}\sum_{i \in U_B}\dfrac{\theta_{ji}^{AB}}{\theta_{+i}^{AB}}y_i
+\end{aligned}
+\]</span></p>
+<p><strong>Prueba.</strong> Directamente de la definición de la matriz de vínculo estándar, se tiene que <span class="math display">\[
+\begin{aligned}
+t_y&amp;=\mathbf{1}_B'\mathbf{y}\\
+&amp;=\mathbf{1}_A'\tilde{\Theta}_{AB}\mathbf{y}=\sum_{j \in U_A}\sum_{i \in U_B}\dfrac{\theta_{ji}^{AB}}{\theta_{+i}^{AB}}y_i
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<p>A continuación se define el vector columna <span class="math inline">\(\mathbf{z}=\tilde{\Theta}_{AB}\mathbf{y}\)</span> de tamaño <span class="math inline">\(N_A\)</span> cuyo <span class="math inline">\(j\)</span>-ésimo elemento es <span class="math inline">\(z_j=\sum_{i \in U_B}\tilde{\theta}_{ji}^{AB}y_i\)</span> establecido para la población <span class="math inline">\(U_A\)</span> y medido en la muestra <span class="math inline">\(s_A\)</span>. Para estimar <span class="math inline">\(t_y\)</span>, se debe recurrir a la utilización de los valores de <span class="math inline">\(y_i\)</span> medidos en la muestra <span class="math inline">\(s_B\)</span>, de tal forma que es posible construir el siguiente estimador <span class="math display">\[
+\begin{aligned}
+\hat{t}_y&amp;=\sum_{i\in U_B}w_iy_i\\
+&amp;=\mathbf{w}'\mathbf{y}
+\end{aligned}
+\]</span></p>
+<p>donde <span class="math inline">\(\mathbf{w}=(w_1,\ldots,w_{N_B})\)</span>, <span class="math inline">\(w_i\)</span> es la ponderación estimada del <span class="math inline">\(i\)</span>-ésimo elemento de <span class="math inline">\(s_B\)</span>. Por supuesto, <span class="math inline">\(w_i=0\)</span> si <span class="math inline">\(i\notin s_B\)</span>. Para que <span class="math inline">\(\hat{t}_y\)</span> sea insesgado es usual definir <span class="math inline">\(w_i=(\pi_i^B)^{-1}\)</span>. Sin embargo, esta escogencia, aunque posible en la teoría, es muy difícil de hallar en muestreo indirecto puesto que se debe tener conocimiento de todos los posibles vínculos generados por todas las posibles muestras <span class="math inline">\(a_A\)</span>.</p>
+</section>
+<section id="método-de-ponderación-generalizada" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="método-de-ponderación-generalizada"><span class="header-section-number">13.3</span> Método de ponderación generalizada</h2>
+<!-- index: Ponderación generalizada -->
+<p>La muestra <span class="math inline">\(s_A\)</span> fue seleccionada de acuerdo a un diseño de muestreo <span class="math inline">\(p_A(s_A)\)</span>. Este diseño de muestreo induce un vector de probabilidades de inclusión para todos los elementos de <span class="math inline">\(U_A\)</span>. Sea <span class="math inline">\(\mathbf{\boldsymbol{\Pi}}_A=diag(\pi^A_1,\ldots,\pi^A_{N_A})\)</span> una matriz diagonal de tamaño <span class="math inline">\(N_A\times N_A\)</span> conteniendo las probabilidades de inclusión para <span class="math inline">\(j\in U_A\)</span> en su diagonal. De igual manera, se define la matriz de inclusión de los elementos en la muestra dada por <span class="math inline">\(\mathbf{I_A}=diag(I_1^A,\ldots,I_{N_A}^A)\)</span> con <span class="math display">\[
+I_j^A(S_A)=
+\begin{cases}
+1 &amp; \text{si $i \in S_A$}\\
+0 &amp; \text{si $i \notin S_A$}.
+\end{cases}
+\]</span></p>
+<p>Partiendo de que el total poblacional toma la siguiente forma <span class="math display">\[
+\begin{aligned}
+t_y&amp;=\mathbf{1}_A'\tilde{\Theta}_{AB}\mathbf{y}\\
+&amp;=\mathbf{1}_A'\mathbf{z}
+\end{aligned}
+\]</span></p>
+<p>entonces, es posible construir una expresión que respete los principios del estimador de Horvitz-Thompson en términos del vector <span class="math inline">\(\mathbf{Z}\)</span>. Por lo tanto <span class="math display">\[
+\begin{aligned}
+\hat{t}_y=\hat{t}_{z,\pi}&amp;=\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\mathbf{z}\\
+&amp;=\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\tilde{\Theta}_{AB}\mathbf{y}
+\end{aligned}
+\]</span></p>
+<p>Por ello, se define el vector de ponderaciones para la población objetivo <span class="math inline">\(U_B\)</span> como <span class="math display">\[
+\begin{aligned}
+\mathbf{w}=\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\tilde{\Theta}_{AB}
+\end{aligned}
+\]</span></p>
+<p>donde cada elemento de <span class="math inline">\(\mathbf{w}\)</span>, el cual es un vector de tamaño <span class="math inline">\(N_B\)</span>, está definido por la siguiente expresión <span class="math display">\[
+\begin{aligned}
+w_i=
+\begin{cases}
+\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{ji}^{AB}}{\pi_j^A}, &amp; \text{para todo $i\in s_B$}\\
+0, &amp; \text{para todo $i\notin s_B$}
+\end{cases}
+\end{aligned}
+\]</span></p>
+<p>De esta forma, se dice que los pesos <span class="math inline">\(w_i\)</span> han sido obtenidos mediante el método de ponderación generalizada tal como se describe en <span class="citation" data-cites="Lav2007">(<a href="#ref-Lav2007" role="doc-biblioref">Lavallé 2007</a>)</span>. En este orden de ideas, y retomando nuestro ejemplo de la población de padres e hijos, si la muestra realizada de padres estuviera dada por</p>
+<p>entonces el conjunto de niños identificados por los padres seleccionados estaría dado por</p>
+<p>y las ponderaciones resultantes serían</p>
+<ul>
+<li><span class="math inline">\(w_1=0\)</span> pues el <strong>Niño 1</strong> no fue identificado por ningún padre</li>
+<li>Para el <strong>Niño 2</strong> se tiene que <span class="math display">\[
+\begin{aligned}
+w_2&amp;=\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{j2}^{AB}}{\pi_1^A}\\
+&amp;=\sum_{j\in s_A}\dfrac{\tilde{\Theta}_{j2}^{AB}}{\pi_1^A}\\
+&amp;=\dfrac{\tilde{\Theta}_{22}^{AB}}{\pi_2^A}+\dfrac{\tilde{\Theta}_{23}^{AB}}{\pi_3^A}\\
+&amp;=\dfrac{\Theta_{22}^{AB}}{\Theta_{+2}^{AB}}\dfrac{1}{\pi_2^A}+\dfrac{\Theta_{23}^{AB}}{\Theta_{+2}^{AB}}\dfrac{1}{\pi_3^A}
+\end{aligned}
+\]</span></li>
+<li>Para el <strong>Niño 3</strong> se tiene que <span class="math display">\[
+\begin{aligned}
+w_3&amp;=\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{j3}^{AB}}{\pi_1^A}\\
+&amp;=\sum_{j\in s_A}\dfrac{\tilde{\Theta}_{j3}^{AB}}{\pi_1^A}\\
+&amp;=\dfrac{\tilde{\Theta}_{32}^{AB}}{\pi_2^A}+\dfrac{\tilde{\Theta}_{33}^{AB}}{\pi_3^A}\\
+&amp;=\dfrac{\Theta_{32}^{AB}}{\Theta_{+3}^{AB}}\dfrac{1}{\pi_2^A}+\dfrac{\Theta_{33}^{AB}}{\Theta_{+3}^{AB}}\dfrac{1}{\pi_3^A}
+\end{aligned}
+\]</span></li>
+</ul>
+<section id="propiedades" class="level3" data-number="13.3.1">
+<h3 data-number="13.3.1" class="anchored" data-anchor-id="propiedades"><span class="header-section-number">13.3.1</span> Propiedades</h3>
+<!-- index: Ponderación generalizada -->
+<p>Se tienen las siguientes propiedades generadas de los pesos del método de ponderación generalizada</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Resultado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El estimador <span class="math inline">\(t_y\)</span> es insesgado</p>
+<p><strong>Prueba.</strong> Basta con demostrar que <span class="math inline">\(E(\mathbf{w})=\mathbf{1}_B\)</span>. Esto se tiene por construcción, dado que el estimador de Horvitz-Thompson es insesgado puesto que la esperanza de las variables indicadoras <span class="math inline">\(I_j\)</span> es igual a la probabilidad de inclusión <span class="math inline">\(\pi_j^A\)</span>. De esta manera, se tiene que <span class="math display">\[
+\begin{aligned}
+E(\hat{t}_y)&amp;=E(\mathbf{w})y\\
+&amp;=E(\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\tilde{\Theta}_{AB})y\\
+&amp;=\mathbf{1}_A'E(\mathbf{I_A})\mathbf{\boldsymbol{\Pi}}_A^{-1}\tilde{\Theta}_{AB}y\\
+&amp;=\mathbf{1}_A'\mathbf{\boldsymbol{\Pi}}_A\mathbf{\boldsymbol{\Pi}}_A^{-1}\tilde{\Theta}_{AB}y\\
+&amp;=\mathbf{1}_A'\tilde{\Theta}_{AB}y\\
+&amp;=\mathbf{1}_B'y=t_y
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Resultado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El vector <span class="math inline">\(\mathbf{w}\)</span> provee estimaciones insesgadas si y sólo si la matriz <span class="math inline">\(\tilde{\Theta}_{AB}\)</span> es una matriz de vínculo estándar</p>
+<p><strong>Prueba.</strong> Se tiene que <span class="math inline">\(E(\mathbf{w})=\tilde{\Theta}_{AB}'\mathbf{1}_A\)</span>; sin embargo asumiendo, por el resultado anterior, que el vector de pesos induce estimaciones insesgadas tenemos que <span class="math inline">\(E(\mathbf{w})=\mathbf{1}_B\)</span>. Por tanto <span class="math inline">\(\tilde{\Theta}_{AB}'\mathbf{1}_A=\mathbf{1}_B\)</span> y, con base en este razonamiento, se tiene la demostración del resultado.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Resultado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La varianza de <span class="math inline">\(\hat{t}_y\)</span> está dada por <span class="math display">\[
+\begin{aligned}
+Var(\hat{t}_y)&amp;=\mathbf{z}'\mathbf{\Delta}_A\mathbf{z}\\
+&amp;=\mathbf{y}'\mathbf{\Delta}_{B}\mathbf{y}
+\end{aligned}
+\]</span> donde <span class="math inline">\(\mathbf{\Delta}_{B}=\tilde{\Theta}_{AB}'\mathbf{\Delta}_{A}\tilde{\Theta}_{AB}\)</span> y <span class="math inline">\(\mathbf{\Delta}_A\)</span> es la matriz de varianzas y covarianzas de tamaño <span class="math inline">\(N_A\times N_A\)</span> de las variables indicadoras de los elementos de la población <span class="math inline">\(U_A\)</span> doblemente ponderada por probabilidades de inclusion cuyo elemento <span class="math inline">\(jj'\)</span> está dado por <span class="math display">\[
+[\mathbf{\Delta}_A]_{jj'}=\frac{\Delta_{jj'}^A}{\pi_j^A\pi_{j'}^A}=\frac{\pi_{jj'}^A-\pi_{j}^A\pi_{j'}^A}{\pi_j^A\pi_{j'}^A}
+\]</span></p>
+<p><strong>Prueba.</strong> Siguiendo los principios del estimador de Horvitz-Thompson se tiene la demostración de manera inmediata, puesto que</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{z}'\mathbf{\Delta}_A\mathbf{z}&amp;=(z_1,\ldots,z_{N_A})
+\begin{pmatrix}
+\frac{\Delta_{11}^A}{\pi_1^A\pi_{1}^A} &amp; \ldots &amp; \frac{\Delta_{1N_A}^A}{\pi_1^A\pi_{N_A}^A} \\
+\vdots                                   &amp; \ddots &amp; \vdots                                   \\
+\frac{\Delta_{N_A1}^A}{\pi_{N_A}^A\pi_1^A} &amp; \ldots &amp; \frac{\Delta_{N_AN_A}^A}{\pi_{N_A}^A\pi_{N_A}^A} \\
+\end{pmatrix}
+\begin{pmatrix}
+z_1     \\
+\vdots  \\
+z_{N_A} \\
+\end{pmatrix}\\
+&amp;=\left(\sum_{j\in U_A}z_j\frac{\Delta_{j1}^A}{\pi_1^A\pi_{j}^A},\ldots,\sum_{j\in U_A}z_j\frac{\Delta_{jN_A}^A}{\pi_{N_A}^A\pi_{j}^A}\right)
+\begin{pmatrix}
+z_1     \\
+\vdots  \\
+z_{N_A} \\
+\end{pmatrix}\\
+&amp;=\sum_{j\in U_A}\sum_{j'\in U_A}\Delta_{jj'}\frac{z_j}{\pi_j^A}\frac{z_{j'}}{\pi_{j'}^A}=Var(\hat{t}_{z,\pi})
+\end{aligned}
+\]</span> y reemplazando convenientemente se obtiene la demostración.</p>
+</div>
+</div>
+</section>
+<section id="algunas-matrices-especiales" class="level3" data-number="13.3.2">
+<h3 data-number="13.3.2" class="anchored" data-anchor-id="algunas-matrices-especiales"><span class="header-section-number">13.3.2</span> Algunas matrices especiales</h3>
+<!-- index: Matriz de vínculo -->
+<p>En general, el muestreo indirecto produce estimaciones insesgadas si se utiliza el método de ponderación generalizada. Sin embargo, vale la pena presentar casos especiales de matrices de vínculo que ilustren el comportamiento del estimador de Horvitz-Thompson. En este apartado, se presentan algunas de estas matrices que corresponden a casos extremos, que aunque posiblemente no sean plausibles en la práctica, sirven para ilustrar el efecto de la matriz de vínculo sobre el estimador del total poblacional de la característica de interés.</p>
+<section id="matriz-identidad" class="level4" data-number="13.3.2.1">
+<h4 data-number="13.3.2.1" class="anchored" data-anchor-id="matriz-identidad"><span class="header-section-number">13.3.2.1</span> Matriz identidad</h4>
+<!-- index: Matriz de vínculo -->
+<p>Al asumir que la matriz de vínculo es una matriz identidad, se tiene que la población <span class="math inline">\(U_A\)</span> y la población <span class="math inline">\(U_B\)</span> tienen una correspondencia uno a uno. Esto implica que el tamaño de las dos poblaciones es el mismo, así <span class="math inline">\(N_A=N_B=N\)</span> y que la matriz de vínculo está dada por <span class="math display">\[
+\begin{aligned}
+\Theta_{AB}=\mathbf{I}_{N\times N}=
+\left(
+    \begin{array}{cccc}
+      1 &amp; 0 &amp; \cdots &amp; 0 \\
+      0 &amp; 1 &amp; \cdots &amp; 0 \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      0 &amp; 0 &amp; \ldots &amp; 1
+    \end{array}
+  \right)
+\end{aligned}
+\]</span></p>
+<p>Con lo que el vector de pesos es <span class="math display">\[
+\mathbf{w}=\left(\frac{I^A_1}{\pi_1^A},\cdots,\frac{I^A_{N_A}}{\pi_{N_A}^A}\right)'
+\]</span></p>
+<p>y por tanto <span class="math inline">\(\mathbf{Z=y}\)</span>. Luego, el estimador <span class="math inline">\(\hat{t}_y\)</span> tomará la forma del estimador de Narain-Horvitz-Thompson así <span class="math display">\[
+\begin{aligned}
+\hat{t}_y=\hat{t}_{y,N\pi}&amp;=\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\mathbf{y}
+\end{aligned}
+\]</span></p>
+</section>
+<section id="uno-para-todos" class="level4" data-number="13.3.2.2">
+<h4 data-number="13.3.2.2" class="anchored" data-anchor-id="uno-para-todos"><span class="header-section-number">13.3.2.2</span> Uno para todos</h4>
+<!-- index: Matriz de vínculo -->
+<p>Considere el caso en que la población objetivo se encuentra particionada en <span class="math inline">\(N_I^B\)</span> conglomerados, cada uno de tamaño <span class="math inline">\(N_i^B\)</span> <span class="math inline">\(i=1,\ldots,N_I^B\)</span>. Cada conglomerados de <span class="math inline">\(U_I^B\)</span> está asociado exactamente con un elemento <span class="math inline">\(j\)</span> de <span class="math inline">\(U_A\)</span>. Nótese que <span class="math inline">\(N_I^B=N^A\)</span>. Por tanto, la matriz de vínculo está dada por <span class="math display">\[
+\begin{aligned}
+\Theta_{AB}=
+\left(
+    \begin{array}{cccc}
+      \mathbf{1}'_{B1} &amp; \mathbf{0} &amp; \cdots &amp; \mathbf{0} \\
+      \mathbf{0} &amp; \mathbf{1}'_{B2} &amp; \cdots &amp; \mathbf{0} \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      \mathbf{0} &amp; \mathbf{0} &amp; \ldots &amp; \mathbf{1}'_{BN_I^B}
+    \end{array}
+  \right)
+\end{aligned}
+\]</span></p>
+<p>donde <span class="math inline">\(\mathbf{1}_{Bi}\)</span> el vector de unos de tamaño <span class="math inline">\(N_i^B\)</span> <span class="math inline">\(i=1,\ldots,N_I\)</span>. La matriz de vínculo también puede ser escrita como <span class="math inline">\(\Theta_{AB}=\textrm{diag}(\mathbf{1}'_{B1},\ldots,\mathbf{1}'_{BN_I^B}\)</span> por tanto la matriz de vínculo estandarizada toma la siguiente forma <span class="math display">\[
+\begin{aligned}
+\tilde{\Theta}_{AB}&amp;=\Theta_{AB}[\textrm{diag}(\mathbf{1}_A\Theta_{AB})]^{-1}\\
+&amp;=\Theta_{AB}[\textrm{diag}(\mathbf{1}_A\textrm{diag}(\mathbf{1}'_{B1},\ldots,\mathbf{1}'_{BN_I^B}))]^{-1}\\
+&amp;=\Theta_{AB}[\textrm{diag}(\mathbf{1}'_{B1},\ldots,\mathbf{1}'_{BN_I^B})]^{-1}\\
+&amp;=\Theta_{AB}[\mathbf{I}_{\sum_{i=1}^{N_i}N_i^B\times \sum_{i=1}^{N_i}N_i^B}]^{-1}\\
+&amp;=\Theta_{AB}
+\end{aligned}
+\]</span></p>
+<p>Se tiene entonces que el vector de pesos <span class="math inline">\(\mathbf{w}\)</span> está definido como <span class="math display">\[
+\begin{aligned}
+\mathbf{w}=\left(\dfrac{I_1^A}{\pi_1^A}\mathbf{1}_{B1},\ldots,\dfrac{I_{N_I^A}^A}{\pi_1^A}\mathbf{1}_{BN_I^B}\right)'
+\end{aligned}
+\]</span></p>
+<p>y el estimador se puede escribir como <span class="math display">\[
+\begin{aligned}
+\hat{t}_y&amp;=\sum_{i=1}^{N_I^B}\dfrac{I_i^A}{\pi_i^A}t_{y,U_i}
+\end{aligned}
+\]</span></p>
+<p>donde <span class="math inline">\(t_{y,U_i}=\sum_{k\in U_i^B}y_k\)</span> es el total de <span class="math inline">\(i\)</span>-ésimo conglomerado de la población <span class="math inline">\(U_I^B\)</span></p>
+</section>
+<section id="todos-para-uno" class="level4" data-number="13.3.2.3">
+<h4 data-number="13.3.2.3" class="anchored" data-anchor-id="todos-para-uno"><span class="header-section-number">13.3.2.3</span> Todos para uno</h4>
+<!-- index: Matriz de vínculo -->
+<p>En este caso se considera que la población <span class="math inline">\(U^A\)</span> está particionada en <span class="math inline">\(N_I^A\)</span> conglomerados, cada uno de tamaño <span class="math inline">\(N_j^A\)</span> <span class="math inline">\(j=1,\ldots,N_I^A\)</span>. Cada conglomerado de <span class="math inline">\(U_I^A\)</span> está asociado exactamente con un elemento <span class="math inline">\(i\)</span> de <span class="math inline">\(U_B\)</span>. Nótese que <span class="math inline">\(N_I^A=N^B\)</span>. Por tanto, la matriz de vínculo está dada por <span class="math display">\[
+\begin{aligned}
+\Theta_{AB}=
+\left(
+    \begin{array}{cccc}
+      \mathbf{1}_{A1} &amp; \mathbf{0} &amp; \cdots &amp; \mathbf{0} \\
+      \mathbf{0} &amp; \mathbf{1}_{A2} &amp; \cdots &amp; \mathbf{0} \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      \mathbf{0} &amp; \mathbf{0} &amp; \ldots &amp; \mathbf{1}'_{AN_I^A}
+    \end{array}
+  \right)
+\end{aligned}
+\]</span></p>
+<p>donde <span class="math inline">\(\mathbf{1}_{Aj}\)</span> el vector de unos de tamaño <span class="math inline">\(N_i^A\)</span> <span class="math inline">\(j=1,\ldots,N_I^A\)</span>. En este caso particular, la matriz de vínculo estandarizada está dada por la siguiente expresión <span class="math display">\[
+\begin{aligned}
+\tilde{\Theta}_{AB}&amp;=\Theta_{AB}[\textrm{diag}(\mathbf{1}_A\Theta_{AB})]^{-1}\\
+&amp;=\textrm{diag}(\dfrac{1}{N_1^A}\mathbf{1}_{A1},\ldots,\dfrac{1}{N_{N_I^A}^A}\mathbf{1}_{AN_I^A})
+\end{aligned}
+\]</span></p>
+<p>Se tiene entonces que el vector de pesos <span class="math inline">\(\mathbf{w}\)</span> está definido como <span class="math display">\[
+\begin{aligned}
+\mathbf{w}=\left(\dfrac{1}{N_1^A}\sum_{j\in U_I^A}\dfrac{I_j^A}{\pi_j^A},\ldots,\dfrac{1}{N_{N_I^A}^A}\sum_{j\in U_{N_I^A}^A}\dfrac{I_j^A}{\pi_j^A}\right)'
+\end{aligned}
+\]</span></p>
+<p>y el estimador resultante toma la siguiente forma <span class="math display">\[
+\begin{aligned}
+\hat{t}_y&amp;=\sum_{i=1}^{N_I^A}\dfrac{y_i}{N_i^A}\sum_{j\in U_{i}^A}\dfrac{I_j^A}{\pi_j^A}
+\end{aligned}
+\]</span></p>
+</section>
+</section>
+</section>
+<section id="ejemplo-léxico-gráfico" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="ejemplo-léxico-gráfico"><span class="header-section-number">13.4</span> Ejemplo léxico-gráfico</h2>
+<!-- index: Muestreo indirecto -->
+<p>Suponga que en el ejemplo de la población de Padres e Hijos, cuya matriz de vínculos está dada por la expresión (14.1.2), y se plantea una investigación acerca de la estimación del total de los Hijos. Para tales efectos, se supone que la matriz de vínculos, siguiendo el consejo de <span class="citation" data-cites="Lav2007">Lavallé (<a href="#ref-Lav2007" role="doc-biblioref">2007</a>)</span> está dada por <span class="math display">\[
+\Theta_{AB}=
+\left(
+  \begin{array}{ccc}
+    1 &amp; 1 &amp; 0 \\
+    0 &amp; 1 &amp; 0 \\
+    0 &amp; 0 &amp; 1 \\
+    0 &amp; 0 &amp; 1 \\
+  \end{array}
+\right)
+\]</span></p>
+<p>En resumen, la población de los Padres <span class="math inline">\(U_A\)</span> está compuesta por <span class="math inline">\(N_A=4\)</span> individuos. Se desea seleccionar una muestra <span class="math inline">\(S_A\)</span> de <span class="math inline">\(n_A=2\)</span> individuos mediante un diseño de muestreo aleatorio simple. Bajo esta configuración existen <span class="math inline">\(\binom{4}{2}=6\)</span> posibles muestras. Por otro lado, la población objetivo <span class="math inline">\(U_B\)</span> está compuesta por <span class="math inline">\(N_B=3\)</span> Hijos cuyas edades son 2 años, 3 años y 3 años, en estricto orden; es decir, el total poblacional de la característica de interés es <span class="math inline">\(2+3+3=8\)</span> años. Repasemos cada una de las posible muestras y veamos que, efectivamente, el estimador resultante es insesgado para el total poblacional.</p>
+<p>Con esta configuración, es necesario hallar la matriz de vínculo estándar poblacional. De esta manera de la definición 14.2.1, se tiene que <span class="math display">\[
+\theta_{+1}^{AB}=1, \ \ \ \ \theta_{+2}^{AB}=2, \ \ \ \ \theta_{+3}^{AB}=2
+\]</span></p>
+<p>Por lo tanto, la matriz de vínculo estándar está dada por <span class="math display">\[
+\tilde{\Theta}_{AB}=
+\left(
+  \begin{array}{ccc}
+    1 &amp; 1/2 &amp; 0 \\
+    0 &amp; 1/2 &amp; 0 \\
+    0 &amp; 0 &amp; 1/2 \\
+    0 &amp; 0 &amp; 1/2 \\
+  \end{array}
+\right)
+\]</span></p>
+<ul>
+<li><strong>Primera muestra</strong>: <span class="math inline">\(s_A=\{Padre1, Padre2\}\)</span>. El Padre1 vincula al Hijo1 y al Hijo2, mientras que el Padre2 solamente vincula al Hijo2. De esta manera queda definida la muestra de la población objetivo como <span class="math inline">\(s_B=\{Hijo1, Hijo2\}\)</span>. Las ponderaciones están dadas a continuación.</li>
+</ul>
+<ol type="1">
+<li><span class="math inline">\(w_1=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j1}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j1}=2(1+0)=2\)</span></li>
+<li><span class="math inline">\(w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+1/2)=2\)</span></li>
+<li><span class="math inline">\(w_3=0\)</span> puesto que ningún Padre lo vinculó. Después de recolectadas las observaciones, el vector de valores para la característica de interés es <span class="math inline">\(y_s=(2,3)\)</span> se tiene que la estimación es <span class="math inline">\(\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(2\times 3)=10\)</span></li>
+</ol>
+<ul>
+<li><strong>Segunda muestra</strong>: <span class="math inline">\(s_A=\{Padre1, Padre3\}\)</span>. El Padre1 vincula al Hijo1 y al Hijo2, mientras que el Padre3 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como <span class="math inline">\(s_B=\{Hijo1, Hijo2, Hijo3\}\)</span>. Las ponderaciones están dadas a continuación.</li>
+</ul>
+<ol type="1">
+<li><span class="math inline">\(w_1=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j1}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j1}=2(1+0)=2\)</span></li>
+<li><span class="math inline">\(w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1\)</span></li>
+<li><span class="math inline">\(w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1\)</span> Después de recolectadas las observaciones, el vector de valores para la característica de interés es <span class="math inline">\(y_s=(2,3,3)\)</span> se tiene que la estimación es <span class="math inline">\(\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(1\times 3)+(1\times 3)=10\)</span></li>
+</ol>
+<ul>
+<li><strong>Tercera muestra</strong>: <span class="math inline">\(s_A=\{Padre1, Padre4\}\)</span>. El Padre1 vincula al Hijo1 y al Hijo2, mientras que el Padre4 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como <span class="math inline">\(s_B=\{Hijo1, Hijo2, Hijo3\}\)</span>. Las ponderaciones están dadas a continuación.</li>
+</ul>
+<ol type="1">
+<li><span class="math inline">\(w_1=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j1}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j1}=2(1+0)=2\)</span></li>
+<li><span class="math inline">\(w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1\)</span></li>
+<li><span class="math inline">\(w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1\)</span> Después de recolectadas las observaciones, el vector de valores para la característica de interés es <span class="math inline">\(y_s=(2,3,3)\)</span> se tiene que la estimación es <span class="math inline">\(\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(1\times 3)+(1\times 3)=10\)</span></li>
+</ol>
+<ul>
+<li><strong>Cuarta muestra</strong>: <span class="math inline">\(s_A=\{Padre2, Padre3\}\)</span>. El Padre2 vincula solamente al Hijo2, mientras que el Padre4 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como <span class="math inline">\(s_B=\{Hijo2, Hijo3\}\)</span>. Las ponderaciones están dadas a continuación.</li>
+</ul>
+<ol type="1">
+<li><span class="math inline">\(w_1=0\)</span> puesto que ningún Padre lo vinculó.</li>
+<li><span class="math inline">\(w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1\)</span></li>
+<li><span class="math inline">\(w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1\)</span> Después de recolectadas las observaciones, el vector de valores para la característica de interés es <span class="math inline">\(y_s=(3,3)\)</span> se tiene que la estimación es <span class="math inline">\(\hat{t}_y=\sum_{i\in s_B}w_iy_i=(1\times 3)+(1\times 3)=6\)</span></li>
+</ol>
+<ul>
+<li><strong>Quinta muestra</strong>: <span class="math inline">\(s_A=\{Padre2, Padre4\}\)</span>. El Padre2 vincula solamente al Hijo2, mientras que el Padre4 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como <span class="math inline">\(s_B=\{Hijo2, Hijo3\}\)</span>. Las ponderaciones están dadas a continuación.</li>
+</ul>
+<ol type="1">
+<li><span class="math inline">\(w_1=0\)</span> puesto que ningún Padre lo vinculó.</li>
+<li><span class="math inline">\(w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1\)</span></li>
+<li><span class="math inline">\(w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1\)</span> Después de recolectadas las observaciones, el vector de valores para la característica de interés es <span class="math inline">\(y_s=(3,3)\)</span> se tiene que la estimación es <span class="math inline">\(\hat{t}_y=\sum_{i\in s_B}w_iy_i=(1\times 3)+(1\times 3)=6\)</span></li>
+</ol>
+<ul>
+<li><strong>Sexta muestra</strong>: <span class="math inline">\(s_A=\{Padre3, Padre4\}\)</span>. El Padre3 vincula solamente al Hijo3, al igual que el Padre4. De esta manera queda definida la muestra de la población objetivo como <span class="math inline">\(s_B=\{Hijo3\}\)</span>. Las ponderaciones están dadas a continuación.</li>
+</ul>
+<ol type="1">
+<li><span class="math inline">\(w_1=0\)</span> puesto que ningún Padre lo vinculó.</li>
+<li><span class="math inline">\(w_2=0\)</span> puesto que ningún Padre lo vinculó.</li>
+<li><span class="math inline">\(w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(1/2+1/2)=2\)</span> Después de recolectadas las observaciones, el vector de valores para la característica de interés es <span class="math inline">\(y_s=3\)</span> se tiene que la estimación es <span class="math inline">\(\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 3)=6\)</span></li>
+</ol>
+<p>En resumen, promediando las estimaciones con respecto al diseño de muestreo <span class="math inline">\(p_A\)</span>, se encuentra fácilmente que el estimador es insesgado puesto que</p>
+<p><span class="math display">\[
+(1/6)\times(10+10+10+6+6+6)=8=t_y
+\]</span></p>
+<p>Por otro lado, nótese que el diseño de muestreo para la población objetivo, el cual es desconocido siempre que se seleccione una sola muestra, está dado a continuación</p>
+<p><span class="math display">\[
+\begin{aligned}
+p_B(s_B)=
+\begin{cases}
+2/6, &amp; \text{si $s_B=\{Hijo1, Hijo2, Hijo3\}$}\\
+2/6, &amp; \text{si $s_B=\{Hijo2, Hijo3\}$}\\
+1/6, &amp; \text{si $s_B=\{Hijo1, Hijo2\}$}\\
+1/6, &amp; \text{si $s_B=\{Hijo3\}$}
+\end{cases}
+\end{aligned}
+\]</span></p>
+<p>Por supuesto, en un ejercicio ilustrativo de este estilo, sería posible calcular las probabilidades de inclusión y utilizar el estimador de Horvitz-Thompson para estimar el total poblacional. Sin embargo, en la vida práctica esta opción se descarta rápidamente a medida que se aumenta la complejidad del diseño de muestreo y el tamaño de muestra.</p>
+</section>
+<section id="ejercicios" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">13.5</span> Ejercicios</h2>
+<ol type="1">
+<li>Suponga que se requiere la estimación del total de kilovatios al mes consumidos por los hogares de un municipio. Además, asuma que no existe un marco de muestreo de hogares, aunque sí de individuos, y que para acceder a la información requerida se diseña una muestra de individuos a los que se les pregunta por la información de su hogar.</li>
+</ol>
+<ul>
+<li>Argumente por qué este problema puede ser resuelto con un enfoque de muestreo indirecto.</li>
+<li>Con base en lo anterior, proponga un estimador para el total de kilovatios consumidos en los hogares mediante el método de ponderación generalizada.</li>
+<li>Si se seleccionó una muestra de <span class="math inline">\(n\)</span> individuos, defina la probabilidad de inclusión de un hogar compuesto por <span class="math inline">\(M&lt;n\)</span> individuos.</li>
+<li>Con base en lo anterior escriba las expresiones teóricas de los estimadores de Horvitz-Thonmpson y de Hajek para el total de kilovatios consumidos en los hogares.</li>
+</ul>
+<ol type="1">
+<li><p>Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si la muestra <span class="math inline">\(s_A\)</span> se seleccionó de forma aleatoria simple.</p></li>
+<li><p>Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si la muestra <span class="math inline">\(s_A\)</span> se seleccionó de forma aleatoria estratificada.</p></li>
+<li><p>Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si la muestra <span class="math inline">\(s_A\)</span> se seleccionó de forma bietápica.</p></li>
+<li><p>Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si se utiliza un estimador general de regresión con características de información auxiliar de la población <span class="math inline">\(U_A\)</span>.</p></li>
+<li><p>Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si se utiliza un estimador general de regresión con características de información auxiliar de la población <span class="math inline">\(U_B\)</span>.</p></li>
+<li><p>¿Qué formas de ausencia de respuesta se pueden presentar en muestreo indirecto?.</p></li>
+<li><p>Discuta por qué el muestreo de redes se puede ver como un caso particular de muestreo indirecto y proponga un estimador que involucre el método de ponderación generalizada.</p></li>
+<li><p>Discuta por qué el muestreo adaptativo se puede ver como un caso particular de muestreo indirecto y proponga un estimador que involucre el método de ponderación generalizada.</p></li>
+<li><p>Discuta por qué el muestreo bola de nieve se puede ver como un caso particular de muestreo indirecto y proponga un estimador que involucre el método de ponderación generalizada.</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Lav2007" class="csl-entry" role="listitem">
+Lavallé, P. 2007. <em>Indirect Smapling</em>. Springer.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Nótese que este es un caso particular del muestreo de conglomerados si el marco de muestreo de la población <span class="math inline">\(U_A\)</span> fuera de conglomerados<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Esta restricción indica que todos los miembros de la población <span class="math inline">\(U_A\)</span> deben tener al menos un vínculo con algún individuo de la población objetivo. Aún más, con esta restricción, si existe algún miembro de la población <span class="math inline">\(U_A\)</span> que no tenga vínculo con algún miembro de la población <span class="math inline">\(U_B\)</span> no debe ser considerado.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+(function () {
+  var XREF_MAP = {"capitulo 1": "chapters/cap1.html", "capitulo 10": "chapters/cap10.html", "capitulo 11": "chapters/cap10.html", "capitulo 12": "chapters/cap11.html", "capitulo 13": "chapters/cap12.html", "capitulo 14": "chapters/cap13.html", "capitulo 15": "chapters/cap14.html", "capitulo 16": "chapters/cap15.html", "capitulo 2": "chapters/cap1.html", "capitulo 3": "chapters/cap2.html", "capitulo 4": "chapters/cap3.html", "capitulo 5": "chapters/cap4.html", "capitulo 6": "chapters/cap5.html", "capitulo 7": "chapters/cap6.html", "capitulo 8": "chapters/cap7.html", "capitulo 9": "chapters/cap8.html", "definicion 10.1.1": "chapters/cap9.html#definicion-9-1-1", "definicion 10.2.1": "chapters/cap9.html#definicion-9-2-1", "definicion 11.1.1": "chapters/cap11.html#definicion-12-1-1", "definicion 11.1.2": "chapters/cap15.html#definicion-11-1-2", "definicion 11.2.1": "chapters/cap11.html#definicion-12-2-1", "definicion 11.3.1": "chapters/cap15.html#definicion-11-3-1", "definicion 11.3.2": "chapters/cap15.html#definicion-11-3-2", "definicion 11.3.3": "chapters/cap15.html#definicion-11-3-3", "definicion 11.3.4": "chapters/cap15.html#definicion-11-3-4", "definicion 12.1.1": "chapters/cap11.html#definicion-12-1-1", "definicion 12.2.1": "chapters/cap11.html#definicion-12-2-1", "definicion 13.2.1": "chapters/cap13.html#definicion-14-2-1", "definicion 14.2.1": "chapters/cap13.html#definicion-14-2-1", "definicion 15.1.1": "chapters/cap15.html#definicion-11-1-1", "definicion 15.1.2": "chapters/cap15.html#definicion-11-1-2", "definicion 15.3.1": "chapters/cap15.html#definicion-11-3-1", "definicion 15.3.2": "chapters/cap15.html#definicion-11-3-2", "definicion 15.3.3": "chapters/cap15.html#definicion-11-3-3", "definicion 15.3.4": "chapters/cap15.html#definicion-11-3-4", "definicion 16.1.1": "chapters/cap15.html#definicion-11-1-1", "definicion 16.1.2": "chapters/cap15.html#definicion-11-1-2", "definicion 16.3.1": "chapters/cap15.html#definicion-11-3-1", "definicion 16.3.2": "chapters/cap15.html#definicion-11-3-2", "definicion 16.3.3": "chapters/cap15.html#definicion-11-3-3", "definicion 16.3.4": "chapters/cap15.html#definicion-11-3-4", "definicion 2.1.1": "chapters/cap2.html#definicion-2-1-1", "definicion 2.1.2": "chapters/cap2.html#definicion-2-1-2", "definicion 2.1.3": "chapters/cap2.html#definicion-2-1-3", "definicion 2.1.4": "chapters/cap2.html#definicion-2-1-4", "definicion 2.1.5": "chapters/cap2.html#definicion-2-1-5", "definicion 2.1.6": "chapters/cap2.html#definicion-2-1-6", "definicion 2.1.7": "chapters/cap2.html#definicion-2-1-7", "definicion 2.1.8": "chapters/cap2.html#definicion-2-1-8", "definicion 2.1.9": "chapters/cap2.html#definicion-2-1-9", "definicion 2.2.1": "chapters/cap2.html#definicion-2-2-1", "definicion 2.2.2": "chapters/cap2.html#definicion-2-2-2", "definicion 2.2.3": "chapters/cap2.html#definicion-2-2-3", "definicion 3.1.1": "chapters/cap2.html#definicion-2-1-1", "definicion 3.1.2": "chapters/cap2.html#definicion-2-1-2", "definicion 3.1.3": "chapters/cap2.html#definicion-2-1-3", "definicion 3.1.4": "chapters/cap2.html#definicion-2-1-4", "definicion 3.1.5": "chapters/cap2.html#definicion-2-1-5", "definicion 3.1.6": "chapters/cap2.html#definicion-2-1-6", "definicion 3.1.7": "chapters/cap2.html#definicion-2-1-7", "definicion 3.1.8": "chapters/cap2.html#definicion-2-1-8", "definicion 3.1.9": "chapters/cap2.html#definicion-2-1-9", "definicion 3.2.1": "chapters/cap2.html#definicion-2-2-1", "definicion 3.2.2": "chapters/cap2.html#definicion-2-2-2", "definicion 3.2.3": "chapters/cap2.html#definicion-2-2-3", "definicion 3.3.1": "chapters/cap3.html#definicion-3-3-1", "definicion 3.4.1": "chapters/cap3.html#definicion-3-4-1", "definicion 3.4.2": "chapters/cap3.html#definicion-3-4-2", "definicion 3.4.3": "chapters/cap3.html#definicion-3-4-3", "definicion 4.1.1": "chapters/cap3.html#definicion-3-1-1", "definicion 4.1.2": "chapters/cap3.html#definicion-3-1-2", "definicion 4.1.3": "chapters/cap3.html#definicion-3-1-3", "definicion 4.2.1": "chapters/cap3.html#definicion-3-2-1", "definicion 4.2.2": "chapters/cap3.html#definicion-3-2-2", "definicion 4.3.1": "chapters/cap3.html#definicion-3-3-1", "definicion 4.4.1": "chapters/cap3.html#definicion-3-4-1", "definicion 4.4.2": "chapters/cap3.html#definicion-3-4-2", "definicion 4.4.3": "chapters/cap3.html#definicion-3-4-3", "definicion 5.1.1": "chapters/cap4.html#definicion-4-1-1", "definicion 5.2.1": "chapters/cap4.html#definicion-4-2-1", "definicion 5.2.2": "chapters/cap5.html#definicion-5-2-2", "definicion 5.4.1": "chapters/cap4.html#definicion-4-4-1", "definicion 6.2.1": "chapters/cap5.html#definicion-5-2-1", "definicion 6.2.2": "chapters/cap5.html#definicion-5-2-2", "definicion 8.2.1": "chapters/cap8.html#definicion-8-2-1", "definicion 8.3.1": "chapters/cap8.html#definicion-8-3-1", "definicion 9.1.1": "chapters/cap9.html#definicion-9-1-1", "definicion 9.2.1": "chapters/cap8.html#definicion-8-2-1", "definicion 9.3.1": "chapters/cap8.html#definicion-8-3-1", "ecuacion 10.1": "chapters/cap10.html#eq-caloptu", "ecuacion 10.2": "chapters/cap10.html#eq-modeloopt", "ecuacion 10.3": "chapters/cap10.html#eq-glmopt", "ecuacion 10.4": "chapters/cap10.html#eq-cap10-4-13", "ecuacion 11.1": "chapters/cap10.html#eq-caloptu", "ecuacion 11.2": "chapters/cap10.html#eq-modeloopt", "ecuacion 11.3": "chapters/cap10.html#eq-glmopt", "ecuacion 11.4": "chapters/cap10.html#eq-cap10-4-13", "ecuacion 13.1": "chapters/cap13.html#eq-matrizab", "ecuacion 14.1": "chapters/cap13.html#eq-matrizab", "ecuacion 14.2": "chapters/cap14.html#eq-cap14-1", "ecuacion 14.3": "chapters/cap14.html#eq-cap14-2", "ecuacion 15.1": "chapters/cap14.html#eq-tra", "ecuacion 15.2": "chapters/cap14.html#eq-cap14-1", "ecuacion 15.3": "chapters/cap14.html#eq-cap14-2", "ecuacion 2.1": "chapters/cap2.html#eq-indicadora", "ecuacion 2.10": "chapters/cap2.html#eq-hh", "ecuacion 2.11": "chapters/cap2.html#eq-varp", "ecuacion 2.12": "chapters/cap2.html#eq-varhh2", "ecuacion 2.13": "chapters/cap2.html#eq-varhh-est", "ecuacion 2.2": "chapters/cap2.html#eq-total", "ecuacion 2.3": "chapters/cap2.html#eq-media", "ecuacion 2.4": "chapters/cap2.html#eq-ht", "ecuacion 2.5": "chapters/cap2.html#eq-var1", "ecuacion 2.6": "chapters/cap2.html#eq-var2", "ecuacion 2.7": "chapters/cap2.html#eq-estvar1", "ecuacion 2.8": "chapters/cap2.html#eq-ic", "ecuacion 2.9": "chapters/cap2.html#eq-wr-design", "ecuacion 3.1": "chapters/cap2.html#eq-indicadora", "ecuacion 3.10": "chapters/cap2.html#eq-hh", "ecuacion 3.11": "chapters/cap2.html#eq-varp", "ecuacion 3.12": "chapters/cap2.html#eq-varhh2", "ecuacion 3.13": "chapters/cap2.html#eq-varhh-est", "ecuacion 3.2": "chapters/cap2.html#eq-total", "ecuacion 3.3": "chapters/cap2.html#eq-media", "ecuacion 3.4": "chapters/cap2.html#eq-ht", "ecuacion 3.5": "chapters/cap2.html#eq-var1", "ecuacion 3.6": "chapters/cap2.html#eq-var2", "ecuacion 3.7": "chapters/cap2.html#eq-estvar1", "ecuacion 3.8": "chapters/cap2.html#eq-ic", "ecuacion 3.9": "chapters/cap2.html#eq-wr-design", "ecuacion 4.1": "chapters/cap3.html#eq-no", "ecuacion 4.2": "chapters/cap3.html#eq-ko", "ecuacion 4.3": "chapters/cap3.html#eq-berno", "ecuacion 4.4": "chapters/cap3.html#eq-binom", "ecuacion 4.5": "chapters/cap3.html#eq-deff", "ecuacion 4.6": "chapters/cap3.html#eq-descomvar", "ecuacion 4.7": "chapters/cap3.html#eq-poisson", "ecuacion 5.1": "chapters/cap4.html#eq-poisson", "ecuacion 5.2": "chapters/cap4.html#eq-prop", "ecuacion 5.3": "chapters/cap4.html#eq-pk", "ecuacion 5.4": "chapters/cap5.html#eq-pkh", "ecuacion 6.1": "chapters/cap5.html#eq-disestra", "ecuacion 6.2": "chapters/cap5.html#eq-varianza_estratos", "ecuacion 6.3": "chapters/cap5.html#eq-lagrange1", "ecuacion 6.4": "chapters/cap5.html#eq-pkh", "ecuacion 7.1": "chapters/cap6.html#eq-defcon", "ecuacion 8.1": "chapters/cap8.html#eq-Ek", "ecuacion 8.2": "chapters/cap8.html#eq-ek", "ecuacion 8.3": "chapters/cap8.html#eq-mod", "ecuacion 8.4": "chapters/cap8.html#eq-mod-2", "ecuacion 8.5": "chapters/cap8.html#eq-mod-3", "ecuacion 9.1": "chapters/cap8.html#eq-Ek", "ecuacion 9.2": "chapters/cap8.html#eq-ek", "ecuacion 9.3": "chapters/cap8.html#eq-mod", "ecuacion 9.4": "chapters/cap8.html#eq-mod-2", "ecuacion 9.5": "chapters/cap8.html#eq-mod-3", "ejemplo 1.1.1": "chapters/cap1.html#ejemplo-1-1-1", "ejemplo 10.2.1": "chapters/cap9.html#ejemplo-9-2-1", "ejemplo 11.1.1": "chapters/cap11.html#ejemplo-12-1-1", "ejemplo 11.1.2": "chapters/cap11.html#ejemplo-12-1-2", "ejemplo 11.2.1": "chapters/cap11.html#ejemplo-12-2-1", "ejemplo 11.2.2": "chapters/cap11.html#ejemplo-12-2-2", "ejemplo 12.1.1": "chapters/cap11.html#ejemplo-12-1-1", "ejemplo 12.1.2": "chapters/cap11.html#ejemplo-12-1-2", "ejemplo 12.2.1": "chapters/cap11.html#ejemplo-12-2-1", "ejemplo 12.2.2": "chapters/cap11.html#ejemplo-12-2-2", "ejemplo 13.2.1": "chapters/cap12.html#ejemplo-12-2-1", "ejemplo 2.1.1": "chapters/cap1.html#ejemplo-1-1-1", "ejemplo 2.1.2": "chapters/cap2.html#ejemplo-2-1-2", "ejemplo 2.1.3": "chapters/cap2.html#ejemplo-2-1-3", "ejemplo 2.1.4": "chapters/cap2.html#ejemplo-2-1-4", "ejemplo 2.2.1": "chapters/cap2.html#ejemplo-2-2-1", "ejemplo 2.2.2": "chapters/cap2.html#ejemplo-2-2-2", "ejemplo 2.2.3": "chapters/cap2.html#ejemplo-2-2-3", "ejemplo 3.1.1": "chapters/cap2.html#ejemplo-2-1-1", "ejemplo 3.1.2": "chapters/cap2.html#ejemplo-2-1-2", "ejemplo 3.1.3": "chapters/cap2.html#ejemplo-2-1-3", "ejemplo 3.1.4": "chapters/cap2.html#ejemplo-2-1-4", "ejemplo 3.2.1": "chapters/cap2.html#ejemplo-2-2-1", "ejemplo 3.2.2": "chapters/cap2.html#ejemplo-2-2-2", "ejemplo 3.2.3": "chapters/cap2.html#ejemplo-2-2-3", "ejemplo 3.3.1": "chapters/cap3.html#ejemplo-3-3-1", "ejemplo 3.3.2": "chapters/cap3.html#ejemplo-3-3-2", "ejemplo 3.3.3": "chapters/cap3.html#ejemplo-3-3-3", "ejemplo 3.4.1": "chapters/cap3.html#ejemplo-3-4-1", "ejemplo 4.1.1": "chapters/cap3.html#ejemplo-3-1-1", "ejemplo 4.1.2": "chapters/cap3.html#ejemplo-3-1-2", "ejemplo 4.2.1": "chapters/cap3.html#ejemplo-3-2-1", "ejemplo 4.2.2": "chapters/cap4.html#ejemplo-4-2-2", "ejemplo 4.3.1": "chapters/cap3.html#ejemplo-3-3-1", "ejemplo 4.3.2": "chapters/cap3.html#ejemplo-3-3-2", "ejemplo 4.3.3": "chapters/cap3.html#ejemplo-3-3-3", "ejemplo 4.4.1": "chapters/cap3.html#ejemplo-3-4-1", "ejemplo 4.4.2": "chapters/cap4.html#ejemplo-4-4-2", "ejemplo 4.4.3": "chapters/cap4.html#ejemplo-4-4-3", "ejemplo 5.1.1": "chapters/cap4.html#ejemplo-4-1-1", "ejemplo 5.1.2": "chapters/cap4.html#ejemplo-4-1-2", "ejemplo 5.2.1": "chapters/cap4.html#ejemplo-4-2-1", "ejemplo 5.2.2": "chapters/cap4.html#ejemplo-4-2-2", "ejemplo 5.3.1": "chapters/cap4.html#ejemplo-4-3-1", "ejemplo 5.4.1": "chapters/cap4.html#ejemplo-4-4-1", "ejemplo 5.4.2": "chapters/cap4.html#ejemplo-4-4-2", "ejemplo 5.4.3": "chapters/cap4.html#ejemplo-4-4-3", "ejemplo 6.1.1": "chapters/cap5.html#ejemplo-5-1-1", "ejemplo 6.1.2": "chapters/cap6.html#ejemplo-6-1-2", "ejemplo 6.1.3": "chapters/cap6.html#ejemplo-6-1-3", "ejemplo 6.2.1": "chapters/cap5.html#ejemplo-5-2-1", "ejemplo 6.2.2": "chapters/cap5.html#ejemplo-5-2-2", "ejemplo 6.3.1": "chapters/cap5.html#ejemplo-5-3-1", "ejemplo 7.1.1": "chapters/cap6.html#ejemplo-6-1-1", "ejemplo 7.1.2": "chapters/cap6.html#ejemplo-6-1-2", "ejemplo 7.1.3": "chapters/cap6.html#ejemplo-6-1-3", "ejemplo 7.2.1": "chapters/cap6.html#ejemplo-6-2-1", "ejemplo 8.1.1": "chapters/cap7.html#ejemplo-7-1-1", "ejemplo 8.1.2": "chapters/cap7.html#ejemplo-7-1-2", "ejemplo 8.1.3": "chapters/cap7.html#ejemplo-7-1-3", "ejemplo 8.2.1": "chapters/cap8.html#ejemplo-8-2-1", "ejemplo 8.3.1": "chapters/cap8.html#ejemplo-8-3-1", "ejemplo 8.4.1": "chapters/cap8.html#ejemplo-8-4-1", "ejemplo 9.1.1": "chapters/cap8.html#ejemplo-8-1-1", "ejemplo 9.2.1": "chapters/cap8.html#ejemplo-8-2-1", "ejemplo 9.3.1": "chapters/cap8.html#ejemplo-8-3-1", "ejemplo 9.4.1": "chapters/cap8.html#ejemplo-8-4-1", "expresion 10.1": "chapters/cap10.html#eq-caloptu", "expresion 10.2": "chapters/cap10.html#eq-modeloopt", "expresion 10.3": "chapters/cap10.html#eq-glmopt", "expresion 10.4": "chapters/cap10.html#eq-cap10-4-13", "expresion 11.1": "chapters/cap10.html#eq-caloptu", "expresion 11.2": "chapters/cap10.html#eq-modeloopt", "expresion 11.3": "chapters/cap10.html#eq-glmopt", "expresion 11.4": "chapters/cap10.html#eq-cap10-4-13", "expresion 13.1": "chapters/cap13.html#eq-matrizab", "expresion 14.1": "chapters/cap13.html#eq-matrizab", "expresion 14.2": "chapters/cap14.html#eq-cap14-1", "expresion 14.3": "chapters/cap14.html#eq-cap14-2", "expresion 15.1": "chapters/cap14.html#eq-tra", "expresion 15.2": "chapters/cap14.html#eq-cap14-1", "expresion 15.3": "chapters/cap14.html#eq-cap14-2", "expresion 2.1": "chapters/cap2.html#eq-indicadora", "expresion 2.10": "chapters/cap2.html#eq-hh", "expresion 2.11": "chapters/cap2.html#eq-varp", "expresion 2.12": "chapters/cap2.html#eq-varhh2", "expresion 2.13": "chapters/cap2.html#eq-varhh-est", "expresion 2.2": "chapters/cap2.html#eq-total", "expresion 2.3": "chapters/cap2.html#eq-media", "expresion 2.4": "chapters/cap2.html#eq-ht", "expresion 2.5": "chapters/cap2.html#eq-var1", "expresion 2.6": "chapters/cap2.html#eq-var2", "expresion 2.7": "chapters/cap2.html#eq-estvar1", "expresion 2.8": "chapters/cap2.html#eq-ic", "expresion 2.9": "chapters/cap2.html#eq-wr-design", "expresion 3.1": "chapters/cap2.html#eq-indicadora", "expresion 3.10": "chapters/cap2.html#eq-hh", "expresion 3.11": "chapters/cap2.html#eq-varp", "expresion 3.12": "chapters/cap2.html#eq-varhh2", "expresion 3.13": "chapters/cap2.html#eq-varhh-est", "expresion 3.2": "chapters/cap2.html#eq-total", "expresion 3.3": "chapters/cap2.html#eq-media", "expresion 3.4": "chapters/cap2.html#eq-ht", "expresion 3.5": "chapters/cap2.html#eq-var1", "expresion 3.6": "chapters/cap2.html#eq-var2", "expresion 3.7": "chapters/cap2.html#eq-estvar1", "expresion 3.8": "chapters/cap2.html#eq-ic", "expresion 3.9": "chapters/cap2.html#eq-wr-design", "expresion 4.1": "chapters/cap3.html#eq-no", "expresion 4.2": "chapters/cap3.html#eq-ko", "expresion 4.3": "chapters/cap3.html#eq-berno", "expresion 4.4": "chapters/cap3.html#eq-binom", "expresion 4.5": "chapters/cap3.html#eq-deff", "expresion 4.6": "chapters/cap3.html#eq-descomvar", "expresion 4.7": "chapters/cap3.html#eq-poisson", "expresion 5.1": "chapters/cap4.html#eq-poisson", "expresion 5.2": "chapters/cap4.html#eq-prop", "expresion 5.3": "chapters/cap4.html#eq-pk", "expresion 5.4": "chapters/cap5.html#eq-pkh", "expresion 6.1": "chapters/cap5.html#eq-disestra", "expresion 6.2": "chapters/cap5.html#eq-varianza_estratos", "expresion 6.3": "chapters/cap5.html#eq-lagrange1", "expresion 6.4": "chapters/cap5.html#eq-pkh", "expresion 7.1": "chapters/cap6.html#eq-defcon", "expresion 8.1": "chapters/cap8.html#eq-Ek", "expresion 8.2": "chapters/cap8.html#eq-ek", "expresion 8.3": "chapters/cap8.html#eq-mod", "expresion 8.4": "chapters/cap8.html#eq-mod-2", "expresion 8.5": "chapters/cap8.html#eq-mod-3", "expresion 9.1": "chapters/cap8.html#eq-Ek", "expresion 9.2": "chapters/cap8.html#eq-ek", "expresion 9.3": "chapters/cap8.html#eq-mod", "expresion 9.4": "chapters/cap8.html#eq-mod-2", "expresion 9.5": "chapters/cap8.html#eq-mod-3", "figura 1.1": "chapters/cap1.html#fig-f1-1", "figura 1.2": "chapters/cap1.html#fig-f1-2", "figura 1.3": "chapters/cap1.html#fig-f1-3", "figura 1.4": "chapters/cap1.html#fig-f1-4", "figura 10.1": "chapters/cap10.html#fig-f10-1", "figura 10.2": "chapters/cap10.html#fig-f10-2", "figura 10.3": "chapters/cap10.html#fig-f10-3", "figura 10.4": "chapters/cap10.html#fig-f10-4", "figura 10.5": "chapters/cap10.html#fig-f10-5", "figura 10.6": "chapters/cap10.html#fig-f10-6", "figura 11.1": "chapters/cap10.html#fig-f10-1", "figura 11.2": "chapters/cap10.html#fig-f10-2", "figura 11.3": "chapters/cap10.html#fig-f10-3", "figura 11.4": "chapters/cap10.html#fig-f10-4", "figura 11.5": "chapters/cap10.html#fig-f10-5", "figura 11.6": "chapters/cap10.html#fig-f10-6", "figura 2.1": "chapters/cap1.html#fig-f1-1", "figura 2.2": "chapters/cap1.html#fig-f1-2", "figura 2.3": "chapters/cap1.html#fig-f1-3", "figura 2.4": "chapters/cap1.html#fig-f1-4", "figura 3.1": "chapters/cap3.html#fig-cap3-1", "figura 3.2": "chapters/cap3.html#fig-cap3-2", "figura 3.3": "chapters/cap3.html#fig-cap3-3", "figura 3.4": "chapters/cap3.html#fig-cap3-4", "figura 3.5": "chapters/cap3.html#fig-cap3-5", "figura 3.6": "chapters/cap3.html#fig-cap3-6", "figura 4.1": "chapters/cap3.html#fig-cap3-1", "figura 4.2": "chapters/cap3.html#fig-cap3-2", "figura 4.3": "chapters/cap3.html#fig-cap3-3", "figura 4.4": "chapters/cap3.html#fig-cap3-4", "figura 4.5": "chapters/cap3.html#fig-cap3-5", "figura 4.6": "chapters/cap3.html#fig-cap3-6", "figura 5.1": "chapters/cap4.html#fig-f4-1", "figura 5.2": "chapters/cap4.html#fig-f4-2", "figura 5.3": "chapters/cap4.html#fig-f4-2b", "figura 6.1": "chapters/cap5.html#fig-f5-1", "figura 6.2": "chapters/cap5.html#fig-f5-2", "figura 7.1": "chapters/cap6.html#fig-f6-2", "figura 7.2": "chapters/cap6.html#fig-f6-3", "figura 8.1": "chapters/cap8.html#fig-f8-1", "figura 8.2": "chapters/cap8.html#fig-f8-2", "figura 8.3": "chapters/cap8.html#fig-f8-3", "figura 8.4": "chapters/cap8.html#fig-f8-4", "figura 8.5": "chapters/cap8.html#fig-f8-5", "figura 8.6": "chapters/cap8.html#fig-f8-6", "figura 8.7": "chapters/cap8.html#fig-f8-7", "figura 8.8": "chapters/cap8.html#fig-f8-8", "figura 9.1": "chapters/cap8.html#fig-f8-1", "figura 9.2": "chapters/cap8.html#fig-f8-2", "figura 9.3": "chapters/cap8.html#fig-f8-3", "figura 9.4": "chapters/cap8.html#fig-f8-4", "figura 9.5": "chapters/cap8.html#fig-f8-5", "figura 9.6": "chapters/cap8.html#fig-f8-6", "figura 9.7": "chapters/cap8.html#fig-f8-7", "figura 9.8": "chapters/cap8.html#fig-f8-8", "resultado 10.1.1": "chapters/cap9.html#resultado-9-1-1", "resultado 10.2.1": "chapters/cap9.html#resultado-9-2-1", "resultado 10.2.2": "chapters/cap9.html#resultado-9-2-2", "resultado 10.2.3": "chapters/cap9.html#resultado-9-2-3", "resultado 10.2.4": "chapters/cap9.html#resultado-9-2-4", "resultado 10.3.1": "chapters/cap9.html#resultado-9-3-1", "resultado 10.3.2": "chapters/cap9.html#resultado-9-3-2", "resultado 10.3.3": "chapters/cap9.html#resultado-9-3-3", "resultado 10.4.1": "chapters/cap10.html#resultado-10-4-1", "resultado 10.4.2": "chapters/cap10.html#resultado-10-4-2", "resultado 10.4.3": "chapters/cap10.html#resultado-10-4-3", "resultado 10.5.1": "chapters/cap10.html#resultado-10-5-1", "resultado 10.6.1": "chapters/cap10.html#resultado-10-6-1", "resultado 10.6.2": "chapters/cap10.html#resultado-10-6-2", "resultado 10.9.1": "chapters/cap10.html#resultado-10-9-1", "resultado 10.9.2": "chapters/cap10.html#resultado-10-9-2", "resultado 11.1.1": "chapters/cap15.html#resultado-11-1-1", "resultado 11.2.1": "chapters/cap15.html#resultado-11-2-1", "resultado 11.2.10": "chapters/cap15.html#resultado-11-2-10", "resultado 11.2.11": "chapters/cap15.html#resultado-11-2-11", "resultado 11.2.12": "chapters/cap15.html#resultado-11-2-12", "resultado 11.2.2": "chapters/cap15.html#resultado-11-2-2", "resultado 11.2.3": "chapters/cap15.html#resultado-11-2-3", "resultado 11.2.4": "chapters/cap15.html#resultado-11-2-4", "resultado 11.2.5": "chapters/cap15.html#resultado-11-2-5", "resultado 11.2.6": "chapters/cap15.html#resultado-11-2-6", "resultado 11.2.7": "chapters/cap15.html#resultado-11-2-7", "resultado 11.2.8": "chapters/cap15.html#resultado-11-2-8", "resultado 11.2.9": "chapters/cap15.html#resultado-11-2-9", "resultado 11.4.1": "chapters/cap10.html#resultado-10-4-1", "resultado 11.4.2": "chapters/cap10.html#resultado-10-4-2", "resultado 11.4.3": "chapters/cap10.html#resultado-10-4-3", "resultado 11.5.1": "chapters/cap10.html#resultado-10-5-1", "resultado 11.6.1": "chapters/cap10.html#resultado-10-6-1", "resultado 11.6.2": "chapters/cap10.html#resultado-10-6-2", "resultado 11.9.1": "chapters/cap10.html#resultado-10-9-1", "resultado 11.9.2": "chapters/cap10.html#resultado-10-9-2", "resultado 12.2.1": "chapters/cap12.html#resultado-12-2-1", "resultado 12.3.1": "chapters/cap12.html#resultado-12-3-1", "resultado 12.4.1": "chapters/cap12.html#resultado-12-4-1", "resultado 13.2.1": "chapters/cap12.html#resultado-12-2-1", "resultado 13.2.2": "chapters/cap13.html#resultado-14-2-2", "resultado 13.3.1": "chapters/cap12.html#resultado-12-3-1", "resultado 13.3.2": "chapters/cap13.html#resultado-14-3-2", "resultado 13.3.3": "chapters/cap13.html#resultado-14-3-3", "resultado 13.4.1": "chapters/cap12.html#resultado-12-4-1", "resultado 14.2.1": "chapters/cap13.html#resultado-14-2-1", "resultado 14.2.2": "chapters/cap13.html#resultado-14-2-2", "resultado 14.3.1": "chapters/cap13.html#resultado-14-3-1", "resultado 14.3.2": "chapters/cap13.html#resultado-14-3-2", "resultado 14.3.3": "chapters/cap13.html#resultado-14-3-3", "resultado 14.3.4": "chapters/cap14.html#resultado-15-3-4", "resultado 15.1.1": "chapters/cap15.html#resultado-11-1-1", "resultado 15.2.1": "chapters/cap15.html#resultado-11-2-1", "resultado 15.2.10": "chapters/cap15.html#resultado-11-2-10", "resultado 15.2.11": "chapters/cap15.html#resultado-11-2-11", "resultado 15.2.12": "chapters/cap15.html#resultado-11-2-12", "resultado 15.2.2": "chapters/cap15.html#resultado-11-2-2", "resultado 15.2.3": "chapters/cap15.html#resultado-11-2-3", "resultado 15.2.4": "chapters/cap15.html#resultado-11-2-4", "resultado 15.2.5": "chapters/cap15.html#resultado-11-2-5", "resultado 15.2.6": "chapters/cap15.html#resultado-11-2-6", "resultado 15.2.7": "chapters/cap15.html#resultado-11-2-7", "resultado 15.2.8": "chapters/cap15.html#resultado-11-2-8", "resultado 15.2.9": "chapters/cap15.html#resultado-11-2-9", "resultado 15.3.1": "chapters/cap14.html#resultado-15-3-1", "resultado 15.3.2": "chapters/cap14.html#resultado-15-3-2", "resultado 15.3.3": "chapters/cap14.html#resultado-15-3-3", "resultado 15.3.4": "chapters/cap14.html#resultado-15-3-4", "resultado 15.4.1": "chapters/cap15.html#resultado-11-4-1", "resultado 15.4.2": "chapters/cap15.html#resultado-11-4-2", "resultado 16.1.1": "chapters/cap15.html#resultado-11-1-1", "resultado 16.2.1": "chapters/cap15.html#resultado-11-2-1", "resultado 16.2.10": "chapters/cap15.html#resultado-11-2-10", "resultado 16.2.11": "chapters/cap15.html#resultado-11-2-11", "resultado 16.2.12": "chapters/cap15.html#resultado-11-2-12", "resultado 16.2.2": "chapters/cap15.html#resultado-11-2-2", "resultado 16.2.3": "chapters/cap15.html#resultado-11-2-3", "resultado 16.2.4": "chapters/cap15.html#resultado-11-2-4", "resultado 16.2.5": "chapters/cap15.html#resultado-11-2-5", "resultado 16.2.6": "chapters/cap15.html#resultado-11-2-6", "resultado 16.2.7": "chapters/cap15.html#resultado-11-2-7", "resultado 16.2.8": "chapters/cap15.html#resultado-11-2-8", "resultado 16.2.9": "chapters/cap15.html#resultado-11-2-9", "resultado 16.4.1": "chapters/cap15.html#resultado-11-4-1", "resultado 16.4.2": "chapters/cap15.html#resultado-11-4-2", "resultado 2.1.1": "chapters/cap2.html#resultado-2-1-1", "resultado 2.1.2": "chapters/cap2.html#resultado-2-1-2", "resultado 2.1.3": "chapters/cap2.html#resultado-2-1-3", "resultado 2.1.4": "chapters/cap2.html#resultado-2-1-4", "resultado 2.1.5": "chapters/cap2.html#resultado-2-1-5", "resultado 2.2.1": "chapters/cap2.html#resultado-2-2-1", "resultado 2.2.10": "chapters/cap2.html#resultado-2-2-10", "resultado 2.2.11": "chapters/cap2.html#resultado-2-2-11", "resultado 2.2.12": "chapters/cap2.html#resultado-2-2-12", "resultado 2.2.13": "chapters/cap2.html#resultado-2-2-13", "resultado 2.2.14": "chapters/cap2.html#resultado-2-2-14", "resultado 2.2.15": "chapters/cap2.html#resultado-2-2-15", "resultado 2.2.16": "chapters/cap2.html#resultado-2-2-16", "resultado 2.2.17": "chapters/cap2.html#resultado-2-2-17", "resultado 2.2.2": "chapters/cap2.html#resultado-2-2-2", "resultado 2.2.3": "chapters/cap2.html#resultado-2-2-3", "resultado 2.2.4": "chapters/cap2.html#resultado-2-2-4", "resultado 2.2.5": "chapters/cap2.html#resultado-2-2-5", "resultado 2.2.6": "chapters/cap2.html#resultado-2-2-6", "resultado 2.2.7": "chapters/cap2.html#resultado-2-2-7", "resultado 2.2.8": "chapters/cap2.html#resultado-2-2-8", "resultado 2.2.9": "chapters/cap2.html#resultado-2-2-9", "resultado 3.1.1": "chapters/cap2.html#resultado-2-1-1", "resultado 3.1.10": "chapters/cap3.html#resultado-3-1-10", "resultado 3.1.2": "chapters/cap2.html#resultado-2-1-2", "resultado 3.1.3": "chapters/cap2.html#resultado-2-1-3", "resultado 3.1.4": "chapters/cap2.html#resultado-2-1-4", "resultado 3.1.5": "chapters/cap2.html#resultado-2-1-5", "resultado 3.1.6": "chapters/cap3.html#resultado-3-1-6", "resultado 3.1.7": "chapters/cap3.html#resultado-3-1-7", "resultado 3.1.8": "chapters/cap3.html#resultado-3-1-8", "resultado 3.1.9": "chapters/cap3.html#resultado-3-1-9", "resultado 3.2.1": "chapters/cap2.html#resultado-2-2-1", "resultado 3.2.10": "chapters/cap2.html#resultado-2-2-10", "resultado 3.2.11": "chapters/cap2.html#resultado-2-2-11", "resultado 3.2.12": "chapters/cap2.html#resultado-2-2-12", "resultado 3.2.13": "chapters/cap2.html#resultado-2-2-13", "resultado 3.2.14": "chapters/cap2.html#resultado-2-2-14", "resultado 3.2.15": "chapters/cap2.html#resultado-2-2-15", "resultado 3.2.16": "chapters/cap2.html#resultado-2-2-16", "resultado 3.2.17": "chapters/cap2.html#resultado-2-2-17", "resultado 3.2.2": "chapters/cap2.html#resultado-2-2-2", "resultado 3.2.3": "chapters/cap2.html#resultado-2-2-3", "resultado 3.2.4": "chapters/cap2.html#resultado-2-2-4", "resultado 3.2.5": "chapters/cap2.html#resultado-2-2-5", "resultado 3.2.6": "chapters/cap2.html#resultado-2-2-6", "resultado 3.2.7": "chapters/cap2.html#resultado-2-2-7", "resultado 3.2.8": "chapters/cap2.html#resultado-2-2-8", "resultado 3.2.9": "chapters/cap2.html#resultado-2-2-9", "resultado 3.3.1": "chapters/cap3.html#resultado-3-3-1", "resultado 3.3.2": "chapters/cap3.html#resultado-3-3-2", "resultado 3.3.3": "chapters/cap3.html#resultado-3-3-3", "resultado 3.3.4": "chapters/cap3.html#resultado-3-3-4", "resultado 3.4.1": "chapters/cap3.html#resultado-3-4-1", "resultado 3.4.10": "chapters/cap3.html#resultado-3-4-10", "resultado 3.4.11": "chapters/cap3.html#resultado-3-4-11", "resultado 3.4.2": "chapters/cap3.html#resultado-3-4-2", "resultado 3.4.3": "chapters/cap3.html#resultado-3-4-3", "resultado 3.4.4": "chapters/cap3.html#resultado-3-4-4", "resultado 3.4.5": "chapters/cap3.html#resultado-3-4-5", "resultado 3.4.6": "chapters/cap3.html#resultado-3-4-6", "resultado 3.4.7": "chapters/cap3.html#resultado-3-4-7", "resultado 3.4.8": "chapters/cap3.html#resultado-3-4-8", "resultado 3.4.9": "chapters/cap3.html#resultado-3-4-9", "resultado 4.1.1": "chapters/cap3.html#resultado-3-1-1", "resultado 4.1.10": "chapters/cap3.html#resultado-3-1-10", "resultado 4.1.2": "chapters/cap3.html#resultado-3-1-2", "resultado 4.1.3": "chapters/cap3.html#resultado-3-1-3", "resultado 4.1.4": "chapters/cap3.html#resultado-3-1-4", "resultado 4.1.5": "chapters/cap3.html#resultado-3-1-5", "resultado 4.1.6": "chapters/cap3.html#resultado-3-1-6", "resultado 4.1.7": "chapters/cap3.html#resultado-3-1-7", "resultado 4.1.8": "chapters/cap3.html#resultado-3-1-8", "resultado 4.1.9": "chapters/cap3.html#resultado-3-1-9", "resultado 4.2.1": "chapters/cap3.html#resultado-3-2-1", "resultado 4.2.2": "chapters/cap3.html#resultado-3-2-2", "resultado 4.2.3": "chapters/cap3.html#resultado-3-2-3", "resultado 4.2.4": "chapters/cap3.html#resultado-3-2-4", "resultado 4.2.5": "chapters/cap3.html#resultado-3-2-5", "resultado 4.2.6": "chapters/cap3.html#resultado-3-2-6", "resultado 4.2.7": "chapters/cap4.html#resultado-4-2-7", "resultado 4.3.1": "chapters/cap3.html#resultado-3-3-1", "resultado 4.3.2": "chapters/cap3.html#resultado-3-3-2", "resultado 4.3.3": "chapters/cap3.html#resultado-3-3-3", "resultado 4.3.4": "chapters/cap3.html#resultado-3-3-4", "resultado 4.4.1": "chapters/cap3.html#resultado-3-4-1", "resultado 4.4.10": "chapters/cap3.html#resultado-3-4-10", "resultado 4.4.11": "chapters/cap3.html#resultado-3-4-11", "resultado 4.4.2": "chapters/cap3.html#resultado-3-4-2", "resultado 4.4.3": "chapters/cap3.html#resultado-3-4-3", "resultado 4.4.4": "chapters/cap3.html#resultado-3-4-4", "resultado 4.4.5": "chapters/cap3.html#resultado-3-4-5", "resultado 4.4.6": "chapters/cap3.html#resultado-3-4-6", "resultado 4.4.7": "chapters/cap3.html#resultado-3-4-7", "resultado 4.4.8": "chapters/cap3.html#resultado-3-4-8", "resultado 4.4.9": "chapters/cap3.html#resultado-3-4-9", "resultado 5.1.1": "chapters/cap4.html#resultado-4-1-1", "resultado 5.1.2": "chapters/cap4.html#resultado-4-1-2", "resultado 5.1.3": "chapters/cap4.html#resultado-4-1-3", "resultado 5.1.4": "chapters/cap4.html#resultado-4-1-4", "resultado 5.1.5": "chapters/cap4.html#resultado-4-1-5", "resultado 5.2.1": "chapters/cap4.html#resultado-4-2-1", "resultado 5.2.10": "chapters/cap5.html#resultado-5-2-10", "resultado 5.2.11": "chapters/cap5.html#resultado-5-2-11", "resultado 5.2.12": "chapters/cap5.html#resultado-5-2-12", "resultado 5.2.13": "chapters/cap5.html#resultado-5-2-13", "resultado 5.2.14": "chapters/cap5.html#resultado-5-2-14", "resultado 5.2.15": "chapters/cap5.html#resultado-5-2-15", "resultado 5.2.16": "chapters/cap5.html#resultado-5-2-16", "resultado 5.2.17": "chapters/cap5.html#resultado-5-2-17", "resultado 5.2.18": "chapters/cap5.html#resultado-5-2-18", "resultado 5.2.19": "chapters/cap5.html#resultado-5-2-19", "resultado 5.2.2": "chapters/cap4.html#resultado-4-2-2", "resultado 5.2.3": "chapters/cap4.html#resultado-4-2-3", "resultado 5.2.4": "chapters/cap4.html#resultado-4-2-4", "resultado 5.2.5": "chapters/cap4.html#resultado-4-2-5", "resultado 5.2.6": "chapters/cap4.html#resultado-4-2-6", "resultado 5.2.7": "chapters/cap4.html#resultado-4-2-7", "resultado 5.2.8": "chapters/cap5.html#resultado-5-2-8", "resultado 5.2.9": "chapters/cap5.html#resultado-5-2-9", "resultado 5.3.1": "chapters/cap4.html#resultado-4-3-1", "resultado 5.3.2": "chapters/cap4.html#resultado-4-3-2", "resultado 5.4.1": "chapters/cap4.html#resultado-4-4-1", "resultado 5.4.2": "chapters/cap4.html#resultado-4-4-2", "resultado 5.4.3": "chapters/cap4.html#resultado-4-4-3", "resultado 5.4.4": "chapters/cap4.html#resultado-4-4-4", "resultado 6.1.1": "chapters/cap5.html#resultado-5-1-1", "resultado 6.1.2": "chapters/cap5.html#resultado-5-1-2", "resultado 6.1.3": "chapters/cap5.html#resultado-5-1-3", "resultado 6.1.4": "chapters/cap5.html#resultado-5-1-4", "resultado 6.1.5": "chapters/cap5.html#resultado-5-1-5", "resultado 6.1.6": "chapters/cap6.html#resultado-6-1-6", "resultado 6.2.1": "chapters/cap5.html#resultado-5-2-1", "resultado 6.2.10": "chapters/cap5.html#resultado-5-2-10", "resultado 6.2.11": "chapters/cap5.html#resultado-5-2-11", "resultado 6.2.12": "chapters/cap5.html#resultado-5-2-12", "resultado 6.2.13": "chapters/cap5.html#resultado-5-2-13", "resultado 6.2.14": "chapters/cap5.html#resultado-5-2-14", "resultado 6.2.15": "chapters/cap5.html#resultado-5-2-15", "resultado 6.2.16": "chapters/cap5.html#resultado-5-2-16", "resultado 6.2.17": "chapters/cap5.html#resultado-5-2-17", "resultado 6.2.18": "chapters/cap5.html#resultado-5-2-18", "resultado 6.2.19": "chapters/cap5.html#resultado-5-2-19", "resultado 6.2.2": "chapters/cap5.html#resultado-5-2-2", "resultado 6.2.3": "chapters/cap5.html#resultado-5-2-3", "resultado 6.2.4": "chapters/cap5.html#resultado-5-2-4", "resultado 6.2.5": "chapters/cap5.html#resultado-5-2-5", "resultado 6.2.6": "chapters/cap5.html#resultado-5-2-6", "resultado 6.2.7": "chapters/cap5.html#resultado-5-2-7", "resultado 6.2.8": "chapters/cap5.html#resultado-5-2-8", "resultado 6.2.9": "chapters/cap5.html#resultado-5-2-9", "resultado 6.3.1": "chapters/cap5.html#resultado-5-3-1", "resultado 6.3.2": "chapters/cap5.html#resultado-5-3-2", "resultado 7.1.1": "chapters/cap6.html#resultado-6-1-1", "resultado 7.1.2": "chapters/cap6.html#resultado-6-1-2", "resultado 7.1.3": "chapters/cap6.html#resultado-6-1-3", "resultado 7.1.4": "chapters/cap6.html#resultado-6-1-4", "resultado 7.1.5": "chapters/cap6.html#resultado-6-1-5", "resultado 7.1.6": "chapters/cap6.html#resultado-6-1-6", "resultado 7.2.1": "chapters/cap6.html#resultado-6-2-1", "resultado 7.2.2": "chapters/cap6.html#resultado-6-2-2", "resultado 7.2.3": "chapters/cap6.html#resultado-6-2-3", "resultado 7.2.4": "chapters/cap6.html#resultado-6-2-4", "resultado 7.2.5": "chapters/cap6.html#resultado-6-2-5", "resultado 7.3.1": "chapters/cap7.html#resultado-7-3-1", "resultado 7.4.1": "chapters/cap7.html#resultado-7-4-1", "resultado 7.4.2": "chapters/cap7.html#resultado-7-4-2", "resultado 8.1.1": "chapters/cap7.html#resultado-7-1-1", "resultado 8.1.2": "chapters/cap7.html#resultado-7-1-2", "resultado 8.1.3": "chapters/cap7.html#resultado-7-1-3", "resultado 8.1.4": "chapters/cap7.html#resultado-7-1-4", "resultado 8.2.1": "chapters/cap7.html#resultado-7-2-1", "resultado 8.2.2": "chapters/cap7.html#resultado-7-2-2", "resultado 8.2.3": "chapters/cap7.html#resultado-7-2-3", "resultado 8.2.4": "chapters/cap7.html#resultado-7-2-4", "resultado 8.2.5": "chapters/cap8.html#resultado-8-2-5", "resultado 8.2.6": "chapters/cap8.html#resultado-8-2-6", "resultado 8.2.7": "chapters/cap8.html#resultado-8-2-7", "resultado 8.3.1": "chapters/cap7.html#resultado-7-3-1", "resultado 8.3.2": "chapters/cap8.html#resultado-8-3-2", "resultado 8.4.1": "chapters/cap7.html#resultado-7-4-1", "resultado 8.4.2": "chapters/cap7.html#resultado-7-4-2", "resultado 8.4.3": "chapters/cap8.html#resultado-8-4-3", "resultado 9.1.1": "chapters/cap8.html#resultado-8-1-1", "resultado 9.1.2": "chapters/cap8.html#resultado-8-1-2", "resultado 9.2.1": "chapters/cap8.html#resultado-8-2-1", "resultado 9.2.2": "chapters/cap8.html#resultado-8-2-2", "resultado 9.2.3": "chapters/cap8.html#resultado-8-2-3", "resultado 9.2.4": "chapters/cap8.html#resultado-8-2-4", "resultado 9.2.5": "chapters/cap8.html#resultado-8-2-5", "resultado 9.2.6": "chapters/cap8.html#resultado-8-2-6", "resultado 9.2.7": "chapters/cap8.html#resultado-8-2-7", "resultado 9.3.1": "chapters/cap8.html#resultado-8-3-1", "resultado 9.3.2": "chapters/cap8.html#resultado-8-3-2", "resultado 9.3.3": "chapters/cap9.html#resultado-9-3-3", "resultado 9.4.1": "chapters/cap8.html#resultado-8-4-1", "resultado 9.4.2": "chapters/cap8.html#resultado-8-4-2", "resultado 9.4.3": "chapters/cap8.html#resultado-8-4-3", "seccion 1": "index.html#presentacin", "seccion 1.1": "chapters/cap1.html#conceptos-metodol\u00f3gicos", "seccion 1.1.1": "chapters/cap1.html#encuesta", "seccion 1.1.1.1": "chapters/cap1.html#ciclo-de-vida-de-una-encuesta", "seccion 1.1.2": "chapters/cap1.html#marco-de-muestreo", "seccion 1.1.2.1": "chapters/cap1.html#tipos-de-poblaciones-objetivo", "seccion 1.1.3": "chapters/cap1.html#sesgo", "seccion 1.1.3.1": "chapters/cap1.html#sesgo-de-selecci\u00f3n", "seccion 1.1.3.2": "chapters/cap1.html#sesgo-de-medici\u00f3n", "seccion 1.2": "chapters/cap1.html#marco-y-lucy", "seccion 1.2.0.1": "chapters/cap1.html#visualizaci\u00f3n-en-r", "seccion 10.1": "chapters/cap10.html#ipfp", "seccion 10.1.1": "chapters/cap10.html#algoritmo", "seccion 10.1.2": "chapters/cap10.html#marco-y-lucy", "seccion 10.10": "chapters/cap10.html#ejercicios", "seccion 10.2": "chapters/cap10.html#fundamentos-te\u00f3ricos", "seccion 10.2.1": "chapters/cap9.html#construcci\u00f3n", "seccion 10.2.2": "chapters/cap9.html#otras-propiedades-del-estimador-general-de-regresi\u00f3n", "seccion 10.3": "chapters/cap10.html#construcci\u00f3n", "seccion 10.3.1": "chapters/cap10.html#distancias-gcdot-gcdot-y-fcdot", "seccion 10.3.1.1": "chapters/cap9.html#dise\u00f1o-de-muestreo-bernoulli", "seccion 10.3.1.2": "chapters/cap9.html#dise\u00f1o-de-muestreo-aleatorio-simple", "seccion 10.3.2": "chapters/cap9.html#marco-y-lucy", "seccion 10.4": "chapters/cap10.html#algunos-casos-particulares", "seccion 10.4.1": "chapters/cap10.html#m\u00e9todo-lineal-distancia-ji-cuadrado", "seccion 10.4.2": "chapters/cap10.html#m\u00e9todo-de-raking-distancia-de-entrop\u00eda", "seccion 10.4.2.1": "chapters/cap10.html#aspectos-computacionales-para-el-c\u00e1lculo-de-boldsymbollambda", "seccion 10.4.2.2": "chapters/cap10.html#programaci\u00f3n-del-estimador-con-r", "seccion 10.4.3": "chapters/cap10.html#m\u00e9todo-log\u00edstico", "seccion 10.4.4": "chapters/cap10.html#m\u00e9todo-truncado-lineal", "seccion 10.5": "chapters/cap10.html#calibraci\u00f3n-y-post-estratificaci\u00f3n", "seccion 10.5.1": "chapters/cap10.html#post-estratificaci\u00f3n", "seccion 10.5.2": "chapters/cap10.html#raking", "seccion 10.6": "chapters/cap10.html#varianza-de-los-estimadores-de-calibraci\u00f3n", "seccion 10.7": "chapters/cap10.html#marco-y-lucy-1", "seccion 10.8": "chapters/cap10.html#discusi\u00f3n", "seccion 10.9": "chapters/cap10.html#estimadores-\u00f3ptimos-de-calibraci\u00f3n", "seccion 10.9.0.1": "chapters/cap10.html#umathbfx-v\u00eda-modelo-lineal-generalizado", "seccion 11.1": "chapters/cap10.html#ipfp", "seccion 11.1.1": "chapters/cap10.html#algoritmo", "seccion 11.1.2": "chapters/cap10.html#marco-y-lucy", "seccion 11.10": "chapters/cap10.html#ejercicios", "seccion 11.2": "chapters/cap10.html#fundamentos-te\u00f3ricos", "seccion 11.2.1": "chapters/cap11.html#fase-de-vuelo", "seccion 11.2.2": "chapters/cap11.html#la-martingala-balanceada", "seccion 11.2.3": "chapters/cap11.html#implementaci\u00f3n-de-la-fase-de-vuelo", "seccion 11.2.4": "chapters/cap11.html#la-fase-de-aterrizaje", "seccion 11.2.5": "chapters/cap11.html#varianza", "seccion 11.2.6": "chapters/cap15.html#un-modelo-para-el-estimador-de-regresi\u00f3n", "seccion 11.3": "chapters/cap10.html#construcci\u00f3n", "seccion 11.3.1": "chapters/cap10.html#distancias-gcdot-gcdot-y-fcdot", "seccion 11.4": "chapters/cap10.html#algunos-casos-particulares", "seccion 11.4.1": "chapters/cap10.html#m\u00e9todo-lineal-distancia-ji-cuadrado", "seccion 11.4.2": "chapters/cap10.html#m\u00e9todo-de-raking-distancia-de-entrop\u00eda", "seccion 11.4.2.1": "chapters/cap10.html#aspectos-computacionales-para-el-c\u00e1lculo-de-boldsymbollambda", "seccion 11.4.2.2": "chapters/cap10.html#programaci\u00f3n-del-estimador-con-r", "seccion 11.4.3": "chapters/cap10.html#m\u00e9todo-log\u00edstico", "seccion 11.4.4": "chapters/cap10.html#m\u00e9todo-truncado-lineal", "seccion 11.5": "chapters/cap10.html#calibraci\u00f3n-y-post-estratificaci\u00f3n", "seccion 11.5.1": "chapters/cap10.html#post-estratificaci\u00f3n", "seccion 11.5.2": "chapters/cap10.html#raking", "seccion 11.6": "chapters/cap10.html#varianza-de-los-estimadores-de-calibraci\u00f3n", "seccion 11.7": "chapters/cap10.html#marco-y-lucy-1", "seccion 11.8": "chapters/cap10.html#discusi\u00f3n", "seccion 11.9": "chapters/cap10.html#estimadores-\u00f3ptimos-de-calibraci\u00f3n", "seccion 11.9.0.1": "chapters/cap10.html#umathbfx-v\u00eda-modelo-lineal-generalizado", "seccion 12.1": "chapters/cap11.html#notaci\u00f3n", "seccion 12.1.1": "chapters/cap11.html#ejemplos", "seccion 12.2": "chapters/cap11.html#el-m\u00e9todo-del-cubo", "seccion 12.2.1": "chapters/cap11.html#fase-de-vuelo", "seccion 12.2.2": "chapters/cap11.html#la-martingala-balanceada", "seccion 12.2.3": "chapters/cap11.html#implementaci\u00f3n-de-la-fase-de-vuelo", "seccion 12.2.4": "chapters/cap11.html#la-fase-de-aterrizaje", "seccion 12.2.5": "chapters/cap11.html#varianza", "seccion 12.3": "chapters/cap11.html#marco-y-lucy", "seccion 12.3.1": "chapters/cap11.html#algunas-preguntas", "seccion 12.4": "chapters/cap11.html#ejercicios", "seccion 12.5": "chapters/cap12.html#otras-aplicaciones", "seccion 12.5.1": "chapters/cap12.html#mejorando-el-estimador", "seccion 12.5.2": "chapters/cap12.html#un-modelo-para-la-ausencia-de-respuesta", "seccion 12.5.3": "chapters/cap12.html#muestreo-en-ocasiones", "seccion 12.6": "chapters/cap12.html#marco-y-lucy", "seccion 12.6.1": "chapters/cap12.html#primera-configuraci\u00f3n-estratificaci\u00f3n", "seccion 12.6.2": "chapters/cap12.html#segunda-configuraci\u00f3n-selecci\u00f3n-proporcional-al-tama\u00f1o", "seccion 12.6.3": "chapters/cap12.html#tercera-configuraci\u00f3n-estimaci\u00f3n-de-calibraci\u00f3n", "seccion 12.6.3.1": "chapters/cap12.html#comparaci\u00f3n-de-resultados", "seccion 12.7": "chapters/cap12.html#ejercicios", "seccion 13.1": "chapters/cap12.html#introducci\u00f3n", "seccion 13.2": "chapters/cap12.html#el-estimador-pi", "seccion 13.3": "chapters/cap12.html#estratificaci\u00f3n-en-muestreo-bif\u00e1sico", "seccion 13.3.1": "chapters/cap13.html#propiedades", "seccion 13.3.2": "chapters/cap13.html#algunas-matrices-especiales", "seccion 13.3.2.1": "chapters/cap13.html#matriz-identidad", "seccion 13.3.2.2": "chapters/cap13.html#uno-para-todos", "seccion 13.3.2.3": "chapters/cap13.html#todos-para-uno", "seccion 13.4": "chapters/cap12.html#selecci\u00f3n-proporcional-al-tama\u00f1o", "seccion 13.5": "chapters/cap12.html#otras-aplicaciones", "seccion 13.5.1": "chapters/cap12.html#mejorando-el-estimador", "seccion 13.5.2": "chapters/cap12.html#un-modelo-para-la-ausencia-de-respuesta", "seccion 13.5.3": "chapters/cap12.html#muestreo-en-ocasiones", "seccion 13.6": "chapters/cap12.html#marco-y-lucy", "seccion 13.6.1": "chapters/cap12.html#primera-configuraci\u00f3n-estratificaci\u00f3n", "seccion 13.6.2": "chapters/cap12.html#segunda-configuraci\u00f3n-selecci\u00f3n-proporcional-al-tama\u00f1o", "seccion 13.6.3": "chapters/cap12.html#tercera-configuraci\u00f3n-estimaci\u00f3n-de-calibraci\u00f3n", "seccion 13.6.3.1": "chapters/cap12.html#comparaci\u00f3n-de-resultados", "seccion 13.7": "chapters/cap12.html#ejercicios", "seccion 14.1": "chapters/cap13.html#notaci\u00f3n", "seccion 14.2": "chapters/cap13.html#estimaci\u00f3n-del-total", "seccion 14.3": "chapters/cap13.html#m\u00e9todo-de-ponderaci\u00f3n-generalizada", "seccion 14.3.1": "chapters/cap13.html#propiedades", "seccion 14.3.2": "chapters/cap13.html#algunas-matrices-especiales", "seccion 14.3.2.1": "chapters/cap13.html#matriz-identidad", "seccion 14.3.2.2": "chapters/cap13.html#uno-para-todos", "seccion 14.3.2.3": "chapters/cap13.html#todos-para-uno", "seccion 14.4": "chapters/cap13.html#ejemplo-l\u00e9xico-gr\u00e1fico", "seccion 14.4.1": "chapters/cap14.html#algunos-relaciones", "seccion 14.4.2": "chapters/cap14.html#informaci\u00f3n-tradicional", "seccion 14.4.2.1": "chapters/cap14.html#algunos-casos-particulares", "seccion 14.4.3": "chapters/cap14.html#informaci\u00f3n-auxiliar-conjunta", "seccion 14.5": "chapters/cap13.html#ejercicios", "seccion 14.5.1": "chapters/cap14.html#dise\u00f1o-de-muestreo-de-holmberg", "seccion 14.5.2": "chapters/cap14.html#un-ejemplo-num\u00e9rico", "seccion 14.6": "chapters/cap14.html#marco-y-lucy", "seccion 14.7": "chapters/cap14.html#ejercicios", "seccion 15.1": "chapters/cap14.html#introducci\u00f3n", "seccion 15.1.1": "chapters/cap15.html#la-f\u00e1bula-de-los-elefantes-de-bas\u00fa", "seccion 15.1.2": "chapters/cap15.html#la-f\u00e1bula-de-los-dos-estad\u00edsticos", "seccion 15.2": "chapters/cap14.html#estimaci\u00f3n-de-varios-par\u00e1metros", "seccion 15.2.1": "chapters/cap15.html#un-modelo-para-el-muestreo-aleatorio-simple", "seccion 15.2.2": "chapters/cap15.html#un-modelo-para-el-muestreo-aleatorio-estratificado", "seccion 15.2.3": "chapters/cap15.html#un-modelo-para-el-muestreo-por-conglomerados", "seccion 15.2.4": "chapters/cap15.html#un-modelo-para-el-muestreo-por-etapas", "seccion 15.2.5": "chapters/cap15.html#un-modelo-para-el-estimador-de-raz\u00f3n", "seccion 15.2.6": "chapters/cap15.html#un-modelo-para-el-estimador-de-regresi\u00f3n", "seccion 15.3": "chapters/cap14.html#algunos-dise\u00f1os-de-muestreo", "seccion 15.3.1": "chapters/cap14.html#estimaci\u00f3n-en-dominios", "seccion 15.3.2": "chapters/cap14.html#estimaci\u00f3n-en-dise\u00f1os-estratificados", "seccion 15.4": "chapters/cap14.html#informaci\u00f3n-auxiliar", "seccion 15.4.1": "chapters/cap14.html#algunos-relaciones", "seccion 15.4.2": "chapters/cap14.html#informaci\u00f3n-tradicional", "seccion 15.4.2.1": "chapters/cap14.html#algunos-casos-particulares", "seccion 15.4.3": "chapters/cap14.html#informaci\u00f3n-auxiliar-conjunta", "seccion 15.5": "chapters/cap14.html#dise\u00f1os-de-muestreo-\u00f3ptimos", "seccion 15.5.1": "chapters/cap14.html#dise\u00f1o-de-muestreo-de-holmberg", "seccion 15.5.2": "chapters/cap14.html#un-ejemplo-num\u00e9rico", "seccion 15.6": "chapters/cap14.html#marco-y-lucy", "seccion 15.7": "chapters/cap14.html#ejercicios", "seccion 16.1": "chapters/cap15.html#un-poco-de-historia", "seccion 16.1.1": "chapters/cap15.html#la-f\u00e1bula-de-los-elefantes-de-bas\u00fa", "seccion 16.1.2": "chapters/cap15.html#la-f\u00e1bula-de-los-dos-estad\u00edsticos", "seccion 16.2": "chapters/cap15.html#algunos-modelos-predictivos", "seccion 16.2.1": "chapters/cap15.html#un-modelo-para-el-muestreo-aleatorio-simple", "seccion 16.2.2": "chapters/cap15.html#un-modelo-para-el-muestreo-aleatorio-estratificado", "seccion 16.2.3": "chapters/cap15.html#un-modelo-para-el-muestreo-por-conglomerados", "seccion 16.2.4": "chapters/cap15.html#un-modelo-para-el-muestreo-por-etapas", "seccion 16.2.5": "chapters/cap15.html#un-modelo-para-el-estimador-de-raz\u00f3n", "seccion 16.2.6": "chapters/cap15.html#un-modelo-para-el-estimador-de-regresi\u00f3n", "seccion 16.3": "chapters/cap15.html#el-teorema-general-de-predicci\u00f3n", "seccion 16.4": "chapters/cap15.html#ignorando-el-dise\u00f1o-de-muestreo", "seccion 16.5": "chapters/cap15.html#ejercicios", "seccion 2.1": "chapters/cap1.html#conceptos-metodol\u00f3gicos", "seccion 2.1.1": "chapters/cap1.html#encuesta", "seccion 2.1.1.1": "chapters/cap1.html#ciclo-de-vida-de-una-encuesta", "seccion 2.1.2": "chapters/cap1.html#marco-de-muestreo", "seccion 2.1.2.1": "chapters/cap1.html#tipos-de-poblaciones-objetivo", "seccion 2.1.2.2": "chapters/cap2.html#muestra-aleatoria-con-reemplazo", "seccion 2.1.3": "chapters/cap1.html#sesgo", "seccion 2.1.3.1": "chapters/cap1.html#sesgo-de-selecci\u00f3n", "seccion 2.1.3.2": "chapters/cap1.html#sesgo-de-medici\u00f3n", "seccion 2.1.4": "chapters/cap2.html#probabilidad-de-inclusi\u00f3n", "seccion 2.1.5": "chapters/cap2.html#caracter\u00edstica-de-inter\u00e9s-y-par\u00e1metros-de-inter\u00e9s", "seccion 2.1.6": "chapters/cap2.html#estad\u00edstica-y-estimador", "seccion 2.1.6.1": "chapters/cap2.html#la-estad\u00edstica-i_k", "seccion 2.1.6.2": "chapters/cap2.html#la-estad\u00edstica-ns-o-tama\u00f1o-de-muestra", "seccion 2.2": "chapters/cap1.html#marco-y-lucy", "seccion 2.2.0.1": "chapters/cap1.html#visualizaci\u00f3n-en-r", "seccion 2.2.1": "chapters/cap2.html#el-estimador-de-horvitz-thompson", "seccion 2.2.1.1": "chapters/cap2.html#estimador-del-total-poblacional", "seccion 2.2.1.2": "chapters/cap2.html#varianza-del-estimador-de-horvitz-thompson", "seccion 2.2.1.3": "chapters/cap2.html#estimaci\u00f3n-de-la-varianza", "seccion 2.2.1.4": "chapters/cap2.html#intervalo-de-confianza-para-el-estimador-de-horvitz-thompson", "seccion 2.2.1.5": "chapters/cap2.html#estimaci\u00f3n-de-otros-par\u00e1metros", "seccion 2.2.2": "chapters/cap2.html#el-estimador-de-hansen-hurwitz", "seccion 2.2.2.1": "chapters/cap2.html#sobre-el-muestreo-con-reemplazo", "seccion 2.2.2.2": "chapters/cap2.html#estimador-del-total-poblacional-1", "seccion 2.2.2.3": "chapters/cap2.html#varianza-del-estimador-de-hansen-hurwitz", "seccion 2.2.2.4": "chapters/cap2.html#estimaci\u00f3n-de-la-varianza-1", "seccion 2.2.3": "chapters/cap2.html#el-estimador-de-horvitz-thompson-en-los-dise\u00f1os-con-reemplazo", "seccion 2.3": "chapters/cap2.html#muestras-representativas", "seccion 2.4": "chapters/cap2.html#ejercicios", "seccion 3.1": "chapters/cap2.html#poblaci\u00f3n-y-muestra-aleatoria", "seccion 3.1.1": "chapters/cap2.html#poblaci\u00f3n-finita", "seccion 3.1.1.1": "chapters/cap3.html#m\u00e9todo-coordinado-negativo", "seccion 3.1.1.2": "chapters/cap3.html#m\u00e9todo-de-selecci\u00f3n-y-rechazo", "seccion 3.1.2": "chapters/cap2.html#muestra-aleatoria", "seccion 3.1.2.1": "chapters/cap2.html#muestra-aleatoria-sin-reemplazo", "seccion 3.1.2.2": "chapters/cap2.html#muestra-aleatoria-con-reemplazo", "seccion 3.1.3": "chapters/cap2.html#soportes-de-muestreo", "seccion 3.1.3.1": "chapters/cap2.html#muestras-probabil\u00edsticas", "seccion 3.1.3.2": "chapters/cap2.html#algoritmo-de-selecci\u00f3n", "seccion 3.1.4": "chapters/cap2.html#probabilidad-de-inclusi\u00f3n", "seccion 3.1.4.1": "chapters/cap3.html#estimaci\u00f3n-del-total-en-un-dominio", "seccion 3.1.4.2": "chapters/cap3.html#estimaci\u00f3n-del-tama\u00f1o-absoluto-de-un-dominio", "seccion 3.1.4.3": "chapters/cap3.html#estimaci\u00f3n-del-tama\u00f1o-relativo-de-un-dominio", "seccion 3.1.4.4": "chapters/cap3.html#estimaci\u00f3n-de-la-media-de-un-dominio", "seccion 3.1.5": "chapters/cap2.html#caracter\u00edstica-de-inter\u00e9s-y-par\u00e1metros-de-inter\u00e9s", "seccion 3.1.5.1": "chapters/cap3.html#estimaci\u00f3n-del-tama\u00f1o-de-muestra", "seccion 3.1.6": "chapters/cap2.html#estad\u00edstica-y-estimador", "seccion 3.1.6.1": "chapters/cap2.html#la-estad\u00edstica-i_k", "seccion 3.1.6.2": "chapters/cap2.html#la-estad\u00edstica-ns-o-tama\u00f1o-de-muestra", "seccion 3.2": "chapters/cap2.html#estimadores-de-muestreo", "seccion 3.2.1": "chapters/cap2.html#el-estimador-de-horvitz-thompson", "seccion 3.2.1.1": "chapters/cap2.html#estimador-del-total-poblacional", "seccion 3.2.1.2": "chapters/cap2.html#varianza-del-estimador-de-horvitz-thompson", "seccion 3.2.1.3": "chapters/cap2.html#estimaci\u00f3n-de-la-varianza", "seccion 3.2.1.4": "chapters/cap2.html#intervalo-de-confianza-para-el-estimador-de-horvitz-thompson", "seccion 3.2.1.5": "chapters/cap2.html#estimaci\u00f3n-de-otros-par\u00e1metros", "seccion 3.2.2": "chapters/cap2.html#el-estimador-de-hansen-hurwitz", "seccion 3.2.2.1": "chapters/cap2.html#sobre-el-muestreo-con-reemplazo", "seccion 3.2.2.2": "chapters/cap2.html#estimador-del-total-poblacional-1", "seccion 3.2.2.3": "chapters/cap2.html#varianza-del-estimador-de-hansen-hurwitz", "seccion 3.2.2.4": "chapters/cap2.html#estimaci\u00f3n-de-la-varianza-1", "seccion 3.2.3": "chapters/cap2.html#el-estimador-de-horvitz-thompson-en-los-dise\u00f1os-con-reemplazo", "seccion 3.2.4": "chapters/cap3.html#marco-y-lucy-1", "seccion 3.3": "chapters/cap2.html#muestras-representativas", "seccion 3.3.1": "chapters/cap3.html#algoritmo-de-selecci\u00f3n-1", "seccion 3.3.1.1": "chapters/cap3.html#m\u00e9todo-de-m-selecciones", "seccion 3.3.1.2": "chapters/cap3.html#m\u00e9todo-secuencial", "seccion 3.3.2": "chapters/cap3.html#el-estimador-de-hansen-hurwitz", "seccion 3.3.3": "chapters/cap3.html#marco-y-lucy-2", "seccion 3.3.3.1": "chapters/cap3.html#el-efecto-de-dise\u00f1o-1", "seccion 3.4": "chapters/cap2.html#ejercicios", "seccion 3.4.1": "chapters/cap3.html#algoritmo-de-selecci\u00f3n-2", "seccion 3.4.2": "chapters/cap3.html#el-estimador-de-horvitz-thompson-2", "seccion 3.4.3": "chapters/cap3.html#optimalidad-de-la-estrategia", "seccion 3.4.3.1": "chapters/cap3.html#descomposici\u00f3n-de-la-varianza", "seccion 3.4.4": "chapters/cap3.html#dise\u00f1o-de-muestreo-q-sistem\u00e1tico", "seccion 3.4.5": "chapters/cap3.html#marco-y-lucy-3", "seccion 3.5": "chapters/cap3.html#ejercicios", "seccion 4.1": "chapters/cap3.html#muestreo-aleatorio-simple-sin-reemplazo", "seccion 4.1.1": "chapters/cap3.html#algoritmos-de-selecci\u00f3n", "seccion 4.1.1.1": "chapters/cap3.html#m\u00e9todo-coordinado-negativo", "seccion 4.1.1.2": "chapters/cap3.html#m\u00e9todo-de-selecci\u00f3n-y-rechazo", "seccion 4.1.2": "chapters/cap3.html#el-estimador-de-horvitz-thompson", "seccion 4.1.3": "chapters/cap3.html#estimaci\u00f3n-de-la-media-poblacional", "seccion 4.1.3.1": "chapters/cap3.html#tama\u00f1o-de-muestra", "seccion 4.1.4": "chapters/cap3.html#estimaci\u00f3n-en-dominios", "seccion 4.1.4.1": "chapters/cap3.html#estimaci\u00f3n-del-total-en-un-dominio", "seccion 4.1.4.2": "chapters/cap3.html#estimaci\u00f3n-del-tama\u00f1o-absoluto-de-un-dominio", "seccion 4.1.4.3": "chapters/cap3.html#estimaci\u00f3n-del-tama\u00f1o-relativo-de-un-dominio", "seccion 4.1.4.4": "chapters/cap3.html#estimaci\u00f3n-de-la-media-de-un-dominio", "seccion 4.1.5": "chapters/cap3.html#marco-y-lucy", "seccion 4.1.5.1": "chapters/cap3.html#estimaci\u00f3n-del-tama\u00f1o-de-muestra", "seccion 4.1.6": "chapters/cap3.html#probabilidades-de-inclusi\u00f3n-en-unidades-de-muestreo", "seccion 4.2": "chapters/cap3.html#dise\u00f1o-de-muestreo-bernoulli", "seccion 4.2.1": "chapters/cap3.html#algoritmo-de-selecci\u00f3n", "seccion 4.2.1.1": "chapters/cap4.html#m\u00e9todo-acumulativo-total", "seccion 4.2.1.2": "chapters/cap4.html#m\u00e9todo-de-lahiri", "seccion 4.2.2": "chapters/cap3.html#el-estimador-de-horvitz-thompson-1", "seccion 4.2.3": "chapters/cap3.html#el-efecto-de-dise\u00f1o", "seccion 4.2.4": "chapters/cap3.html#marco-y-lucy-1", "seccion 4.3": "chapters/cap3.html#muestreo-aleatorio-simple-con-reemplazo", "seccion 4.3.1": "chapters/cap3.html#algoritmo-de-selecci\u00f3n-1", "seccion 4.3.1.1": "chapters/cap3.html#m\u00e9todo-de-m-selecciones", "seccion 4.3.1.2": "chapters/cap3.html#m\u00e9todo-secuencial", "seccion 4.3.2": "chapters/cap3.html#el-estimador-de-hansen-hurwitz", "seccion 4.3.3": "chapters/cap3.html#marco-y-lucy-2", "seccion 4.3.3.1": "chapters/cap3.html#el-efecto-de-dise\u00f1o-1", "seccion 4.4": "chapters/cap3.html#dise\u00f1o-de-muestreo-sistem\u00e1tico", "seccion 4.4.0.1": "chapters/cap4.html#tama\u00f1o-de-muestra-n1", "seccion 4.4.0.2": "chapters/cap4.html#tama\u00f1o-de-muestra-n2", "seccion 4.4.1": "chapters/cap3.html#algoritmo-de-selecci\u00f3n-2", "seccion 4.4.2": "chapters/cap3.html#el-estimador-de-horvitz-thompson-2", "seccion 4.4.2.1": "chapters/cap4.html#escisi\u00f3n-en-dos-partes", "seccion 4.4.2.2": "chapters/cap4.html#esquema-de-soporte-m\u00ednimo", "seccion 4.4.3": "chapters/cap3.html#optimalidad-de-la-estrategia", "seccion 4.4.3.1": "chapters/cap3.html#descomposici\u00f3n-de-la-varianza", "seccion 4.4.4": "chapters/cap3.html#dise\u00f1o-de-muestreo-q-sistem\u00e1tico", "seccion 4.4.5": "chapters/cap3.html#marco-y-lucy-3", "seccion 4.5": "chapters/cap3.html#ejercicios", "seccion 5.1": "chapters/cap4.html#dise\u00f1o-de-muestreo-de-poisson", "seccion 5.1.1": "chapters/cap4.html#algoritmo-de-selecci\u00f3n", "seccion 5.1.2": "chapters/cap4.html#el-estimador-de-horvitz-thompson", "seccion 5.1.3": "chapters/cap4.html#optimalidad-en-la-estrategia-de-muestreo-poisson", "seccion 5.1.4": "chapters/cap4.html#marco-y-lucy", "seccion 5.2": "chapters/cap4.html#dise\u00f1o-de-muestreo-ppt", "seccion 5.2.1": "chapters/cap4.html#algoritmo-de-selecci\u00f3n-1", "seccion 5.2.1.1": "chapters/cap4.html#m\u00e9todo-acumulativo-total", "seccion 5.2.1.2": "chapters/cap4.html#m\u00e9todo-de-lahiri", "seccion 5.2.2": "chapters/cap4.html#el-estimador-de-hansen-hurwitz", "seccion 5.2.3": "chapters/cap4.html#eficiencia-de-la-estrategia", "seccion 5.2.3.1": "chapters/cap5.html#intervalos-de-confianza", "seccion 5.2.4": "chapters/cap4.html#marco-y-lucy-1", "seccion 5.2.4.1": "chapters/cap5.html#asignaci\u00f3n-proporcional", "seccion 5.2.4.2": "chapters/cap5.html#asignaci\u00f3n-de-neyman", "seccion 5.2.4.3": "chapters/cap5.html#asignaci\u00f3n-\u00f3ptima", "seccion 5.2.5": "chapters/cap5.html#estimaci\u00f3n-en-dominios", "seccion 5.2.5.1": "chapters/cap5.html#estimaci\u00f3n-del-total-en-un-dominio", "seccion 5.2.5.2": "chapters/cap5.html#estimaci\u00f3n-de-la-media-de-un-dominio", "seccion 5.2.5.3": "chapters/cap5.html#estimaci\u00f3n-del-tama\u00f1o-absoluto-de-un-dominio", "seccion 5.2.5.4": "chapters/cap5.html#estimaci\u00f3n-del-tama\u00f1o-relativo-de-un-dominio", "seccion 5.2.6": "chapters/cap5.html#el-efecto-de-dise\u00f1o", "seccion 5.2.7": "chapters/cap5.html#marco-y-lucy", "seccion 5.2.7.1": "chapters/cap5.html#estimaci\u00f3n-del-tama\u00f1o-de-muestra", "seccion 5.2.7.2": "chapters/cap5.html#otro-tipo-de-asignaci\u00f3n", "seccion 5.3": "chapters/cap4.html#dise\u00f1o-de-muestreo-pipt", "seccion 5.3.1": "chapters/cap5.html#algoritmos-de-selecci\u00f3n-1", "seccion 5.3.2": "chapters/cap5.html#el-estimador-de-hansen-hurwitz", "seccion 5.3.3": "chapters/cap5.html#marco-y-lucy-1", "seccion 5.4": "chapters/cap4.html#selecci\u00f3n-de-muestras-pipt", "seccion 5.4.0.1": "chapters/cap4.html#tama\u00f1o-de-muestra-n1", "seccion 5.4.0.2": "chapters/cap4.html#tama\u00f1o-de-muestra-n2", "seccion 5.4.1": "chapters/cap4.html#m\u00e9todo-de-sunter", "seccion 5.4.2": "chapters/cap4.html#m\u00e9todo-de-escisi\u00f3n", "seccion 5.4.2.1": "chapters/cap4.html#escisi\u00f3n-en-dos-partes", "seccion 5.4.2.2": "chapters/cap4.html#esquema-de-soporte-m\u00ednimo", "seccion 5.4.3": "chapters/cap4.html#estimaci\u00f3n-de-la-varianza", "seccion 5.4.3.1": "chapters/cap4.html#acerca-del-muestreo-pipt", "seccion 5.4.4": "chapters/cap4.html#marco-y-lucy-2", "seccion 5.5": "chapters/cap4.html#ejercicios", "seccion 6.1": "chapters/cap5.html#fundamentos-te\u00f3ricos", "seccion 6.1.1": "chapters/cap5.html#estimaci\u00f3n-en-el-muestreo-estratificado", "seccion 6.1.1.1": "chapters/cap6.html#estimaci\u00f3n-de-otros-par\u00e1metros", "seccion 6.1.2": "chapters/cap5.html#el-estimador-de-horvitz-thompson", "seccion 6.2": "chapters/cap5.html#dise\u00f1o-de-muestreo-aleatorio-estratificado", "seccion 6.2.1": "chapters/cap5.html#algoritmos-de-selecci\u00f3n", "seccion 6.2.2": "chapters/cap5.html#el-estimador-de-horvitz-thompson-1", "seccion 6.2.2.1": "chapters/cap6.html#tama\u00f1o-de-muestra", "seccion 6.2.3": "chapters/cap5.html#estimaci\u00f3n-de-la-media-poblacional", "seccion 6.2.3.1": "chapters/cap5.html#intervalos-de-confianza", "seccion 6.2.4": "chapters/cap5.html#asignaci\u00f3n-del-tama\u00f1o-de-muestra", "seccion 6.2.4.1": "chapters/cap5.html#asignaci\u00f3n-proporcional", "seccion 6.2.4.2": "chapters/cap5.html#asignaci\u00f3n-de-neyman", "seccion 6.2.4.3": "chapters/cap5.html#asignaci\u00f3n-\u00f3ptima", "seccion 6.2.5": "chapters/cap5.html#estimaci\u00f3n-en-dominios", "seccion 6.2.5.1": "chapters/cap5.html#estimaci\u00f3n-del-total-en-un-dominio", "seccion 6.2.5.2": "chapters/cap5.html#estimaci\u00f3n-de-la-media-de-un-dominio", "seccion 6.2.5.3": "chapters/cap5.html#estimaci\u00f3n-del-tama\u00f1o-absoluto-de-un-dominio", "seccion 6.2.5.4": "chapters/cap5.html#estimaci\u00f3n-del-tama\u00f1o-relativo-de-un-dominio", "seccion 6.2.6": "chapters/cap5.html#el-efecto-de-dise\u00f1o", "seccion 6.2.7": "chapters/cap5.html#marco-y-lucy", "seccion 6.2.7.1": "chapters/cap5.html#estimaci\u00f3n-del-tama\u00f1o-de-muestra", "seccion 6.2.7.2": "chapters/cap5.html#otro-tipo-de-asignaci\u00f3n", "seccion 6.3": "chapters/cap5.html#dise\u00f1o-de-muestreo-estratificado-ppt", "seccion 6.3.1": "chapters/cap5.html#algoritmos-de-selecci\u00f3n-1", "seccion 6.3.2": "chapters/cap5.html#el-estimador-de-hansen-hurwitz", "seccion 6.3.3": "chapters/cap5.html#marco-y-lucy-1", "seccion 6.4": "chapters/cap5.html#ejercicios", "seccion 7.1": "chapters/cap6.html#fundamentos-te\u00f3ricos-y-notaci\u00f3n", "seccion 7.1.1": "chapters/cap6.html#el-estimador-de-horvitz-thompson", "seccion 7.1.1.1": "chapters/cap6.html#estimaci\u00f3n-de-otros-par\u00e1metros", "seccion 7.1.2": "chapters/cap6.html#el-estimador-de-hansen-hurwitz", "seccion 7.2": "chapters/cap6.html#muestreo-aleatorio-simple-de-conglomerados", "seccion 7.2.1": "chapters/cap6.html#algoritmos-de-selecci\u00f3n", "seccion 7.2.2": "chapters/cap6.html#el-estimador-de-horvitz-thompson-1", "seccion 7.2.2.1": "chapters/cap6.html#tama\u00f1o-de-muestra", "seccion 7.2.3": "chapters/cap6.html#eficiencia-de-la-estrategia", "seccion 7.2.4": "chapters/cap6.html#marco-i-y-lucy", "seccion 7.3": "chapters/cap6.html#ejercicios", "seccion 7.3.1": "chapters/cap7.html#dise\u00f1os-auto-ponderados", "seccion 7.4": "chapters/cap7.html#dise\u00f1os-en-r-etapas", "seccion 7.4.1": "chapters/cap7.html#el-estimador-de-horvitz-thompson-1", "seccion 7.4.2": "chapters/cap7.html#el-estimador-de-hansen-hurwitz", "seccion 7.5": "chapters/cap7.html#ejercicios", "seccion 8.1": "chapters/cap7.html#muestreo-en-dos-etapas", "seccion 8.1.1": "chapters/cap7.html#el-estimador-de-horvitz-thompson", "seccion 8.1.1.1": "chapters/cap8.html#aplicaci\u00f3n-en-muestreo", "seccion 8.2": "chapters/cap7.html#dise\u00f1o-de-muestreo-mas-mas", "seccion 8.2.1": "chapters/cap7.html#algoritmos-de-selecci\u00f3n", "seccion 8.2.1.1": "chapters/cap8.html#muestreo-aleatorio-simple", "seccion 8.2.1.2": "chapters/cap8.html#muestreo-aleatorio-simple-en-dos-etapas", "seccion 8.2.1.3": "chapters/cap8.html#dise\u00f1os-de-muestreo-con-probabilidad-proporcional", "seccion 8.2.2": "chapters/cap7.html#tama\u00f1o-de-muestra", "seccion 8.2.2.1": "chapters/cap8.html#estimaci\u00f3n-de-un-promedio-en-un-dominio", "seccion 8.2.3": "chapters/cap7.html#estimaci\u00f3n-de-la-varianza-en-muestreo-de-dos-etapas", "seccion 8.2.3.1": "chapters/cap8.html#teorema-del-l\u00edmite-central", "seccion 8.2.4": "chapters/cap7.html#marco-ii-y-lucy", "seccion 8.3": "chapters/cap7.html#muestreo-en-dos-etapas-estratificado", "seccion 8.3.1": "chapters/cap7.html#dise\u00f1os-auto-ponderados", "seccion 8.4": "chapters/cap7.html#dise\u00f1os-en-r-etapas", "seccion 8.4.1": "chapters/cap7.html#el-estimador-de-horvitz-thompson-1", "seccion 8.4.2": "chapters/cap7.html#el-estimador-de-hansen-hurwitz", "seccion 8.4.3": "chapters/cap8.html#estimaci\u00f3n-en-la-muestra", "seccion 8.4.4": "chapters/cap8.html#casos-especiales", "seccion 8.4.5": "chapters/cap8.html#marco-y-lucy-2", "seccion 8.5": "chapters/cap7.html#ejercicios", "seccion 9.1": "chapters/cap8.html#fundamentos-te\u00f3ricos", "seccion 9.1.1": "chapters/cap8.html#aproximaci\u00f3n-de-una-funci\u00f3n-por-polinomios", "seccion 9.1.1.1": "chapters/cap8.html#aplicaci\u00f3n-en-muestreo", "seccion 9.2": "chapters/cap8.html#estimaci\u00f3n-de-una-raz\u00f3n-poblacional", "seccion 9.2.1": "chapters/cap8.html#casos-particulares", "seccion 9.2.1.1": "chapters/cap8.html#muestreo-aleatorio-simple", "seccion 9.2.1.2": "chapters/cap8.html#muestreo-aleatorio-simple-en-dos-etapas", "seccion 9.2.1.3": "chapters/cap8.html#dise\u00f1os-de-muestreo-con-probabilidad-proporcional", "seccion 9.2.2": "chapters/cap8.html#estimaci\u00f3n-de-un-promedio", "seccion 9.2.2.1": "chapters/cap8.html#estimaci\u00f3n-de-un-promedio-en-un-dominio", "seccion 9.2.3": "chapters/cap8.html#marco-y-lucy", "seccion 9.2.3.1": "chapters/cap8.html#teorema-del-l\u00edmite-central", "seccion 9.3": "chapters/cap8.html#estimaci\u00f3n-de-una-mediana", "seccion 9.3.1": "chapters/cap8.html#marco-y-lucy-1", "seccion 9.3.1.1": "chapters/cap9.html#dise\u00f1o-de-muestreo-bernoulli", "seccion 9.3.1.2": "chapters/cap9.html#dise\u00f1o-de-muestreo-aleatorio-simple", "seccion 9.3.2": "chapters/cap9.html#marco-y-lucy", "seccion 9.4": "chapters/cap8.html#estimaci\u00f3n-de-coeficientes-de-regresi\u00f3n", "seccion 9.4.1": "chapters/cap8.html#fundamentos-te\u00f3ricos-1", "seccion 9.4.2": "chapters/cap8.html#estimaci\u00f3n-en-la-poblaci\u00f3n-finita", "seccion 9.4.3": "chapters/cap8.html#estimaci\u00f3n-en-la-muestra", "seccion 9.4.4": "chapters/cap8.html#casos-especiales", "seccion 9.4.5": "chapters/cap8.html#marco-y-lucy-2", "seccion 9.5": "chapters/cap8.html#ejercicios", "tabla 10.1": "chapters/cap10.html#tbl-t10-static-1", "tabla 10.2": "chapters/cap10.html#tbl-t10-static-2", "tabla 10.3": "chapters/cap10.html#tbl-t10-static-3", "tabla 10.4": "chapters/cap10.html#tbl-t10-static-4", "tabla 10.8": "chapters/cap10.html#tbl-t10-static-5", "tabla 10.9": "chapters/cap10.html#tbl-t10-static-6", "tabla 11.1": "chapters/cap10.html#tbl-t10-static-1", "tabla 11.2": "chapters/cap10.html#tbl-t10-static-2", "tabla 11.3": "chapters/cap10.html#tbl-t10-static-3", "tabla 11.4": "chapters/cap10.html#tbl-t10-static-4", "tabla 11.8": "chapters/cap10.html#tbl-t10-static-5", "tabla 11.9": "chapters/cap10.html#tbl-t10-static-6", "tabla 12.1": "chapters/cap12.html#tbl-tablacalib", "tabla 13.1": "chapters/cap12.html#tbl-tablacalib", "tabla 5.14": "chapters/cap5.html#tbl-tablaber", "tabla 5.19": "chapters/cap5.html#tbl-tablaberb", "tabla 6.14": "chapters/cap5.html#tbl-tablaber", "tabla 6.19": "chapters/cap5.html#tbl-tablaberb", "tabla 6.2": "chapters/cap6.html#tbl-t6-anova", "tabla 6.4": "chapters/cap6.html#tbl-tab6-2", "tabla 7.1": "chapters/cap7.html#tbl-t7-sesgo-relativo", "tabla 7.2": "chapters/cap6.html#tbl-t6-anova", "tabla 7.3": "chapters/cap7.html#tbl-tab7-3", "tabla 7.4": "chapters/cap6.html#tbl-tab6-2", "tabla 8.1": "chapters/cap7.html#tbl-t7-sesgo-relativo", "tabla 8.3": "chapters/cap7.html#tbl-tab7-3"};
+  var CALLOUTS = {"chapters/cap1.html": [{"id": "ejemplo-1-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 1.1.1"}], "chapters/cap10.html": [{"id": "resultado-10-4-1", "kind": "resultado", "ordinal": 1, "section": 4, "title": "Resultado 10.4.1"}, {"id": "resultado-10-4-2", "kind": "resultado", "ordinal": 2, "section": 4, "title": "Resultado 10.4.2"}, {"id": "resultado-10-4-3", "kind": "resultado", "ordinal": 3, "section": 4, "title": "Resultado 10.4.3"}, {"id": "resultado-10-5-1", "kind": "resultado", "ordinal": 1, "section": 5, "title": "Resultado 10.5.1"}, {"id": "resultado-10-6-1", "kind": "resultado", "ordinal": 1, "section": 6, "title": "Resultado 10.6.1"}, {"id": "resultado-10-6-2", "kind": "resultado", "ordinal": 2, "section": 6, "title": "Resultado 10.6.2"}, {"id": "resultado-10-9-1", "kind": "resultado", "ordinal": 1, "section": 9, "title": "Resultado 10.9.1"}, {"id": "resultado-10-9-2", "kind": "resultado", "ordinal": 2, "section": 9, "title": "Resultado 10.9.2"}], "chapters/cap11.html": [{"id": "definicion-12-1-1", "kind": "definicion", "ordinal": 1, "section": 1, "title": "Definici\u00f3n 12.1.1"}, {"id": "ejemplo-12-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 12.1.1"}, {"id": "ejemplo-12-1-2", "kind": "ejemplo", "ordinal": 2, "section": 1, "title": "Ejemplo 12.1.2"}, {"id": "ejemplo-12-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 12.2.1"}, {"id": "definicion-12-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 12.2.1"}, {"id": "ejemplo-12-2-2", "kind": "ejemplo", "ordinal": 2, "section": 2, "title": "Ejemplo 12.2.2"}], "chapters/cap12.html": [{"id": "resultado-12-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 12.2.1"}, {"id": "ejemplo-12-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 12.2.1"}, {"id": "resultado-12-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 12.3.1"}, {"id": "resultado-12-4-1", "kind": "resultado", "ordinal": 1, "section": 4, "title": "Resultado 12.4.1"}], "chapters/cap13.html": [{"id": "definicion-14-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 14.2.1"}, {"id": "resultado-14-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 14.2.1"}, {"id": "resultado-14-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 14.2.2"}, {"id": "resultado-14-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 14.3.1"}, {"id": "resultado-14-3-2", "kind": "resultado", "ordinal": 2, "section": 3, "title": "Resultado 14.3.2"}, {"id": "resultado-14-3-3", "kind": "resultado", "ordinal": 3, "section": 3, "title": "Resultado 14.3.3"}], "chapters/cap14.html": [{"id": "resultado-15-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 15.3.1"}, {"id": "resultado-15-3-2", "kind": "resultado", "ordinal": 2, "section": 3, "title": "Resultado 15.3.2"}, {"id": "resultado-15-3-3", "kind": "resultado", "ordinal": 3, "section": 3, "title": "Resultado 15.3.3"}, {"id": "resultado-15-3-4", "kind": "resultado", "ordinal": 4, "section": 3, "title": "Resultado 15.3.4"}], "chapters/cap15.html": [{"id": "definicion-11-1-1", "kind": "definicion", "ordinal": 1, "section": 1, "title": "Definici\u00f3n 11.1.1"}, {"id": "resultado-11-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 11.1.1"}, {"id": "definicion-11-1-2", "kind": "definicion", "ordinal": 2, "section": 1, "title": "Definici\u00f3n 11.1.2"}, {"id": "resultado-11-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 11.2.1"}, {"id": "resultado-11-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 11.2.2"}, {"id": "resultado-11-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 11.2.3"}, {"id": "resultado-11-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 11.2.4"}, {"id": "resultado-11-2-5", "kind": "resultado", "ordinal": 5, "section": 2, "title": "Resultado 11.2.5"}, {"id": "resultado-11-2-6", "kind": "resultado", "ordinal": 6, "section": 2, "title": "Resultado 11.2.6"}, {"id": "resultado-11-2-7", "kind": "resultado", "ordinal": 7, "section": 2, "title": "Resultado 11.2.7"}, {"id": "resultado-11-2-8", "kind": "resultado", "ordinal": 8, "section": 2, "title": "Resultado 11.2.8"}, {"id": "resultado-11-2-9", "kind": "resultado", "ordinal": 9, "section": 2, "title": "Resultado 11.2.9"}, {"id": "resultado-11-2-10", "kind": "resultado", "ordinal": 10, "section": 2, "title": "Resultado 11.2.10"}, {"id": "resultado-11-2-11", "kind": "resultado", "ordinal": 11, "section": 2, "title": "Resultado 11.2.11"}, {"id": "resultado-11-2-12", "kind": "resultado", "ordinal": 12, "section": 2, "title": "Resultado 11.2.12"}, {"id": "definicion-11-3-1", "kind": "definicion", "ordinal": 1, "section": 3, "title": "Definici\u00f3n 11.3.1"}, {"id": "definicion-11-3-2", "kind": "definicion", "ordinal": 2, "section": 3, "title": "Definici\u00f3n 11.3.2"}, {"id": "definicion-11-3-3", "kind": "definicion", "ordinal": 3, "section": 3, "title": "Definici\u00f3n 11.3.3"}, {"id": "definicion-11-3-4", "kind": "definicion", "ordinal": 4, "section": 3, "title": "Definici\u00f3n 11.3.4"}, {"id": "resultado-11-4-1", "kind": "resultado", "ordinal": 1, "section": 4, "title": "Resultado 11.4.1"}, {"id": "resultado-11-4-2", "kind": "resultado", "ordinal": 2, "section": 4, "title": "Resultado 11.4.2"}], "chapters/cap2.html": [{"id": "definicion-2-1-1", "kind": "definicion", "ordinal": 1, "section": 1, "title": "Definici\u00f3n 2.1.1"}, {"id": "definicion-2-1-2", "kind": "definicion", "ordinal": 2, "section": 1, "title": "Definici\u00f3n 2.1.2"}, {"id": "definicion-2-1-3", "kind": "definicion", "ordinal": 3, "section": 1, "title": "Definici\u00f3n 2.1.3"}, {"id": "definicion-2-1-4", "kind": "definicion", "ordinal": 4, "section": 1, "title": "Definici\u00f3n 2.1.4"}, {"id": "definicion-2-1-5", "kind": "definicion", "ordinal": 5, "section": 1, "title": "Definici\u00f3n 2.1.5"}, {"id": "resultado-2-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 2.1.1"}, {"id": "ejemplo-2-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 2.1.1"}, {"id": "definicion-2-1-6", "kind": "definicion", "ordinal": 6, "section": 1, "title": "Definici\u00f3n 2.1.6"}, {"id": "definicion-2-1-7", "kind": "definicion", "ordinal": 7, "section": 1, "title": "Definici\u00f3n 2.1.7"}, {"id": "definicion-2-1-8", "kind": "definicion", "ordinal": 8, "section": 1, "title": "Definici\u00f3n 2.1.8"}, {"id": "resultado-2-1-2", "kind": "resultado", "ordinal": 2, "section": 1, "title": "Resultado 2.1.2"}, {"id": "ejemplo-2-1-2", "kind": "ejemplo", "ordinal": 2, "section": 1, "title": "Ejemplo 2.1.2"}, {"id": "ejemplo-2-1-3", "kind": "ejemplo", "ordinal": 3, "section": 1, "title": "Ejemplo 2.1.3"}, {"id": "resultado-2-1-3", "kind": "resultado", "ordinal": 3, "section": 1, "title": "Resultado 2.1.3"}, {"id": "resultado-2-1-4", "kind": "resultado", "ordinal": 4, "section": 1, "title": "Resultado 2.1.4"}, {"id": "resultado-2-1-5", "kind": "resultado", "ordinal": 5, "section": 1, "title": "Resultado 2.1.5"}, {"id": "ejemplo-2-1-4", "kind": "ejemplo", "ordinal": 4, "section": 1, "title": "Ejemplo 2.1.4"}, {"id": "definicion-2-1-9", "kind": "definicion", "ordinal": 9, "section": 1, "title": "Definici\u00f3n 2.1.9"}, {"id": "resultado-2-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 2.2.1"}, {"id": "resultado-2-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 2.2.2"}, {"id": "resultado-2-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 2.2.3"}, {"id": "resultado-2-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 2.2.4"}, {"id": "resultado-2-2-5", "kind": "resultado", "ordinal": 5, "section": 2, "title": "Resultado 2.2.5"}, {"id": "resultado-2-2-6", "kind": "resultado", "ordinal": 6, "section": 2, "title": "Resultado 2.2.6"}, {"id": "resultado-2-2-7", "kind": "resultado", "ordinal": 7, "section": 2, "title": "Resultado 2.2.7"}, {"id": "ejemplo-2-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 2.2.1"}, {"id": "definicion-2-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 2.2.1"}, {"id": "resultado-2-2-8", "kind": "resultado", "ordinal": 8, "section": 2, "title": "Resultado 2.2.8"}, {"id": "definicion-2-2-2", "kind": "definicion", "ordinal": 2, "section": 2, "title": "Definici\u00f3n 2.2.2"}, {"id": "resultado-2-2-9", "kind": "resultado", "ordinal": 9, "section": 2, "title": "Resultado 2.2.9"}, {"id": "resultado-2-2-10", "kind": "resultado", "ordinal": 10, "section": 2, "title": "Resultado 2.2.10"}, {"id": "ejemplo-2-2-2", "kind": "ejemplo", "ordinal": 2, "section": 2, "title": "Ejemplo 2.2.2"}, {"id": "resultado-2-2-11", "kind": "resultado", "ordinal": 11, "section": 2, "title": "Resultado 2.2.11"}, {"id": "definicion-2-2-3", "kind": "definicion", "ordinal": 3, "section": 2, "title": "Definici\u00f3n 2.2.3"}, {"id": "resultado-2-2-12", "kind": "resultado", "ordinal": 12, "section": 2, "title": "Resultado 2.2.12"}, {"id": "resultado-2-2-13", "kind": "resultado", "ordinal": 13, "section": 2, "title": "Resultado 2.2.13"}, {"id": "resultado-2-2-14", "kind": "resultado", "ordinal": 14, "section": 2, "title": "Resultado 2.2.14"}, {"id": "resultado-2-2-15", "kind": "resultado", "ordinal": 15, "section": 2, "title": "Resultado 2.2.15"}, {"id": "resultado-2-2-16", "kind": "resultado", "ordinal": 16, "section": 2, "title": "Resultado 2.2.16"}, {"id": "resultado-2-2-17", "kind": "resultado", "ordinal": 17, "section": 2, "title": "Resultado 2.2.17"}, {"id": "ejemplo-2-2-3", "kind": "ejemplo", "ordinal": 3, "section": 2, "title": "Ejemplo 2.2.3"}], "chapters/cap3.html": [{"id": "definicion-3-1-1", "kind": "definicion", "ordinal": 1, "section": 1, "title": "Definici\u00f3n 3.1.1"}, {"id": "resultado-3-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 3.1.1"}, {"id": "ejemplo-3-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 3.1.1"}, {"id": "resultado-3-1-2", "kind": "resultado", "ordinal": 2, "section": 1, "title": "Resultado 3.1.2"}, {"id": "resultado-3-1-3", "kind": "resultado", "ordinal": 3, "section": 1, "title": "Resultado 3.1.3"}, {"id": "resultado-3-1-4", "kind": "resultado", "ordinal": 4, "section": 1, "title": "Resultado 3.1.4"}, {"id": "ejemplo-3-1-2", "kind": "ejemplo", "ordinal": 2, "section": 1, "title": "Ejemplo 3.1.2"}, {"id": "resultado-3-1-5", "kind": "resultado", "ordinal": 5, "section": 1, "title": "Resultado 3.1.5"}, {"id": "definicion-3-1-2", "kind": "definicion", "ordinal": 2, "section": 1, "title": "Definici\u00f3n 3.1.2"}, {"id": "definicion-3-1-3", "kind": "definicion", "ordinal": 3, "section": 1, "title": "Definici\u00f3n 3.1.3"}, {"id": "resultado-3-1-6", "kind": "resultado", "ordinal": 6, "section": 1, "title": "Resultado 3.1.6"}, {"id": "resultado-3-1-7", "kind": "resultado", "ordinal": 7, "section": 1, "title": "Resultado 3.1.7"}, {"id": "resultado-3-1-8", "kind": "resultado", "ordinal": 8, "section": 1, "title": "Resultado 3.1.8"}, {"id": "resultado-3-1-9", "kind": "resultado", "ordinal": 9, "section": 1, "title": "Resultado 3.1.9"}, {"id": "resultado-3-1-10", "kind": "resultado", "ordinal": 10, "section": 1, "title": "Resultado 3.1.10"}, {"id": "definicion-3-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 3.2.1"}, {"id": "resultado-3-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 3.2.1"}, {"id": "resultado-3-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 3.2.2"}, {"id": "resultado-3-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 3.2.3"}, {"id": "resultado-3-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 3.2.4"}, {"id": "resultado-3-2-5", "kind": "resultado", "ordinal": 5, "section": 2, "title": "Resultado 3.2.5"}, {"id": "ejemplo-3-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 3.2.1"}, {"id": "definicion-3-2-2", "kind": "definicion", "ordinal": 2, "section": 2, "title": "Definici\u00f3n 3.2.2"}, {"id": "resultado-3-2-6", "kind": "resultado", "ordinal": 6, "section": 2, "title": "Resultado 3.2.6"}, {"id": "definicion-3-3-1", "kind": "definicion", "ordinal": 1, "section": 3, "title": "Definici\u00f3n 3.3.1"}, {"id": "resultado-3-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 3.3.1"}, {"id": "resultado-3-3-2", "kind": "resultado", "ordinal": 2, "section": 3, "title": "Resultado 3.3.2"}, {"id": "resultado-3-3-3", "kind": "resultado", "ordinal": 3, "section": 3, "title": "Resultado 3.3.3"}, {"id": "ejemplo-3-3-1", "kind": "ejemplo", "ordinal": 1, "section": 3, "title": "Ejemplo 3.3.1"}, {"id": "ejemplo-3-3-2", "kind": "ejemplo", "ordinal": 2, "section": 3, "title": "Ejemplo 3.3.2"}, {"id": "resultado-3-3-4", "kind": "resultado", "ordinal": 4, "section": 3, "title": "Resultado 3.3.4"}, {"id": "ejemplo-3-3-3", "kind": "ejemplo", "ordinal": 3, "section": 3, "title": "Ejemplo 3.3.3"}, {"id": "resultado-3-4-1", "kind": "resultado", "ordinal": 1, "section": 4, "title": "Resultado 3.4.1"}, {"id": "definicion-3-4-1", "kind": "definicion", "ordinal": 1, "section": 4, "title": "Definici\u00f3n 3.4.1"}, {"id": "ejemplo-3-4-1", "kind": "ejemplo", "ordinal": 1, "section": 4, "title": "Ejemplo 3.4.1"}, {"id": "resultado-3-4-2", "kind": "resultado", "ordinal": 2, "section": 4, "title": "Resultado 3.4.2"}, {"id": "resultado-3-4-3", "kind": "resultado", "ordinal": 3, "section": 4, "title": "Resultado 3.4.3"}, {"id": "resultado-3-4-4", "kind": "resultado", "ordinal": 4, "section": 4, "title": "Resultado 3.4.4"}, {"id": "resultado-3-4-5", "kind": "resultado", "ordinal": 5, "section": 4, "title": "Resultado 3.4.5"}, {"id": "resultado-3-4-6", "kind": "resultado", "ordinal": 6, "section": 4, "title": "Resultado 3.4.6"}, {"id": "definicion-3-4-2", "kind": "definicion", "ordinal": 2, "section": 4, "title": "Definici\u00f3n 3.4.2"}, {"id": "resultado-3-4-7", "kind": "resultado", "ordinal": 7, "section": 4, "title": "Resultado 3.4.7"}, {"id": "resultado-3-4-8", "kind": "resultado", "ordinal": 8, "section": 4, "title": "Resultado 3.4.8"}, {"id": "resultado-3-4-9", "kind": "resultado", "ordinal": 9, "section": 4, "title": "Resultado 3.4.9"}, {"id": "definicion-3-4-3", "kind": "definicion", "ordinal": 3, "section": 4, "title": "Definici\u00f3n 3.4.3"}, {"id": "resultado-3-4-10", "kind": "resultado", "ordinal": 10, "section": 4, "title": "Resultado 3.4.10"}, {"id": "resultado-3-4-11", "kind": "resultado", "ordinal": 11, "section": 4, "title": "Resultado 3.4.11"}], "chapters/cap4.html": [{"id": "definicion-4-1-1", "kind": "definicion", "ordinal": 1, "section": 1, "title": "Definici\u00f3n 4.1.1"}, {"id": "resultado-4-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 4.1.1"}, {"id": "ejemplo-4-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 4.1.1"}, {"id": "resultado-4-1-2", "kind": "resultado", "ordinal": 2, "section": 1, "title": "Resultado 4.1.2"}, {"id": "resultado-4-1-3", "kind": "resultado", "ordinal": 3, "section": 1, "title": "Resultado 4.1.3"}, {"id": "resultado-4-1-4", "kind": "resultado", "ordinal": 4, "section": 1, "title": "Resultado 4.1.4"}, {"id": "ejemplo-4-1-2", "kind": "ejemplo", "ordinal": 2, "section": 1, "title": "Ejemplo 4.1.2"}, {"id": "resultado-4-1-5", "kind": "resultado", "ordinal": 5, "section": 1, "title": "Resultado 4.1.5"}, {"id": "definicion-4-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 4.2.1"}, {"id": "resultado-4-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 4.2.1"}, {"id": "resultado-4-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 4.2.2"}, {"id": "resultado-4-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 4.2.3"}, {"id": "ejemplo-4-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 4.2.1"}, {"id": "resultado-4-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 4.2.4"}, {"id": "resultado-4-2-5", "kind": "resultado", "ordinal": 5, "section": 2, "title": "Resultado 4.2.5"}, {"id": "resultado-4-2-6", "kind": "resultado", "ordinal": 6, "section": 2, "title": "Resultado 4.2.6"}, {"id": "ejemplo-4-2-2", "kind": "ejemplo", "ordinal": 2, "section": 2, "title": "Ejemplo 4.2.2"}, {"id": "resultado-4-2-7", "kind": "resultado", "ordinal": 7, "section": 2, "title": "Resultado 4.2.7"}, {"id": "resultado-4-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 4.3.1"}, {"id": "resultado-4-3-2", "kind": "resultado", "ordinal": 2, "section": 3, "title": "Resultado 4.3.2"}, {"id": "ejemplo-4-3-1", "kind": "ejemplo", "ordinal": 1, "section": 3, "title": "Ejemplo 4.3.1"}, {"id": "resultado-4-4-1", "kind": "resultado", "ordinal": 1, "section": 4, "title": "Resultado 4.4.1"}, {"id": "resultado-4-4-2", "kind": "resultado", "ordinal": 2, "section": 4, "title": "Resultado 4.4.2"}, {"id": "resultado-4-4-3", "kind": "resultado", "ordinal": 3, "section": 4, "title": "Resultado 4.4.3"}, {"id": "ejemplo-4-4-1", "kind": "ejemplo", "ordinal": 1, "section": 4, "title": "Ejemplo 4.4.1"}, {"id": "definicion-4-4-1", "kind": "definicion", "ordinal": 1, "section": 4, "title": "Definici\u00f3n 4.4.1"}, {"id": "ejemplo-4-4-2", "kind": "ejemplo", "ordinal": 2, "section": 4, "title": "Ejemplo 4.4.2"}, {"id": "resultado-4-4-4", "kind": "resultado", "ordinal": 4, "section": 4, "title": "Resultado 4.4.4"}, {"id": "ejemplo-4-4-3", "kind": "ejemplo", "ordinal": 3, "section": 4, "title": "Ejemplo 4.4.3"}], "chapters/cap5.html": [{"id": "resultado-5-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 5.1.1"}, {"id": "resultado-5-1-2", "kind": "resultado", "ordinal": 2, "section": 1, "title": "Resultado 5.1.2"}, {"id": "resultado-5-1-3", "kind": "resultado", "ordinal": 3, "section": 1, "title": "Resultado 5.1.3"}, {"id": "resultado-5-1-4", "kind": "resultado", "ordinal": 4, "section": 1, "title": "Resultado 5.1.4"}, {"id": "resultado-5-1-5", "kind": "resultado", "ordinal": 5, "section": 1, "title": "Resultado 5.1.5"}, {"id": "ejemplo-5-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 5.1.1"}, {"id": "definicion-5-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 5.2.1"}, {"id": "ejemplo-5-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 5.2.1"}, {"id": "resultado-5-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 5.2.1"}, {"id": "resultado-5-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 5.2.2"}, {"id": "resultado-5-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 5.2.3"}, {"id": "ejemplo-5-2-2", "kind": "ejemplo", "ordinal": 2, "section": 2, "title": "Ejemplo 5.2.2"}, {"id": "resultado-5-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 5.2.4"}, {"id": "resultado-5-2-5", "kind": "resultado", "ordinal": 5, "section": 2, "title": "Resultado 5.2.5"}, {"id": "definicion-5-2-2", "kind": "definicion", "ordinal": 2, "section": 2, "title": "Definici\u00f3n 5.2.2"}, {"id": "resultado-5-2-6", "kind": "resultado", "ordinal": 6, "section": 2, "title": "Resultado 5.2.6"}, {"id": "resultado-5-2-7", "kind": "resultado", "ordinal": 7, "section": 2, "title": "Resultado 5.2.7"}, {"id": "resultado-5-2-8", "kind": "resultado", "ordinal": 8, "section": 2, "title": "Resultado 5.2.8"}, {"id": "resultado-5-2-9", "kind": "resultado", "ordinal": 9, "section": 2, "title": "Resultado 5.2.9"}, {"id": "resultado-5-2-10", "kind": "resultado", "ordinal": 10, "section": 2, "title": "Resultado 5.2.10"}, {"id": "resultado-5-2-11", "kind": "resultado", "ordinal": 11, "section": 2, "title": "Resultado 5.2.11"}, {"id": "resultado-5-2-12", "kind": "resultado", "ordinal": 12, "section": 2, "title": "Resultado 5.2.12"}, {"id": "resultado-5-2-13", "kind": "resultado", "ordinal": 13, "section": 2, "title": "Resultado 5.2.13"}, {"id": "resultado-5-2-14", "kind": "resultado", "ordinal": 14, "section": 2, "title": "Resultado 5.2.14"}, {"id": "resultado-5-2-15", "kind": "resultado", "ordinal": 15, "section": 2, "title": "Resultado 5.2.15"}, {"id": "resultado-5-2-16", "kind": "resultado", "ordinal": 16, "section": 2, "title": "Resultado 5.2.16"}, {"id": "resultado-5-2-17", "kind": "resultado", "ordinal": 17, "section": 2, "title": "Resultado 5.2.17"}, {"id": "resultado-5-2-18", "kind": "resultado", "ordinal": 18, "section": 2, "title": "Resultado 5.2.18"}, {"id": "resultado-5-2-19", "kind": "resultado", "ordinal": 19, "section": 2, "title": "Resultado 5.2.19"}, {"id": "resultado-5-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 5.3.1"}, {"id": "resultado-5-3-2", "kind": "resultado", "ordinal": 2, "section": 3, "title": "Resultado 5.3.2"}, {"id": "ejemplo-5-3-1", "kind": "ejemplo", "ordinal": 1, "section": 3, "title": "Ejemplo 5.3.1"}], "chapters/cap6.html": [{"id": "ejemplo-6-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 6.1.1"}, {"id": "resultado-6-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 6.1.1"}, {"id": "resultado-6-1-2", "kind": "resultado", "ordinal": 2, "section": 1, "title": "Resultado 6.1.2"}, {"id": "resultado-6-1-3", "kind": "resultado", "ordinal": 3, "section": 1, "title": "Resultado 6.1.3"}, {"id": "ejemplo-6-1-2", "kind": "ejemplo", "ordinal": 2, "section": 1, "title": "Ejemplo 6.1.2"}, {"id": "resultado-6-1-4", "kind": "resultado", "ordinal": 4, "section": 1, "title": "Resultado 6.1.4"}, {"id": "resultado-6-1-5", "kind": "resultado", "ordinal": 5, "section": 1, "title": "Resultado 6.1.5"}, {"id": "resultado-6-1-6", "kind": "resultado", "ordinal": 6, "section": 1, "title": "Resultado 6.1.6"}, {"id": "ejemplo-6-1-3", "kind": "ejemplo", "ordinal": 3, "section": 1, "title": "Ejemplo 6.1.3"}, {"id": "resultado-6-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 6.2.1"}, {"id": "resultado-6-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 6.2.2"}, {"id": "resultado-6-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 6.2.3"}, {"id": "ejemplo-6-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 6.2.1"}, {"id": "resultado-6-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 6.2.4"}, {"id": "resultado-6-2-5", "kind": "resultado", "ordinal": 5, "section": 2, "title": "Resultado 6.2.5"}], "chapters/cap7.html": [{"id": "resultado-7-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 7.1.1"}, {"id": "ejemplo-7-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 7.1.1"}, {"id": "ejemplo-7-1-2", "kind": "ejemplo", "ordinal": 2, "section": 1, "title": "Ejemplo 7.1.2"}, {"id": "resultado-7-1-2", "kind": "resultado", "ordinal": 2, "section": 1, "title": "Resultado 7.1.2"}, {"id": "resultado-7-1-3", "kind": "resultado", "ordinal": 3, "section": 1, "title": "Resultado 7.1.3"}, {"id": "resultado-7-1-4", "kind": "resultado", "ordinal": 4, "section": 1, "title": "Resultado 7.1.4"}, {"id": "ejemplo-7-1-3", "kind": "ejemplo", "ordinal": 3, "section": 1, "title": "Ejemplo 7.1.3"}, {"id": "resultado-7-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 7.2.1"}, {"id": "resultado-7-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 7.2.2"}, {"id": "resultado-7-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 7.2.3"}, {"id": "resultado-7-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 7.2.4"}, {"id": "resultado-7-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 7.3.1"}, {"id": "resultado-7-4-1", "kind": "resultado", "ordinal": 1, "section": 4, "title": "Resultado 7.4.1"}, {"id": "resultado-7-4-2", "kind": "resultado", "ordinal": 2, "section": 4, "title": "Resultado 7.4.2"}], "chapters/cap8.html": [{"id": "resultado-8-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 8.1.1"}, {"id": "ejemplo-8-1-1", "kind": "ejemplo", "ordinal": 1, "section": 1, "title": "Ejemplo 8.1.1"}, {"id": "resultado-8-1-2", "kind": "resultado", "ordinal": 2, "section": 1, "title": "Resultado 8.1.2"}, {"id": "resultado-8-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 8.2.1"}, {"id": "definicion-8-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 8.2.1"}, {"id": "resultado-8-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 8.2.2"}, {"id": "resultado-8-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 8.2.3"}, {"id": "resultado-8-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 8.2.4"}, {"id": "resultado-8-2-5", "kind": "resultado", "ordinal": 5, "section": 2, "title": "Resultado 8.2.5"}, {"id": "resultado-8-2-6", "kind": "resultado", "ordinal": 6, "section": 2, "title": "Resultado 8.2.6"}, {"id": "resultado-8-2-7", "kind": "resultado", "ordinal": 7, "section": 2, "title": "Resultado 8.2.7"}, {"id": "ejemplo-8-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 8.2.1"}, {"id": "definicion-8-3-1", "kind": "definicion", "ordinal": 1, "section": 3, "title": "Definici\u00f3n 8.3.1"}, {"id": "resultado-8-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 8.3.1"}, {"id": "resultado-8-3-2", "kind": "resultado", "ordinal": 2, "section": 3, "title": "Resultado 8.3.2"}, {"id": "ejemplo-8-3-1", "kind": "ejemplo", "ordinal": 1, "section": 3, "title": "Ejemplo 8.3.1"}, {"id": "resultado-8-4-1", "kind": "resultado", "ordinal": 1, "section": 4, "title": "Resultado 8.4.1"}, {"id": "resultado-8-4-2", "kind": "resultado", "ordinal": 2, "section": 4, "title": "Resultado 8.4.2"}, {"id": "resultado-8-4-3", "kind": "resultado", "ordinal": 3, "section": 4, "title": "Resultado 8.4.3"}, {"id": "ejemplo-8-4-1", "kind": "ejemplo", "ordinal": 1, "section": 4, "title": "Ejemplo 8.4.1"}], "chapters/cap9.html": [{"id": "definicion-9-1-1", "kind": "definicion", "ordinal": 1, "section": 1, "title": "Definici\u00f3n 9.1.1"}, {"id": "resultado-9-1-1", "kind": "resultado", "ordinal": 1, "section": 1, "title": "Resultado 9.1.1"}, {"id": "definicion-9-2-1", "kind": "definicion", "ordinal": 1, "section": 2, "title": "Definici\u00f3n 9.2.1"}, {"id": "resultado-9-2-1", "kind": "resultado", "ordinal": 1, "section": 2, "title": "Resultado 9.2.1"}, {"id": "ejemplo-9-2-1", "kind": "ejemplo", "ordinal": 1, "section": 2, "title": "Ejemplo 9.2.1"}, {"id": "resultado-9-2-2", "kind": "resultado", "ordinal": 2, "section": 2, "title": "Resultado 9.2.2"}, {"id": "resultado-9-2-3", "kind": "resultado", "ordinal": 3, "section": 2, "title": "Resultado 9.2.3"}, {"id": "resultado-9-2-4", "kind": "resultado", "ordinal": 4, "section": 2, "title": "Resultado 9.2.4"}, {"id": "resultado-9-3-1", "kind": "resultado", "ordinal": 1, "section": 3, "title": "Resultado 9.3.1"}, {"id": "resultado-9-3-2", "kind": "resultado", "ordinal": 2, "section": 3, "title": "Resultado 9.3.2"}, {"id": "resultado-9-3-3", "kind": "resultado", "ordinal": 3, "section": 3, "title": "Resultado 9.3.3"}]};
+
+  function onReady(fn) {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+    else fn();
+  }
+
+  function normalizeKey(label, number) {
+    label = label.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    var labels = {
+      "definiciones": "definicion", "definicion": "definicion",
+      "resultados": "resultado", "resultado": "resultado",
+      "ejemplos": "ejemplo", "ejemplo": "ejemplo",
+      "ecuaciones": "ecuacion", "ecuacion": "ecuacion",
+      "expresiones": "expresion", "expresion": "expresion",
+      "figuras": "figura", "figura": "figura",
+      "tablas": "tabla", "tabla": "tabla",
+      "secciones": "seccion", "seccion": "seccion",
+      "capitulos": "capitulo", "capitulo": "capitulo",
+      "modelos": "modelo", "modelo": "modelo"
+    };
+    label = labels[label] || label;
+    number = number.replace(/^\(/, "").replace(/\)$/, "").replace(/[.\u00ba]$/g, "");
+    return label + " " + number;
+  }
+
+  function currentPage() {
+    var path = window.location.pathname.replace(/\\/g, "/");
+    var i = path.lastIndexOf("/chapters/");
+    if (i >= 0) return "chapters/" + path.slice(i + 10);
+    return path.slice(path.lastIndexOf("/") + 1) || "index.html";
+  }
+
+  function hrefFromCurrent(target) {
+    var page = currentPage();
+    if (page.indexOf("chapters/") === 0) {
+      if (target.indexOf("chapters/") === 0) return target.replace(/^chapters\//, "");
+      return "../" + target;
+    }
+    return target;
+  }
+
+  function assignCallouts() {
+    var specs = CALLOUTS[currentPage()] || [];
+    if (!specs.length) return;
+    var i = 0;
+    document.querySelectorAll(".callout[title]").forEach(function (callout) {
+      var title = callout.getAttribute("title") || "";
+      var label = normalizeKey(title, "0").split(" ")[0];
+      if (!["definicion", "resultado", "ejemplo"].includes(label)) return;
+      var spec = specs[i++];
+      if (!spec) return;
+      callout.id = callout.id || spec.id;
+      callout.setAttribute("title", spec.title);
+      var titleContainer = callout.querySelector(".callout-title-container");
+      if (titleContainer) {
+        var sr = titleContainer.querySelector(".screen-reader-only");
+        titleContainer.textContent = "";
+        if (sr) titleContainer.appendChild(sr);
+        titleContainer.appendChild(document.createTextNode(spec.title));
+      }
+    });
+  }
+
+  function addDynamicMathTargets() {
+    var page = currentPage();
+    var m = page.match(/cap(\d+)\.html$/);
+    if (!m) return;
+    var fileChapter = parseInt(m[1], 10);
+    var legacy = {11:12, 12:12, 13:14, 14:15, 15:11}[fileChapter] || fileChapter;
+    var counts = {};
+    document.querySelectorAll("span.math.display").forEach(function (math) {
+      if (math.closest("[id^='eq-']")) return;
+      var section = math.closest("section[data-number]");
+      if (!section) return;
+      var parts = (section.getAttribute("data-number") || "").split(".");
+      if (parts.length < 2) return;
+      var sectionIndex = parts[1];
+      counts[sectionIndex] = (counts[sectionIndex] || 0) + 1;
+      var n = counts[sectionIndex];
+      var id = "expr-" + legacy + "-" + sectionIndex + "-" + n;
+      if (!math.id) math.id = id;
+      [legacy, fileChapter, fileChapter + 1].forEach(function (ch) {
+        var num = ch + "." + sectionIndex + "." + n;
+        XREF_MAP[normalizeKey("modelo", num)] = page + "#" + id;
+        XREF_MAP[normalizeKey("expresion", num)] = page + "#" + id;
+        XREF_MAP[normalizeKey("ecuacion", num)] = page + "#" + id;
+      });
+    });
+  }
+
+  function shouldSkip(node) {
+    var p = node.parentElement;
+    if (!p) return true;
+    return !!p.closest("a, script, style, code, pre, .math, .quarto-float-caption, .callout-title-container, .sidebar, nav, .toc-actions");
+  }
+
+  function autolink() {
+    var re = /\b(modelos?|resultados?|definiciones?|definici[oó]n|ecuaciones?|ecuaci[oó]n|expresiones?|expresi[oó]n|ejemplos?|cap[ií]tulos?|secciones?|secci[oó]n|tablas?|figuras?)\s+(\(?\d+(?:\.\d+)*\)?[.º]?)/gi;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        if (shouldSkip(node)) return NodeFilter.FILTER_REJECT;
+        re.lastIndex = 0;
+        return re.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var text = node.nodeValue;
+      var frag = document.createDocumentFragment();
+      var last = 0;
+      re.lastIndex = 0;
+      var match;
+      while ((match = re.exec(text)) !== null) {
+        var key = normalizeKey(match[1], match[2]);
+        var target = XREF_MAP[key];
+        if (!target) continue;
+        frag.appendChild(document.createTextNode(text.slice(last, match.index)));
+        var a = document.createElement("a");
+        a.className = "xref-autolink";
+        a.href = hrefFromCurrent(target);
+        a.textContent = match[0];
+        frag.appendChild(a);
+        last = match.index + match[0].length;
+      }
+      if (last === 0) return;
+      frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  onReady(function () {
+    assignCallouts();
+    addDynamicMathTargets();
+    autolink();
+  });
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/cap12.html" class="pagination-link" aria-label="Muestreo en dos fases">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Muestreo en dos fases</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/cap14.html" class="pagination-link" aria-label="Encuestas multi-propósito">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Encuestas multi-propósito</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Estrategias de muestreo</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1581 @@
+```{r, echo=FALSE, message=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+library(ggplot2)
+library(gridExtra)
+options(scipen = 100, digits = 2)
+set.seed(12345)
+library(knitr)
+opts_chunk$set(cache = TRUE)
+knit_theme$set("acid")
+```
+
+# Muestras probabilísticas y estimadores
+
+::: {.blockquote}
+
+La base matemática para el desarrollo del modelo de muestreo se encuentra en la teoría de la inferencia estadística y de manera más directa en la aplicación de los principios básicos de la teoría de probabilidad. Los resultados del modelo de muestreo sólo son válidos si se parte de la certeza de contar con una muestra que satisfaga las condiciones exigidas por la inferencia estadística.
+
+
+@Baut
+
+
+:::
+
+## Población y muestra aleatoria
+<!-- index: Población --><!-- index: Muestra aleatoria -->
+El proceso de estimación e inferencia en poblaciones finitas, que finalmente son las que fácilmente encontramos en la realidad y en las que se enfoca el muestreo, es muy diferente al proceso de inferencia de la estadística clásica. Esta última se trata a los valores observados como realizaciones de una variable aleatoria. En contravía con lo anterior, el muestreo asume que los valores observados corresponden a parámetros fijos poblacionales. Partiendo de este hecho formalicemos algunos conceptos que son de vital importancia en el estudio y análisis del muestreo.
+
+
+### Población finita
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Población finita -->Una **población finita** es un conjunto de $N$ elementos $\{e_1, e_2, ..., e_N\}$. Cada unidad puede ser identificada sin ambigüedad por un conjunto de rótulos. Sea $U=\{1,2,...,N\}$ el conjunto de rótulos de la población finita. El tamaño de la población no es necesariamente conocido.
+
+:::
+
+Es el conjunto de $N$, donde $N<\infty$, unidades que conforman el universo de estudio. $N$ es comúnmente llamado el tamaño poblacional. Cada elemento perteneciente a la población puede ser identificado por un rótulo. Sea $U$ el conjunto de rótulos, tal que
+
+\begin{equation*}
+U=\{1,...,k,...,N\}.
+\end{equation*}
+
+Se utilizará el subíndice $k$ para denotar la existencia física del $k$-ésimo elemento. Nótese que el **tamaño de la población**, $N$, no siempre es conocido y en algunas ocasiones el objetivo de la investigación es poder estimarlo.
+
+### Muestra aleatoria
+
+<!-- index: Muestra aleatoria -->Es un subconjunto de la población que ha sido extraído mediante un mecanismo estadístico de selección. Notaremos con una letra mayúscula $S$ a la muestra aleatoria\footnote{Nótese que $S$ es una variable aleatoria.} y con una letra minúscula $s$ a una realización de la misma. De tal forma que, sin ambigüedad, una muestra seleccionada (realizada) es el conjunto de unidades pertenecientes a
+
+\begin{equation*}
+s=\{1,...,k,...,n(S)\}.
+\end{equation*}
+
+El número de componentes de $s$ es llamado el **tamaño de muestra** y no siempre es fijo. Es decir, en algunos casos $n(S)$ es una cantidad aleatoria. El conjunto de todas las posibles muestras se conoce como **soporte**. Haciendo una analogía con la inferencia estadística clásica, el soporte generado por una muestra aleatoria corresponde al espacio muestral generado por una variable aleatoria.
+
+La anterior definición de muestra, en donde los elementos incluidos se listan dentro de un conjunto, corresponde a la forma clásica de notación. Sin embargo, una muestra también puede ser notada como un vector de tamaño $N$. De esta manera, la $k$-ésima entrada del vector denotará el número de veces que el elemento fue incluido o seleccionado; si el valor es cero, indica que el elemento no fue incluido en la muestra seleccionada; si el valor es distinto de cero, indica que el elemento sí fue seleccionado. Aunque ambas formas de notación tienen la misma interpretación, para evitar confusiones, se denotará la muestra en forma de vector con una $\mathbf{s}$ en negrilla, mientras que la muestra en forma de conjunto se denotara con una $s$ simple sin negrilla. A continuación se dan definiciones más precisas acerca de la muestra aleatoria con o sin reemplazo.
+
+#### Muestra aleatoria sin reemplazo
+
+<!-- index: Muestra sin reemplazo -->
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Muestra sin reemplazo -->
+Una **muestra sin reemplazo** se denota mediante un vector columna
+\begin{equation}
+\mathbf{s}=(I_1,I_2,...,I_N)' \in \{0,1\}^N
+\end{equation}
+donde
+\begin{equation}
+I_k=
+\begin{cases}
+1       & \text{si el $k$-ésimo elemento pertenece a la muestra,}\\
+0       & \text{en otro caso}
+\end{cases}
+\end{equation}
+
+:::
+
+Una muestra aleatoria se dice sin reemplazo si la inclusión de cada uno de los elementos se hace entre los elementos que no han sido escogidos aún; de esta manera el conjunto $s$ nunca tendrá elementos repetidos. El tamaño de muestra corresponde a la cardinalidad de $s$.
+\begin{equation}
+n(S)=\sum_{k \in U}I_k.
+\end{equation}
+
+Como $n(S)$ no es una cantidad fija, es posible que ocurran uno de los siguientes escenarios: a) que la muestra no contenga a ningún elemento, entonces esta muestra se dice vacía; b) que la muestra contenga a todos los elementos de la población, esta muestra se conoce con el nombre de **censo**.
+
+#### Muestra aleatoria con reemplazo
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Muestra con reemplazo -->Una **muestra con reemplazo** se denota mediante un vector columna
+\begin{equation}
+\mathbf{s}=(n_1,n_2,...,n_N)' \in \mathbb{N}^N
+\end{equation}
+donde $n_k$ es el número de veces que el elemento $k$ está en la muestra
+
+:::
+
+En algunos casos, por conveniencia del mecanismo de selección, el usuario prefiere tomar una muestra aleatoria con reemplazo si la inclusión de cada uno de los elementos tiene en cuenta a todos los elementos, ya sea que hayan sido escogidos para pertenecer en la muestra o no. De esta forma, el usuario puede seleccionar una muestra cuyo proceso de selección incluya a un individuo $m$ veces (nótese que $m$ puede ser mayor que $N$). Sin embargo, en una muestra aleatoria con reemplazo, dos o más componentes pueden ser idénticos. Un elemento que esté incluido más de una vez en $s$ es llamado **elemento repetido**<!-- index: Elemento repetido -->.
+
+En principio el tamaño de muestra está dado por
+\begin{equation}
+n(S)=m=\sum_{k \in U}n_k.
+\end{equation}
+
+El número de elementos distintos en una muestra aleatoria $S$ con reemplazo es llamado **tamaño de muestra efectivo** y con probabilidad uno es menor o igual a $N$.
+
+### Soportes de muestreo
+
+<!-- index: Soportes de muestreo -->En los próximos capítulos empezará el tratamiento particular para estrategias de muestreo específicas; es decir, diseños de muestreo que se ajustan a ciertas situaciones y estimadores que mejoran la eficiencia de la estrategia. Sin embargo, antes de proseguir, es necesario que el lector entienda que las estrategias de muestreo se definen en términos del tipo de muestreo que se utiliza para la selección de muestras. En general, existen dos distinciones básicas.
+
+
+1. **Tipo de muestreo:** selección de unidades con reemplazo o sin reemplazo.
+2. **Tamaño de muestra:** tamaño de muestra fijo o aleatorio.
+
+
+Como se verá en los capítulos posteriores, dependiendo de las anteriores condiciones, se define la estrategia de muestreo, el tratamiento teórico para la estimación de parámetros y el tipo de soporte. Esta sección trata específicamente sobre las diferentes formas que puede tomar el soporte de un diseño de muestreo dependiendo de las dos distinciones básicas. Para entrar en materia, es necesario enunciar las siguientes definiciones.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Soporte -->Un **soporte** $Q$ es un conjunto de muestras.
+
+:::
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Soporte simétrico -->Un **soporte se llama simétrico** si para cualquier $s \in Q$, todas las permutaciones de $s$ están también en $Q$.
+
+:::
+
+En los siguientes capítulos, a menos que se mencione lo contrario, el término **soporte** hará referencia a un **soporte simétrico**. Algunos soportes simétricos particulares son:
+
+
+- El *soporte simétrico sin reemplazo* definido como
+\begin{equation*}
+\mathcal{S}=\{0,1\}^N
+\end{equation*}
+Nótese que
+\begin{equation*}
+\#(\mathcal{S})=2^N
+\end{equation*}
+Por ejemplo, si $N=3$, entonces $\mathcal{S}$ queda definido por las siguientes muestras:
+{\footnotesize
+\begin{equation*}
+\mathcal{S}=\{(0,0,0)',(1,0,0)',(0,0,1)',(1,0,1)',(0,1,0)',(1,1,0)',(0,1,1)',(1,1,1)'\}
+\end{equation*}
+}
+
+- El *soporte simétrico sin reemplazo de tamaño fijo* definido como
+\begin{equation*}
+\mathcal{S}_n=\left\{ \textbf{s} \in \mathcal{S}| \sum_{k\in U}s_k=n \right\}
+\end{equation*}
+Nótese que
+\begin{equation*}
+\#(\mathcal{S}_n)=\binom{N}{n}
+\end{equation*}
+Por ejemplo, si $N=3$ y $n=2$, entonces $\mathcal{S}_n$ queda definido por las siguientes muestras:
+\begin{equation*}
+\mathcal{S}_n=\{(1,0,1)',(1,1,0)',(0,1,1)'\}
+\end{equation*}
+
+- El *soporte simétrico con reemplazo* definido como
+\begin{equation*}
+\mathcal{R}=\mathbb{N}^N
+\end{equation*}
+donde $\mathbb{N}$ es el conjunto de los números naturales. Nótese que este soporte es un conjunto contable pero infinito, por tanto
+\begin{equation*}
+\#(\mathcal{R})=\infty
+\end{equation*}
+
+- El *soporte simétrico con reemplazo de tamaño fijo* definido como
+\begin{equation*}
+\mathcal{R}_m=\left\{ \textbf{s} \in \mathcal{R} | \sum_{k\in U}n_k=m \right\}
+\end{equation*}
+Nótese que
+\begin{equation*}
+\#(\mathcal{R}_m)=\binom{N+m-1}{m}
+\end{equation*}
+Por ejemplo, si $N=3$ y $m=2$, entonces $\mathcal{R}_m$ queda definido por las siguientes muestras:
+\begin{equation*}
+\mathcal{R}_m=\{(2,0,0)',(0,0,2)',(0,2,0)',(1,1,0)',(1,0,1)',(0,1,1)'\}
+\end{equation*}
+
+
+@Til afirma que geométricamente cada vector $\mathbf{s}$ representa el vértice de un $N$-cubo. Además, se tiene el siguiente resultado:
+
+
+::: {.callout-tip title="Resultado"}
+
+Para los soportes definidos anteriormente, se tienen las siguientes propiedades:
+
+1. $\mathcal{S},\mathcal{S}_n,\mathcal{R},\mathcal{R}_m$ son soportes simétricos.
+2. $\mathcal{S}\subset\mathcal{R}$.
+3. El conjunto $\{\mathcal{S}_0,\mathcal{S}_1,\ldots,\mathcal{S}_N\}$ es una partición de $\mathcal{S}$.
+4. El conjunto $\{\mathcal{R}_0,\mathcal{R}_1,\ldots,\mathcal{S}_N,\ldots\}$ es una partición infinita de $\mathcal{R}$.
+5. $\mathcal{S}\subset\mathcal{R}$ para todo $n=0,1,\ldots,N$.
+
+
+:::
+
+#### Muestras probabilísticas
+
+<!-- index: Muestra probabilística -->No todas las muestras aleatorias son de tipo probabilístico. Una muestra (con o sin reemplazo) es de tipo probabilístico sí:
+
+
+- Es posible construir (o al menos definir teóricamente) un soporte $Q$, tal que $Q=\{s_1,\ldots,s_q,\ldots,s_Q\}$, de todas las muestras posibles obtenidas por un método de selección. En donde $s_q$, $q=1,\ldots,Q$, es una muestra perteneciente al soporte $Q$.
+- Las probabilidades de selección que el proceso aleatorio le otorga a cada posible muestra perteneciente al soporte son conocidas de antemano a la selección de la muestra  final.
+
+
+Nótese que una muestra al azar no necesariamente es una muestra probabilística. En la mala práctica, algunos investigadores utilizan métodos aleatorios de inclusión de elementos sin disponer de un marco de muestreo y sin cumplir las dos condiciones anteriores; de esta manera, aunque los elementos sean escogidos de manera aleatoria o al azar, la muestra resultante no se puede catalogar como una muestra probabilística. Desde aquí en adelante, a menos que se diga lo contrario, el término muestra se refiere a una muestra probabilística. Algunos comentarios de interés son:
+
+
+1. El universo $U$ es finito.
+2. La muestra probabilística $s$ puede contener objetos repetidos. Esto sucede cuando el procedimiento de muestreo es con reemplazo.
+3. La muestra $s$ con repeticiones, puede tener un tamaño mayor al de la población.
+4. La muestra $s$ sin repeticiones, puede tener un tamaño máximo igual a $N$.
+5. Si se presenta la ausencia del marco de muestreo es imposible realizar un procedimiento de muestreo probabilístico. Excepto cuando se realiza un censo.
+6. Si la muestra seleccionada no es de tipo probabilístico, entonces no se puede construir ninguna estimación de tipo estadístico.
+7. El estadístico deberá responder por los engaños o fraudes, que por ignorancia, mala fe o por la comodidad de mantener un empleo o negocio, para el cual no está capacitado, cometa contra clientes, ciudades y países que confían en la cifras resultantes de sus análisis.
+
+
+::: {.callout-note title="Ejemplo"}
+
+Suponga una población finita de tamaño $N=5$, en donde los integrantes de la población están identificados cada uno con su nombre. La población la conforman los siguientes elementos:
+
+\begin{center}
+**Yves, Ken, Erik, Sharon, y Leslie,**
+\end{center}
+
+En R se utiliza un vector de cadena de texto para indexar la población. Nótese que los elementos pertenecientes al vector son especificados mediante el uso de las comillas. En este caso los identificadores de cada elemento de la población, son asignados al objeto `U`.
+
+```{r}
+U  <-  c("Yves", "Ken", "Erik", "Sharon", "Leslie")
+U[1]
+U[2]
+```
+
+Para obtener el soporte $Q$, de todas las posibles muestras de tamaño $n=2$ de esta población de tamaño $N=5$, se utiliza la función `Support` del paquete `TeachingSampling`. Esta función contiene tres argumentos: el tamaño de la población `N`, el tamaño fijo de cada una de las posibles muestras `n` y, por último, una característica `y` que puede ser de tipo numérico o puede ser un conjunto de rótulos<!-- index: Rótulo -->, la salida de la función será un conjunto de datos conteniendo todas las posibles muestras de tamaño fijo. Cuando el argumento `y` es distinto de `FALSE`, el resultado de la función será la característica poblacional para cada individuo. En el siguiente ejemplo se utiliza la función `Support(N,n,y=FALSE)` para obtener el conjunto de posibles muestras de tamaño dos de la población $U$, mientras que la función `Support(N,n,U)` arroja el conjunto de los rótulos en cada una de las 10 posibles muestras.
+
+```{r, warning=FALSE}
+N  <-  length(U)
+N
+n <- 2
+
+Support(N,n)
+Support(N,n,U)
+```
+
+:::
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Diseño de muestreo -->Un **diseño de muestreo** $p(\cdot)$ es una distribución de probabilidad multivariante definida sobre un soporte $Q$; es decir, $p(\cdot)$ es una función que va desde $Q$\footnote{Nótese que $Q$ es el espacio muestral cuyos elementos son vectores.} hasta $(0,1]$ tal que $p(s)>0$ para todo $s \in Q$ y
+\begin{equation}
+\sum_{s \in Q}p(s)=1
+\end{equation}
+
+:::
+
+Dado el soporte $Q$, un **diseño de muestreo** <!-- index: Diseño de muestreo -->es una función $p(\cdot)$, tal que $p(s)$ arroja la probabilidad de selección <!-- index: Probabilidad de selección -->de la muestra realizada $s$ bajo un esquema de selección particular. En otras palabras, si $S$ es una muestra aleatoria que toma el valor $s$ con probabilidad $p(s)$, tal que
+
+\begin{equation}
+Pr(S=s)=p(s) \ \ \ \ \ \ \ \ \ \ \ \ \text{para todo } s\in Q  .
+\end{equation}
+
+Entonces $p(\cdot)$ es llamada diseño de muestreo.
+
+El diseño muestreo, es una función que va desde el soporte $Q$ hasta el intervalo $]0,1]$. Por ser una distribución de probabilidad se tiene que $p(\cdot)$ cumple que
+
+
+1. $p(s)\geq0$ para todo $s\in Q$
+2. $\sum_{s\in Q}p(s)=1$
+
+
+Nótese que el diseño de muestreo no se refiere a un algoritmo o procedimiento que permite la selección de muestras. Dado un diseño de muestreo, el trabajo del estadístico consiste en encontrar un algoritmo que permita la selección de muestras cuya probabilidad de selección <!-- index: Probabilidad de selección -->corresponda a la probabilidad inducida por el diseño de muestreo. Para la realización de inferencias acerca de los parámetros de interés, el diseño de muestreo juega un papel muy importante porque las propiedades estadísticas (esperanza, varianza y otros) de las cantidades aleatorias que se calculan basadas en una muestra  están determinadas por éste.
+
+Dado un soporte $Q$, un diseño de muestreo puede ser:
+
+
+- **Sin reemplazo** si todas las posibles muestras en $Q$ son sin reemplazo.
+- **Con reemplazo** si todas las posibles muestras en $Q$ son con reemplazo.
+- **De tamaño fijo** si todas las posibles muestras en $Q$ tienen el mismo tamaño de muestra $n(S)=n$.
+
+
+@CSW explican que la posibilidad de identificar cada una de todas las posibles muestras que pertenecen al soporte $Q$ es un factor crucial que permite:
+
+
+- designar un conjunto de muestras a las cuales se les asigna una probabilidad positiva de selección y
+- distribuir la totalidad de la masa de probabilidad entre los miembros de $Q$.
+
+
+El rasgo más importante del muestreo probabilístico es que permite conocer, por lo menos teóricamente, la probabilidad de selección <!-- index: Probabilidad de selección -->de todas las posibles muestras en el soporte $Q$. Sin embargo, un diseño de muestreo también deja conocer la probabilidad de inclusión del elemento $k$ en la muestra $S$.
+
+#### Algoritmo de selección
+
+<!-- index: Algoritmos de selección -->Un diseño de muestreo es una distribución de probabilidad sobre un soporte $Q$; pero, de ninguna manera, es un procedimiento que selecciona la muestra per se.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Algoritmos de selección -->Un **algoritmo de selección** es un procedimiento usado para seleccionar una muestra probabilística.
+
+:::
+
+@Til afirma que una forma de seleccionar una muestra es listar todas las posibles muestras, generar una variable aleatoria con distribución uniforme en el intervalo $[0,1]$ para luego hacer la correspondiente selección. A este tipo de algoritmos que listan todas las posibles muestras se les conoce con el nombre de **algoritmos de selección enumerativos**<!-- index: Algoritmo de selección enumerativo -->; sin embargo, este tipo de algoritmos son ineficientes computacionalmente y sólo son posibles de implementar cuando el diseño de muestreo es conocido y el tamaño poblacional $N$ es pequeño. A lo largo del libro se incluirán diversos algoritmos de selección específicos para cada diseño de muestreo que permitan la selección de una muestra probabilística.
+
+
+### Probabilidad de inclusión
+
+<!-- index: Probabilidad de inclusión -->La inclusión del elemento $k$-ésimo en una muestra $s$ particular es un evento aleatorio definido por la función indicadora $I_k(s)$, que está dada por
+
+$$
+I_k(s)=
+\begin{cases}
+1 & \text{si $k \in s$}\\
+0 & \text{si $k \notin s$}.
+\end{cases}
+$$ {#eq-indicadora}
+
+Nótese que la función $I_k(s)$ es una función de la variable aleatoria $S$. Para acortar la notación escribiremos $I_k=I_k(s)$, entendiéndose que $I_k$ es la función indicadora para el elemento $k$-ésimo. Bajo un diseño de muestreo $p(\cdot)$, una **probabilidad de inclusión** es asignada a cada elemento de la población para indicar la probabilidad de que el elemento pertenezca a la muestra. Para el elemento $k$-ésimo de la población, la probabilidad de inclusión se denota como $\pi_k$ y se conoce como la probabilidad de inclusión de **primer orden** y está dada por
+
+\begin{equation}
+\pi_k=Pr(k \in S)=Pr(I_k=1)=\sum_{s \ni k} p(s).
+\end{equation}
+
+En donde el subíndice $s \ni k$ se refiere a la suma sobre todas las muestras que contienen al elemento $k$-ésimo. Nótese que de la anterior definición para que una muestra sea considerada probabilística, entonces todos los elementos en la población deben tener probabilidad de inclusión estrictamente mayor a cero.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Esperanza de una muestra -->La **esperanza de una muestra** aleatoria, en el sentido de las definiciones 2.1.2. y 2.1.3., está dada por
+\begin{equation}
+\boldsymbol{\mu}=E(\mathbf{s})=\sum_{\mathbf{s}\in Q}p(\mathbf{s})\mathbf{s}
+\end{equation}
+
+:::
+
+Si el diseño muestral es sin reemplazo, entonces $\boldsymbol{\mu}=\boldsymbol{\pi}$, donde $\boldsymbol{\pi}=(\pi_1,\ldots,\pi_N)'$ es el vector de probabilidades de inclusión inducido por el diseño de muestreo. El siguiente resultado provee una manera sencilla para computar y realizar el cálculo de las $N$ probabilidades de inclusión.
+
+::: {.callout-tip title="Resultado"}
+
+Dado un soporte $Q$, la probabilidad de inclusión $\pi_k$ es la probabilidad de que el elemento $k$-ésimo pertenezca a la muestra aleatoria $S$ y se puede escribir de la siguiente manera:
+\begin{equation}
+\pi_k=E(I_k(S))=\sum_{s \in Q}I_k(s)p(s)
+\end{equation}
+
+**Prueba.**
+
+$I_k(S)$ es una función de la muestra aleatoria $S$, la demostración se sigue de la definición de la esperanza de una función de una variable aleatoria. Por otro lado, $I_k(S)$ sólo puede tomar dos valores 1 y 0, luego
+\begin{align*}
+E(I_k(S))&=(1)Pr(I_k(S)=1)+(0)Pr(I_k(S)=0)\\
+&=Pr(I_k(S)=1)=Pr(k\in S)=\pi_k
+\end{align*}
+
+:::
+
+Análogamente, $\pi_{kl}$ se conoce como la probabilidad de inclusión de **segundo orden**<!-- index: Probabilidad de inclusión de segundo orden --> y denota la probabilidad de que los elementos $k$ y $l$ pertenezcan a la muestra, ésta se denota como $\pi_{kl}$ y está dada por
+
+\begin{equation}
+\pi_{kl}=Pr(k\in S\text{ y }l\in S)=Pr(I_kI_l=1)=\sum_{s \ni \text{ $k$ y $l$}} p(s).
+\end{equation}
+
+En donde el subíndice $s \ni \text{ $k$ y $l$}$ se refiere a la suma sobre todas las muestras que contienen a los elementos $k$-ésimo y $l$-ésimo.
+
+::: {.callout-note title="Ejemplo"}
+
+Considere el siguiente diseño de muestreo $p(\cdot)$ tal que asigna las siguientes probabilidades de selección a cada una de las 10 posibles muestras de tamaño 2 del soporte $Q$ de la población $U$.
+
+```{r}
+p <- c(0.13,0.2,0.15,0.1,0.15,0.04,0.02,0.06,0.07,0.08)
+p
+```
+
+Es decir, la primera muestra tiene una probabilidad de selección de 0.13, la segunda muestra tiene una probabilidad de selección de 0.15, y así sucesivamente hasta la décima cuya probabilidad de selección es de 0.08. Con las siguientes instrucciones verificamos que las propiedades de diseño muestral sean satisfechas.
+
+```{r}
+sum(p)
+
+p < 0
+```
+
+Mediante el uso de la función `Ik` del paquete `TeachingSampling`, es posible crear las $N=5$ funciones indicadoras de los elementos pertenecientes a la población para cada una de las 10 posibles muestras de tamaño fijo y sin reemplazo. Esta función contiene dos argumentos: el tamaño de la población `N`, el tamaño fijo de cada una de las posibles muestras `n`. Una tabla de datos es creada a partir de los rótulos, la probabilidad de selección y las 5 funciones indicadoras de las posibles muestras contenidas en el soporte $Q$.
+
+```{r, warning=FALSE}
+Ind <- Ik(N, n)
+Q <- Support(N, n, U)
+
+data.frame(Q, p, Ind)
+```
+
+Una vez son calculadas las variables indicadoras para cada elemento y en cada posible muestra, el cálculo de las probabilidades de inclusión se hace muy sencillo al multiplicar las probabilidades de selección con cada una de las variables indicadoras. El resultado se suma por columnas y la salida es un vector de tamaño $N=5$ de probabilidades de inclusión.
+
+```{r}
+multip <- p * Ind
+colSums(multip)
+```
+
+La función `Pik` del paquete `TeachingSampling` arroja el vector de probabilidades de inclusión para todos los elementos de la población. Ésta tiene dos argumentos: un vector `p` de probabilidades de selección de todas las posibles muestras y una matriz `Ind` de $N$ variables indicadoras. Nótese que la suma de probabilidades de inclusión es el tamaño de muestra esperado, en este caso igual a 2.
+
+```{r}
+pik <- Pik(p, Ind)
+pik
+```
+
+Luego, el elemento de la población que tiene una mayor probabilidad de ser incluido es **Yves**, mientras que el elemento con una menor probabilidad de inclusión es **Sharon**. Por otra parte, haciendo uso de la función `Pikl` del paquete `TeachingSampling` es posible calcular la matriz de probabilidades de inclusión de segundo orden para el diseño `p` en cuestión. Esta función sólo tiene tres argumentos: `N`, el tamaño de la población, `n`, el tamaño de muestra fijo y `p`, el diseño de muestreo utilizado. La salida de esta función es una matriz cuadrada y simétrica de tamaño $N \times N$ cuyas entradas corresponden a las probabilidades de inclusión de segundo orden. Para este caso particular tenemos que la función se ejecuta de la siguiente manera.
+
+```{r}
+pikl <- Pikl(N, n, p)
+pikl
+```
+
+Nótese que, bajo este diseño de muestreo, **Yves** y **Erik** corresponden al par de elementos que tienen la más alta probabilidad de inclusión.
+
+:::
+
+### Característica de interés y parámetros de interés
+
+<!-- index: Característica de interés --><!-- index: Parámetro de interés -->El propósito de cualquier estudio por muestreo es estudiar una **característica** de interés $y$ que se encuentra asociada a cada unidad de la población. Es decir, la característica de interés toma el valor $y_k$ para la unidad $k$. Es importante notar que los $y_k$s no se consideran variables aleatorias sino cantidades fijas, por tanto la notación de éstas se hace con un letra minúscula $y$. El objetivo de la investigación por muestreo es estimar una función de interés $T$, llamada **parámetro**, de la característica de interés en la población.
+
+\begin{equation*}
+T=f\{y_1,\ldots,y_k,\ldots,y_N\}.
+\end{equation*}
+
+Algunos de los parámetros de interés más comunes son:
+
+
+1. El total poblacional,
+$$
+t_y=\sum_{k \in U}y_k
+$$ {#eq-total}
+2. La media poblacional,
+$$
+\bar{y}_U=\frac{\sum_{k \in U}y_k}{N}=\frac{t_y}{N}
+$$ {#eq-media}
+3. La varianza poblacional,
+\begin{equation}
+S^2_{yU}=\frac{\sum_{k \in U}(y_k-\bar{y}_U)^2}{N-1}
+\end{equation}
+
+
+Existen otros parámetros de interés como la mediana poblacional, los percentiles poblaciones, la razón entre dos totales poblacionales o, como se mencionó anteriormente, el tamaño de una población, en cuyo caso estaríamos interesados en $N$. Entre otros, algunos ejemplos de investigaciones por muestreo interesadas en los anteriores parámetros son:
+
+
+- Total de personas que pertenecen a la fuerza laboral.
+- Porcentaje de personas que usarían un producto.
+
+
+Obviamente, estas cantidades poblacionales son desconocidas y ésta es la razón por la que se requiere realizar una investigación por muestreo, porque mediante ésta se pueden estimar estos parámetros poblacionales a partir de una muestra seleccionada.
+
+::: {.callout-note title="Ejemplo"}
+
+Suponga que en nuestra población de ejemplo se quiere estimar el total de la variable $y$. El valor para cada uno de los elementos de la población es el siguiente:
+
+```{r}
+y <- c(32, 34, 46, 89, 35)
+y
+```
+
+La función `data.frame` crea el conjunto de datos conteniendo los nombres (rótulos) y el valor de la característica de interés para cada elemento de la población
+
+```{r}
+data.frame(U,y)
+```
+
+Algunos parámetros poblacionales de interés de la característica y son, el total poblacional y la media dados por $t_y$ y $\bar{y}_U$, respectivamente.
+
+```{r}
+ty  <-  sum(y)
+ty
+
+ybar  <-  ty / N
+ybar
+```
+
+:::
+
+### Estadística y estimador
+
+<!-- index: Estadística --><!-- index: Estimador -->Una **estadística** es una función $G$ (que toma valores reales) de la muestra aleatoria $S$ y sólo depende de los elementos pertenecientes a $S$. Cuando una estadística se usa para estimar un parámetro se dice **estimador** y las realizaciones del estimador en una muestra seleccionada $s$ se dicen **estimaciones**.
+
+Siendo $G$ una estadística, sus propiedades estadísticas están determinadas por el diseño de muestreo. Es decir, dada la probabilidad de selección de cada muestra $s \in Q$, la esperanza, la varianza y otras propiedades de interés están definidas a partir de $p(s)$.
+
+La **esperanza** de una estadística $G$ es
+
+\begin{equation}
+E(G)=\sum_{s\in Q}p(s)G(s).
+\end{equation}
+
+La **varianza** de la estadística $G$ está definida como
+
+\begin{align}
+Var(G)&=E[G-E(G)]^2\\
+&=\sum_{s\in Q}p(s)[G(s)-E(G)]^2.
+\end{align}
+
+Donde $G(s)$ es el valor real que toma la estadística $G$ en la muestra seleccionada (realizada) $s$ y $Q$ es el soporte inducido por el diseño muestral. Nótese que las propiedades de las estadísticas y, por consiguiente, de los estimadores, están definidas con sumas porque el diseño de muestreo induce una distribución de probabilidad discreta sobre todas las posibles muestras $s$ pertenecientes al soporte $Q$.
+
+#### La estadística $I_k$
+
+<!-- index: Variable aleatoria $I_k(S)$ -->La cantidad $I_k$ dada por @eq-indicadora es una estadística que toma valores aleatoriamente dependiendo del diseño de muestreo utilizado.
+
+::: {.callout-tip title="Resultado"}
+
+Las propiedades más importantes de esta estadística son:
+
+- $E(I_k)=\pi_k$
+- $Var(I_k)=\pi_k(1-\pi_k)$
+- $Cov(I_k,I_l)=\pi_{kl}-\pi_k\pi_l$ para todo $k \neq l$
+
+**Prueba.**
+
+Por el resultado 2.1.2., la primera propiedad se tiene de inmediato, ahora de la definición de varianza se tiene
+\begin{align*}
+Var(I_k(S))&=E[I_k(S)-E(I_k(S))]^2\\
+&=Pr(I_k(S)=1)[1-\pi_k]^2+Pr(I_k(S)=0)[0-\pi_k]^2\\
+&=\pi_k(1-\pi_k)
+\end{align*}
+y finalmente, de la definición de covarianza<!-- index: Covarianza --> se tiene
+\begin{align*}
+Cov(I_k(S),I_l(S))&=E[I_k(S)I_l(S)]-E[I_k(S)]E[I_k(S)]\\
+&=(1)Pr(I_k(S)I_l(S)=1)+(0)Pr(I_k(S)I_l(S)=0)-\pi_k\pi_l\\
+&=\pi_{kl}-\pi_k\pi_l
+\end{align*}
+
+:::
+
+A la covarianza de las estadísticas indicadoras para los elementos $k$ y $l$, $Cov(I_k,I_l)$, se le conoce como $\Delta_{kl}$. Esta cantidad, dependiendo del diseño, puede tomar valores positivos, negativos o incluso nulos.
+
+#### La estadística $n(S)$ o tamaño de muestra
+
+<!-- index: Tamaño de muestra -->Como ya se vio, el tamaño de muestra es una cantidad aleatoria, dependiendo del diseño. Nótese que este valor puede ser expresado como función de las estadísticas de inclusión.
+
+\begin{align}
+n(S)=\sum_UI_k.
+\end{align}
+
+::: {.callout-tip title="Resultado"}
+
+Algunas propiedades de interés son:
+
+- $E(n(S))=\sum_U\pi_k$
+- $Var(n(S))=\sum_U\pi_k-(\sum_U\pi_k)^2+\sum\sum_{k \neq l}\pi_{kl}$.
+
+**Prueba.**
+
+Para la primera propiedad, se tiene que
+\begin{align*}
+E[n(S)]=E\left[\sum_UI_k\right]=\sum_UE[I_k]=\sum_U\pi_k
+\end{align*}
+Recordando que las propiedades de la varianza de una suma se tiene
+\begin{align*}
+Var[n(S)]&=Var\left[\sum_UI_k\right]\\
+&=\sum_UVar[I_k]+\sum\sum_{k\neq l}Cov[I_k,I_l]\\
+&=\sum_U\pi_k-\sum_U\pi_k^2-\sum\sum_{k \neq l}\pi_k\pi_l+\sum\sum_{k \neq l}\pi_{kl}\\
+&=\sum_U\pi_k-\left(\sum_U\pi_k\right)^2+\sum\sum_{k \neq l}\pi_{kl}
+\end{align*}
+
+:::
+
+Además, cuando la variación del tamaño de muestra es nula porque se ha decidido utilizar un diseño de tamaño muestral fijo, se tienen las siguientes propiedades.
+
+::: {.callout-tip title="Resultado"}
+
+Si el diseño de muestreo es de tamaño fijo e igual a $n$,
+
+- $E(n(S))=\sum_U\pi_k=n$
+- $\sum_U\pi_{kl}=n\pi_l$
+- $\sum_U\Delta_{kl}=0$
+- $\pi_k(1-\pi_k)=\sum_{l\neq k}(\pi_k\pi_l-\pi_{kl})$
+
+**Prueba.**
+
+La primera propiedad se tiene recordando que la esperanza de una constante es ella misma. Nótese que $\pi_{kl}= E[I_k(S)I_l(S)]$, así
+\begin{align*}
+\sum_{l\in U}\pi_{kl}=\sum_{l\in U}E[I_k(S)I_l(S)]&=\sum_{l\in U}\sum_{s\in Q}p(s)I_k(s)I_l(s)\\
+&=\sum_{s\in Q}p(s)I_k(s)\sum_{l\in U}I_l(s)\\
+&=n(S)\sum_{s\in Q}p(s)I_k(s)=n\pi_k
+\end{align*}
+La tercera propiedad se tiene pues
+\begin{align*}
+\sum_U\Delta_{kl}&=\sum_U(\pi_{kl}-\pi_k\pi_l)\\
+&=\sum_U\pi_{kl}-\pi_k\sum_U\pi_l\\
+&=n\pi_k-n\pi_k=0
+\end{align*}
+Para demostrar la última propiedad es necesario redefinir el tamaño de muestra, de tal manera que $n=\sum_{l\neq k}I_l(S)+I_k(S)$. Luego,
+\begin{align*}
+\pi_k(1-\pi_k)&=Var(I_k(S))\\
+&=Cov(I_k(S),I_k(S))\\
+&=Cov\left(I_k(S),n-\sum_{l\neq k}I_l(S)\right)\\
+&=-\sum_{l\neq k}Cov(I_k(S),I_l(S))\\
+&=\sum_{l\neq k}(\pi_k\pi_l-\pi_{kl})
+\end{align*}
+
+:::
+
+::: {.callout-note title="Ejemplo"}
+
+Continuando con el desarrollo del ejemplo 2.1.3, ahora utilizaremos el vector de probabilidades de inclusión y la matriz de probabilidades de segundo orden para verificar los resultados 2.1.4 y 2.1.5. En primer lugar, nótese que la esperanza del tamaño de muestra, que corresponde a 2 pues el diseño es de tamaño fijo, se obtiene de la siguiente manera.
+```{r}
+A <- sum(pik)
+A
+```
+
+Ahora, el cuadrado de la suma de las probabilidades de inclusión se obtiene así
+```{r}
+B <- (sum(pik))^2
+B
+```
+
+Y la suma de los elementos distintos de la matriz de probabilidades de inclusión de segundo orden es
+```{r}
+C <- sum(pikl) - sum(diag(pikl))
+C
+```
+
+Para comprobar la segunda parte del resultado 2.1.4. basta realizar la siguiente operación `A-B+C`. Esta suma es nula y efectivamente corresponde a la varianza del tamaño de muestra en este diseño de muestreo; como, en este caso particular, el tamaño de muestra siempre fue fijo e igual a 2, la varianza debe ser cero.
+
+El siguiente paso de este ejemplo consiste en la verificación de la segunda parte del resultado 2.1.5. En resumidas cuentas, este apartado dice que la suma por filas (o columnas) de la matriz de probabilidades de inclusión de segundo orden debe corresponder exactamente a la multiplicación del tamaño de muestra y el vector de probabilidades de inclusión de primer orden. Lo anterior se corrobora fácilmente por medio del siguiente código.
+
+```{r}
+n * pik
+colSums(pikl)
+rowSums(pikl)
+```
+
+Nótese que la suma por filas y por columnas coincide perfectamente con $n\times \pi_k$ para todo $k\in U$. Por otro lado, verificaremos la tercera propiedad que afirma que la suma por filas (o columnnas) de la matriz de varianzas-covarianzas de las variables indicadoras de membresía muestral debe dar como resultado un vector de ceros de tamaño cinco. Para esto, se utiliza la función `Deltakl` del paquete `TeachingSampling`. Esta función tiene tres argumentos: `N`, el tamaño de la población, `n`, el tamaño de muestra fijo y `p`, el diseño de muestreo utilizado. La salida de esta función corresponde a una matriz cuadrada y simétrica de tamaño $N \times N$ cuyas entradas corresponden a las varianzas-covarianzas de las variables indicadoras de membresía muestral. Para este ejemplo, la implementación del siguiente código permite obtener la matriz buscada y la verificación del resultado.
+
+```{r}
+Delta <- Deltakl(N, n, p)
+Delta
+
+rowSums(Delta)
+colSums(Delta)
+```
+
+De esta manera la suma por filas (o columnas) de la matriz de varianzas-covarianzas de las variables indicadoras de membresía muestral es cero en cada columna (o fila).
+
+:::
+
+Cuando una estadística se construye con la intención de estimar un parámetro, recibe el nombre de **estimador**. Así, las propiedades más comúnmente utilizadas de un estimador $\hat{T}$ de un parámetro de interés $T$ son el sesgo, definido por
+
+\begin{equation}
+B(\hat{T})=E(\hat{T})-T
+\end{equation}
+
+y el error cuadrático medio, dado por
+
+\begin{align}
+ECM(\hat{T})&=E[\hat{T}-T]^2\\
+&=Var(\hat{T})+B^2(\hat{T}).
+\end{align}
+
+Si el sesgo de un estimador es nulo se dice que el estimador es **insesgado** y cuando esto ocurre el error cuadrático medio se convierte en la varianza del estimador.
+
+@Sar afirman que el objetivo en un estudio por muestreo es estimar uno a más parámetros poblacionales. Las decisiones más importantes a la hora de abordar un problema de estimación por muestreo son
+
+
+- La escogencia de un diseño de muestreo  y un algoritmo de selección que permita implementar el diseño.
+- La elección de una fórmula matemática o estimador que calcule una estimación del parámetro de interés en la muestra seleccionada.
+
+
+Las anteriores no son decisiones independientes. Es decir, la escogencia de un estimador dependerá, usualmente, del diseño de muestreo utilizado.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Estrategia de muestreo -->Siendo $\hat{T}$ un estimador de un parámetro $T$ y $p(\cdot)$ un diseño de muestreo definido sobre un soporte $Q$, se define una **estrategia de muestreo** como la dupla $(p(\cdot),\hat{T})$.
+
+:::
+
+Este libro, como su nombre lo indica, está enfocado en la búsqueda de la mejor combinación de diseño de muestreo y estimador; este problema ha sido considerado a través del desarrollo de la teoría de muestreo. La escogencia de la estrategia de muestreo se lleva a cabo en dos etapas, a saber: **Etapa de diseño**, refiriéndose al periodo durante el cual se decide el diseño de muestreo a utilizar junto con el algoritmo de muestreo que permita la selección de la muestra y finalmente se selecciona la muestra probabilística. Una vez que la información es recogida y grabada entra la **Etapa de estimación** en donde se calculan las estimaciones para la característica de interés utilizando el estimador propio de la estrategia de muestreo escogida.
+
+## Estimadores de muestreo
+
+<!-- index: Estimador -->Cada elemento perteneciente a la población tiene una característica de interés asociada $y$. Para el elemento $k$-ésimo el valor que toma esta característica de interés es $y_k$. El objetivo de la investigación por muestreo es estimar un parámetro $T$ que resulta de interés. El objetivo del estadístico es poder inferir acerca de $T$ con base en una muestra $s$. Un indicador de la precisión de un estimador está dado por el **coeficiente de variación estimado** dado por
+
+\begin{equation}
+cve(\hat{T})=\frac{\sqrt{\widehat{Var}(\hat{T})}}{\hat{T}}
+\end{equation}
+
+donde $\widehat{Var}(\hat{T})$ es el estimador de la varianza basado en la muestra seleccionada $s$. El coeficiente de variación estimado es una medida comúnmente usada para expresar el error cometido al seleccionar una muestra y ni utilizar a toda la población en la medición de la variable de interés. Si se realizara un censo y el estimador reprodujera el parámetro poblacional, entonces $\widehat{Var}(\hat{T})$ sería nula y, por lo tanto, el $cve$ también sería nulo.
+
+A continuación, se revisan algunos de los estimados más utilizados en la historia del muestreo. A medida que se avance en la lectura del libro, nuevos estimadores surgirán y, por consiguiente, nuevas estrategias de muestreo que permiten llegar a resultados con una precisión casi clínica. La mayoría de los estimadores presentados en este libro son estimadores de totales o de funciones de totales.
+
+### El estimador de Horvitz-Thompson
+<!-- index: Estimador de Horvitz-Thompson -->
+#### Estimador del total poblacional
+
+<!-- index: Estimador del total poblacional -->@Nara descubrió este estimador, aunque su artículo fue editado y publicado por una revista india de poca rotación. Más adelante @HT publicaron similares resultados en la revista más importante de estadística en ese tiempo, JASA (Journal of the American Statistical Society). Desde entonces, este estimador se conoce como el estimador de Horvitz-Thompson o estimador $\pi$, aunque rigurosamente debería ser llamado estimador de Narain-Horvitz-Thompson<!-- index: Estimador de Narain-Horvitz-Thompson -->. En este libro seguiremos la notación internacional y clásica.
+
+Para un universo $U$, se quiere estimar el total poblacional $t_y$ de la característica de interés $y$ dado por @eq-total. Se define el estimador de Horvitz-Thompson(HT) para $t_y$  como:
+
+$$
+\hat{t}_{y,\pi}=\sum_S\frac{y_k}{\pi_k}=\sum_Sd_ky_k
+$$ {#eq-ht}
+
+Donde $\pi_k$ es la probabilidad de inclusión para el $k$-ésimo elemento, y $d_k$ es conocido como **factor de expansión** y corresponde al inverso de la probabilidad de inclusión. Nótese que el estimador de Horvitz-Thompson es aleatorio porque está construido con base en una suma sobre la muestra aleatoria $S$. La motivación detrás de este estimador, como @Brew lo indica, descansa en el **principio de representatividad** que afirma que cada elemento incluido en una muestra se representa a sí mismo y a un grupo de unidades que no pertenecen a la muestra seleccionada, cuyas características son cercanas a las del elemento incluido en la muestra. El factor de expansión no es otra cosa que el número de elementos menos uno de la población (no incluidos en la muestra) representados por el elemento incluido.
+
+::: {.callout-tip title="Resultado"}
+
+ Si todas las probabilidades de inclusión de primer orden son mayores a cero ($\pi_{k}>0$ para todo $k$), el estimador de Horvitz-Thompson es insesgado para el total poblacional. Por tanto, se tiene que
+\begin{equation}
+E(\hat{t}_{y,\pi})=t_y
+\end{equation}
+
+**Prueba.**
+
+Reescribiendo el estimador de Horvitz-Thompson como $\hat{t}_{y,\pi}=\sum_SI_k(S)\frac{y_k}{\pi_k}$, se tiene
+\begin{align*}
+E(\hat{t}_{y,\pi})=E\left(\sum_UI_k(S)\frac{y_k}{\pi_k}\right)
+=\sum_U\frac{y_k}{\pi_k}E\left(I_k(S)\right)=\sum_U\pi_k\frac{y_k}{\pi_k}=t_y
+\end{align*}
+
+:::
+
+Si el diseño de muestreo es tal que las probabilidades de inclusión de primer orden conservan una buena correlación positiva con la medición de la característica de interés; en otras palabras, si $\pi_k \varpropto y_k$, el estimador de Horvitz-Thompson se reduce a una constante, por lo tanto tendrá varianza nula. En la práctica, una estrategia de muestreo óptima [@CSW] es aquella que utiliza el estimador de Horvitz-Thompson junto con un diseño de muestreo que induzca una buena correlación entre el vector de probabilidades de inclusión y el vector de valores de la característica de interés. Sin embargo, en encuestas multi-propósito, en donde se quiere estimar parámetros para varias características de interés entre las cuales no hay una buena correlación, al utilizar el estimador de Horvitz-Thompson es difícil evadir la débil, e incluso negativa, correlación que existe entre las características de interés y el vector de probabilidades de inclusión. Sin embargo, al incluir información auxiliar en la construcción del estimador se puede palear este hecho.
+
+#### Varianza del estimador de Horvitz-Thompson
+
+<!-- index: Varianza del estimador de Horvitz-Thompson -->
+
+::: {.callout-tip title="Resultado"}
+
+ La varianza del estimador de Horvitz-Thompson está dada por la siguiente expresión
+$$
+Var_1(\hat{t}_{y,\pi})=\sum\sum_U\Delta_{kl}\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}.
+$$ {#eq-var1}
+
+**Prueba.**
+
+De la definición de varianza, se obtiene lo siguiente
+\begin{align*}
+Var_1(\hat{t}_{y,\pi})&=Var\left(\sum_UI_k(S)\frac{y_k}{\pi_k}\right)\\
+&=\sum_U\frac{y_k^2}{\pi_k^2}Var(I_k(S))+\sum\sum_{k\neq l}\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}Cov(I_k(S),I_l(S))\\
+&=\sum_U\frac{y_k^2}{\pi_k^2}(\pi_k-\pi_k^2)
++\sum\sum_{k\neq l}\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}(\pi_{kl}-\pi_k\pi_l)\\
+&=\sum\sum_U\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}(\pi_{kl}-\pi_k\pi_l)\\
+&=\sum\sum_U\Delta_{kl}\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}
+\end{align*}
+
+:::
+
+@Sen y @YG dedujeron el siguiente resultado cuando el diseño de muestreo es de tamaño fijo.
+
+::: {.callout-tip title="Resultado"}
+
+Si el diseño $p(\cdot)$ es de tamaño de muestra fijo, entonces, la varianza del estimador de Horvitz-Thompson se escribe como
+$$
+Var_2(\hat{t}_{y,\pi})=-\frac{1}{2}\sum\sum_U\Delta_{kl}\left(\frac{y_k}{\pi_k}-\frac{y_l}{\pi_l}\right)^2
+$$ {#eq-var2}
+
+**Prueba.**
+
+Utilizando las propiedades del resultado 2.1.5, se tiene que
+\begin{align*}
+Var_2(\hat{t}_{y,\pi})&=
+-\frac{1}{2}\sum\sum_{U}\Delta_{kl}\left(\frac{y_k}{\pi_k}-\frac{y_l}{\pi_l}\right)^2\\
+&=-\frac{1}{2}\sum\sum_{U}\Delta_{kl}\left(\frac{y_k^2}{\pi_k^2}+\frac{y_l^2}{\pi_l^2}-
+2\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}\right)\\
+&=-\frac{1}{2}\left[\sum\sum_{U}\Delta_{kl}\frac{y_k^2}{\pi_k^2}+\sum\sum_{U}\Delta_{kl}
+\frac{y_l^2}{\pi_l^2}-2\sum\sum_U\Delta_{kl}\frac{y_l}{\pi_k}\frac{y_k}{\pi_l}\right]\\
+&=-\frac{1}{2}\left[2\sum\sum_{U}\Delta_{kl}\frac{y_k^2}{\pi_k^2}-
+2\sum\sum_U\Delta_{kl}\frac{y_l}{\pi_k}\frac{y_k}{\pi_l}\right]\\
+&=-\sum_{U}\frac{y_k^2}{\pi_k^2}\sum_U\Delta_{kl}+\sum\sum_U\Delta_{kl}\frac{y_l}{\pi_k}\frac{y_k}{\pi_l}\\
+&=\sum\sum_U\Delta_{kl}\frac{y_l}{\pi_k}\frac{y_k}{\pi_l}
+=Var_1(\hat{t}_{y,\pi})
+\end{align*}
+puesto que $\sum_U\Delta_{kl}=0$ para diseños de tamaño fijo. Por lo tanto, en los casos de diseños de muestreo con tamaño fijo, la varianza del estimador de Horvitz-Thompson puede calcularse por medio de $Var_2(\hat{t}_{y,\pi})$.
+
+:::
+
+#### Estimación de la varianza
+
+<!-- index: Estimación de la varianza -->Es posible construir dos estimadores insesgados para la @eq-var1 y la @eq-var2. Para esto, se requiere que todas las probabilidades de inclusión de segundo orden sean estrictamente positivas ($\pi_{kl}>0$ para todo $k$). Con el anterior supuesto, se tienen los siguientes resultados.
+
+::: {.callout-tip title="Resultado"}
+
+ Un estimador insesgado para la @eq-var1 está dado por
+$$
+\widehat{Var}_1(\hat{t}_{y,\pi})=\sum\sum_S \dfrac{\Delta_{kl}}{\pi_{kl}}\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}
+$$ {#eq-estvar1}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Si el diseño es de tamaño de muestra fijo, un estimador insesgado para la @eq-var2 está dado por
+\begin{equation}
+\widehat{Var}_2(\hat{t}_{y,\pi})=-\frac{1}{2}\sum\sum_S\frac{\Delta_{kl}}{\pi_{kl}}\left(\frac{y_k}{\pi_k}-\frac{y_l}{\pi_l}\right)^2
+\end{equation}
+
+**Prueba.**
+
+Los anteriores resultados son inmediatos al reescribir los estimadores $\widehat{Var}_1(\hat{t}_{y,\pi})$ y $\widehat{Var}_2(\hat{t}_{y,\pi})$ en términos de $U$ y multiplicar por el producto de las funciones indicadoras $I_k(S)I_l(S)$. Al aplicar la esperanza se tiene que $E[I_k(S)I_l(S)]=\pi_{kl}$ y con esto se tiene la demostración.
+
+:::
+
+@Baut resalta los tres siguientes comentarios importantes acerca de las estimaciones arrojadas por anteriores expresiones.
+
+
+1. Si las probabilidades de inclusión de segundo orden son mayores que cero para todos los elementos en la muestra, pero no para los restantes elementos que no fueron incluidos en la muestra, no se puede garantizar el insesgamiento de las anteriores expresiones.
+2. Es posible que las estimaciones de la varianza arrojen resultados negativos, que no pueden ser utilizados ni interpretados. Para evitar esta situación, es necesario garantizar que la covarianza entre las estadísticas de inclusión para cada par de elementos en la población sea negativa ($\Delta_{kl}<0$   $\forall$ $k \neq l $).
+3. No necesariamente las estimaciones arrojadas por las anteriores expresiones coinciden en todos los casos.
+
+
+Por su parte, @Til agrega que en la práctica, la utilización de las expresiones de los estimadores de la varianza es muy difícil de implementar pues la doble suma hace que el proceso de cálculo computacional sea muy largo e ineficiente. Por lo tanto, para cada diseño de muestreo que se utilice, se deben crear expresiones que pueden ser simplificadas o en algunos casos se deben utilizar aproximaciones.
+
+#### Intervalo de confianza para el estimador de Horvitz-Thompson
+
+<!-- index: Intervalo de confianza -->@Hajek demuestra la convergencia asintótica del estimador de Horvitz-Thompson a una distribución normal. Cuando el tamaño de muestra es suficientemente grande (que dependiendo del comportamiento de la población puede bastar con algunas docenas de individuos), se puede construir un intervalo de confianza de nivel $(1-\alpha)$ para el total poblacional $t_y$ de acuerdo con:
+
+$$
+IC(1-\alpha)=\left[\hat{t}_{y,\pi}-z_{1-\alpha / 2}\sqrt{ Var(\hat{t}_{y,\pi})},\hat{t}_{y,\pi}+z_{1-\alpha / 2}\sqrt{Var(\hat{t}_{y,\pi})}\right]
+$$ {#eq-ic}
+
+donde $z_{1-\alpha / 2}$ se refiere al cuantil<!-- index: Cuantil --> $(1-\alpha / 2)$ de una variable aleatoria con distribución normal estándar. Nótese que
+
+\begin{equation*}
+1-\alpha=\sum_{Q_0 \supset s}p(s),
+\end{equation*}
+
+donde $Q_0$ es el conjunto de todas las posible muestras cuyo intervalo de confianza contiene al total poblacional $t_y$. En la práctica muy pocas veces se conoce la varianza del estimador; por lo tanto, el intervalo de confianza estimado de nivel $(1-\alpha)$ puede ser obtenido con los datos de la muestra seleccionada reemplazando en @eq-ic la varianza del estimador por su correspondiente estimación y tomaría la siguiente expresión
+
+\begin{equation}
+IC_s(1-\alpha)=\left[\hat{t}_{y,\pi}-z_{1-\alpha / 2}\sqrt{ \widehat{Var}(\hat{t}_{y,\pi})},\hat{t}_{y,\pi}+z_{1-\alpha / 2}\sqrt{ \widehat{Var}(\hat{t}_{y,\pi})}\right].
+\end{equation}
+
+Al utilizar una estrategia de muestreo en la estimación de un parámetro en poblaciones finitas, las propiedades de la estrategia se estudian en términos de:
+
+
+- **Confiabilidad:** definida como la suma de las probabilidades de las muestras cuyo intervalo de confianza contiene al parámetro.
+- **Precisión:** definida como la longitud del intervalo de confianza.
+
+
+Nótese que las anteriores propiedades están en función del intervalo de confianza. Para determinar la confiabilidad se debe conocer al parámetro $T$ (desconocido) por tanto, en términos prácticos la confiabilidad no se puede calcular. Para determinar la precisión y la confiabilidad se requiere conocer la varianza, basada en el diseño de muestreo, del estimador utilizado, digamos $\hat{T}$; sin embargo, el cálculo de esta varianza $Var(\hat{T})$ implica, casi siempre, el requerimiento de conocer los valores $y_k$ para todo $k=1,...,N$. Luego la precisión tampoco se puede calcular. Sin embargo se debe proponer un estimador de $Var(\hat{T})$ (ojalá insesgado) que junto con $\hat{T}$ proporción una cota para el sesgo y para la precisión.
+
+
+#### Estimación de otros parámetros
+
+<!-- index: Parámetros diferentes al total -->Aunque @eq-ht es un estimador del total poblacional de la característica de interés, se puede utilizar para estimar otras cantidades poblacionales de interés. Si el tamaño poblacional $N$ es conocido, la media poblacional definida en @eq-media puede ser estimada con el estimador de Horvitz-Thompson.
+
+::: {.callout-tip title="Resultado"}
+
+ La media poblacional es estimada insesgadamente mediante el uso de la siguiente expresión
+\begin{align}
+\hat{\bar{y}}_{\pi}&=\dfrac{1}{N}\left(\hat{t}_{y,\pi}\right)=\dfrac{1}{N}\sum_s\frac{y_k}{\pi_k}
+\end{align}
+La varianza y la varianza estimada del estimador de la media poblacional están dadas por
+\begin{equation}
+Var(\hat{\bar{y}}_{\pi})=\dfrac{1}{N^2}Var(\hat{t}_{y,\pi})
+\end{equation}
+\begin{equation}
+\hat{Var}(\hat{\bar{y}}_{\pi})=\dfrac{1}{N^2}\hat{Var}(\hat{t}_{y,\pi})
+\end{equation}
+respectivamente.
+
+:::
+
+Sin embargo, es la regla más que la excepción que en la mayoría de casos en donde el usuario se enfrenta a una investigación cuyos objetivos están supeditados a la realización de un estudio por muestreo que el tamaño poblacional sea desconocido. En tal caso, podemos usar el estimador de Horvitz-Thompson para estimarlo puesto que $N$ puede ser escrito de la siguiente manera
+
+\begin{equation}
+N=\sum_U 1,
+\end{equation}
+
+tomando la conocida forma de un total poblacional. Luego, tenemos el siguiente resultado.
+
+::: {.callout-tip title="Resultado"}
+ El tamaño poblacional es estimado insesgadamente mediante el uso de la siguiente expresión
+\begin{equation}
+\hat{N}_{\pi}=\sum_S\frac{1}{\pi_k}.
+\end{equation}
+
+:::
+
+Cuando se ha estimado el total poblacional de una característica de interés y el tamaño poblacional mediante el uso del estimador de Horvitz-Thompson, surge un estimador para la media poblacional dado por
+
+\begin{align}
+\widetilde{y}_S&=\dfrac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}\\
+&=\sum_S\dfrac{y_k}{\pi_k} \ \Bigl/ \ \sum_S\dfrac{1}{\pi_k}.
+\end{align}
+
+La anterior expresión es una razón, o un cociente entre dos totales poblacionales. Las propiedades estadísticas de los anteriores estimadores serán tratados más adelante en las secciones pertinentes del libro.
+
+@Til cita que aun al conocer $N$, una mala propiedad del estimador de Horvitz-Thompson para la media poblacional se tiene al utilizarlo cuando la característica de interés es constante para todos los elementos de la población ($y_k=C$  $\forall k \in U$). Por supuesto, bajo las anteriores condiciones es claro que la media poblacional es igual a la constante ($\bar{y}_U=C$). Sin embargo, el estimador $\hat{\bar{y}}_{\pi}$ toma la siguiente forma
+
+\begin{equation}
+\hat{\bar{y}}_{\pi}=\dfrac{1}{N}\sum_s\frac{y_k}{\pi_k}=\dfrac{1}{N}\sum_s\frac{C}{\pi_k}=\dfrac{C}{N}\sum_s\frac{1}{\pi_k}=C\frac{\hat{N}_{\pi}}{N}.
+\end{equation}
+
+Al respecto, @Baut afirma que en aquellos casos en los que se conoce el valor de $N$ es preferible ignorarlo y utilizar el estimador $\widetilde{y}_S$ puesto que su variación es menor y cuando $y_k=C$  $\forall k \in U$ reproduce la media poblacional con varianza nula puesto que
+
+\begin{equation*}
+\widetilde{y}_S=\dfrac{\hat{t}_{y,\pi}}{\hat{\bar{y}}_{\pi}}=\dfrac{C\hat{\bar{y}}_{\pi}}{\hat{\bar{y}}_{\pi}}=C.
+\end{equation*}
+
+Cuando el tamaño poblacional es conocido y, como se verá más adelante, para algunos diseños de muestreo sin reemplazo, se puede crear un nuevo estimador alternativo del total poblacional inspirado en el siguiente argumento: Si $\widetilde{y}_S$ estima la media poblacional, entonces $N\widetilde{y}_S$ estimará el total poblacional. Por tanto, el estimador alternativo está dado por la siguiente expresión
+
+\begin{equation}
+\hat{t}_{y,alt}=N\widetilde{y}_S=\hat{t}_{y,\pi}\dfrac{N}{\hat{N}_{\pi}}
+\end{equation}
+
+que se puede ver como una corrección del estimador de Horvitz-Thompson mediante la estimación del tamaño de la población. La varianza y la estimación de la varianza serán tema de capítulos posteriores.
+
+::: {.callout-note title="Ejemplo"}
+
+La función `HT` del paquete `TeachingSampling` arroja la estimación del total poblacional de una o varias características de interés. Esta función tiene dos argumentos: el vector de tamaño $n$ de probabilidades de inclusión `pik` y el conjunto de valores de la característica o características de interés en los individuos pertenecientes a la muestra, `y` puede ser un vector en el caso de una sola característica de interés o una matriz en el caso de varias.
+
+Así, si la primera muestra (cuyos elementos son **Yves** y **Ken**) hubiese sido seleccionada y dado que las probabilidades de inclusión de estos dos elementos son 0.58 y 0.34, respectivamente y los valores de la característica de interés son 32 y 34, respectivamente, el estimador de Horvitz-Thompson arrojaría la siguiente estimación:
+
+```{r}
+y.s <- c(32, 34)
+pik.s <- c(0.58, 0.34)
+HT(y.s, pik.s)
+```
+
+Nótese que el total poblacional para la variable de interés $y$ es igual a 236. Por otro lado, el cálculo o estimación de la varianza del estimador de Horvitz-Thompson no se encuentra implementado pues la doble suma hace que los procesos computacionales sean muy largos y demorado. Por tanto, si se quieren conocer estos valores, el proceso se debe realizar manualmente. La estimación de la varianza se realiza teniendo en cuenta que $\pi_{12}=0.13$. Así,
+
+\begin{align*}
+\frac{\Delta_{11}}{\pi_{11}}&=\frac{\pi_{11}-\pi_{1}\pi_{1}}{\pi_{11}}=\frac{0.58-0.58^2}{0.58}=0.42\\
+\frac{\Delta_{12}}{\pi_{12}}&=\frac{\pi_{12}-\pi_{1}\pi_{2}}{\pi_{12}}=\frac{0.13-0.58*0.34}{0.13}=-0.52\\
+\frac{\Delta_{21}}{\pi_{21}}&=\frac{\pi_{11}-\pi_{2}\pi_{1}}{\pi_{21}}=\frac{0.13-0.34*0.58}{0.13}=-0.52\\
+\frac{\Delta_{22}}{\pi_{22}}&=\frac{\pi_{22}-\pi_{2}\pi_{2}}{\pi_{22}}=\frac{0.34-0.34^2}{0.34}=0.66
+\end{align*}
+
+Por tanto, utilizando @eq-estvar1, el estimador de la varianza será
+
+\begin{align*}
+\widehat{Var}(\hat{t}_{\pi})=\frac{\Delta_{11}}{\pi_{11}}\frac{y_1}{\pi_1}\frac{y_1}{\pi_1}
++\frac{\Delta_{12}}{\pi_{12}}\frac{y_1}{\pi_1}\frac{y_2}{\pi_2}
++\frac{\Delta_{21}}{\pi_{21}}\frac{y_2}{\pi_2}\frac{y_1}{\pi_1}
++\frac{\Delta_{22}}{\pi_{22}}\frac{y_2}{\pi_2}\frac{y_2}{\pi_2}
+\end{align*}
+
+y su respectiva estimación será
+
+\begin{align*}
+0.42\left(\frac{32}{0.58}\right)^2-2(0.52)\left(\frac{32}{0.58}\frac{34}{0.34}\right)+0.66\left(\frac{34}{0.34}\right)^2\cong2140
+\end{align*}
+
+El coeficiente de variación estimado es
+
+\begin{equation*}
+cve(\hat{t}_{\pi})=\frac{\sqrt{2140}}{155.1724}\cong0.3
+\end{equation*}
+
+Y el intervalo de confianza estimado con un nivel de confianza del 95 por ciento para esta estimación es el siguiente:
+
+\begin{align*}
+IC_s(0.95)&\cong \left[155-(1.96)\sqrt{2140},155+(1.96)\sqrt{2140}\right]\\
+&\cong \left[64,246\right]
+\end{align*}
+
+
+Continuando con el ejercicio léxico-gráfico de la estimación del total poblacional $t_y$ en todas las posibles muestras de tamaño 10 de la población $U$, tenemos la @tbl-t2-1 que puede ser reproducida mediante la ejecución del siguiente código computacional.
+
+```{r, warning=FALSE}
+all.pik <- Support(N, n, pik)
+all.y <- Support(N, n, y)
+all.HT <- rep(0, 10)
+
+for(k in 1:10){
+all.HT[k] <- HT(all.y[k,], all.pik[k,])
+}
+
+all.HT
+AllSamples=data.frame(Q, p, all.pik, all.y, all.HT)
+```
+
+```{r, echo = FALSE}
+#| label: tbl-t2-1
+#| tbl-cap: "Estimación para todas las posibles muestras del ejemplo"
+#colnames(AllSamples) = c("$\ k_{(1)}$", "$\ k_{(2)}$", "$\ p(s)$", "$\ \pi_{(1)}$", "$\ \pi_{(2)}$", "$\ y_{(1)}$", "$\ y_{(2)}$", "$\ \hat{t}_{y, \pi}$")
+colnames(AllSamples) = c("1", "2", "3", "4", "5", "6", "7", "8")
+knitr::kable(AllSamples)
+```
+
+El vector `all.HT` contiene las estimaciones Horvitz-Thompson para cada una de las 10 posibles muestras, su esperanza se calcula como
+
+```{r}
+sum(p * all.HT)
+```
+
+Nótese que la esperanza del estimador de Horvitz-Thompson reproduce exactamente el total poblacional. La varianza se calcula de la siguiente manera
+
+\begin{multline*}
+Var(\hat{t}_{\pi})=(0.13)(155.2-236)^2+(0.2)(151.0-236)^2+\cdots\\
++(0.08)(399.3-236)^2=7847.2
+\end{multline*}
+
+Acudiendo a la función `VarHT`, del paquete `TeachignSampling`, es posible reproducir este mismo calculo de la varianza. Sin embargo, esta función utiliza la expresión teórica de la varianza $Var_1(\hat{t}_{y,\pi})$ dada por @eq-var1 para diseños de muestreo de tamaño fijo. Tiene cuatro argumentos: `y`, que es un vector que contiene los valores de la característica de interés en todos y cada uno de los elementos de la población; `N`, el tamaño de la población; `n`, el tamaño de muestra fijo y `p`, el diseño de muestreo utilizado. El resultado de esta función es el cálculo del valor de la varianza teórica del estimador de Horvitz-Thompsosn para un diseño de muestreo y una configuración de valores poblacionales particular. Siguiendo con el diseño de muestreo dado en el ejemplo 2.1.2 y la configuración de valores de la característica de interés del ejemplo 2.1.3, tenemos que el calculo de la varianza es exactamente igual al dado por el ejercicio léxico-gráfico.
+
+```{r}
+VarHT(y, N, n, p)
+```
+
+:::
+
+
+### El estimador de Hansen-Hurwitz
+<!-- index: Estimador de Hansen-Hurwitz -->
+#### Sobre el muestreo con reemplazo
+
+<!-- index: Muestreo con reemplazo -->Considere una población finita de $N$ elementos y un diseño de muestreo que permite la selección de una muestra realizada $s$, con reemplazo, de tamaño $m$. Como @Loh lo afirma, la manera más intuitiva de entender este tipo de diseños muestrales con reemplazo es pensar en la extracción de $m$ muestras independientes de tamaño 1. Se extrae un elemento de la población para ser incluido en la muestra con una probabilidad $p_k$; sin embargo, ese mismo elemento participa en el siguiente sorteo aleatorio. Este proceso se repite $m$ veces; es decir, se tiene un total de $m$ sorteos aleatorios.
+
+Bajo el anterior esquema de selección, es claro que un elemento puede ser seleccionado en la muestra más de una vez; por lo tanto, aunque el tamaño de la muestra seleccionada con reemplazo es $m$, el tamaño de muestra efectivo no es necesariamente $m$. Nótese que la selección de un elemento que se repite más de una vez no proporciona información nueva. Es por esto que en la práctica, se prefieren los diseños de muestreo que permita la selección de muestras sin duplicados.
+
+@Sar afirman que el marco general del muestreo con reemplazo tiene las siguientes características:
+
+
+- Cada elemento de la población está relacionado directamente con un número positivo $p_k$ ($k=1,\ldots,N$) de tal forma que
+\begin{equation*}
+\sum_Up_k=1.
+\end{equation*}
+A $p_k$ se le conoce como la **probabilidad de selección** del elemento $k$-ésimo. Nótese que estas probabilidades no son necesariamente iguales.
+- Para seleccionar el primer elemento que pertenecerá a la muestra de tamaño $m$, se lleva a cabo un sorteo aleatorio de tal forma que
+\begin{equation*}
+Pr(\text{Seleccionar el elemento }k)=p_k,\text{   $k \in U$}.
+\end{equation*}
+- El elemento seleccionado es reemplazado en la población y vuelva a ser parte del próximo sorteo aleatorio con la misma probabilidad de selección $p_k$.
+- El mismo conjunto de probabilidades es usado para seleccionar los restantes elementos. En total se realizan $m$ sorteos aleatorios independientes.
+
+
+Ahora, en muestreo con reemplazo la probabilidad de selección de un elemento no es lo mismo que la probabilidad de inclusión\footnote{Nótese que la probabilidad de inclusión se refiere a la probabilidad de que el elemento sea seleccionado al menos una vez en la muestra.} del mismo. Se tienen los siguientes resultados.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Variable aleatoria $n_k(S)$ -->Bajo un diseño con reemplazo, se define la variable aleatoria $n_k(S)$ como el número de veces que el elemento $k$-ésimo es seleccionado en la muestra aleatoria $S$.
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+La variable aleatoria $n_k(S)$ sigue una distribución binomial tal que
+\begin{equation*}
+    E(n_k(S))=mp_k, \ \ \ \ \ \ \ \ \ Var(n_k(S))=mp_k(1-p_k)
+\end{equation*}
+
+**Prueba.**
+
+Dado que cada una de las $m$ extracciones inducen eventos estadísticos independientes, la selección en una extracción particular del $k$-ésimo elemento sigue una distribución de Bernoulli, con parámetro $p_k$. Como se trata de $m$ extracciones, $n_k(S)$ sigue una distribución binomial y puede tomar los valores $0,1,\ldots,m$; al definir éxito como la selección del elemento $k$-ésimo en la muestra, entonces se tiene la demostración del resultado.
+
+:::
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Diseño de muestreo con reemplazo -->De manera general, un diseño de muestreo con reemplazo se define como
+$$
+p(s)= \begin{cases} \frac{m!}{n_1(s)!\ldots n_N(s)!}\prod_U(p_k)^{n_k(s)} &\text{si $\sum_Un_k(s)=m$}\\
+0  &\text{en otro caso}
+      \end{cases}
+$$ {#eq-wr-design}
+Donde $n_k(s)$ es el número de veces que el elemento $k$-ésimo es seleccionado en la muestra realizada $s$.
+
+:::
+
+Nótese la diferencia (y a la vez similitud) de la variable $n_k(S)$ con la variable $I_k(S)$, además por la definición anterior se tiene que el diseño de muestreo con reemplazo sigue una distribución multinomial, por lo tanto cumple las condiciones de diseño muestral; es decir, $\sum_{s\in Q}p(s)=1$, donde $Q$ es el soporte que contiene todas las posibles muestras con reemplazo de tamaño $m$. La cardinalidad de $Q$, es
+
+\begin{equation}
+\#Q=\binom{N+m-1}{m}
+\end{equation}
+
+::: {.callout-tip title="Resultado"}
+
+ En muestreo con reemplazo, la probabilidad de inclusión de primer orden del elemento $k$-ésimo está dada por:
+\begin{equation}
+\pi_k=1-(1-p_k)^m
+\end{equation}
+
+**Prueba.**
+
+Dado que se trata de eventos independientes los cuales tienen asociada una probabilidad de éxito (éxito equivalente a que el elemento $k \in s$)$p_k$, entonces cada uno de estos sorteos aleatorios está determinado por una distribución de probabilidad de tipo Bernoulli. Por consiguiente, cuando se realizan $m$ ensayos independientes, se utiliza la distribución de probabilidad binomial para hallar las probabilidades de inclusión de primer orden de cada uno de los elementos en la población
+\begin{align*}
+\pi_k=Pr(k\in S)&= 1-Pr(k\notin s)\\
+&=1-\binom{m}{m}(1-p_k)^m(p_k)^{m-m}\\
+&=1-(1-p_k)^m
+\end{align*}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+ En muestreo con reemplazo, las probabilidades de inclusión de segundo orden $\pi_{kl}$, están
+dadas por:
+\begin{equation}
+\pi_{kl}=1-(1-p_k)^m-(1-p_l)^m+(1-p_k-p_l)^m \ \ \ \ \ k\neq l=1 \ldots, N
+\end{equation}
+
+**Prueba.**
+
+Para hallar esta probabilidad debemos negar que $(k\in S \text{ y }l\in s)$. Esta negación da como resultado $(k\notin s \text{ ó } l\notin s)$. Suponga que tenemos dos eventos, $A=(k\notin s)$ y $B=(l\notin s)$; por tanto, $Pr(A\cup B)=Pr(A)+Pr(B)-Pr(A\cap B)$. Las probabilidades anteriores se rigen por un modelo binomial, luego:
+\begin{align*}
+\pi_{kl}&=Pr(k\in S \text{ y } l\in s)\\
+&=1-Pr(k\notin s)-Pr(l\notin s)+Pr(k,l\notin s)\\
+&=1-(1-p_k)^m-(1-p_l)^m+ \binom{m}{m}(1-p_k-p_l)^m(p_k+p_l)^{m-m}\\
+&=1-(1-p_k)^m-(1-p_l)^m+(1-p_k-p_l)^m
+\end{align*}
+El cuarto sumando en la igualdad anterior se obtiene considerando que cada ensayo se toma como un proceso Bernoulli, donde el éxito es *no escoger ni a $k$ ni a $l$*. Por tanto
+\begin{align*}
+Pr(\text{Éxito})&=1-Pr(\text{Fracaso})\\&=1-Pr(\text{Escoger a
+$k$})-Pr(\text{Escoger a $l$})+Pr(\text{Escoger a ambos})\\
+ &=1-p_k-pl
+\end{align*}
+Puesto que se trata de un sólo ensayo, la probabilidad de escoger a ambos es nula.
+
+:::
+
+Esto se nota más claramente con el típico ejemplo del dado. Si el evento es el lanzamiento de un dado y el éxito es *no sacar 3 o 5*, entonces la probabilidad de obtener éxito será: $1-Pr(\text{Fracaso})$, es decir $1-Pr(\text{Sale 5})-Pr(\text{Sale 1})+Pr(\text{Sale 5 y 1})$. Es obvio que el último sumando es cero dado que se trata de un sólo lanzamiento.
+
+::: {.callout-note title="Ejemplo"}
+
+El lector no debe confundir el concepto de **muestra con reemplazo** con el concepto de **extracción ordenada**. En nuestra población ejemplo el tamaño poblacional es $N=5$. Si se utiliza un diseño de muestreo que induzca muestras de tamaño fijo igual a $m=2$, entonces existirían $N^m=5^2=25$ posibles extracciones ordenadas. Sin embargo, sólo existen $\binom{N+m-1}{m}=\binom{6}{2}=15$ posibles muestras con reemplazo. Este escenario es evidenciado fácilmente con la ayuda de la variable aleatoria $n_k(S)$. Las posibles extracciones ordenadas están dadas de la siguiente manera.
+
+```
+(1,1)   (2,1)   (3,1)   (4,1)   (5,1)
+(1,2)   (2,2)   (3,2)   (4,2)   (5,2)
+(1,3)   (2,3)   (3,3)   (4,3)   (5,3)
+(1,4)   (2,4)   (3,4)   (4,4)   (5,4)
+(1,5)   (2,5)   (3,5)   (4,5)   (5,5)
+```
+
+
+Sin embargo, aunque todas las posibles extracciones ordenas no constituyen el soporte de muestreo, éstas si ayudan a definirlo. De hecho, el primer paso para la construcción del soporte de muestreo con reemplazo es la determinación de todas las posibles extracciones. La función `OrderWR`\footnote{El autor desea recalcar que el resultado de esta función no corresponde al soporte de muestreo con reemplazo sino al conjunto de todas las posibles extracciones ordenadas con reemplazo y de tamaño fijo.} del paquete `TeachingSampling` permite conocer todas las posibles extracciones de tamaño fijo para un diseño de muestreo con reemplazo.
+
+Esta función cuenta con tres argumentos: el primer argumento correspondiente al tamaño de la población `N`, el segundo, correspondiente al tamaño de las selecciones, `m`, que no necesariamente debe ser menor que el tamaño poblacional\footnote{Se enfatiza que para este tipo de diseños de muestreo con reemplazo es posible que el tamaño de muestra sea mayor al tamaño poblacional.} y, el último corresponde a una característica `ID` que puede ser un conjunto de rótulos o cualquier otro tipo de identificador continuo. El resultado de la función `OrderWR` será un conjunto de todas las posibles extracciones ordenadas con tamaño fijo `m`. Cuando el argumento `ID` es distinto de `FALSE`, la salida de la función corresponderá al rótulo o identificador continuo para cada elemento de la población. En el siguiente ejemplo se utiliza esta función en nuestra población ejemplo $U$.
+
+```{r, warning=FALSE}
+N <- length(U)
+N
+m <- 2
+
+OrderWR(N, m, ID = FALSE)
+OrderWR(N, m, ID = U)
+```
+
+Nótese que el conjunto de extracciones ordenadas contiene al soporte de muestreo con reemplazo. Sin embargo, con ayuda de la función `SupportWR` del paquete `TeachingSampling` se define el verdadero soporte inducido por el diseño de muestreo con reemplazo. Los argumentos de esta función son los mismos tres de la función `OrderWR`: `N`, `m` y `ID`. El resultado de la función es el conjunto de todas las posibles muestras con reemplazo de tamaño fijo. Para este ejemplo particular, el soporte está dado por las siguientes muestras y no por todas las posibles extracciones ordenadas.
+
+```{r, warning = FALSE}
+SupportWR(N, m,ID=FALSE)
+SupportWR(N,m,ID=U)
+```
+
+Por supuesto, cada una de las posibles muestras con reemplazo que pertenecen al soporte tiene distintas probabilidades de selección dependiendo de la configuración de las probabilidades de selección individuales para cada elemento, $p_k$. Supongamos que cada uno de los cinco elementos de la población tiene probabilidad de selección dadas por
+
+\begin{equation*}
+p_k= \begin{cases}    1/4, &\text{para $k=\textbf{Yves, Ken, Leslie}$},\\
+                      1/8, &\text{para $k=\textbf{Sharon, Erik}$}
+           \end{cases}
+\end{equation*}
+
+Nótese que $\sum_U p_k=1$. Para esta configuración particular, y siguiendo la @eq-wr-design, las probabilidades
+de selección $p(s)$ de las muestras en el soporte y el valor de la variable $n_k(S)$ estarían dadas por la configuración mostrada en la @tbl-t2-2, la cual es producida por el siguiente código.
+
+```{r, warning = FALSE}
+pk <- c(0.25, 0.25, 0.125, 0.125, 0.25)
+QWR <- SupportWR(N,m,ID=U)
+pWR <- p.WR(N, m, pk)
+nkWR <- nk(N, m)
+SamplesWR <- data.frame(QWR, pWR, nkWR)
+```
+
+```{r, echo = FALSE}
+#| label: tbl-t2-2
+#| tbl-cap: "Todas las posibles muestras con reemplazo para el ejercicio"
+colnames(SamplesWR) <- c("1", "2", "3", "n1", "n2", "n3", "n4", "n5")
+knitr::kable(SamplesWR)
+```
+
+
+Nótese que la suma de las probabilidades de selección inducidas por el diseño de muestreo es igual a uno y que cada una de ellas es mayor que cero. El lector debe fijarse en que la muestra perteneciente al soporte está dada en términos de $n_k(S)$. De esta manera, si se ha seleccionado la séptima muestra dada por `1  0  1  0  0`, en realidad, no importa si **Yves** fue seleccionado primero o después que **Erik** y la probabilidad de selección de esta muestra particular es 0.125 pues
+
+\begin{align*}
+p(s)&=\frac{2!}{1!0!1!0!0!}\left[ \left(\frac{1}{4}\right)^1\left(\frac{1}{4}\right)^0\left(\frac{1}{8}\right)^1
+\left(\frac{1}{8}\right)^0\left(\frac{1}{4}\right)^0\right]\\
+&=2\left(\frac{1}{32}\right)=0.0625
+\end{align*}
+
+:::
+
+#### Estimador del total poblacional
+
+<!-- index: Estimador del total poblacional -->@Han proponen un estimador conveniente para el total de una población $t_y$ cuando el diseño de muestreo es con reemplazo. La lógica que sigue en la construcción de este estimador está dada a continuación. Sea el evento aleatorio:
+
+\begin{center}
+Seleccionar el elemento $k$ ($k\in U$) en el $i$-ésimo sorteo ($i=1,\ldots,m)$.
+\end{center}
+
+Este evento define la creación de variables aleatorias, que serán utilizadas más adelante, cuyo comportamiento es posible modelar mediante el siguiente resultado.
+
+::: {.callout-tip title="Resultado"}
+
+Sean $U_1,U_2,\ldots,U_m$ es una sucesión de variables aleatorias independientes e idénticamente distribuidas con $E(U_i)=\mu$ y $Var(U_i)=\sigma^2$. Sea $\bar{U}=\sum_{i=1}^mU_i\diagup m$. Entonces $E(\bar{U})=\mu$, $Var(\bar{U})=\sigma^2\diagup m$ y un estimador insesgado de $Var(\bar{U})$ está dado por la siguiente expresión
+\begin{equation}
+\widehat{Var}(\bar{U})=\frac{1}{m(m-1)}\sum_{i=1}^m(U_i-\bar{U})^2
+\end{equation}
+y por consiguiente, un estimador insesgado para $\sigma^2$ está dado por
+\begin{equation}
+\hat{\sigma^2}=\frac{1}{m-1}\sum_{i=1}^m(U_i-\bar{U})^2.
+\end{equation}
+
+**Prueba.**
+
+La esperanza de $\bar{U}$ es
+\begin{equation}
+E(\bar{U})=\frac{1}{m}\sum_{i=1}^mE(U_i)=\mu
+\end{equation}
+La varianza está determinada por
+\begin{equation}
+Var(\bar{U})=\frac{1}{m^2}\sum_{i=1}^mVar(U_i)=\sigma^2\diagup m
+\end{equation}
+Nótese que los términos de covarianza son nulos puesto que las variables son independientes entre ellas. Ahora como
+\begin{equation}
+\sum_{i=1}^m(U_i-\bar{U})^2=\sum_{i=1}^mU_i^2-m\bar{U}^2
+\end{equation}
+entonces,
+\begin{equation}
+E(\sum_{i=1}^m(U_i-\bar{U})^2)=\sum_{i=1}^mE(U_i^2)-mE(\bar{U}^2)
+\end{equation}
+Por otro lado
+\begin{align*}
+E(U_i^2)&=Var(U_i)+[E(U_i)]^2=\sigma^2+\mu^2\\
+E(\bar{U}^2)&=Var(\bar{U})+[E(\bar{U})]^2=\sigma^2\diagup m+\mu^2
+\end{align*}
+Esto conduce a la demostración del teorema puesto que
+\begin{equation}
+E(\sum_{i=1}^m(U_i-\bar{U})^2)=(m-1)\sigma^2
+\end{equation}
+
+:::
+
+El anterior es un resultado muy potente que puede ser utilizado para cualquier tipo de variables aleatorias que sean independientes e idénticamente distribuidas y será la base para la demostración de resultados en la estimación de parámetros que utilicen diseños de muestreo con reemplazo. Siguiendo con el marco teórico del muestreo con reemplazo tenemos la siguiente definición.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Variable aleatoria $Z_i$ -->Se define la variable aleatoria $Z_i$ tal que
+\begin{equation}
+Z_i=y_{k_i}/p_{k_i} \ \ \ \ \ \ k\in U \ \ \ i=1,\ldots,m
+\end{equation}
+donde la cantidad $y_{k_i}$ es el valor de la característica de interés del $k$-ésimo elemento seleccionado en la $i$-ésima extracción. Análogamente, $p_{k_i}$ es el valor de la probabilidad de selección del $k$-ésimo elemento seleccionado en la $i$-ésima extracción.
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+La distribución de la variable aleatoria $Z_i$ está dada por
+\begin{equation}
+Pr\left(Z_i=\frac{y_k}{p_k}\right)=p_k,
+\end{equation}
+por tanto la esperanza y varianza de la variable aleatoria $Z_i$ son
+\begin{equation}
+E(Z_i)=t_y
+\end{equation}
+y
+\begin{equation}
+Var(Z_i)=\sum_Up_k\left(\frac{y_k}{p_k}-t_y\right)^2,
+\end{equation}
+respectivamente.
+
+**Prueba.**
+
+Dado que se trata de $m$ sorteos aleatorios independientes, la variable aleatoria $Z_i$ puede tomar los siguientes valores
+\begin{equation*}
+    \frac{y_1}{p_1},\frac{y_2}{p_2}\ldots,\frac{y_N}{p_N}
+\end{equation*}
+con probabilidades
+\begin{equation*}
+p_1,p_2\ldots,p_N
+\end{equation*}
+respectivamente. Luego, acudiendo a la definición genérica del operador esperanza, se tiene
+\begin{align*}
+    E(Z_i)=\sum_U\frac{y_k}{p_k}Pr\left(Z_i=\frac{y_k}{p_k}\right)=\sum_U\frac{y_k}{p_k}p_k=t_y
+\end{align*}
+y análogamente se tiene la varianza
+\begin{align*}
+    Var(Z_i)=\sum_U\left(\frac{y_k}{p_k}-E(Z_i)\right)^2Pr\left(Z_i=\frac{y_k}{p_k}\right)
+    =\sum_U\left(\frac{y_k}{p_k}-t_y\right)^2p_k
+\end{align*}
+
+:::
+
+Dado que las $m$ extracciones son eventos independientes, también lo son las variables $Z_i$\footnote{$Z_1,\ldots,Z_m$ define una sucesión de variables aleatorias independientes e idénticamente distribuidas, o si se quiere, en términos de la inferencia clásica, define una **muestra aleatoria**.}. Nótese que la cantidad  $Z_i$ es una estimación del total poblacional con la $i$-ésima muestra seleccionada de tamaño 1. Ahora, como existen $m$ sorteos habrán $m$ estimaciones del total poblacional; por tanto, como en mucho otros procedimientos estadísticos utilizamos el promedio de estas $m$ estimaciones para obtener una estimación unificada para $t_y$. El estimador de Hansen-Hurwitz toma la siguiente forma
+
+$$
+\hat{t}_{y,p}=\frac{1}{m}\sum_{i=1}^{m}\frac{y_{k_i}}{p_{k_i}}
+$$ {#eq-hh}
+
+Para tener una estrategia de muestreo que resulte eficiente en la estimación de $t_y$, es conveniente utilizar el estimador de Hansen-Hurwitz, cuando las probabilidades de selección son proporcionales a la característica de interés; esto es, cuando $p_k\propto y_k$. Si lo anterior sucede, el estimador tendrá una varianza casi nula y la estimación será muy precisa.
+
+::: {.callout-tip title="Resultado"}
+
+Si $p_k>0$, para todo $k\in U$, el estimador $\hat{t}_{y,p}$ es insesgado
+
+**Prueba.**
+
+Las variables aleatorias $Z_i$ son independientes (porque cada ensayo es independiente) y su distribución está inducida por $Pr(Z_i=y_k/p_k)=p_k$, $k \in U$; es decir, son idénticamente distribuidas. Por tanto, el estimador de Hansen-Hurwitz puede escribirse como:
+\begin{align*}
+\hat{t}_{y,p}=\frac{1}{m}\sum_{i=1}^{m}\frac{y_i}{p_i}=\frac{1}{m}\sum_{i=1}^{m}Z_i=\bar{Z}
+\end{align*}
+y así con $p_k>0$ para todo $k\in U$, tenemos
+\begin{align*}
+E(\hat{t}_{y,p})=\frac{1}{m}\sum_{i=1}^{m}E(Z_i)=\frac{1}{m}\sum_{i=1}^{m}t_y=t_y
+\end{align*}
+
+:::
+
+#### Varianza del estimador de Hansen-Hurwitz
+
+<!-- index: Varianza del estimador de Hansen-Hurwitz -->Una de las características más importantes del estimador de Hansen-Hurwitz es la sencillez de la expresión de su varianza. Esta misma hace que aunque el muestreo sea con reemplazo, el estimador de Hansen-Hurwitz sea utilizado de manera frecuente por los usuarios de los estudios por muestreo.
+
+::: {.callout-tip title="Resultado"}
+
+La varianza del estimador de Hansen-Hurwitz está dada por la siguiente expresión
+$$
+Var(\hat{t}_{y,p})=\frac{1}{m}\sum_{k=1}^{N}p_k\left(\frac{y_k}{p_k}-t_y\right)^2
+$$ {#eq-varp}
+
+**Prueba.**
+
+Por la independencia de las selecciones se tiene que
+\begin{align*}
+Var(\hat{t}_{y,p})&=Var\left(\frac{1}{m}\sum_{i=1}^{m}Z_i\right)\\
+&=\frac{1}{m^2}\sum_{i=1}^{m}Var(Z_i)\\
+&=\frac{1}{m}Var(Z_i)\\
+&=\frac{1}{m}\sum_U\left(\frac{y_k}{p_k}-t_y\right)^2p_k
+\end{align*}
+
+:::
+
+La anterior expresión hace que el cálculo computacional de la varianza del estimador de Hansen-Hurwitz sea muy sencillo. Sin embargo, esta varianza se puede escribir de varias formas, algunas de ellas muy útiles para el desarrollo teórico de las propiedades del estimador.
+
+::: {.callout-tip title="Resultado"}
+
+De manera general, la varianza del estimador de Hansen-Hurwitz se puede escribir de la siguiente manera
+$$
+Var(\hat{t}_{y,p})=\frac{1}{m}\left(\sum_{k=1}^{N}\frac{y_k^2}{p_k}-t_y^2\right)
+$$ {#eq-varhh2}
+
+**Prueba.**
+
+\begin{align*}
+Var(\hat{t}_{y,p})=&=\frac{1}{m}\sum_{k=1}^{N}p_k\left(\frac{y_k}{p_k}-t_y\right)^2\\
+&=\frac{1}{m}\sum_{k=1}^{N}p_k\left(\frac{y_k^2}{p_k^2}-2t_y\frac{y_k}{p_k}+t_y^2\right)\\
+&=\frac{1}{m}\sum_{k=1}^{N}\left(\frac{y_k^2}{p_k}-2t_yy_k+p_kt_y^2\right)\\
+&=\frac{1}{m}\left(\sum_{k=1}^{N}\frac{y_k^2}{p_k}-2t_y\sum_{k=1}^{N}y_k+t_y^2\sum_{k=1}^{N}p_k\right)\\
+&=\frac{1}{m}\left(\sum_{k=1}^{N}\frac{y_k^2}{p_k}-2t_y^2+t_y^2\right)
+=\frac{1}{m}\left(\sum_{k=1}^{N}\frac{y_k^2}{p_k}-t_y^2\right)
+\end{align*}
+
+:::
+
+#### Estimación de la varianza
+<!-- index: Estimación de la varianza -->
+
+::: {.callout-tip title="Resultado"}
+
+Un estimador insesgado de la @eq-varp es
+$$
+\widehat{Var}(\hat{t}_{y,p})=\frac{1}{m(m-1)}\sum_{i=1}^{m}\left(\frac{y_i}{p_i}-\hat{t}_{y,p}\right)^2
+$$ {#eq-varhh-est}
+
+**Prueba.**
+
+Al desarrollar la varianza del estimador llegamos a que ésta es igual a
+$$\frac{1}{m}Var(Z_i).$$
+Ahora, utilizando el resultado 2.2.11, como $Z_1,\ldots,Z_m$ conforman una muestra aleatoria de variables con esperanza $t_y$ e idéntica varianza, entonces un estimador natural e insesgado para la varianza de $Z_i$ es
+$$\frac{1}{m-1}\sum_{i=1}^{m}(Z_i-\bar{Z})^2=\frac{1}{m-1}\sum_{i=1}^{m}\left(\frac{y_i}{p_i}-\hat{t}_{y,p}\right)^2$$
+por tanto, un estimador insesgado de la varianza del estimador de Hansen-Hurwitz será
+\begin{align*}
+\widehat{Var}(\hat{t}_{y,p})=\frac{1}{m}\frac{1}{m-1}\sum_{i=1}^{m}\left(\frac{y_{k_i}}{p_{k_i}}-\hat{t}_{y,p}\right)^2
+\end{align*}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Una expresión alternativa para la estimación de la varianza  del estimador de Hansen-Hurwitz en muestreo con reemplazo es
+\begin{align*}
+\widehat{Var}(\hat{t}_{y,p})=\frac{1}{m(m-1)}\sum_{i=1}^{m}\left(\frac{y_{k_i}}{p_{k_i}}\right)^2-m\hat{t}_{y,p}^2
+\end{align*}
+
+**Prueba.**
+
+Partiendo del resultado anterior, se tiene que
+\begin{align*}
+m(m-1)\widehat{Var}(\hat{t}_{y,p})
+&=\sum_{i=1}^{m}\left(\frac{y_{k_i}}{p_{k_i}}-\hat{t}_{y,p}\right)^2\\
+&=\sum_{i=1}^{m}\left(\frac{y_{k_i}^2}{p_{k_i}^2}-2\hat{t}_{y,p}\frac{y_{k_i}}{p_{k_i}}+\hat{t}_{y,p}^2\right)\\
+&=\sum_{i=1}^{m}\left(\frac{y_{k_i}^2}{p_{k_i}^2}\right)-2\hat{t}_{y,p}\sum_{i=1}^{m}\frac{y_{k_i}}{p_{k_i}}+m\hat{t}_{y,p}\\
+&=\sum_{i=1}^{m}\left(\frac{y_{k_i}^2}{p_{k_i}^2}\right)-2m\hat{t}_{y,p}^2+m\hat{t}_{y,p}\\
+&=\sum_{i=1}^{m}\left(\frac{y_{k_i}}{p_{k_i}}\right)^2-m\hat{t}_{y,p}^2
+\end{align*}
+
+:::
+
+Aunque el diseño muestral sea con reemplazo, es posible utilizar el estimador de Horvitz-Thompson, pues conserva su insesgamiento. La comparación entre la precisión del estimador de Horvitz-Thompson y el estimador de Hansen-Hurwitz, en un diseño con repetición depende de la configuración de los valores de la característica de interés en la población $y_k$ $\forall k=1,2,...,N$. Sin embargo, generalmente el estimador de Horvitz-Thompson es más eficiente más eficiente que el estimador de Hansen-Hurwitz, aunque éste último es más fácil de calcular. Cuando el diseño de muestreo es de tamaño fijo, el estimador de Horvitz-Thompson y Hansen-Hurwitz coinciden.
+
+::: {.callout-note title="Ejemplo"}
+
+Continuando con el ejercicio léxico-gráfico de la estimación del total poblacional $t_y$ para todas las posibles muestras con reemplazo de tamaño 2 de la población U, tenemos la siguiente tabla que da cuenta del soporte de muestreo con ayuda de la función `SupportWR`
+
+```{r, warning=FALSE}
+all.y <- SupportWR(N, n, y)
+all.pk <- SupportWR(N, n, pk)
+all.HH <- rep(0, 15)
+
+for(k in 1:15){
+  all.HH[k] <- HH(all.y[k,], all.pk[k,])
+}
+  
+AllSamplesWR <- data.frame(QWR, all.pk, pWR, all.y, all.HH)
+```
+
+```{r, echo = FALSE}
+#| label: tbl-t2-3
+#| tbl-cap: "Estimaciones de Hansen-Hurwitz para todas las posibles muestras del ejemplo"
+colnames(AllSamplesWR) <- c("1", "2", "3", "4", "5", "6", "7", "8")
+knitr::kable(AllSamplesWR)
+```
+
+El vector `Est` contiene las estimaciones de Hansen-Hurwitz para cada una de las posibles 15 muestras con reemplazo, su esperanza se calcula como
+
+```{r}
+sum(all.HH * pWR)
+```
+
+Nótese que la esperanza del estimador equivale al total de la característica de interés, corroborando su insesgamiento. Por otro lado, para seleccionar una muestra con reemplazo, R incorpora la función `sample`, cuyos principales argumentos son
+
+\begin{center}
+`x, size, replace, prob`.
+\end{center}
+
+`x` es el tamaño de la población, `size` es un número entero que determina el tamaño de la muestra. Para seleccionar una muestra con reemplazo, el argumento `replace` debe tomar el valor `TRUE`, así `replace = TRUE`. Cada elemento perteneciente a la población debe tener asociado un vector de probabilidades de selección cuya suma sea igual a la unidad. En R, el argumento `prob` contiene este vector de probabilidades; cuando se omite este argumento, la función `sample` asume que las probabilidades de selección son idénticas para cada individuo en la población.  Así, por ejemplo, para seleccionar una muestra con reemplazo del marco de muestreo de $U$ de tamaño $m=3$, con las probabilidades de selección dadas por
+
+```{r}
+pk
+```
+
+Nótese que la suma de las probabilidades de selección es igual a uno y que los rótulos o nombres para cada individuo en la población están contenidos en el objeto `U`.
+
+```{r}
+U
+```
+
+Para seleccionar una muestra con reemplazo de tamaño $m=3$ se debe escribir el siguiente código
+
+```{r}
+sam  <-  sample(N, 3, replace=TRUE, prob = pk)
+sam
+```
+
+Para la selección anterior, fue escogido dos veces el primer elemento y una vez el tercer elemento. La indexación de los rótulos (nombres) y valores de la característica de interés de los elementos escogidos en la muestra se hace utilizando
+
+```{r}
+pkm <- pk[sam]
+pkm
+
+ym <- y[sam]
+ym
+```
+
+Nótese que el tamaño de muestra es 3, pero el tamaño efectivo de muestra es $n(S)=2$. Siendo `pkm` el vector de probabilidades de selección para los individuos pertenecientes a la muestra y `ym` el vector de valores de la característica de interés para los individuos pertenecientes a la muestra. La función `HH` del paquete `TeachingSampling` realiza la estimación del total poblacional para la característica de interés. Esta función consta de dos argumentos: `y`, el vector de valores de la característica de interés de los individuos en la muestra  y `pk` sus correspondientes probabilidades de selección.
+
+```{r}
+est <- HH(ym, pkm)[1]
+est
+```
+
+Para realizar la estimación de la varianza se crea un vector de diferencias `dif` entre $\frac{y_i}{p_i}$ y la estimación. Luego se procede a elevarlo al cuadrado, sumarlo y dividir por $m(m-1)$.
+
+```{r}
+dif <- rep(0, 3)
+dif[1] <- (ym[1] / pkm[1]) - est
+dif[2] <- (ym[2] / pkm[2]) - est
+dif[3] <- (ym[3] / pkm[3]) - est
+
+dif
+
+Var <- (1 / 3) * (1 / 2) * sum(dif^2)
+Var
+sqrt(Var)
+```
+
+Luego, el respectivo coeficiente de variación estimado es
+
+\begin{equation*}
+cve(\hat{t}_{p})=\frac{`r sqrt(Var)`}{`r est`}\cong 41\%
+\end{equation*}
+
+Nótese que utilizando la función `HH`, el resultado que arroja el procedimiento es el mismo. 
+
+```{r}
+HH(ym, pkm)
+```
+
+Podemos pensar en el coeficiente de variación estimado como una medida de precisión. Así, las anteriores estimaciones se podrían decir inaceptables porque esta medida es muy alta.
+
+:::
+
+El objetivo de este libro es que el lector esté en la capacidad de proponer estrategias de muestreo que permitan estimaciones precisas y confiables. Es decir, estimaciones cuyo coeficiente de variación sea aceptable\footnote{En muchos casos un coeficiente de variación aceptable es menor al 3 por ciento.} cuya longitud del intervalo de confianza sea corta con un nivel de confianza satisfactorio.
+
+### El estimador de Horvitz-Thompson en los diseños con reemplazo
+
+## Muestras representativas
+<!-- index: Muestras representativas -->
+La teoría de muestreo se ha visto enriquecida en las últimas décadas por valiosos aportes a nivel mundial; aunque la base de la teoría de muestreo es la teoría de probabilidad, cuyo desarrollo axiomático cuenta varios centenares de años, su desarrollo práctico no sucedió sino hasta comienzos del siglo XX. Sin embargo, en la teoría clásica de inferencia estadística, basados en el pensamiento de Ronald Fisher y otros, asumen que la población es infinita. Un aspecto fundamental de la teoría de muestreo es que está basada en la realidad, en donde las poblaciones por más grandes que sean son de naturaleza finita.
+
+Partiendo de este hecho es posible fundamentar la inferencia basada en una muestra aleatoria pero que proviene de una población finita y desde esta perspectiva los resultados de las inferencias diferirán de una manera significativa. De hecho, el llamado de atención es para que las personas que hacen inferencia con datos provenientes de un estudio por muestreo, se actualicen y no cometan grandes equivocaciones a la hora de presentar los resultados de la inferencia [@CharSki]. Por eso la teoría de muestreo cubre aspectos fundamentales de la estadística, porque desde un experimento controlado, hasta una encuesta por muestreo (Survey sampling), se debe pensar en el mecanismo de recolección de la información, y desde allí en la inferencia.
+
+Un ejemplo común en las aulas de clase es describir la población en el tablero mediante una carita feliz, el profesor dice que una muestra representativa de la población es aquella muestra en donde se sigue viendo la misma carita feliz. Es decir, existe la creencia que una muestra representativa es un modelo reducido de la población y de aquí se desprende un argumento de validez sobre la muestra: una buena muestra es aquella que se parece a la población, de tal forma que las categorías aparecen con las mismas proporciones que en la población. Nada más falso que esta creencia. En algunos casos es fundamental sobre-representar algunas categorías o incluso seleccionar unidades con probabilidades desiguales.
+
+@Til cita el siguiente ejemplo: suponga que el objetivo es estimar la producción de hierro en un país y que nosotros sabemos que el hierro es producido, por dos compañías gigantes con miles de empleados y por cientos de pequeñas compañías con pocos empleados. ¿La mejor forma de seleccionar la muestra consiste en asignar la misma probabilidad a cada compañía? Claro que no. Primero averiguamos la producción de las grandes compañías. Después, seleccionamos una muestra de las compañías pequeñas.
+
+La muestra no debe ser un modelo reducido de la población; debe ser una herramienta usada para obtener estimaciones. Es así como el concepto de muestra representativa pierde peso. Más aún, para @HajBook, una estrategia de muestreo es una dupla: diseño de muestreo (distribución de probabilidad sobre todas las posibles muestras) y estimador. La teoría de muestreo se ha ocupado de estudiar estrategias óptimas que permitan asegurar la calidad de las estimaciones. Entonces, el concepto de representatividad debería estar asociado con las estrategias de muestreo y no sólo con las muestras.
+
+Siguiendo con @Til, una estrategia se dice representativa si permite estimar un total poblacional exactamente; es decir, sin sesgo y con varianza nula. Si se utiliza, por ejemplo, el estimador de Horvitz-Thompson junto con un diseño de muestreo apropiado, esta estrategia es representativa sólo sí, junto con la muestra seleccionada, el estimador reproduce algunos totales de la población; tales muestras se llaman muestras balanceadas. Existen también, estimadores que brindan a la estrategia el calificativo de representativa, algunos de ellos son conocidos como estimadores de calibración.
+
+## Ejercicios
+
+
+1. Pruebe que bajo un diseño de muestreo $p(s)$, el error cuadrático medio de cualquier estimador $\hat{T}(s)$ de un parámetro $T$ es igual a la varianza $Var(\hat{T})$ más el sesgo al cuadrado $B^2(\hat{T})$.
+
+    Sugerencia: $ECM\left(\hat{T}\right)=E_p\left(\hat{T}(s)-T\right)^2=\sum_{s\in Q}\left(\hat{T}(s)-T\right)^2p(s)$.
+
+2. Demuestre que $\pi_{kl}=E_p \left( I_k(s) I_l(s) \right)$.
+
+3. Suponga que tiene acceso a la población finita de tamaño $N=5$ del ejemplo 2.2.1. y asuma el siguiente diseño de muestreo sin reemplazo
+    \begin{equation*}
+    p(S=s)=
+    \begin{cases}
+    0.2, & \text{para $s=\{Ken, Erik, Sharon\}$, $s=\{Ken, Leslie\}$},\\
+    0.3, & \text{para $s=\{Yves, Erik, Leslie\}$, $s=\{Yves, Sharon\}$},\\
+    0,   & \text{En otro caso}.
+    \end{cases}
+    \end{equation*}
+
+  - Calcule todas las probabilidades de inclusión de primer y de segundo orden.
+  - ¿Es el anterior un diseño de muestreo de tamaño de muestra fijo? Explique.
+  - Enumere todos los valores que toma la variable aleatoria $n(S)$ y verifique las relaciones $E_p(n(S))=\sum_U\pi_k$ y $Var_p(n(S))=\sum_U\pi_k-\left(\sum_U\pi_k\right)^2+\sum\sum_{k\neq l}\pi_{kl}$.
+
+
+4. Suponga que tiene acceso a la población finita de tamaño $N=5$ del ejemplo 2.2.1. y asuma el siguiente diseño de muestreo sin reemplazo
+    \begin{equation*}
+    p(S=s)=
+    \begin{cases}
+    0.1, & \text{Si $n(S)=3$},\\
+    0,   & \text{En otro caso}.
+    \end{cases}
+    \end{equation*}
+
+  - Defina todas las posibles muestras que pertenecen al soporte inducido por el anterior diseño de muestreo.
+  - Calcule todas las probabilidades de inclusión de primer y de segundo orden.
+  - Verifique que $\sum_U\pi_k=3$ y que $\sum_U\pi_k-\left(\sum_U\pi_k\right)^2+\sum\sum_{k\neq l}\pi_{kl}=0$. Explique.
+  - Verifique que $\sum_U\pi_{k1}=3\times \pi_1$, $\sum_U\pi_{k2}=3\times \pi_2$, hasta $\sum_U\pi_{k5}=3\times \pi_5$.
+  - Calcule todas las posibles covarianzas $\Delta_{kl}$ y verifique que $\sum_U\Delta_{k1}=0$, hasta $\sum_U\Delta_{k5}=0$.
+
+5. Demuestre o refute la siguiente afirmación: <<Bajo cualquier diseño de muestreo, la suma poblacional de las probabilidades de inclusión de primer orden es siempre igual al tamaño de muestra>>.
+6. Demuestre o refute la siguiente afirmación: <<Bajo cualquier diseño de muestreo, el estimador de Horvitz-Thompson puede ser utilizado para obtener una estimación insesgada del total poblacional>>.
+7. Suponga que tiene acceso a la población finita de tamaño $N=5$ del ejemplo 2.2.1 y que $y_k$ denota el valor de la característica de interés en el $k$-ésimo individuo. De esta manera, se tiene que:
+    $$y_{Yves}=32, \ \ y_{Ken}=34, \ \ y_{Erik}=46, \ \ y_{Sharon}=89, \ \ y_{Leslie}=35$$
+
+  - Para el diseño de muestreo del ejercicio 2.3, en cada una de las posibles muestras calcule la estimación de Horvitz-Thompson, la estimación de la varianza, el $cve$ y la estimación del intervalo de confianza al 95\%. Por último, muestre que el estimador es insesgado y calcule la varianza del estimador utilizando la @eq-var1.
+  - Para el diseño de muestreo del ejercicio 2.4, en cada una de las posibles muestras calcule la estimación de Horvitz-Thompson, la estimación de la varianza, el $cve$ y la estimación del intervalo de confianza al 95\%. Por último, muestre que el estimador es insesgado y calcule la varianza del estimador utilizando la @eq-var1 y la @eq-var2. ¿Son iguales estas varianzas? Explique.
+  - Para el diseño de muestreo del ejercicio 2.3, en cada una de las posibles muestras calcule la estimación de Horvitz-Thompson de la media (expresión 2.2.10), la estimación del tamaño poblacional (expresión 2.2.14), la estimación alternativa de la media (expresión 2.2.15) y la estimación alternativa del total (expresión 2.2.18).
+  - Para el diseño de muestreo del ejercicio 2.4, en cada una de las posibles muestras calcule la estimación de Horvitz-Thompson de la media (expresión 2.2.10), la estimación del tamaño poblacional (expresión 2.2.14), la estimación alternativa de la media (expresión 2.2.15) y la estimación alternativa del total (expresión 2.2.18).
+
+8. Demuestre o refute la siguiente afirmación: <<Bajo cualquier diseño de muestreo con reemplazo, el estimador de Hansen-Hurwitz puede ser utilizado para obtener una estimación insesgada del total poblacional>>.
+9. Demuestre o refute la siguiente afirmación: <<La probabilidad de selección de un individuo es siempre igual a su probabilidad de inclusión>>.
+10. Demuestre o refute la siguiente afirmación: <<Cualquier diseño de muestreo con reemplazo se puede ver com un caso particular de la distribución multinomial>>.
+11. Demuestre o refute la siguiente afirmación: <<Para una población de tamaño $N$, el número de posibles muestras con reemplazo de tamaño $m$ es $N^m$>>.
+12. Suponga que tiene acceso a la población finita de tamaño $N=5$ de los anteriores ejercicios y asuma las siguientes probabilidades de selección
+    \begin{equation*}
+    p_k=
+    \begin{cases}
+    0.3, & \text{para $k=Yves, Leslie$},\\
+    0.2, & \text{para $k=Erik$},\\
+    0.1, & \text{para $k=Ken, Sharon$}.
+    \end{cases}
+    \end{equation*}
+
+
+  - ¿Cuántas muestras con reemplazo de tamaño $m=3$ se pueden seleccionar? Especifique explícitamente el diseño de muestreo para estas muestras y compruebe que $\sum_{s\in Q}p(s)=1$.
+  - Para este diseño de muestreo, y teniendo en cuenta los valores de la característica de interés del ejercicio 2.7, en cada una de las posibles muestras calcule la estimación de Hansen-Hurwitz, la estimación de la varianza, el $cve$ y la estimación del intervalo de confianza al 95\%. Por último, muestre que el estimador es insesgado y calcule la varianza del estimador utilizando la @eq-varp.
+  - ¿Es posible utilizar otro tipo de estimadores para obtener estimaciones insesgadas del total poblacional?
+
+13. Demuestre rigurosamente que el estimador de la varianza del estimador de Hansen-Hurwitz corresponde a la @eq-varhh-est.

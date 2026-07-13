@@ -1,0 +1,1953 @@
+```{r, echo=FALSE, message=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+library(ggplot2)
+library(gridExtra)
+options(scipen = 100, digits = 2)
+set.seed(12345)
+library(knitr)
+opts_chunk$set(cache = TRUE)
+knit_theme$set("acid")
+```
+# Muestras con probabilidades simples
+
+::: {.blockquote}
+
+Las muestras no están dadas, las muestras deben ser seleccionadas, asignadas o capturadas. El tamaño de la muestra no siempre es fijo. En estudios por muestreo, el tamaño de muestra es casi siempre una variable aleatoria. Los datos no siempre son independientes o idénticamente distribuidos y usualmente no son seleccionados de una sola población, sino de sub-poblaciones compuestas o complementarias. Más aún, no se produce una sola estimación, se produce un conjunto de estimaciones. Así que la historia que siempre nos han contado está equivocada.
+
+
+Leslie Kish en @KishInter
+
+
+:::
+
+Cuando el marco de muestreo disponible para la selección de la muestra es una lista conteniendo la identificación y la ubicación de los elementos en la población, se utilizan diseños de muestreo que permitan la inclusión de éstos en la muestra de forma directa. Es decir, en la selección de la muestra, los elementos poblacionales son las mismas unidades de muestreo. Una vez que el procedimiento de muestreo ha seleccionado la muestra de elemento, el siguiente paso a realizar es la medición de la característica de interés $y_k$ en cada elemento de la muestra seleccionada ($k \in s$).
+
+En este capítulo se describen los diseños de muestreo para elementos más importantes, algunos de los cuales son ampliamente utilizados en la práctica, otros tienen la característica de ser de tamaño de muestra variable o aleatorio. Cuando el marco de muestreo contiene información auxiliar de tipo continuo para cada elemento de la población, se utilizará esta información en la selección de la muestra, induciendo los diseños proporcionales al tamaño. Cuando el marco de muestreo contiene información auxiliar discreta, se utilizarán diseños de muestra estratificados que permiten, a menudo, mayor precisión cuando la característica de interés presenta comportamientos diferentes en cada estrato o grupo poblacional.
+
+Para cada diseño de muestreo se realiza una descripción teórica, se utilizará la población $U$ para realizar algunos ejercicios léxico-gráficos que describan el comportamiento de la estrategia de muestreo. Por otro lado, se utilizará la población Lucy y, con ayuda del paquete `TeachingSampling`, se seleccionará una única muestra para la posterior estimación de los parámetros de interés. También habrá ejemplos prácticos de la vida real que permiten una mayor comprensión de las características del diseño y un mayor conocimiento a la hora de decidir qué diseño de muestreo debe see implementado en determinados casos.
+
+Las estrategias de muestreo implementadas en este capítulo corresponden a la utilización del estimador de Horvitz-Thompson junto con diseños de muestreo sin reemplazo y/o al uso del estimador de Hansen-Hurwitz en diseños de muestra con reemplazo.
+
+## Muestreo aleatorio simple sin reemplazo
+
+<!-- index: Diseño de muestreo aleatorio sin reemplazo -->El muestreo aleatorio simple puede ser visto como la forma más básica de selección de muestras. Supone la existencia de homogeneidad en los valores poblacionales de la característica de interés. Partiendo de esta asunción, este diseño provee probabilidades de selección idénticas para cada una de las posibles muestras pertenecientes al soporte $Q$. @Loh cita un ejemplo al respecto del uso del diseño de muestreo aleatorio simple diciendo que, cuando la población es homogénea, el investigador no necesita examinar todos los elementos de la población así como el encargado del análisis médico no necesita obtener toda la sangre para medir la cantidad de glóbulos rojos.
+
+Una **muestra aleatoria simple sin reemplazo** de tamaño $n$ se elige de modo que cada posible muestra realizada de tamaño $n$ tenga la misma probabilidad de ser seleccionada. A diferencia del diseño de muestreo Bernoulli, el diseño de muestreo aleatorio simple sin reemplazo tiene la característica de ser de tamaño fijo. Una **muestra aleatoria simple con reemplazo**, de tamaño $m$ de una población de $N$ elementos es la extracción de $m$ muestras independientes de tamaño 1, en donde cada elemento se extrae de la población con la misma probabilidad.
+
+@Leh afirman que este diseño de muestreo no es muy común en la práctica y básicamente desempeña dos funciones. Primero, plantean una línea de comparación de la eficiencia relativa con otros diseños de muestreo. Segundo, dentro de los diseños de muestreo más sofisticados como diseños de muestreo estratificado o diseños de muestreo por conglomerados, el muestreo aleatorio simple puede ser utilizado como un método final de selección de unidades primarias.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Diseño de muestreo aleatorio simple -->Un diseño de muestreo se dice aleatorio simple sin reemplazo si todas las posibles muestras de tamaño $n$ tienen la misma probabilidad de ser seleccionadas. Así,
+\begin{equation}
+p(s)=
+\begin{cases}
+\frac{1}{\binom{N}{n}} &\text{si $\#s=n$}\\
+0  &\text{en otro caso}
+\end{cases}
+\end{equation}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Definiendo a $Q$ como el soporte que contiene a todas las posibles muestras de tamaño $n$, existen $\binom{N}{n}$ muestras pertenecientes a $Q$. En otras palabras,
+
+\begin{equation*}
+\#(Q)=\binom{N}{n}
+\end{equation*}
+
+:::
+
+Nótese que $\sum_{s\in Q}p(s)=1$ porque $\#Q=\binom{N}{n}$.
+
+### Algoritmos de selección
+
+<!-- index: Algoritmos de selección -->Durante muchos años, la teoría de muestreo se centró en la parte de la extracción de muestras aleatorias, más que en la construcción de los estimadores. Con la gran ventaja de los nuevos procesadores, lo anterior pasa a un segundo plano. A continuación se presentan dos métodos de selección de una muestra aleatoria simple de tamaño $n$ de una población de tamaño $N$. Existen bastantes métodos de selección de una muestra aleatoria sin reemplazo, en esta sección se abordan dos algoritmos de selección. El primero da una asunción más simple, y puede ser comparado con el conocido método de la extracción de una balota; sin embargo, @Til afirma que este método es ineficiente computacionalmente. El segundo método basado en un algoritmo secuencial, permite la selección de la muestra con una sola revisión del marco de muestreo.
+
+#### Método coordinado negativo
+
+<!-- index: Algoritmos de selección -->@Sun ha probado que el siguiente método de ordenamiento aleatorio arroja como resultado una muestra aleatoria simple. Para extraer la muestra de tamaño $n$ de un universo de $N$ objetos,
+
+
+1. Generar $N$ realizaciones de una variable aleatoria $\xi_k$ ($k\in U$) con distribución uniforme (0,1).
+2. Asignar $\xi_k$ al elemento $k$-ésimo de la población.
+3. Ordenar la lista de elementos descendente (o ascendentemente) con respecto a este número aleatorio $\xi_k$.
+4. A continuación, seleccionar los $n$ primeros (o los $n$ últimos) elementos. Esta selección corresponde a la muestra realizada.
+
+
+Es necesario tener la seguridad de que exista un número grande de décimas en cada $\xi_k$ para evitar problemas de empates (números aleatorios repetidos).
+
+#### Método de selección y rechazo
+
+<!-- index: Algoritmo de selección y rechazo -->@Fan implementaron el siguiente algoritmo de muestreo secuencial (porque se recorre el marco de muestreo, elemento por elemento, y se decide la pertenencia o el rechazo del objeto en la muestra). Es interesante que, más tarde @Beb trece años más tarde publica (en un artículo de una página) el mismo método, aunque sin escribir ninguna fórmula.
+
+En general se supone que el marco de muestreo tiene $N$ individuos, y se quiere seleccionar una muestra aleatoria de $n$ individuos. Así, para el individuo $k$ $(k=1,2,...,N)$, se tiene que
+
+
+1. Realizar $\xi_k\sim U(0,1)$
+2. Calcular
+\begin{equation*}
+c_k=\dfrac{n-n_k}{N-k+1}
+\end{equation*}
+donde $n_k$ es la cantidad de objetos seleccionados en los $k-1$ ensayos anteriores.
+3. Si $\xi_k<c_k$, entonces el elemento $k$ pertenece a la muestra.
+4. Detener el proceso cuando $n=n_k$.
+
+
+Dado que este algoritmo se detiene cuando $n=n_k$, resulta muy eficiente porque asegura una muestra aleatoria simple y en algunas ocasiones no se requiere recorrer todo el marco de muestreo.
+
+::: {.callout-note title="Ejemplo"}
+
+Para seleccionar muestras aleatorias simples, R incorpora la función `sample`. Ésta, por defecto selecciona muestras sin reemplazo. Así, por ejemplo, para seleccionar una muestra aleatoria de tamaño $n=2$, de la población de ejemplo `U` de tamaño $N=5$, sin reemplazo se tiene
+
+```{r, echo=FALSE}
+U  <-  c("Yves", "Ken", "Erik", "Sharon", "Leslie")
+```
+
+```{r}
+N <- length(U)
+sam  <-  sample(N, 2, replace=FALSE)
+U[sam]
+```
+
+El algoritmo de selección y rechazo está implementado en la función `S.SI` del paquete `TeachingSampling` cuyos argumentos son el tamaño de la población `N`, el tamaño de muestra deseado `n` y un vector de números aleatorios `e` que, por defecto, se asigna mediante la generación de `N` realizaciones de una variable aleatoria con distribución uniforme en el intervalo $]0,1[$.
+
+Para seleccionar una muestra aleatoria sin reemplazo de tamaño $n=2$ por el método de selección y rechazo, de la población de ejemplo `U` de tamaño $N=5$, sólo basta digitar el siguiente código.
+
+```{r}
+sam  <-  S.SI(N, 2)
+U[sam]
+```
+
+Nótese que el resultado de la función `S.SI` es un vector de índices, que aplicados al identificador resulta en una muestra seleccionada que está conformada por los elementos **Erik** y **Leslie**.
+
+La siguiente salida muestra cada uno de los `N=5` pasos del algoritmo. Los números aleatorios que se utilizaron están en la columna llamada `ek` y los índices de la muestra seleccionada están en la columna `sam`.
+
+```
+k    Nombre     ek        ck        nk   sam
+
+1      Yves   0.4938  0.4000000     0     0
+2       Ken   0.7044  0.5000000     0     0
+3      Erik   0.4585  0.6666667     1     3
+4    Sharon   0.6747  0.5000000     1     0
+5    Leslie   0.8565  1.0000000     2     5
+```
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+El diseño de muestreo Bernoulli coincide con el diseño de muestreo aleatorio simple sin reemplazo cuando el tamaño de muestra se considera fijo e igual a $n$.
+
+**Prueba.**
+
+Utilizando las propiedades de la probabilidad condicional se tiene que
+\begin{align*}
+Pr(S=s|n(S)=n)&=\frac{Pr(S=s\text{ y }n(S)=n)}{Pr(n(S)=n)}\\
+&=\frac{\pi^n(1-\pi)^{N-n}}{\binom{N}{n}\pi^n(1-\pi)^{N-n}}=\frac{1}{\binom{N}{n}}
+\end{align*}
+el cual coincide con la expresión (3.2.1).
+
+:::
+
+Una consecuencia inmediata del anterior resultado es que otro método de selección de muestras para un diseño de muestreo Bernoulli es escoger aleatoriamente el tamaño de muestra de acuerdo a una distribución binomial $Bin(N,\pi)$ y luego seleccionar una muestra mediante uno de los anteriores algoritmos de selección de muestras aleatorias simples sin reemplazo [@Til].
+
+### El estimador de Horvitz-Thompson
+
+::: {.callout-tip title="Resultado"}
+
+ Para un diseño de muestreo aleatorio simple, las probabilidades de inclusión de primer y segundo orden están dadas por:
+\begin{eqnarray}
+\pi_k &=& \frac{n}{N} \\
+\pi_{kl} &=& \frac{n(n-1)}{N(N-1)}
+\end{eqnarray}
+respectivamente. La covarianza de las variables indicadoras está dada por
+\begin{equation}
+\Delta_{kl}=
+\begin{cases}
+\pi_{kl}-\pi_k\pi_l=-\frac{n}{N^2}\frac{(N-n)}{(N-1)} &\text{para $k\neq l$}\\
+\pi_k(1-\pi_k)=\frac{n(N-n)}{N^2} &\text{para $k=l$}
+\end{cases}
+\end{equation}
+
+**Prueba.**
+
+Recurriendo a la definición de probabilidad de inclusión de primer orden, se tiene que
+\begin{align*}
+\pi_k&=Pr(I_k(S)=1)\\
+&=\dfrac{\binom{1}{1}\binom{N-1}{n-1}}{\binom{N}{n}}=\frac{n}{N}
+\end{align*}
+por otro lado,
+\begin{align*}
+\pi_kl&=Pr(k\in S\text{ y }l\in s)\\
+&=Pr(I_k(S)=1\text{ y }I_l(S)=1)\\
+&=Pr(I_k(S)=1|I_l(S)=1)Pr(I_l(s)=1)\\
+&=\dfrac{n-1}{N-1}\dfrac{n}{N}=\dfrac{n(n-1)}{N(N-1)}
+\end{align*}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+ Para un diseño de muestreo aleatorio simple, el estimador de Horvitz-Thompson del total poblacional $t_y$, su varianza y su varianza estimada están dados por:
+\begin{equation}
+\hat{t}_{y,\pi}=\frac{N}{n}\sum_Sy_k
+\end{equation}
+\begin{equation}
+Var_{MAS}(\hat{t}_{y,\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{yU}
+\end{equation}
+\begin{equation}
+\widehat{Var}_{MAS}(\hat{t}_{y,\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{yS}
+\end{equation}
+respectivamente, con
+\begin{equation}
+S^2_{yU}=\frac{1}{N-1}\sum_{k\in U}(y_k-\bar{y}_U)^2,
+\end{equation}
+la **varianza poblacional** de la característica de interés en el universo $U$ y con
+\begin{equation}
+S^2_{yS}=\frac{1}{n-1}\sum_{k\in S}(y_k-\bar{y}_S)^2
+\end{equation}
+la **varianza muestral** de los valores de la característica de interés en la muestra aleatoria $S$. Además, $\bar{y}_S=\frac{\sum_Sy_k}{n}$. Por otro lado, nótese que $\hat{t}_{y,\pi}$ es insesgado para el total poblacional $t_y$ de la característica de interés $y$, y que $\widehat{Var}_{MAS}(\hat{t}_{y,\pi})$ es insesgado para $Var_{MAS}(\hat{t}_{y,\pi})$.
+
+**Prueba.**
+
+Por el resultado anterior, tenemos
+\begin{equation}
+\hat{t}_{y,\pi}=\sum_S\frac{y_k}{\pi_k}=\frac{N}{n}\sum_Sy_k.
+\end{equation}
+La demostración de las varianzas es inmediata al reemplazar las cantidades apropiadas en la expresión genérica del capítulo anterior y teniendo en cuenta que
+\begin{align*}
+\sum\sum_{k\neq l}y_ky_l&=\sum_k\sum_ly_ky_l-\sum\sum_{k=l}y_ky_l=\left(\sum_Uy_k\right)^2-\sum_Uy_k^2
+\end{align*}
+
+De tal forma que,
+\begin{align*}
+Var(\hat{t}_{y,\pi})&=\frac{N^2}{n^2}Var\left(\sum_UI_k(s)y_k\right)\\
+&=\frac{N^2}{n^2}\left(\sum_UVar(I_k(s))y_k^2+\sum\sum_{k\neq l}Cov\left(I_k(S),I_l(s)\right)y_ky_l\right)\\
+&=\frac{N^2}{n^2}\left(\frac{n(N-n)}{N^2}\sum_Uy_k^2-\frac{n}{N^2}\frac{(N-n)}{(N-1)}\sum\sum_{k\neq l}y_ky_l\right)\\
+&=\frac{(N-n)}{n}\left(\sum_Uy_k^2-\frac{1}{N-1}\sum\sum_{k\neq l}y_ky_l\right)\\
+&=\frac{(N-n)}{n}\frac{1}{N-1}\left((N-1)\sum_Uy_k^2-\left[\left(\sum_Uy_k\right)^2-\sum_Uy_k^2\right]\right)\\
+&=\frac{N(N-n)}{n}\frac{1}{N-1}\left(\sum_Uy_k^2-\dfrac{\left(\sum_Uy_k\right)^2}{N}\right)\\
+&=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{yU}
+\end{align*}
+
+Para demostrar el insesgamiento de la varianza estimada es suficiente demostrar que $S^2_{ys}$ es insesgado para $S^2_{yU}$.
+\begin{align*}
+E(S^2_{yS})&=E\left(\frac{1}{n-1}\left[\sum_Sy_k^2-n\bar{y}_S^2\right]\right)\\
+&=\frac{1}{n-1}\left(E\left[\sum_Sy_k^2\right]-nE\left[\frac{\hat{t}_{y,\pi}}{N}\right]^2\right)\\
+&=\frac{1}{n-1}\left(\frac{n}{N}\left[\sum_Uy_k^2\right]-\frac{n}{N^2}E\left[\hat{t}_{y,\pi}\right]^2\right)\\
+&=\frac{1}{n-1}\left(\frac{n}{N}\left[\sum_Uy_k^2\right]-\frac{n}{N^2}\left[\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{yU}-t_y^2\right]\right)\\
+&=\frac{n}{n-1}\left(\frac{1}{N}\left[\sum_Uy_k^2\right]-\frac{1}{n}\left(1-\frac{n}{N}\right)S^2_{yU}-\dfrac{t_y^2}{N^2}\right)\\
+&=\frac{n}{n-1}\left(\frac{N-1}{N}S^2_{yU}-\frac{N-n}{nN}S^2_{yU}\right)\\
+&=S^2_{yU}
+\end{align*}
+En donde se utilizó el hecho de que $\bar{y}_S=\frac{\hat{t}_{y,\pi}}{N}$ y además
+\begin{equation*}
+E(\hat{t}_{y,\pi})^2=Var(\hat{t}_{y,\pi})-t_y^2.
+\end{equation*}
+
+:::
+
+::: {.callout-note title="Ejemplo"}
+
+Para nuestra población de ejemplo $U$, existen $\binom{5}{2}=10$ posibles muestras de tamaño $n=2$. Realice el cálculo léxico-gráfico del estimador de Horvitz-Thompson y compruebe el insesgamiento y la varianza.
+
+:::
+
+### Estimación de la media poblacional<!-- index: Dominio -->
+
+<!-- index: Estimador de la media poblacional -->
+
+::: {.callout-tip title="Resultado"}
+
+ Para un diseño de muestreo aleatorio simple, el estimador de Horvitz-Thompson para la media poblacional $\bar{y}_U$, su varianza y su varianza estimada están dados por:
+\begin{equation}
+\hat{\bar{y}}_{\pi}=\frac{\hat{t}_{y,\pi}}{N}=\frac{\sum_Sy_k}{n}=\bar{y}_S
+\end{equation}
+\begin{equation}
+Var_{MAS}(\hat{\bar{y}}_{\pi})=\frac{1}{N^2}Var(\hat{t}_{y,\pi})=\left(1-\frac{n}{N}\right)\frac{S^2_{yU}}{n}
+\end{equation}
+\begin{equation}
+\widehat{Var}_{MAS}(\hat{\bar{y}}_{\pi})=\frac{1}{N^2}Var(\hat{t}_{y,\pi})=\left(1-\frac{n}{N}\right)\frac{S^2_{ys}}{n}
+\end{equation}
+respectivamente, con $S^2_{yU}$ y $S^2_{ys}$ el estimador de la varianza de los valores de la característica de interés $y$ en el universo y en la muestra. Nótese que $\hat{t}_{y,\pi}$ es insesgado para el total poblacional $t_y$ de la característica de interés $y$, y que $\widehat{Var}_{MAS}(\hat{t}_{y,\pi})$ es insesgado para $Var_{MAS}(\hat{t}_{y,\pi})$.
+
+:::
+
+Nótese que la construcción, cálculo y estimación de la varianza son muy intuitivas. Haciendo un símil con la inferencia clásica, suponga que tenemos una muestra aleatoria $X_1,\ldots,X_n$ i.i.d., tal que $X_i\sim(\mu,\sigma^2)$. Se sabe que un estimador insesgado para la media $\mu$ es $\bar{X}$, además se sabe que la variación de este estimador es $\dfrac{\sigma^2}{n}$.
+
+Al operador $\left(1-\dfrac{n}{N}\right)$ se le conoce con el nombre de **factor de corrección para poblaciones finitas**. Sólo existe una sola muestra que contiene a todos los elementos de la población, por tanto, si esa muestra es seleccionada, esperamos que no haya variación en el estimador pues reproducirá con exactitud al parámetro, por tanto la varianza del mismo se debe anular. Entre más grande sea el tamaño de muestra $n$, al utilizar un diseño de muestreo aleatorio simple, la variabilidad de las estimaciones se debe hacer más pequeña dado que la muestra tenderá a parecerse más a la población finita. @Loh afirma que el tamaño de muestra es el que determina la precisión de las estimaciones (no así, el porcentaje de la población muestreada):
+
+::: {.blockquote}
+Si su sopa está bien revuelta, sólo necesita dos o tres cucharadas para probar el sazón, así tenga uno o veinte litros de sopa. Una muestra de tamaño $n=100$ de una población de $N=100mil$ elementos, tiene casi la misma precisión que una muestra de tamaño $n=100$ de una población de $N=100millones$ de elementos:
+
+1. Para el primer caso, $Var_{MAS}(\hat{\bar{y}}_{\pi})=\frac{99900}{100000}\frac{S^2_{yU}}{100}=0.999\dfrac{S^2_{yU}}{100}$
+2. Para el último caso, $Var_{MAS}(\hat{\bar{y}}_{\pi})=\frac{9999900}{100000000}\frac{S^2_{yU}}{100}=0.999999\dfrac{S^2_{yU}}{100}$
+:::
+
+#### Tamaño de muestra
+
+<!-- index: Tamaño de muestra -->Bajo muestreo aleatorio simple sin reemplazo, un intervalo de confianza de $100(1-\alpha)\%$ para la media de la población es:
+\begin{equation}
+\left[\bar{y}_S-z_{1-\alpha/2}\sqrt{\left(1-\frac{n}{N}\right)}\frac{S_{yU}}{\sqrt{n}},
+\bar{y}_S+z_{1-\alpha/2}\sqrt{\left(1-\frac{n}{N}\right)}\frac{S_{yU}}{\sqrt{n}}\right]
+\end{equation}
+y como usualmente no se conoce $S^2_{y_U}$, lo usual es sustituirlo por el valor muestral $S^2_{y_s}$. Por lo general, sólo los investigadores del estudio pueden decidir sobre la precisión mínima del mismo. Ésta se expresa como:
+\begin{equation*}
+Pr(|\bar{y}_S-\bar{y}_U|\leq c)=1-\alpha
+\end{equation*}
+
+Por tanto, la cantidad a minimizar es $c$,
+\begin{align}
+c=z_{1-\alpha/2}\sqrt{\left(1-\frac{n}{N}\right)}\frac{S_{yU}}{\sqrt{n}}
+\end{align}
+
+y despejando n, se tiene:
+$$
+\begin{aligned}
+n\geq\frac{n_0}{1+\frac{n_0}{N}}
+\end{aligned}
+$$ {#eq-no}
+
+con $n_0=\frac{z^2_{1-\alpha/2}S^2_{y_U}}{c^2}$. La desigualdad se tiene porque cuando se aumenta el tamaño de muestra, $c$ decrece su valor. En algunas ocasiones se quiere lograr una precisión relativa dada por:
+\begin{equation*}
+P\left(\left|\frac{\bar{y}_S-\bar{y}_U}{\bar{y}_U}\right|\leq
+c\right)=1-\alpha
+\end{equation*}
+
+que se puede escribir equivalentemente como:
+\begin{equation*}
+P\left(\left|\bar{y}_S-\bar{y}_U\right|\leq
+c|\bar{y}_U|\right)=1-\alpha
+\end{equation*}
+
+la cantidad a minimizar es:
+\begin{align}
+c|\bar{y}_U|=z_{1-\alpha/2}\sqrt{\left(1-\frac{n}{N}\right)}\frac{S_{yU}}{\sqrt{n}}
+\end{align}
+
+y despejando n, se tiene:
+$$
+\begin{aligned}
+n\geq\frac{k_0}{1+\frac{k_0}{N}}
+\end{aligned}
+$$ {#eq-ko}
+
+con $k_0=\frac{z^2_{1-\alpha/2}S^2_{yU}}{\bar{y}_U^2c^2}=\frac{z^2_{1-\alpha/2}CV^2}{c^2}$. La desigualdad se tiene porque cuando se aumenta el tamaño de muestra, $c|\bar{y}_U|$ decrece su valor.
+
+Bajo un diseño aleatorio simple, un intervalo de confianza del $100(1-\alpha \%)$ para la media poblacional $\bar{y}_U$ puede ser escrito como
+\begin{equation}
+\bar{y}_S(1\pm A)
+\end{equation}
+
+Donde $A$ está dada por
+\begin{align}
+A=z_{1-\alpha/2}\sqrt{\left(1-\frac{n}{N}\right)}\frac{S_{ys}}{\sqrt{n}\bar{y}_S}=
+z_{1-\alpha/2}\sqrt{\left(1-\frac{n}{N}\right)}\frac{cv}{\sqrt{n}}
+\end{align}
+
+Asumiendo que $CV \doteq cv$ y que $\frac{n}{N}$ es una cantidad despreciable, podemos determinar un tamaño de muestra para mantener una precisión dada. Por tanto $A$ se reescribe como
+\begin{align*}
+A\doteq z_{1-\alpha/2}\frac{CV}{\sqrt{n}}
+\end{align*}
+
+y despejando $n$, tenemos que
+\begin{align*}
+n\geq z^2_{1-\alpha/2}\frac{CV^2}{A^2}
+\end{align*}
+
+Con un nivel de confianza del $\alpha=5\%$, asumiendo que el coeficiente de variación estimado converge al coeficiente de variación poblacional y que la fracción de muestreo es despreciable para obtener una precisión $A<3\%$ si a) $CV=0.5$, el tamaño de muestra debe ser mayor que 1067 unidades; b) $CV=1.0$, el tamaño de muestra debe ser mayor que 4268 unidades y c) $CV=1.5$, el tamaño de muestra debe ser mayor que 9604 unidades. Es decir, entre más dispersa sea la población, con respecto a la media, mayor debe ser el tamaño de muestra para conseguir una precisión dada.
+
+Para poder utilizar las anteriores fórmulas es necesario contar un buen tamaño de muestra, dado que el teorema central del límite clásico (universo infinito) no es el mismo que se ha aplicado aquí. @Hajek demuestra que al utilizar muestreo aleatorio simple (universo finito) y bajo ciertas condiciones de regularidad conocidas como las condiciones de Noether y si $n$, $N$, y $N-n$ son grandes, es decir la fracción muestral $f=n/N$ se aleja de 0 y de 1, entonces
+\begin{equation*}
+\frac{\bar{y}_S-\bar{y}_U}{\sqrt{\left(1-\frac{n}{N}\right)}
+\frac{S_{yU}}{\sqrt{n}}}\longrightarrow Normal(0,1)
+\end{equation*}
+
+Cuando se quiere establecer un intervalo de confianza, la confiabilidad del intervalo está garantizada por el insesgamiento del estimador de Horvitz-Thompson. Para asegurar determinada precisión es necesario conocer la varianza poblacional de la característica de interés o el coeficiente de variación del estimador; en estos términos, cuando el coeficiente de variación estimado (cve) es menor del 3\% es un caso excelente; entre el 3 y el 5\% es bueno; entre el 5 y el 10\% es regular; entre el 10 y 15\% es apenas presentable; si es más del 15\% no es considerado bueno; en este caso algunas agencias de estadísticas oficiales no presentan el coeficiente de variación, aunque se conozca.
+
+Por supuesto, algunas cantidades poblacionales necesarias para estimar el tamaño de muestra no se conocen; de hecho, si se conocieran, no habría necesidad de realizar estudio alguno, porque directamente se conocerían los parámetros poblacionales de interés. @Loh considera tres escenarios para realizar una estimación previa de los parámetros de interés:
+
+
+1. Realizar una **prueba piloto**, unas cuantas entrevistas conforman la muestra piloto, seleccionada con el mismo diseño de muestreo genérico. En algunas ocasiones, este método además de servir para estimar las cantidades necesarias para establecer el tamaño de muestra, sirve para confrontar y calibrar el instrumento de medición, ya sea un cuestionario o un instrumento técnico.
+2. Utilizar información a priori de estudios anteriores. No siempre el investigador que realiza un estudio por muestreo ha sido el primero en cuestionarse acerca de los objetivos de la investigación. Si esto es así, existen referencias bibliográficas disponibles, en donde se pueden hallar estimaciones de la varianza poblacional o del error estándar. Esta última medida tiende a ser más estable contra el tiempo o posición geográfica.
+3. Estimar la varianza ajustando una distribución teórica a la característica de interés. @Osp afirma que este ajuste se hace con base en supuestos adecuados acerca de la estructura poblacional de la característica de interés (normal, exponencial, uniforme, etc.). La identificación de una distribución apropiada permite hacer uso de sus propiedades para obtener una estimación más realista de la varianza. Cuando el desconocimiento es absoluto, se recomienda utilizar la distribución uniforme. @Wu1 afirma que las características de interés en poblaciones económicas son sesgadas a la derecha y tienden a ser modeladas mediante distribuciones como la Gamma o la Ji cuadrado.
+
+
+### Estimación en dominios
+
+<!-- index: Estimación en dominios -->El primer caso concerniente a la estimación de subgrupo poblacionales es el de las sub-poblaciones llamadas dominios. En muchas investigaciones es necesario llevar a cabo estimaciones sobre la población en general, y también sobre subgrupos de ella (denominados dominios por la subcomisión en muestreo de las Naciones Unidas). La identificación de los dominios se logra una vez la información de los elementos ha sido registrada. Los dominios tienen que cumplir las siguientes características:
+
+
+1. Ningún elemento de la población puede pertenecer a dos dominios.
+2. Todo elemento de la población debe pertenecer a un único dominio.
+3. La reunión de todos los dominios es la población del estudio.
+
+
+Por ejemplo, al estimar el total de la fuerza laboral en empresas con menos de dos años de funcionamiento. Claramente la población se divide en dos dominios; el primero concerniente a las empresas con menos de dos años de funcionamiento y el segundo dado por las empresas con dos años o más de funcionamiento.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Dominio -->Un dominio $U_d$ es una sub-población específica o subgrupo poblacional que cumple las siguientes condiciones:
+
+
+1. $U_d \subset U$, tal que $U=\bigcup_{d=1}^DU_d$
+2. Si $k\in U_l$, entonces $k \notin U_d$ para $d\neq l$
+3. El número de elementos en el dominio $U_d$ es $N_d$ y es llamado **tamaño absoluto** del dominio.
+4. La proporción de elementos en el dominio $U_d$ con respecto al tamaño poblacional es $P_d=\dfrac{N_d}{N}$ y se conoce como **tamaño relativo** del dominio.
+
+
+La estimación por dominios se caracteriza por el desconocimiento de la pertenencia de las unidades poblacionales al dominio. Es decir, para conocer cuáles unidades de la población pertenecen al dominio, es necesario realizar el proceso de medición.
+
+:::
+
+Fue @Har quien desarrolló y unificó la teoría de la estimación en dominios aplicable a cualquier diseño de muestreo. @Dur obtuvo resultados similares. Las pautas para la estimación en dominios se dan a continuación: para estimar el total de un dominio $U_d$, dado por
+\begin{equation}
+t_{yd}=\sum_{Ud}y_k
+\end{equation}
+es necesario, en primer lugar construir una función indicadora $z_{dk}$, para cada elemento de la población, de la pertenencia del elemento al dominio, dada por la siguiente definición.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Función indicatriz del dominio -->Sea $z_{dk}$ la función indicatriz del dominio $U_d$, dada por
+\begin{equation}
+z_{dk}= \begin{cases} 1 &\text{si $k\in U_d$}\\
+0  &\text{en otro caso}
+      \end{cases}
+\end{equation}
+
+:::
+
+Ahora, al multiplicar la variable de pertenencia $z_{dk}$ por el valor de la característica de interés $y_k$, se crea una nueva variable $y_{dk}$ dada por $y_{dk}=z_{dk}y_k$, y una vez construida se pueden utilizar los principios del estimador de Horvitz-Thompson para hallar un estimador insesgado del total de la característica de interés en el dominio $U_d$.
+
+::: {.callout-tip title="Resultado"}
+
+El total de la variable de interés en el dominio $U_d$ está dado por
+\begin{equation}
+t_{yd}=\sum_{U}y_{dk},
+\end{equation}
+el tamaño del dominio $U_d$ toma la siguiente expresión
+\begin{equation}
+N_d=\sum_{U}z_{dk},
+\end{equation}
+de tal forma que la media de la característica de interés en el dominio $U_d$ se escribe como
+\begin{equation}
+\bar{y}_{U_d}=\frac{t_{yd}}{N_d}=\frac{\sum_{U}y_{dk}}{N_d}
+\end{equation}
+
+
+:::
+
+#### Estimación del total en un dominio
+<!-- index: Estimación en dominios -->
+
+::: {.callout-tip title="Resultado"}
+
+Bajo muestreo aleatorio simple sin reemplazo, el estimador de Horvitz-Thompson para el total del dominio $t_{yd}$, su varianza y su varianza estimada están dados por
+\begin{equation}
+\hat{t}_{yd,\pi}=\frac{N}{n}\sum_Sy_{dk}=\frac{N}{n}\sum_{S_d}y_k
+\end{equation}
+\begin{equation}
+Var(\hat{t}_{yd,\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{y_dU}
+\end{equation}
+\begin{equation}
+\widehat{Var}(\hat{t}_{yd,\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{y_dS}
+\end{equation}
+respectivamente, donde $S_d=U_d \cap S$ se refiere al conjunto formado por la intersección de la muestra $S$. Además,
+\begin{equation*}
+S^2_{y_dU}=\frac{1}{N-1}\left(\sum_{k\in U}y_{dk}^2-\frac{(\sum_{k \in U}y_{dk})^2}{N}\right)
+\end{equation*}
+representa la varianza poblacional de la característica de interés y
+\begin{equation*}
+S^2_{y_dS}=\frac{1}{n-1}\left(\sum_{k\in S}y_{dk}^2-\frac{(\sum_{k \in S}y_{dk})^2}{n}\right)
+\end{equation*}
+la varianza muestral de los valores de la característica de interés.
+
+:::
+
+Nótese que en la expresión $S^2_{y_dU}$ los valores que intervienen son los de la característica de interés si el elemento pertenece al dominio y ceros si el elemento no pertenece al dominio, lo mismo sucede con $S^2_{y_dS}$. Por tanto, las anteriores expresiones van a tomar valores grandes por la inclusión de los ceros; éste es el precio que se debe pagar por el desconocimiento de la pertenencia de los elementos a los dominios.
+
+#### Estimación del tamaño absoluto de un dominio
+<!-- index: Estimación en dominios -->
+
+::: {.callout-tip title="Resultado"}
+
+Bajo muestreo aleatorio simple sin reemplazo, el estimador de Horvitz-Thompson para el tamaño absoluto de un dominio $N_d$, su varianza y su varianza estimada están dados por
+\begin{equation}
+\hat{N}_{d,\pi}=\frac{N}{n}\sum_Sz_{dk}=\frac{N}{n}\sum_{S_d}z_k
+\end{equation}
+\begin{equation}
+Var(\hat{N}_{d,\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{z_dU}
+\end{equation}
+\begin{equation}
+\widehat{Var}(\hat{N}_{d,\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{z_ds}
+\end{equation}
+respectivamente, con $S^2_{z_dU}$ y $S^2_{z_ds}$ la varianza poblacional y la varianza muestral de los valores de la característica de interés $z_{dk}$.
+
+:::
+
+Nótese que en la expresión $S^2_{z_dU}$ los valores que intervienen son unos si el elemento pertenece al dominio y ceros si el elemento no pertenece al dominio, lo mismo sucede con $S^2_{y_ds}$.
+
+#### Estimación del tamaño relativo de un dominio
+<!-- index: Estimación en dominios -->
+
+::: {.callout-tip title="Resultado"}
+
+Bajo muestreo aleatorio simple sin reemplazo, el estimador de Horvitz-Thompson para el tamaño relativo de un dominio $P_d$, su varianza y su varianza estimada están dados por
+\begin{equation}
+\hat{P}_{d,\pi}=\frac{1}{N}\sum_S\frac{N}{n}z_{dk}=\frac{1}{n}\sum_Sz_{dk}=\frac{n_d}{n}
+\end{equation}
+\begin{equation}
+Var(\hat{P}_{d,\pi})=\frac{1}{n}\left(1-\frac{n}{N}\right)S^2_{z_dU}
+\end{equation}
+\begin{equation}
+\widehat{Var}(\hat{P}_{d,\pi})=\frac{1}{n}\left(1-\frac{n}{N}\right)S^2_{z_ds}
+\end{equation}
+respectivamente, con $S^2_{z_dU}$ y $S^2_{z_ds}$ el estimador de la varianza de los valores de la característica de interés $y_d$ en el universo y en la muestra.
+
+:::
+
+#### Estimación de la media de un dominio
+<!-- index: Estimación en dominios -->
+
+::: {.callout-tip title="Resultado"}
+
+Bajo muestreo aleatorio simple sin reemplazo, el estimador de Horvitz-Thompson para la media de la característica de interés en un dominio $\bar{y}_{U_d}$, su varianza y su varianza estimada están dados por
+\begin{equation}
+\hat{\bar{y}}_{U_d,\pi}=\frac{\frac{N}{n}\sum_Sy_{dk}}{N_d}
+\end{equation}
+\begin{equation}
+Var(\hat{\bar{y}}_{U_d,\pi})=\frac{1}{N_d^2}\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{y_dU}
+\end{equation}
+\begin{equation}
+\widehat{Var}(\hat{\bar{y}}_{U_d,\pi})=\frac{1}{N_d^2}\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{y_ds}
+\end{equation}
+
+:::
+
+Para poder utilizar el anterior estimador, es necesario conocer de antemano el valor del tamaño absoluto del dominio $N_d$. En la práctica, pocas veces se conoce este valor, por lo tanto un estimador alternativa y completamente intuitivo de la media de la característica de interés en un dominio es la media muestral de la misma en el dominio de interés. De tal forma que el estimador alternativo, toma la siguiente expresión
+
+\begin{equation}
+\widehat{y}_{S_d}=\frac{\hat{t}_{yd,\pi}}{\hat{N}_{d,\pi}}=\frac{\sum_Sy_{dk}}{z_{dk}}=\frac{\sum_{S_d}y_k}{n_d}
+\end{equation}
+
+Como las dos cantidades en el numerador y denominador son aleatorias, se está estimando una razón, de tal manera que el cálculo y estimación de la varianza del anterior estimador están fuera del alcance de este capítulo, y serán explicados en los lugares donde sea conveniente.
+
+### Marco y Lucy
+
+<!-- index: Marco y Lucy -->Una de las razones por las que el gobierno realiza la encuesta de crecimiento económico del sector industrial es, no sólo para medir el impacto social e impositivo sino para buscar nuevas estrategias de crecimiento enfocadas en las empresas que conforman este sector. Recientemente, con el boom de la tecnología y el uso masivo de internet, las estrategias de mercadeo han cambiado su forma y su fondo.
+
+Hace unos años, las empresas con un rendimiento muy alto, catalogadas dentro de un nivel industrial grande, podían acceder a pautar un comercial discreto de 900 TRP's\footnote{Puntos acumulados de rating del grupo objetivo obtenidos considerando sólo consumidores viendo el comercial de televisión de una marca dada} en televisión, mientras que las empresas medianas tenían un presupuesto con el cual apenas podían pautar un comercial en la radio. Por supuesto, la estrategia publicitaria de las empresas pequeñas consistía en editar un aviso en las páginas amarillas.
+
+Sin embargo, a medida que cambia y evoluciona la tecnología, también lo hacen los hábitos de las personas. Es muy común que las operaciones financieras, contables y estratégicas de una empresa estén centradas en un servidor conectado a internet. La misma comunicación verbal ha sido reemplazada por altos estándares de tecnología mediante conversaciones virtuales, la comunicación oficial ha desplazado el casillero de correo postal por el correo electrónico que permite la recepción en tiempo real de mensajes sin importar la ubicación espacio temporal del receptor ni de la persona que envía el mensaje. Siendo así, las personas pasan más tiempo frente a un computador que frente al televisor, o escuchando la radio; las páginas amarillas están siendo reemplazadas por los meta-buscadores de la red mundial de información, gigantes como Google, Yahoo y MSN.
+
+Los gerentes de mercadeo (en los casos pertinentes) junto con los presidentes o gerentes de las empresas del sector industrial, han replanteado sus viejas estrategias publicitarias y han hecho, poco a poco, la migración de canal publicitario. Las empresas grandes siguen pautando en televisión, las empresas medianas siguen haciéndolo en la radio y las pequeñas siguen teniendo el mismo viejo aviso clasificado en la sección de las páginas amarillas. Sin embargo, en todos los niveles del sector industrial, se ha empezado a realizar una mejor gestión de sus clientes y/o de sus potenciales clientes.
+
+Las empresas están utilizando listas de correo electrónico masivas para dar a conocer las ventajas competitivas de sus empresas, mediante el envió de portafolios virtuales de los productos y servicios que brindan. Se cree que esta práctica de mercadeo ha aumentado la productividad empresarial porque por medio de la publicidad por internet o SPAM, las empresas consiguen más clientes, por lo tanto consiguen más contratos, por tanto ayudan a la disminución del desempleo y obtienen ventajas fiscales.
+
+El gobierno quiere corroborar esta hipótesis y dependiendo de los resultados del estudio implementar un programa de capacitación gratuita a las empresas que aún no han entrado en el ámbito de la información mediante el uso masivo de la red informática internet. El presupuesto del gobierno es de unos cuantos millones de dólares, por lo tanto se necesitan estimaciones muy precisas que respondan al objetivo de la investigación.
+
+#### Estimación del tamaño de muestra
+
+<!-- index: Tamaño de muestra -->La estrategia de muestreo que se va a utilizar es la siguiente: el estimador de Horvitz-Thompson aplicado a un diseño de muestreo aleatorio simple sin reemplazo. Se selecciona una muestra piloto de tamaño 30 de la población. Para esto, una vez cargado el archivo de datos Lucy, utilizamos la función `sample` para extraer la muestra piloto. Como la característica de interés es el ingreso de las empresas, tomamos los valores de la varianza y de la media como estimaciones que servirán para el cálculo del tamaño de la muestra.
+
+```{r, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+
+N <- dim(BigLucy)[1]
+sam <- sample(N,100)
+Inc.pilot <- Income[sam]
+
+mean(Inc.pilot)
+var(Inc.pilot)
+```
+
+Los valores que se utilizarán en la estimación del tamaño de muestra son la varianza muestral igual a 66.952, el promedio muestral igual a 455; con estos valores se tiene una estimación del coeficiente de variación igual a 0,57. Se debe escoger un tamaño de muestra que proporcione estimaciones precisas, el tamaño de muestra depende de la precisión que se requiera para cumplir con los objetivos del estudio.
+
+
+- Error absoluto: el margen de error para este estudio es de 25 millones de dólares.
+- Nivel de confianza del 95\%.
+- Mediante @eq-no se tiene que $n_0=411$.
+- Al utilizar el factor de corrección de poblaciones finitas, llegamos a que $n\geq351$.
+
+
+Sin embargo, este cálculo se puede cotejar restringiendo las estimaciones mediante un error relativo.
+
+
+- Error relativo: se requieren estimaciones con menos del 7\% de error.
+- Nivel de confianza del 95\% y una estimación de $CV=0.57$.
+- Mediante @eq-ko se tiene que $k_0=446$.
+- Al utilizar el factor de corrección de poblaciones finitas, llegamos a que $n\geq376$.
+
+
+Suponga que mediante fuentes oficiales se ha tenido acceso a información de estudios pasados que han modelado la característica de interesé `Income` utilizando la familia de distribuciones Gamma con parámetro de forma 2,7 y parámetro de escala 180. Haciendo una simulación de $N=2396$ valores provenientes de una distribución gamma con los anteriores parámetros, se pueden estimar los valores de la varianza para la característica de interés y así una estimación del tamaño de muestra.
+
+```{r, results ='hide', fig.show='hide'}
+bary <- mean(Income)
+sdy <- sd(Income)
+x <- seq(min(Income),max(Income),by=10)
+a <- 2.7
+b <- 180
+```
+
+
+```{r}
+#| label: fig-cap3-1
+#| fig-cap: "Distribución de la característica `Income` y su posible modelamiento bajo la distribución gamma."
+ggplot(BigLucy, aes(x=Income)) + 
+  geom_histogram(aes(y=..density..)) +
+  stat_function(fun=dgamma, args=list(shape=a, scale=b), colour="red")
+```
+
+
+La determinación del tamaño de muestra para esta investigación utilizando la estrategia de muestreo mencionada al principio de la sección y consideraciones respecto a que la estimación de la varianza de la muestra piloto puede ser pequeña, da como resultado una muestra de tamaño $n=400$ empresas del sector industrial. Como el tamaño de la población es $N=2396$, entonces el valor de la probabilidad de inclusión para todos los elementos es de $\pi_k=\dfrac{400}{2396}\cong0.17$.
+
+R incorpora la función `sample` para la selección de muestras con o sin reemplazo. En este caso puede ser utilizada como en la selección de la muestra piloto. Sin embargo, para seleccionar una muestra mediante el algoritmo de selección y rechazo, el paquete `TeachingSampling` adjunta la función `S.SI` que se utilizará en la selección de 400 empresas del sector industrial.
+
+Primero se carga en R el archivo `Marco` que contiene el marco de muestreo para la selección de la muestra. Se fijan los parámetros de la función, `N` y `pik`. Esta función devuelve un vector conteniendo el índice de los elementos seleccionados en la muestra. En este caso particular, el primer elemento seleccionado es el número 7 y el último el número 2395.
+
+```{r, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+
+N <- dim(BigLucy)[1]
+n <- 2000
+sam <- S.SI(N,n)
+muestra <- BigLucy[sam,]
+
+attach(muestra)
+head(muestra)
+n <- dim(muestra)[1]
+n
+```
+
+Aplicando los índices obtenidos por la función `S.SI` al marco de muestreo obtenemos la identificación y ubicación de las empresas seleccionadas en la muestra. Una vez que la etapa de recolección de datos se haya realizado; es decir, la medición de todos y cada uno de los elementos seleccionados ya ha sido realizada, se realiza la estimación. Obtendremos un archivo de datos de `Lucy` conteniendo los valores de las características de interés para las empresas seleccionadas que será adjuntado a R mediante la función `attach`.
+
+La etapa de estimación de resultados se hace utilizando la función `E.SI(N,n,y)` del paquete `TeachingSampling` cuyos argumentos son `y`, un vector conteniendo los valores de la característica de interés en la muestra, `N` el tamaño de la población y `n` el tamaño de la muestra seleccionada. En este caso la longitud de cada vector es de $n=400$. Esta función arroja la estimación del total poblacional de `y` usando el estimador de Horvitz-Thompson, la estimación de la varianza y el coeficiente de variación del mismo. Por ejemplo, la variable `Income` dentro del objeto `estima` contiene los valores del ingreso declarado en el último año por 400 empresas del sector industrial pertenecientes a la muestra. La estimación para esta característica se hace mediante el siguiente código:
+
+```{r, results='hide'}
+estima <- data.frame(Income, Employees, Taxes)
+E.SI(N,n,estima)
+```
+
+```{r, echo = FALSE}
+#| label: tbl-t3-2
+#| tbl-cap: "Estimaciones para el diseño de muestreo aleatorio simple sin reemplazo"
+Estimaciones = E.SI(N,n,estima)
+knitr::kable(Estimaciones)
+```
+
+La @tbl-t3-2 muestra los resultados obtenidos para este caso particular. Nótese que se obtienen mejores resultados que al utilizar un diseño de muestreo Bernoulli. Sin embargo, comparar estos resultados de ingreso total en el sector industrial con el de las mediciones pasadas, no es suficiente y se desea tener estimaciones para el dominio o subgrupo de las empresas que utilizan el envío de SPAM como estrategia publicitaria.
+
+La función `Domains` contenida en el paquete `TeachingSampling` es utilizada para obtener las variables indicadoras $z_{dk}$ para cada dominio, el único argumento de la función es un vector de pertenencia de cada individuo. En este caso, el vector de pertenencia es SPAM, la salida de esta función es una matriz de unos y ceros, en donde cada columna está dicotomizada. Existen tantas columnas como subgrupos poblacionales, y en cada columna el número uno implica la pertenencia del elemento al dominio y cero la no pertenencia del elemento al dominio.
+
+```{r}
+Dominios <- Domains(SPAM)
+head(Dominios)
+```
+
+Para estimar el tamaño absoluto de cada dominio, lo único que se debe hacer es multiplicar la matriz de características de interés (en este caso, la matriz llamada `estima`) por cada columna de la matriz resultante de la dicotomización. La siguiente salida lo muestra claramente para el dominio de la población que sí utiliza el SPAM como método publicitario.
+
+```{r}
+SPAM.si <- Dominios[,2]*estima
+head(SPAM.si)
+```
+
+Mientras que para el dominio que no utiliza el SPAM se tiene la siguiente salida
+
+```{r}
+SPAM.no <- Dominios[,1]*estima
+head(SPAM.no)
+```
+
+Utilizando la función `E.SI` en la matriz resultante de la dicotomización obtenemos las estimación de los tamaños absolutos de cada dominio. En este caso, se estima que 1420 empresas ya están utilizando otras técnicas radicales de publicidad, mientras que las restantes 976 no lo hacen. Nótese que la varianza de cada estimación es la misma, esto es claro porque los valores de esta característica de interés son ceros y uno y por tanto la estructura de varianza resulta idéntica en cada caso.
+
+```{r}
+E.SI(N,n,Dominios)
+```
+
+Está claro que existe una tendencia en el sector industrial de publicidad virtual mediante el envío de SPAM por correo electrónico. Las siguientes cifras son las verdaderamente importantes pues muestran que las empresas que utilizan SPAM tienen mayores ingresos, emplean a más gente y contribuyen con una mayor cantidad de dinero en cuanto a impuestos se refiere, esto se da porque hay más empresas que utilizan el SPAM de las que no lo hacen.
+
+```{r, results='hide'}
+E.SI(N, n, SPAM.no)
+E.SI(N, n, SPAM.si)
+```
+
+Como $N_d$ es desconocido, podemos utilizar el estimador alternativo dado por la expresión (3.2.38), para obtener una estimación (aunque no la varianza ni el c.v.e) de la media de la característica de interés en cada dominio. Simplemente tomamos las estimaciones $t_{yd}$ y las dividimos por la estimación de $N_d$. Las siguientes tablas resumen las estimaciones para cada uno de los dominios de interés\footnote{Nótese que el anterior procedimiento asegura la estimación de los parámetros de dominios no sólo en MAS sino para cualquier diseño de muestreo.}.
+
+```{r, echo = FALSE}
+#| label: tbl-t3-3
+#| tbl-cap: "Estimaciones para el diseño de muestreo aleatorio simple en el dominio que no envía SPAM"
+Estimaciones = E.SI(N,n,SPAM.no)
+knitr::kable(Estimaciones)
+```
+
+```{r, echo = FALSE}
+#| label: tbl-t3-4
+#| tbl-cap: "Estimaciones para el diseño de muestreo aleatorio simple en el dominio que sí envía SPAM"
+Estimaciones = E.SI(N,n,SPAM.si)
+knitr::kable(Estimaciones)
+```
+
+### Probabilidades de inclusión en unidades de muestreo
+
+<!-- index: Probabilidad de inclusión -->En @Sar se considera una encuesta para medir los ingresos de los hogares. El marco de muestreo es una lista de individuos y una muestra de tamaño $n$ se selecciona mediante muestreo aleatorio simple sin reemplazo, el hogar correspondiente al individuo es identificado y se procede a realizar la medición correspondiente. La probabilidad de inclusión de un hogar $h$ compuesto por $M<n$ individuos, puede modelarse por medio de la
+distribución hipergeométrica, así:
+
+\begin{align*}
+\pi_{H}&=Pr(H\in s)\\
+&=1-Pr(H \notin s)\\
+&=1-Pr(\text{Ninguno de los $M$ salió en la muestra de tamaño $n$})\\
+&=1-\frac{\binom{M}{0}\binom{N-M}{n}}{\binom{N}{n}}\\
+&=1-\frac{(N-M)!/n!(N-M-n)!}{N!/(N-M)!n!}\\
+&=1-\frac{(N-M)!}{N!}\frac{(N-n)!}{(N-M-n)!}\\
+&=1-\frac{(N-n)\ldots(N-n-M+1)}{N\ldots(N-M+1)}
+\end{align*}
+
+Asumiendo que $N$ y $n$ son grandes $(f>0)$, se obtienen las siguientes aproximaciones:
+
+
+- $M=1$,
+\begin{align*}
+\pi_H&=1-\frac{N-n}{N}\\
+&=1-\left(1-\frac{n}{N}\right)=1-(1-f)
+\end{align*}
+- $M=2$,
+\begin{align*}
+\pi_H&=1-\frac{(N-n)(N-n-1)}{N(N-1)}\\
+&=1-\left(1-\frac{n}{N}\right)(1-\frac{n}{N-1})\doteq1-(1-f)^2
+\end{align*}
+- $M=3$,
+\begin{align*}
+\pi_H&=1-\frac{(N-n)(N-n-1)(N-n-2)}{N(N-1)(N-2)}\\
+&=1-\left(1-\frac{n}{N}\right)(1-\frac{n}{N-1})(1-\frac{n}{N-2})\doteq1-(1-f)^3
+\end{align*}
+
+
+## Diseño de muestreo Bernoulli
+
+<!-- index: Diseño de muestreo Bernoulli -->En el diseño de muestreo Bernoulli se fija a priori (por experiencia o alguna otra razón) la probabilidad de inclusión de todos los individuos, la cual permanece constante para todo el universo. Es decir, $\pi_k=\pi$ para todo $k \in U$. Un típico ejemplo de la implementación de este diseño en la práctica es la revisión de equipajes de pasajeros por los funcionarios de la aduana en un aeropuerto; se fija la probabilidad de inclusión para cada pasajero y mediante cierto mecanismo de selección (muy simple) se selecciona la muestra, conforme las personas van ingresando al sitio. Nótese que el tamaño de muestra $n(S)$ es aleatorio porque una muestra realizada mediante este mecanismo de selección puede incluir a todos los pasajeros o a ningún pasajero de la población.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Diseño de muestreo Bernoulli -->Siendo $n(s)$ el tamaño de muestra, el diseño de muestreo Bernoulli selecciona la muestra $s$ con probabilidad
+$$
+p(s)=
+\begin{cases}
+\pi^{n(s)}(1-\pi)^{N-n(s)} &\text{si $s$ tiene tamaño igual a $n(s)$}\\
+0  &\text{en otro caso}
+\end{cases}
+$$ {#eq-berno}
+
+:::
+
+### Algoritmo de selección
+
+<!-- index: Algoritmos de selección -->La selección de una muestra con diseño Bernoulli conlleva los siguientes pasos:
+
+
+1. Fijar el valor de $\pi$ tal que $0<\pi<1$.
+2. Obtener $\varepsilon_k$ para $k\in U$ como $N$ realizaciones independientes de una variable aleatoria con distribución uniforme sobre el intervalo $[0,1]$.
+3. El elemento $k$-ésimo pertenece a la muestra con probabilidad $\pi$. Es decir, si $\varepsilon_k < \pi$ el individuo $k$-ésimo es seleccionado.
+
+
+Dado que $\varepsilon_k\sim Unif[0,1]$, se tiene que $Pr(\varepsilon_k < \pi)=\pi$ para $k\in U$. Por tanto, la inclusión de los individuos $k$-ésimo y $l$-ésimo, para $k\neq l$, es independiente. Esto implica que la distribución de $I_k(S)$ es Bernoulli $Ber(\pi)$ y se tiene el siguiente resultado.
+
+::: {.callout-tip title="Resultado"}
+
+Definiendo a $Q_r$ como el soporte que contiene a todas las posibles muestras de tamaño $r$, existen $\binom{N}{r}$ muestras pertenecientes a $Q_r$. En otras palabras
+
+\begin{equation*}
+\#(Q_r)=\binom{N}{r} \ \ \ \ \ \ \ r=0, \ldots, N
+\end{equation*}
+
+Sin embargo, al definir $Q$ como el soporte general de todas las posibles muestras de tamaños entre $r=0$ y $r=N$, se tiene que
+
+\begin{equation*}
+\#(Q)=\sum_{r=1}^N\binom{N}{r}=2^N
+\end{equation*}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Bajo muestreo Bernoulli, la distribución del tamaño de muestra $n(S)$ es binomial $Bin(N,\pi)$ y
+\begin{equation}
+Pr(n(S)=r)=\sum_{s\in Q_r}p(s)=\binom{N}{r}\pi^r(1-\pi)^{N-r},
+\end{equation}
+con $r=1,\ldots,N$ y $Q_r$ el soporte que contiene a todas las posibles muestras de tamaño $r$, donde $Q_r \subset Q$.
+
+**Prueba.**
+
+La distribución de $I_k(S)$ es Bernoulli $Ber(\pi)$, las inclusiones de los individuos en la muestra son eventos independientes, entonces $n(S)=\sum_UI_k$ sigue una distribución binomial. Ahora, dado el diseño de muestreo @eq-berno, para cualquier $s \in Q_r$, se cumple que $p(s)=\pi^r(1-\pi)^{N-r}$. Como existen $\binom{N}{r}$ maneras de seleccionar una muestra de $r$ elementos de una población de tamaño $N$, se tiene que $\#(Q_r)=\binom{N}{r}$. Luego, al sumar $p(s)$ sobre todas las muestras del soporte $Q_r$ se obtiene el resultado.
+
+:::
+
+Como $n(S)$ es aleatorio, existen $2^N$ posibles muestras en el soporte $Q$. Nótese que $n(S)$ tiene una distribución Binomial y, por tanto, su esperanza y varianza están dadas por:
+
+\begin{equation}
+E(n(S))=N \pi \ \ \ \ \ \ \ \ \ Var(n(S))=N(\pi)(1-\pi),
+\end{equation}
+
+Aunque el investigador haya fijado las probabilidades de inclusión, se puede verificar que realmente el diseño de muestreo Bernoulli cumple las condiciones establecidas en el capítulo anterior y también que las probabilidades de inclusión, inducidas por el diseño de muestreo, son idénticas para cada elemento en la población $\pi_k=\pi$.
+
+::: {.callout-tip title="Resultado"}
+
+ Bajo el diseño de muestreo Bernoulli, se verifica que
+\begin{equation}
+\sum_{s\in Q}p(s)=1
+\end{equation}
+
+**Prueba.**
+
+Para una población de tamaño $N$, el tamaño de muestra puede ser $r$ con $r=0,1,\ldots,N$. Es suficiente probar que $\sum_{r=0}^N Pr(n(S)=r)=1$, utilizando el teorema binomial se tiene de inmediato porque $n(S) \sim Bin(N,\pi)$. Más aún, se tiene que
+\begin{align*}
+\sum_{s\in Q}p(s)
+&=\sum_{s\in Q_0}p(s)+\sum_{s\in Q_1}p(s)+\cdots+\sum_{s\in Q_N}p(s)\\
+&=\binom{N}{0}\pi^0(1-\pi)^{N-0}+\cdots+\binom{N}{N}\pi^N(1-\pi)^{N-N}\\
+&=\sum_{r=0}^N\binom{N}{r}\pi^r(1-\pi)^{N-r}=(\pi+1-\pi)^N=1
+\end{align*}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+ Para el diseño de muestreo Bernoulli, las probabilidades de inclusión de primer y segundo orden están dadas por:
+\begin{align}
+\pi_k&=\pi\\
+\pi_{kl}&= \begin{cases} \pi &\text{para$k=l$}\\
+                        \pi^2  &\text{Para $k\neq l$}
+          \end{cases}
+\end{align}
+
+**Prueba.**
+
+Teniendo en cuenta que existen $\binom{N-1}{r-1}$ muestras de tamaño $r$ que contienen al elemento $k$-ésimo, tenemos
+\begin{align*}
+\pi_k&=\sum_{\substack{s\ni k\\ s\subset Q}}p(s)\\
+&=\sum_{\substack{s\ni k\\ s\subset Q_0}}p(s)+\sum_{\substack{s\ni k\\ s\subset Q_1}}p(s)
++\cdots+\sum_{\substack{s\ni k\\ s\subset Q_N}}p(s)\\
+&=0+\binom{N-1}{0}\pi(1-\pi)^{N-1}+\ldots+\binom{N-1}{N-1}\pi(1-\pi)^{N-1}\\
+&=\sum_{r=0}^{N-1}\binom{N-1}{r}\pi^{r+1}(1-\pi)^{N-1-r}\\
+&=\pi\sum_{r=0}^{N-1}\binom{N-1}{r}\pi^{r}(1-\pi)^{N-1-r}=\pi(\pi+(1-\pi))^{N-1}=\pi
+\end{align*}
+Donde se utiliza el resultado del teorema binomial [@Mood] que afirma que
+
+$$
+\sum_{r=0}^m\binom{m}{r}a^rb^{m-r}=(a+b)^m.
+$$ {#eq-binom}
+
+Ahora como las inclusiones de los elementos de la población en la muestra son eventos independientes, entonces
+
+\begin{equation}
+Pr(k\in S\text{ y }l\in S)=Pr(I_k=1)Pr(I_l=1)=\pi^2
+\end{equation}
+
+:::
+
+### El estimador de Horvitz-Thompson
+
+::: {.callout-tip title="Resultado"}
+
+Para el diseño de muestreo Bernoulli, el estimador de Horvitz-Thompson, su varianza y su varianza estimada están dados por:
+\begin{equation}
+\hat{t}_{y,\pi}=\frac{1}{\pi}\sum_Sy_k
+\end{equation}
+\begin{equation}
+Var_{BER}(\hat{t}_{y,\pi})=\left(\frac{1}{\pi}-1\right)\sum_Uy_k^2
+\end{equation}
+\begin{equation}
+\widehat{Var}_{BER}(\hat{t}_{y,\pi})=\frac{1}{\pi}\left(\frac{1}{\pi}-1\right)\sum_Sy_k^2,
+\end{equation}
+respectivamente
+
+**Prueba.**
+
+El resultado es inmediato porque
+\begin{equation}
+\Delta_{kl}=\begin{cases}
+\pi_{kl}-\pi_k\pi_l=\pi^2-\pi^2)=0 & \text{para $k\neq l$}\\
+\pi_{kk}-\pi_k\pi_k=\pi(1-\pi) & \text{para $k=l$}
+\end{cases}
+\end{equation}
+luego la doble suma en la varianza del estimador de Horvitz-Thompson pasa a ser una sola suma; lo anterior sucede análogamente con la expresión de la estimación de la varianza.
+
+:::
+
+Nótese que en caso de que la muestra realizada o seleccionada esté compuesta por todas las unidades de la población, es decir se deba realizar un censo\footnote{En el diseño de muestreo Bernoulli, la probabilidad de seleccionar todas las unidades de la población en la muestra es equivalente a  $\pi^N$.}, la probabilidad de inclusión para cada elemento de la población estaría dada por $\pi_k=\pi$. En este caso, el estimador de Horvitz-Thompson estaría dado por la siguiente expresión
+\begin{equation}
+\hat{t}_{y,\pi}=\frac{1}{\pi}\sum_Uy_k=\frac{t_y}{\pi}\neq t_y
+\end{equation}
+
+En este caso, el estimador de Horvitz-Thompson es deficiente para la estimación del total poblacional $t_y$ y se sugiere la utilización del estimador alternativo para el total poblacional que, para el caso particular del diseño de muestreo Bernoulli, estaría dado por
+\begin{equation}
+\hat{t}_{y,alt}=N\widetilde{y}_S=N\dfrac{\sum_S y_k}{n(S)}=N\bar{y}_S.
+\end{equation}
+
+Fácilmente se verifica que si $s=U$, entonces $\hat{t}_{y,alt}=t_y$.
+
+::: {.callout-note title="Ejemplo"}
+
+Para nuestra población de ejemplo $U$, existen $2^5=32$ posibles muestras. Si la probabilidad de inclusión es fija para cada elemento e igual a 0,3, realice el cálculo léxico-gráfico del estimador de Horvitz-Thompson y compruebe el insesgamiento y la varianza.
+
+:::
+
+### El efecto de diseño
+
+<!-- index: Efecto de diseño -->Una medida que compara la eficiencia entre dos estrategias de muestreo es el efecto de diseño. Ésta herramienta práctica muestra la ganancia o pérdida, de precisión, al utilizar una estrategia de muestreo más compleja que un diseño aleatorio simple sin reemplazo junto con el estimador de Horvitz-Thompson y está definida de la siguiente manera:
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Efecto de diseño -->Siendo $(\hat{T},p(\cdot))$ y $(\hat{T}_{\pi},MAS)$ dos estrategias de muestreo utilizadas para la estimación del parámetro $T$, se define el efecto de diseño como
+\begin{equation}
+    Deff=\frac{Var_{p}(\hat{T})}{Var_{MAS}\hat{T}_{\pi}}.
+\end{equation}
+
+:::
+
+en particular, el efecto de diseño, restringido a la estimación de un total poblacional y al usar el estimador de Horvitz-Thompson en ambas estrategias, toma la siguiente forma
+
+\begin{equation}
+    Deff=\frac{Var_{p}(\hat{t}_{y,\pi})}{\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{yU}}.
+\end{equation}
+
+Cuando el efecto de diseño es más grande que la unidad, la varianza de la estrategia del numerador es más grande que la denominador, por tanto, se ha perdido precisión al utilizar una estrategia de muestreo más compleja; si el cociente es menor que uno, se ha ganado precisión. Fue @Cor quien sugirió evaluar la eficiencia de una estrategia de muestreo al hacer el cociente entre la varianza de la misma y la del diseño aleatorio simple sin reemplazo con el estimador de Horvitz-Thompson. Más adelante @Kis lo llamo DEFF (efecto de diseño, por sus siglas en inglés).
+
+Sin embargo, en la mayoría de ocasiones, el cálculo de este cociente no es sencillo. @Leh plantea una estimación del efecto de diseño para totales mediante la estimación de las varianzas que intervienen en la expresión. De esta forma, se tiene
+
+::: {.callout-tip title="Resultado"}
+
+Un estimador del efecto de diseño $Deff$ para el total poblacional $t_y$ es
+$$
+\hat{Deff}=\frac{\widehat{Var}_{p}(\hat{T})}{\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{ys}}.
+$$ {#eq-deff}
+
+:::
+
+No todos los parámetros tienen el mismo comportamiento, por lo tanto, los efectos de diseño para estos no tendrán un mismo criterio de optimalidad. Es decir, si existe un criterio de optimalidad con respecto a un parámetro, digamos el total poblacional $t_y$, no necesariamente se cumplirá ese criterio con un parámetro distinto, digamos la mediana poblacional.
+
+Dado que el tamaño de muestra en diseños diferentes al muestreo aleatorio simple sin reemplazo puede ser variable, es necesario asegurarse que $n=E_{MAS}(n(S))=E_p(n(S))$ para que exista un punto objetivo de comparación. Por ejemplo, para comparar la eficiencia del estimador de Horvitz-Thompson en el diseño de muestreo Bernoulli, es necesario fijar el tamaño de muestra, dado que este diseño no es de tamaño fijo; es decir que $n=E_{MAS}(n(S))=E_{BER}(n(S))=N\pi$. Por lo que resulta que $\pi=n/N$.
+
+De esta manera podemos introducir la medida de eficiencia del diseño de muestreo Bernoulli con respecto al MAS, así
+
+\begin{equation}
+deff=\frac{Var_{BER}(\hat{t}_{y,\pi})}{Var_{MAS}(\hat{t}_{y,\pi})}=1-\frac{1}{N}+\frac{1}{CV_y^2} \cong 1+\frac{1}{CV_y^2}
+\end{equation}
+
+Por tanto, si el efecto de diseño $deff$ es igual a 1.8, esto implica que la varianza del $\pi$ estimador bajo diseño de muestreo
+Bernoulli es 1.8 veces la varianza del $\pi$ estimador bajo MAS.
+
+### Marco y Lucy
+
+<!-- index: Marco y Lucy -->Suponga que se debe seleccionar una muestra con un diseño de muestreo Bernoulli. Se quiere que el tamaño esperado de muestra sea de $N\pi=400$ empresas del sector industrial. Como el tamaño de la población es $N=2396$, entonces el valor que se fija para $\pi$ es de 0.1669. Para seleccionar la muestra se utiliza la función `S.BE(N,prob)` del paquete `TeachingSampling` cuyos parámetros son `N`, el tamaño poblacional y `prob` el valor de la probabilidad de inclusión para cada elemento de la población. Esta función utiliza el algoritmo secuencial descrito en la anterior sección.
+
+Primero se carga en R el archivo `Marco` que contiene el marco de muestreo para la selección de la muestra. Se fijan los parámetros de la función, `N` y `prob`. Esta función devuelve un vector conteniendo el índice de los elementos seleccionados en la muestra. En este caso particular, el primer elemento seleccionado es el número 2 y el último el número 2394.
+
+```{r, echo=FALSE}
+library(TeachingSampling)
+```
+
+```{r, message=FALSE}
+data(BigLucy)
+N <- dim(BigLucy)[1]
+pik <- 0.025
+sam <- S.BE(N,pik)
+muestra <- BigLucy[sam,]
+attach(muestra)
+head(muestra)
+
+n <- dim(muestra)[1]
+n
+```
+
+Aplicando los índices obtenidos por la función `S.BE` al marco de muestreo obtenemos la identificación y ubicación de las empresas seleccionadas en la muestra. Nótese que el tamaño de muestra efectivo es de `r n` empresas. Una vez que la etapa de recolección de datos se haya realizado, obtendremos un archivo de datos de `Lucy` conteniendo los valores de las características de interés para las empresas seleccionadas que será adjuntado a R mediante la función `attach`.
+
+La etapa de estimación de resultados se hace utilizando la función `E.BE(y,prob)` del paquete `TeachingSampling` cuyos argumentos son `y`, un vector o matriz conteniendo los valores de las características de interés en la muestra y `prob`, la probabilidad de inclusión. En este caso la longitud de cada vector es de $n=`r n`$. Esta función arroja la estimación del total poblacional de `y` usando el estimador de Horvitz-Thompson, la estimación de la varianza y el coeficiente de variación del mismo. Por ejemplo, la variable `Income` contiene los valores del ingreso declarado en el último año por 396 empresas del sector industrial pertenecientes a la muestra. La estimación para esta característica se hace mediante el siguiente código:
+
+```{r, results = 'hide'}
+estima <- data.frame(Income, Employees, Taxes)
+E.BE(estima,pik)
+```
+
+```{r, echo = FALSE}
+#| label: tbl-t3-1
+#| tbl-cap: "Estimaciones para el diseño de muestreo Bernoulli"
+Estimaciones = E.BE(estima,pik)
+knitr::kable(Estimaciones)
+```
+
+La @tbl-t3-1 muestra los resultados obtenidos para este caso particular, donde la desviación relativa de una estimación, medida en porcentaje está definida como
+
+Por otro lado, nótese que, aunque la distribución asintótica del estimador de Horvitz-Thompson es normal, es necesario verificar el comportamiento del estimador con el tamaño de muestra esperado. Se realizaron varios experimentos de Monte Carlo con el propósito de tener un examen más cercano del estimador de Horvitz-Thompson del total de la característica `Income` en la población `Lucy`. El resultado de la simulación se muestra en los histogramas de la figura 3.1. Se espera que el promedio de las estimaciones en cada experimento coincida con el total poblacional y la varianza de éstas debe acercarse a la varianza basada en el diseño de muestreo Bernoulli.
+
+```{r, results ='hide', fig.show='hide'}
+bary <- mean(Income)
+sdy <- sd(Income)
+x <- seq(min(Income),max(Income),by=10)
+a <- (bary/sdy)^2
+b <- sdy^2/bary
+```
+
+
+```{r}
+#| label: fig-cap3-2
+#| fig-cap: "Distribución de la característica `Income` y su posible modelamiento bajo la distribución gamma (izquierda) y norma (derecha)."
+p1 <- ggplot(BigLucy, aes(x=Income)) + 
+  geom_histogram(aes(y=..density..)) +
+  stat_function(fun=dgamma, args=list(shape=a, scale=b), colour="red")
+p2 <- ggplot(BigLucy, aes(x=Income)) + 
+  geom_histogram(aes(y=..density..)) +
+  stat_function(fun=dnorm, args=list(mean=bary, sd=sdy), colour="blue")
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+La media de las estimaciones de $t_y$ es 1035176 que ajusta bien con el parámetro correspondiente $t_y=1035217$. La distribución parece ser simétrica con forma de campana (los valores de la distribución teórica se muestran en la curva sólida y roja) y no se notan grandes discrepancias entre lo observado y lo teórico. En algunos casos, en donde el tamaño de muestra no es lo suficientemente grande, se debe verificar el comportamiento normal del estimador.
+
+## Muestreo aleatorio simple con reemplazo
+
+<!-- index: Diseño de muestreo aleatorio con reemplazo -->Una **muestra aleatoria simple con reemplazo**, de tamaño $m$ de una población de $N$ elementos es la extracción de $m$ muestras independientes de tamaño 1, en donde cada elemento se extrae de la población con la misma probabilidad
+\begin{equation*}
+   p_k=\frac{1}{N} \ \ \ \ \ \forall k\in U
+\end{equation*}
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Diseño de muestreo aleatorio simple -->Un diseño de muestreo aleatorio simple con reemplazo se define como
+\begin{equation}
+p(s)= \begin{cases} \frac{m!}{n_1(s)!\ldots n_N(s)!}\prod_U\left(\frac{1}{N}\right)^{n_k(s)} &\text{si $\sum_Un_k(s)=m$}\\
+0  &\text{en otro caso}
+      \end{cases}
+\end{equation}
+Donde $n_k(s)$ es el número de veces que el elemento $k$-ésimo es seleccionado en la muestra realizada $s$.
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Para este diseño de muestreo, existen $\binom{N+m-1}{m}$ posibles muestras de tamaño $m$; es decir
+
+\begin{equation*}
+\#(Q)=\binom{N+m-1}{m}
+\end{equation*}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Dado el soporte $Q$, de todas las posibles muestras con reemplazo de tamaño $m$, se verifica que el diseño de muestreo aleatorio simple con reemplazo es tal que
+\begin{align*}
+\sum_{s\in Q}p(s)=1
+\end{align*}
+
+**Prueba.**
+
+La demostración es inmediata porque este diseño de muestro es una función de densidad multinomial discreta sobre $Q$.
+\begin{align*}
+\sum_{s\in Q}p(s)&=\sum_{s\in Q}\frac{m!}{n_1(s)!\ldots n_N(s)!}\prod_U\left(\frac{1}{N}\right)^{n_k(s)}\\
+&=\sum_{s\in Q}\frac{m!}{n_1(s)!\ldots n_N(s)!}\left(\frac{1}{N}\right)^{n_1(s)}\ldots \left(\frac{1}{N}\right)^{n_N(s)}\\
+&=\sum_{\begin{subarray}{c}n_1(s)\ldots n_N(s)\\ \sum_Un_k(S)=m\end{subarray}} \frac{m!}{n_1(s)!\ldots n_N(s)!}\left(\frac{1}{N}\right)^{n_1(s)}\ldots \left(\frac{1}{N}\right)^{n_N(s)}\\
+&=\underbrace{\left(\frac{1}{N}+\cdots+\frac{1}{N}\right)^m}_{N\text{ veces}}\\
+&=1
+\end{align*}
+donde se utiliza el resultado del teorema multinomial que afirma que
+\begin{align}
+\sum_{\begin{subarray}{c}n_1\ldots n_N\\ \sum_Un_k=m\end{subarray}} \frac{m!}{n_1!\ldots n_N!}(p_1)^{n_1}\ldots (p_N)^{n_N}=
+\left(\sum_{k=1}^Np_k\right)^m
+\end{align}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Para un diseño aleatorio simple con reemplazo, las probabilidades de inclusión de primer y segundo orden están dadas por
+\begin{eqnarray}
+  \pi_k &=& 1-\left(1-\frac{1}{N}\right)^m \\
+  \pi_{kl} &=& 1-2\left(1-\frac{1}{N}\right)^m+\left(1-\frac{2}{N}\right)^m
+\end{eqnarray}
+respectivamente.
+
+**Prueba.**
+
+Utilizando los resultados 2.2.9. y 2.2.10., respectivamente, se llega a la demostración.
+
+:::
+
+::: {.callout-note title="Ejemplo"}
+
+En nuestra población ejemplo el tamaño poblacional es $N=5$. Si se quisiera seleccionar una muestra aleatoria simple con reemplazo de tamaño $m=2$, entonces existirían $N^m=5^2=25$ posibles extracciones ordenadas. Sin embargo, sólo existen $\binom{N+m-1}{m}=\binom{6}{2}=15$ posibles muestras. Cada una de las posibles muestras que pertenecen al soporte con reemplazo tienen las siguientes probabilidades de selección.
+
+```
+         V1        V2      p     n1 n2 n3 n4 n5
+1      Yves      Yves    0.04     2  0  0  0  0
+2       Ken       Ken    0.04     0  2  0  0  0
+3      Erik      Erik    0.04     0  0  2  0  0
+4    Sharon    Sharon    0.04     0  0  0  2  0
+5    Leslie    Leslie    0.04     0  0  0  0  2
+6      Yves       Ken    0.08     1  1  0  0  0
+7      Yves      Erik    0.08     1  0  1  0  0
+8      Yves    Sharon    0.08     1  0  0  1  0
+9      Yves    Leslie    0.08     1  0  0  0  1
+10      Ken      Erik    0.08     0  1  1  0  0
+11      Ken    Sharon    0.08     0  1  0  1  0
+12      Ken    Leslie    0.08     0  1  0  0  1
+13     Erik    Sharon    0.08     0  0  1  1  0
+14     Erik    Leslie    0.08     0  0  1  0  1
+15   Sharon    Leslie    0.08     0  0  0  1  1
+```
+
+Nótese que la suma de las probabilidades inducidas por el diseño de muestreo es igual a uno y que cada una de ellas es mayor que cero.
+
+:::
+
+### Algoritmo de selección
+
+<!-- index: Algoritmos de selección -->@Til presenta dos algoritmos para seleccionar una muestra aleatoria simple con reemplazo. El primero, de manera general induce $m$ selecciones individuales y el segundo, es un método secuencial que implementa la selección mediante la distribución binomial.
+
+#### Método de $m$ selecciones
+
+<!-- index: Algoritmos de selección -->El siguiente método de selección se implementa en $m$ pasos, y aunque no es eficiente computacionalmente, es muy conocido.
+
+
+- Seleccionar un primer elemento con probabilidad $\frac{1}{N}$ de todo el conjunto de datos.
+- Seleccionar un segundo elemento con probabilidad $\frac{1}{N}$ de todo el conjunto de datos.
+- ...
+- Seleccionar un $m$-ésimo elemento con probabilidad $\frac{1}{N}$ de todo el conjunto de datos.
+
+
+Hace unas pocas décadas, cuando no existía la ayuda tecnológica de ahora, no imagino como los encargados de la selección de la muestra pudieron haber utilizado este algoritmo. Imagine seleccionar una muestra de 3000 elementos sin la facilidad de un computador.
+
+#### Método secuencial
+
+<!-- index: Algoritmo secuencial -->@Til afirma que este procedimiento es mejor que el anterior porque permite seleccionar una muestra de tamaño $m$ en una sola pasada por el conjunto de datos.
+
+
+- Seleccionar $n_k$ veces el elemento $k$-ésimo de acuerdo a una distribución binomial.
+\begin{equation}
+    Bin\left(m-\sum_{i=1}^{k-1}n_i,\frac{1}{N-k+1}\right)
+\end{equation}
+Para todo $k\in U$.
+
+
+::: {.callout-note title="Ejemplo"}
+
+Como se ha visto en los capítulos anteriores, R incorpora en la función `sample`, la selección de muestras aleatorias simples con reemplazo, simplemente el argumento replace debe ser activado mediante, `replace=TRUE`. Así, para seleccionar una muestra con reemplazo de tamaño $m=3$, sólo es necesario escribir el siguiente código.
+
+```{r}
+N <- length(U)
+sam  <-  sample(N, 3, replace=TRUE)
+U[sam]
+```
+
+El procedimiento de selección de una muestra aleatoria con reemplazo de tamaño $m$ mediante el uso del algoritmo secuencial está implementado en la función `S.WR(N,m)` cuyos argumentos son `N`, el tamaño de la población y `m`, el tamaño de la muestra con reemplazo. Así, para seleccionar una muestra aleatoria simple con reemplazo de la población $U$ de tamaño $N=5$, se tiene
+
+```{r}
+m <- 3
+sam <- S.WR(N,m)
+U[sam]
+```
+
+Una vez más, la salida de la función es un vector de índices (no necesariamente distintos) de los elementos pertenecientes a la muestra seleccionada $s$. Este algoritmo utiliza la distribución binomial en cada uno de sus pasos, de tal forma que para la selección de la anterior muestra conformada por **`r U[sam[1]]`**, **`r U[sam[2]]`** y **`r U[sam[3]]`** cada uno de los $N=5$ pasos del algoritmo arrojaron los siguientes resultados.
+
+```
+k    Nombre     Bin n   Bin p      nk
+
+1      Yves       3     0.2000      0
+2       Ken       3     0.2500      1
+3      Erik       2     0.3333      0
+4    Sharon       2     0.5000      2
+5    Leslie       0     1.0000      0
+```
+
+Donde `Bin n` y `Bin p` son los parámetros de la distribución binomial asociada al algoritmo secuencial. Note que la cantidad `nk` se refiere a la realización de la variable $n_k(s)$.
+
+:::
+
+### El estimador de Hansen-Hurwitz
+
+Cuando se tienen las cantidades del resultado 3.3.3 se pueden implementar los principios del estimador de Horvitz-Thompson para estimar el total poblacional $t_y$; sin embargo, el cálculo y estimación de la varianza de esta estrategia de muestreo resulta ser muy compleja (computacionalmente). Por esta razón, utilizaremos el estimador de Hansen-Hurwitz dado por @eq-hh que estima de manera insesgada al parámetro de interés $t_y$.
+
+::: {.callout-tip title="Resultado"}
+
+ Para un diseño de muestreo aleatorio simple con reemplazo, el estimador de Hansen-Hurwitz del total poblacional $t_y$, su varianza y su varianza estimada están dados por:
+\begin{equation}
+\hat{t}_{y,p}=\frac{N}{m}\sum_{i=1}^my_i
+\end{equation}
+\begin{equation}
+Var_{MRAS}(\hat{t}_{y,p})=N\frac{(N-1)}{m}S^2_{yU}
+\end{equation}
+\begin{equation}
+\widehat{Var}_{MRAS}(\hat{t}_{y,p})=\frac{N^2}{m}S^2_{ysr}
+\end{equation}
+respectivamente, con $S^2_{yU}$ el estimador de la varianza de los valores de la característica de interés $y$ en el universo y $S^2_{ysr}$ el estimador de la varianza de los valores $y_i$ que pertenecen a la muestra seleccionada $(\forall i \in m)$ (no necesariamente distintos) en la muestra. Esto es,
+\begin{equation*}
+S^2_{ysr}=\frac{1}{m-1}\sum_{i=1}^m(y_i-\bar{y}_S)^2.
+\end{equation*}
+Nótese que $\hat{t}_{y,p}$ es insesgado para el total poblacional $t_y$ de la característica de interés $y$, y que $\widehat{Var}_{MRAS}(\hat{t}_{y,p})$ es insesgado para $Var_{MRAS}(\hat{t}_{y,p})$.
+
+**Prueba.**
+
+Los resultados se obtienen escribiendo el estimador de Hansen-Hurwitz de la siguiente manera,
+\begin{equation}
+\hat{t}_{y,p}=\frac{1}{m}\sum_Un_k(S)\frac{y_k}{p_k}=\frac{N}{m}\sum_Un_k(S)y_k
+\end{equation}
+Por tanto, utilizando el resultado 2.2.8., se tiene que
+\begin{align*}
+E\left(\hat{t}_{y,p}\right)&=\frac{N}{m}\sum_UE(n_k(S))y_k\\
+&=\frac{N}{m}\sum_U\frac{m}{N}y_k=t_y
+\end{align*}
+Por otro lado, asumiendo que las variables $Z_i$ son independientes e idénticamente distribuidas
+\begin{align*}
+Var\left(\hat{t}_{y,p}\right)&=Var\left(\frac{1}{m}\sum_i^mZ_i\right)\\
+&=\frac{1}{m^2}\sum_i^mVar(Z_i)\\
+&=\frac{1}{m^2}\sum_i^m\left(\sum_U\frac{1}{N}(Ny_k-t)^2\right)\\
+&=\frac{1}{m}\left(\frac{N^2}{N}\sum_U(y_k-\bar{y}_U)^2\right)\\
+&=N\frac{(N-1)}{m}S^2_{yU}
+\end{align*}
+Escribiendo el estimador de la varianza como
+\begin{equation}
+\widehat{Var}(\hat{t}_{y,p})=\frac{1}{m}\frac{1}{m-1}\sum_Un_k(S)\left(Ny_k-\hat{t}_{y,p}\right)^2
+\end{equation}
+se tiene el insesgamiento dado por
+\begin{align*}
+E\left(\widehat{Var}(\hat{t}_{y,p})\right)&=\frac{1}{m}\frac{1}{m-1}\sum_UE\left(n_k(S)(Ny_k-\hat{t}_{y,p})^2\right)\\
+&=\frac{1}{m}\frac{1}{m-1}\sum_UE\left(n_k(S)(Ny_k-t_y)^2-n_k(S)(\hat{t}_{y,p}-t_y)^2\right)\\
+&=\frac{1}{m}\frac{1}{m-1}E\left(\sum_Un_k(S)(Ny_k-t_y)^2\right)\\
+&\hspace{2cm} -\frac{1}{m}\frac{1}{m-1}E\left((\hat{t}_{y,p}-t_y)^2\sum_Un_k(S)\right)\\
+&=\frac{1}{m}\frac{1}{m-1}\left[E\left(\sum_Un_k(S)(Ny_k-t_y)^2\right)-mE\left((\hat{t}_{y,p}-t_y)^2\right)\right]\\
+&=\frac{1}{m}\frac{1}{m-1}\left[m\left(\sum_U\frac{m}{N}(Ny_k-t_y)^2\right)-mVar(\hat{t}_{y,p})\right]\\
+&=\frac{1}{m}\frac{1}{m-1}\left[m^2Var(\hat{t}_{y,p})-mVar(\hat{t}_{y,p})\right]\\
+&=Var(\hat{t}_{y,p})
+\end{align*}
+
+:::
+
+::: {.callout-note title="Ejemplo"}
+
+Para nuestra población de ejemplo $U$, existen $\binom{N+m-1}{m}=20$ posibles muestras con reemplazo de tamaño $m=2$. Realice el cálculo léxico-gráfico del estimador de Hansen-Hurwitz y compruebe el insesgamiento y la varianza.
+
+:::
+
+### Marco y Lucy
+
+<!-- index: Marco y Lucy -->Suponga que se quiere seleccionar una muestra aleatoria simple con reemplazo de tamaño $m=400$ empresas del sector industrial. Para la selección de la muestra es posible usar la función `sample` que viene integrada con R. En primer lugar se debe cargar el marco de muestreo que permite la selección, identificación y posterior ubicación de cada individuo en la muestra con reemplazo. Para la selección de la muestra es necesario ingresar los parámetros de la función, en este caso `N`=2396, el tamaño poblacional, está dado por la cantidad de filas (registros de empresas del sector industrial) del marco de muestro y `m`=400 empresas que se seleccionaran con reemplazo.
+
+```{r, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+N <- dim(BigLucy)[1]
+m <- 2000
+sam <- sample(N, m, replace=TRUE)
+```
+
+Sin embargo, para seleccionar la muestra con reemplazo utilizando el método secuencial, el paquete `TeachingSampling` adjunta la función `S.WR` cuyos argumentos son `N`, el tamaño de la población y `m`, el tamaño de la muestra con reemplazo. El resultado de la función es un conjunto de índices (no necesariamente distintos) que aplicados a la población resulta en los valores de la característica de interés para las empresas (no necesariamente distintas) seleccionadas. Nótese que una empresa seleccionada se tendrá en cuenta en la etapa de estimación tantas veces como haya sido seleccionada.
+
+```{r, message=FALSE}
+sam <- S.WR(N,m)
+muestra <- BigLucy[sam,]
+attach(muestra)
+```
+
+```{r}
+head(muestra)
+dim(muestra)
+```
+
+La primera empresa en ser seleccionada mediante el método secuencial es la empresa que ocupa la segunda posición en el marco de muestreo; es decir, la empresa cuyo número único de identificación corresponde a **AB002**, la segunda y tercera empresa en ser seleccionadas corresponde a la empresa identificada con el número único **AB015**. Si un elemento ha sido seleccionada más de una vez, R codifica automáticamente las posteriores selecciones con un punto seguido de un número que indica el número de veces menos uno que ha sido seleccionada la misma unidad.
+
+Una vez que las empresas son seleccionadas, se programa la visita del encuestador en la cual se registran los valores de las características de interés. Cuando se tiene la base de datos con la información pertinente para todas las empresas seleccionadas en la muestra con reemplazo, se procede a estimar los totales de las características de interés. La función `E.WR` del paquete `TeachingSampling` permite la estimación de una o varias características de interés simultáneamente. Para ello, se debe crear un conjunto de datos con la información recolectora para cada una de las 400 empresas en las características de interés. En este caso creamos un conjunto de datos con las tres características de interés `Income`, `Employees` y `Taxes`.
+
+La función `E.WR` del paquete `TeachingSampling` tiene tres argumentos, `N`, el tamaño de la población y `m`, el tamaño de la muestra con reemplazo y el conjunto de datos (conteniendo los valores para la(s) característica(s) de interés). El resultado de la función es la estimación del total, la varianza estimada y el respectivo coeficiente de variación de la(s) característica(s) de interés.
+
+```{r, results='hide'}
+estima <- data.frame(Income, Employees, Taxes)
+E.WR(N, m, estima)
+```
+
+La @tbl-t3-5 muestra los resultados particulares de esta estrategia de muestreo. Nótese que con un menor tamaño de muestra, se obtienen mejores resultados que al utilizar una estrategia de muestreo que contempla un diseño Bernoulli y el estimador de Horvitz-Thompson.
+
+```{r, echo = FALSE}
+#| label: tbl-t3-5
+#| tbl-cap: "Estimaciones para el diseño de muestreo aleatorio simple con reemplazo"
+Estimaciones = E.WR(N,m,estima)
+knitr::kable(Estimaciones)
+```
+
+#### El efecto de diseño
+
+<!-- index: Efecto de diseño -->Sin embargo, utilizando el efecto de diseño podemos comparar la eficiencia de la anterior estrategia utilizada en Lucy mediante el efecto de diseño. Utilizando la definición podemos aproximar la medida mediante
+
+\begin{align*}
+    Deff&=\frac{Var_{MRAS}(\hat{t}_{y,p})}{Var_{MAS}(\hat{t}_{y,\pi})}\\
+    &=\frac{1}{1-f}\left(1-\frac{1}{N}\right) \cong \frac{1}{1-f}
+\end{align*}
+
+Por tanto, para la estrategia de muestreo utilizada anteriormente, tenemos $Deff=\dfrac{1}{1-\frac{`r m`}{`r N`}}=`r 1/(1-(m/N))`$. Lo anterior indica que existe una pérdida del 2\% de precisión al utilizar la estrategia de muestreo con reemplazo y el estimador de Hansen-Hurwitz. En general se tiene que, para tamaños de muestra muy pequeños, en comparación a $N$, las dos estrategias arrojan resultados muy similares. Sin embargo, a medida que el tamaño de muestra crece, en comparación a $N$, la medida $Deff$ aumenta significativamente; es decir, existe una pérdida muy grande de eficiencia.
+
+Dado que el diseño de muestreo es con reemplazo, se quiere verificar que la distribución asintótica del estimador de Hansen-Hurwitz sea normal. Se realiza una simulación de Monte Carlo, con los mismos lineamentos utilizados en la sección 3.1.3 en donde se realizaron varios experimentos de Monte Carlo para examinar el comportamiento del estimador de Hansen-Hurwitz en la característica ingreso. El resultado de la simulación se muestra en los histogramas de la figura 3.3. En este experimento de Monte Carlo el promedio de las estimaciones de cada experimento coincide con el total poblacional y se espera que la varianza de las estimaciones debe acercarse a la varianza basada en el diseño de muestreo aleatorio simple.
+
+
+```{r}
+#| label: fig-cap3-3
+#| fig-cap: "Distribución empírica del estimador de Hansen-Hurwirtz para el diseño de muestreo aleatorio simple con reemplazo."
+HHest <- c()
+for(i in 1:1000){
+  sam <- sample(N, m, replace=TRUE)
+  HHest[i] = E.WR(N, m, BigLucy$Income[sam])[1,2]
+}
+
+barHH <- mean(HHest)
+sdHH <- sd(HHest)
+x <- seq(min(HHest),max(HHest),by=10)
+
+ggplot(as.data.frame(HHest), aes(x=HHest)) + 
+  geom_histogram(aes(y=..density..)) +
+  stat_function(fun=dnorm, args=list(mean=barHH, sd=sdHH), colour="red")
+```
+
+
+La media de las estimaciones de $t_y$ es `r barHH` que ajusta bien con el parámetro correspondiente $t_y = 1035217$. Nótese que la varianza del estimador (mediante este experimento de Monte Carlo) no es muy grande y que la distribución del estimador no muestra valores atípicos. Hay que tener cuidado con las afirmaciones acerca de normalidad en este caso pues la distribución, aunque parece ser simétrica y con forma de campana, en realidad puede estar sesgada a derecha o a izquierda.
+
+## Diseño de muestreo sistemático
+
+<!-- index: Diseño de muestreo sistemático -->En algunas ocasiones, cuando no se dispone de un marco de muestreo, por lo menos no de forma explícita, o cuando el marco disponible está ordenado de forma particular, con respecto a los rótulos del mismo, es posible utilizar el diseño de muestreo sistemático como una opción para la selección de muestras. La característica más particular de este diseño de muestreo es que todas las unidades se suponen enumeradas del 1 al $N$, al menos implícitamente, y se tiene conocimiento de que la población se encuentra particionada en $a$ grupos poblacionales latentes. En este orden de ideas el tamaño poblacional $N$ puede ser escrito como
+\begin{equation}
+N=na+c
+\end{equation}
+
+en donde $0\leq c < a$ y $n$, el tamaño de muestra esperado, se define como la parte entera del cociente $N/a$. Nótese que $c$ es un entero que representa el residuo algebraico del total poblacional y se puede ver fácilmente que toma la siguiente forma
+\begin{equation}
+c=N-\left\|\frac{N}{a}\right\|a
+\end{equation}
+
+En donde $\|\frac{N}{a}\|$ representa la parte entera del cociente $N/a$. Una vez que los grupos han sido conformados, se procede a escoger de manera aleatoria, un número entre 1 y $a$, por ejemplo $r$. La muestra estará conformada sistemáticamente por los elementos $r, r+a,r+2a,\ldots,r+(n-1)a$. Nótese que en el caso en donde $c=0$, el tamaño de muestra estará dado por $n=N/a$; de otra forma, si $c>0$, el tamaño de muestra puede ser $n=\|\frac{N}{a}\|$ ó $n=\|\frac{N}{a}\|+1$. Como lo señala @Raj este diseño de muestreo es un caso especial de un muestreo por conglomerados, como se verá en los siguientes capítulos.
+
+| Grupo | $s_1$ | $\cdots$ | $s_r$ | $\cdots$ | $s_a$ |
+| --- | --- | --- | --- | --- | --- |
+| $n=1$ | $1$ | $\cdots$ | $r$ | $\cdots$ | $a$ |
+| $n=2$ | $1+a$ | $\cdots$ | $r+a$ | $\cdots$ | $2a$ |
+| $n=3$ | $1+2a$ | $\cdots$ | $r+2a$ | $\cdots$ | $3a$ |
+| $\vdots$ | $\vdots$ | $\ddots$ | $\vdots$ | $\ddots$ | $\vdots$ |
+| $n=\|\frac{N}{a}\|$ | $1+(n-1)a$ | $\cdots$ | $r+(n-1)a$ | $\cdots$ | $na$ |
+| $n=\|\frac{N}{a}\|+1$ | $1+na$ | $\cdots$ | $\Box$ | $\cdots$ | $\Box$ |
+
+: Posible configuración del muestreo sistemático.
+
+El anterior esquema permite una mejor comprensión del funcionamiento del diseño de muestreo sistemático. Nótese el ordenamiento por grupos de las unidades que pertenecen a la población. En particular, esta tabla corresponde a una población, en donde, si se seleccionara el último grupo $s_a$, entonces el tamaño de muestra sería $n=\|\frac{N}{a}\|$, mientras que si se escogiera el primer grupo $s_1$, el tamaño de muestra estaría dado por $n=\|\frac{N}{a}\|+1$.
+
+Por otro lado, nótese que cada grupo $s_r$ constituye una posible muestra, de tal forma que
+\begin{align}
+    U=\bigcup_{r=1}^{a}s_r.
+\end{align}
+
+El soporte $Q$ de todas las posible muestras sistemáticas, queda entonces definido como
+\begin{align}
+    Q_r=\{s_1,s_2, \ldots,s_r, \ldots,s_a\}.
+\end{align}
+
+::: {.callout-tip title="Resultado"}
+
+Para este diseño de muestreo, la cardinalidad del soporte es igual al número de grupos formados. Es decir
+\begin{equation*}
+\#Q_r=a
+\end{equation*}
+
+:::
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Diseño de muestreo sistemático -->Suponga que el tamaño poblacional es tal que $N=na+c$, con $0\leq c <a$. Se define un diseño de muestreo sistemático de la siguiente manera
+\begin{equation}
+p(s)= \begin{cases} \frac{1}{a} &\text{si $s\in Q_r$}\\
+0  &\text{en otro caso}
+      \end{cases}
+\end{equation}
+
+:::
+
+Dado que sólo existen $a$ posibles muestras, el diseño de muestreo sistemático cumple que $\sum_{s\ni Q}p(s)=1$.
+
+### Algoritmo de selección
+
+<!-- index: Algoritmos de selección -->El siguiente algoritmo secuencial permite la extracción de una muestra mediante el diseño de muestreo sistemático.
+
+
+1. Seleccionar con probabilidad $\dfrac{1}{a}$ un arranque aleatorio. Es decir un entero $r$, tal que $1\leq r \leq a$.
+2. La muestra estará definida por el siguiente conjunto
+  \begin{equation}
+  s_r=\{k:k=r+(j-1)a; j=1,\ldots,n(S)\}
+\end{equation}
+
+
+::: {.callout-note title="Ejemplo"}
+
+Nuestra población ejemplo $U$ está ordenada de la siguiente forma
+
+\begin{center}
+$U=\{\text{Yves, Ken, Erik, Sharon, Leslie}\}$
+\end{center}
+
+Suponga que sistemáticamente se divide en $a=2$ grupos. El primero dado por:
+
+\begin{center}
+$s_1=\{\text{Yves, Erik, Leslie.}\}$
+\end{center}
+
+y el segundo conformado por:
+
+\begin{center}
+$s_2=\{\text{Ken, Sharon}\}$
+\end{center}
+
+De tal forma que $N=(2)(2)+1$. Para seleccionar un arranque aleatorio $r$ se utilizará un dado, de tal forma que si el resultado de un lanzamiento es par, entonces la muestra seleccionada será $s_1$, de lo contrario la muestra seleccionada será $s_2$.
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Para un diseño de muestreo sistemático, las probabilidades de inclusión de primer y segundo orden están dadas por
+\begin{eqnarray}
+\pi_k &=& \frac{1}{a} \\
+\pi_{kl} &=&
+\begin{cases}
+\frac{1}{a} &\text{si $k$ y $l$ pertenecen a $s_r$}\\
+0  &\text{en otro caso}
+\end{cases}
+\end{eqnarray}
+respectivamente.
+
+**Prueba.**
+
+considerando que el elemento $k$-ésimo sólo puede pertenecer a una y sólo una muestra $s_r$, tenemos que
+\begin{align}
+    \pi_k=Pr(k\in S)=Pr(\text{seleccionar la muestra }s_r)=\frac{1}{a}
+\end{align}
+
+Por otra parte, suponga que los elementos $k$-ésimo y $l$-ésimo pertenecen al grupo $s_r$. De esta manera, estos elementos son incluidos en la muestra sí y sólo sí se selecciona el grupo $s_r$, por tanto, la probabilidad de inclusión de segundo orden está dada por la probabilidad de selección del grupo $s_r$ igual a $\dfrac{1}{a}$. Si los elementos $k$-ésimo y $l$-ésimo pertenecen a grupos distintos, la probabilidad de ser incluidos en la muestra realizada es nula.
+
+:::
+
+### El estimador de Horvitz-Thompson
+
+Una vez que el diseño de muestreo es definido, la estrategia se completa con el uso del estimador de Horvitz-Thompson, por ser este un diseño sin reemplazo. El siguiente resultado será útil para definir las propiedades de varianza del estimador.
+
+::: {.callout-tip title="Resultado"}
+
+Para un diseño $p(\cdot)$ con soporte $Q$, la varianza del estimador de Horvitz-Thompson, se puede escribir como
+\begin{align}
+Var(\hat{t}_{y,\pi})=\sum\sum_U \frac{\pi_{kl}}{\pi_k\pi_l}y_ky_l-\left(\sum_Uy_k\right)^2
+\end{align}
+
+**Prueba.**
+
+Partiendo del resultado 2.2.2., se tiene que
+\begin{align}
+   Var(\hat{t}_{y,\pi})&=\sum\sum_U \Delta_{kl}\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}\\
+   &=\sum\sum_U (\pi_{kl}-\pi_k\pi_l)\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}\\
+   &=\sum\sum_U \left( \frac{\pi_{kl}}{\pi_k\pi_l}-1\right)y_ky_l\\
+   &=\sum\sum_U \frac{\pi_{kl}}{\pi_k\pi_l}y_ky_l-\sum\sum_Uy_ky_l\\
+   &=\sum\sum_U \frac{\pi_{kl}}{\pi_k\pi_l}y_ky_l-\left(\sum_Uy_k\right)^2
+\end{align}
+En donde se utiliza el hecho de que
+\begin{align}
+\sum\sum_Uy_ky_l=\sum\sum_{k\neq l}y_ky_l+\sum_Uy_k^2=\left(\sum_Uy_k\right)^2
+\end{align}
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Para el diseño de muestreo sistemático, el estimador de Horvitz-Thompson y su varianza están dados por:
+\begin{equation}
+\hat{t}_{y,\pi}=at_{sr},
+\end{equation}
+con $t_{sr}=\sum_{k\in S_r}y_k$, y
+\begin{equation}
+Var_{SIS}(\hat{t}_{y,\pi})=a\sum_{r=1}^a\left(t_{sr}-t\right)^2
+\end{equation}
+En este caso no existe estimador de la varianza.
+
+**Prueba.**
+
+De la definición del estimador de Horvitz-Thompson y dado que las probabilidades de inclusión de primer orden son todas iguales al valor $1/a$, entonces
+
+\begin{equation}
+\hat{t}_{y,\pi}=\sum_{Sr}\frac{y_k}{\pi_k}=at_{sr}
+\end{equation}
+Utilizando los dos anteriores resultados, se sigue que
+\begin{align}
+   Var(\hat{t}_{y,\pi})&=\sum\sum_U \frac{\pi_{kl}}{\pi_k\pi_l}y_ky_l-\left(\sum_Uy_k\right)^2\\
+   &=a\sum_{r=1}^a\left(\sum\sum_{sr}y_ky_l\right)-t^2\\
+   &=a\sum_{r=1}^a\left(\sum_{k\in s_r}y_k\sum_{l \in sr}y_l\right)-t^2\\
+   &=a\sum_{r=1}^at_{s_r}^2-t^2\\
+   &=a\sum_{r=1}^a\left(t_{sr}-\bar{t}\right)^2
+\end{align}
+donde
+\begin{equation}
+\bar{t}=\sum_{r=1}^a\frac{t_{s_r}}{a}=\frac{t}{a}
+\end{equation}
+Por la definición 3.4.1, algunas probabilidades de inclusión de segundo orden son nulas, por ell no se tiene un estimador de la varianza.
+
+:::
+
+Más allá de que los principios del estimador de Horvitz-Thompson no permitan estimar la varianza para este diseño, la razón genérica radica en que, de una forma u otra, se está seleccionando uno y sólo un grupo de elementos y se calcula un sólo total para el grupo. Como la selección es de sólo un grupo, no se tiene un marco de comparación y no se puede llegar a una estimación de la varianza.
+
+### Optimalidad de la estrategia
+
+<!-- index: Estrategia de muestreo -->Una vez que la estrategia de muestreo queda definida, es indispensable tocar el tema de la configuración de los valores de la característica de interés mediante el ordenamiento particular que se tiene en el marco de muestreo. @Baut utiliza el siguiente esquema para explicar la eficiencia de esta estrategia de muestreo.
+
+| Grupo | $s_1$ | $\cdots$ | $s_r$ | $\cdots$ | $s_a$ |
+| --- | --- | --- | --- | --- | --- |
+|  | $y_1$ |  | $y_r$ |  | $y_k$ |
+| Valor de | $y_{1+a}$ |  | $y_{r+a}$ |  | $y_{2a}$ |
+| la | $y_{1+2a}$ |  | $y_{r+2a}$ |  | $y_{3a}$ |
+| característica | $\cdots$ |  | $\cdots$ |  | $\cdots$ |
+|  | $y_{1+(n-1)a}$ |  | $y_{r+(n-1)a}$ |  | $y_{na}$ |
+| Total de grupo | $t_{s_1}$ | $\cdots$ | $t_{s_r}$ | $\cdots$ | $t_{s_a}$ |
+
+: Configuración de totales por grupo.
+
+Este diseño de muestreo puede resultar más eficiente que el diseño de muestreo aleatorio simple, dependiendo del ordenamiento del marco de muestreo. Es usado para palear las posibles imperfecciones generadas por un diseño de muestreo aleatorio simple. Por ejemplo, puede resultar que en una muestra simple, todos los elementos de la muestra seleccionada compartan una característica latente que perjudique la precisión de las estimaciones. En el caso de una población de personas, puede resultar que una muestra simple sólo incluya hombres. Cuando se sabe que el marco de muestreo está ordenado de manera aleatoria, es recomendable utilizar el diseño de muestreo aleatorio simple, porque asegura una muestra bien mezclada. Por ejemplo, si el marco de muestreo está ordenado alfabéticamente, es casi seguro que se obtendrá una muestra que sea representativa de la población, puesto que la posición alfabética no debería estar asociada con la característica de interés.
+
+Además, mediante este diseño de muestreo, no es necesario poseer un marco de muestreo de forma física para poder realizar una muestra probabilística. Sin embargo, se debe tener cuidado con la especificación del diseño, pues como lo afirma @Loh no es lo mismo seleccionar una de cada 10 personas que entran a una biblioteca que seleccionar una de cada 10 personas que salen de un avión. En el segundo caso, existe de forma implícita, un marco de muestreo.
+
+Como se verá más adelante, el diseño de muestreo sistemático puede ser más preciso que el diseño de muestreo aleatorio simple cuando los grupos $s_r$ poseen mucha variación interna. De manera contraria, si el valor de los elementos dentro de los grupos proporciona la misma información, entonces la eficiencia del diseño se verá disminuida significativamente con respecto al diseño aleatorio simple.
+
+La figura 3.4 muestra los tres casos más particulares en el uso de esta estrategia de muestreo cuyas características son las siguientes:
+
+
+1. **Ordenamiento aleatorio**: cuando el ordenamiento del marco de muestreo no está relacionado con la característica de interés, la eficiencia de este diseño es comparable con la de muestreo aleatorio simple. Ordenamiento por orden alfabético.
+2. **Ordenamiento lineal**: cuando el ordenamiento del marco de muestreo es tal que se puede observar una tendencia lineal, entonces la selección de una muestra sistemática obliga a que los valores de los elementos incluidos tengan una alta dispersión haciendo que el comportamiento de los grupos formados sea heterogéneo con respecto al valor de la característica de interés. Ordenamiento de registros contables.
+3. **Ordenamiento periódico**: si la población es tal que se observa un patrón de tipo periódico, el muestreo sistemático puede arrojar peores resultado que una muestra aleatoria simple pues si el intervalo de muestreo coincide con el patrón de periodicidad, la muestra seleccionada incluiría elementos cuyos valores de la característica de interés serían muy parecidos. Una muestra seleccionada de esta manera no sería representativa de la población. En algunos casos es posible encontrar poblaciones con este tipo de comportamiento periódico; por ejemplo, el flujo vehicular durante las 24 horas del día o las ventas en negocios durante cierta temporada del año.
+
+
+```{r}
+#| label: fig-cap3-4
+#| fig-cap: "Casos de ordenamiento en muestreo sistemático."
+x1<-runif(100,0,10)
+y1<-x1+rnorm(100,0,0.1)
+y2<-10+3*sin(x1)+rnorm(100,0,0.1)
+sam<-seq(1,100, by=10)
+
+par(mfrow=c(1,3))
+plot(x1,main=("Aleatorio"))
+points(sam, x1[sam],col = "red", pch=19,cex = 1.5)
+plot(x1,y1,main=("Lineal"))
+points(x1[sam], y1[sam],col = "red", pch=19,cex = 1.5)
+plot(x1,y2,main=("Periódic"))
+points(x1[seq(1,100, by=5)], y2[seq(1,100, by=5)],col = "red", pch=19, cex = 1.5)
+```
+
+
+#### Descomposición de la varianza
+
+<!-- index: Descomposición de la varianza -->Algunos críticos de la teoría del muestreo han querido separar el pensamiento estadístico de la metodología de estudios por muestreo. Lo anterior sumado a la falta de preparación del usuario del muestreo ha abierto una brecha entre dos mundos. La verdad es que la estadística sin muestreo no está completa y viceversa @Kis. En estos apartes, debemos considerar uno de los resultados más importantes de la estadística que ha permitido el desarrollo de la misma en diversos campos de la vida práctica.
+
+::: {.callout-tip title="Resultado"}
+
+Suponga que la población se divide en $a$ grupos, de tal forma que existen $n$ elementos por grupo y el tamaño poblacional toma la forma $N=an$, entonces
+$$
+(N-1)S^2_{y_U}=\underbrace{\sum_U\left(y_k-\bar{y}_U\right)^2}_{SCT}=\underbrace{\sum_{r=1}^a\sum_{s_r}\left(y_{rk}-\bar{y}_{s_r}\right)^2}_{SCD}+
+    \underbrace{\sum_{r=1}^an\left(\bar{y}_{s_r}-\bar{y}_U\right)^2}_{SCE}
+$$ {#eq-descomvar}
+
+:::
+
+La sigla **SCT** se refiere a la suma de cuadros del total de la población y no es otra cosa que el numerador en la fórmula del estimador de la varianza. El anterior resultado es importante porque permite descomponer la suma de cuadrados total en dos cantidades. Primero, **SCD** que denota la suma de cuadrados dentro (al interior) de los grupos y segundo, **SCE** que hace referencia a la suma de cuadrados entre los grupos. Por supuesto, la varianza como parámetro poblacional es fija, por tanto si
+
+
+1. **SCE** es alta, entonces **SCD** es baja, indicando así que los grupos están construidos de tal forma que resultan ser muy heterogéneos entre sí, pero dentro de ellos existe homogeneidad.
+2. **SCE** es baja, entonces **SCD** es alta, lo que quiere decir que los grupos son muy disímiles en su interior, pero entre ellos tienen un comportamiento similar.
+
+
+Esta representación de la descomposición de la varianza, se puede ver claramente en una tabla de ANOVA (análisis de varianza, por sus siglas en inglés), de la siguiente manera.
+
+| Fuente | gl | Suma de cuadrados | Cuadrado medio |
+| --- | --- | --- | --- |
+| Entre | $a-1$ | $SCE=\sum_{r=1}^an\left(\bar{y}_{s_r}-\bar{y}_U\right)^2$ | $\dfrac{SCE}{a-1}$ |
+| Dentro | $N-a$ | $SCD=\sum_{r=1}^a\sum_{s_r}\left(y_{rk}-\bar{y}_{s_r}\right)^2$ | $\dfrac{SCD}{N-a}$ |
+| Total | $N-1$ | $SCT=\sum_U\left(y_k-\bar{y}_U\right)^2$ | $s^2_{y_U}$ |
+
+: Tabla de ANOVA inducida por el muestreo sistemático.
+
+Desde un punto de vista totalmente pragmático, la estrategia de muestreo tendrá un mejor desempeño cuando la variabilidad total entre los grupos sea mínima y la variabilidad dentro de los grupos sea máxima. El siguiente resultado da una mejor comprensión de la descomposición de la varianza en los grupos. Es decir, la varianza del estimador de Horvitz-Thompson, bajo muestreo sistemático, será cercana a cero cuando el ordenamiento de los grupos en la población es tal que los totales $t_{s_r}$ con $r=1,\ldots,a$ son similares
+
+\begin{equation}
+    t_{s_1}\approx t_{s_2}\approx \cdots \approx t_{s_a}\approx \bar{t}
+\end{equation}
+
+::: {.callout-tip title="Resultado"}
+
+Sin pérdida de generalidad, considere que el tamaño muestral es tal que $N=na$, entonces la varianza del estimador de Horvitz-Thompson bajo un diseño de muestreo sistemático toma la siguiente forma
+\begin{equation}
+    Var_{SIS}(\hat{t}_{y,\pi})=N\sum_{r=1}^an\left(\bar{y}_{s_r}-\bar{y}_U\right)^2=N(SCE)
+\end{equation}
+
+**Prueba.**
+
+Partiendo de la definición de la varianza del estimador de Horvitz-Thompson en muestreo sistemático, se tiene que
+\begin{align*}
+Var_{SIS}(\hat{t}_{y,\pi})&=a\sum_{r=1}^a\left(t_{sr}-\bar{t}\right)^2\\
+&=\frac{N}{n}\sum_{r=1}^a\left(n\bar{y}_{sr}-n\bar{y}_U\right)^2\\
+&=\frac{N}{n}\sum_{r=1}^an^2\left(\bar{y}_{sr}-\bar{y}_U\right)^2\\
+&=N\sum_{r=1}^an\left(\bar{y}_{s_r}-\bar{y}_U\right)^2=N(SCE)
+\end{align*}
+
+:::
+
+Por tanto, se quiere que toda la variabilidad esté por dentro de cada uno de los grupos.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Coeficiente de correlación intra-clase -->Se define el coeficiente de correlación intra-clase como
+\begin{equation}
+\rho=1-\frac{n}{n-1}\frac{SCD}{SCT}
+\end{equation}
+
+:::
+
+Esta medida de correlación entre los pares de elementos de los grupos formados toma una valor máximo igual a uno cuando **SCE** es nula y toma un valor mínimo igual a $-\frac{1}{n-1}$ cuando **SCE** es máxima. En particular, es deseable para esta estrategia que $\rho$ tome valores cercanos a cero.
+
+::: {.callout-tip title="Resultado"}
+
+Utilizando la relación de la @eq-descomvar, **SCT=SCE$+$SCD**, se tiene que
+\begin{equation}
+SCE=SCT\left[(\rho-1)\frac{n-1}{n}+1\right]
+\end{equation}
+
+**Prueba.**
+
+De la definición del coeficiente de correlación intra-clase se tiene que
+\begin{align*}
+(\rho-1)\frac{n-1}{n}+1&=1-\frac{SCD}{SCT}\\
+&=\frac{SCE}{SCT}
+\end{align*}
+por tanto al despejar $SCE$ se tiene el resultado.
+
+:::
+
+
+::: {.callout-tip title="Resultado"}
+
+Con el anterior resultado no es difícil verificar que la varianza del estimador de Horvitz-Thompson bajo muestreo sistemático se puede escribir como
+\begin{equation}
+Var_{SIS}(\hat{t}_{y,\pi})=\underbrace{\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{yU}}_{Var_{MAS}(\hat{t}_{y,\pi})}\left\{ \frac{N-1}{N-n}[1+(n-1)\rho]\right\}
+\end{equation}
+
+**Prueba.**
+
+Partiendo de la última expresión tenemos que
+\begin{align*}
+\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{yU}\left\{ \frac{N-1}{N-n}[1+(n-1)\rho]\right\}&=\frac{N}{n}SCT\left[1+(n-1)\rho\right]\\
+&=N(SCT)\left[1-\frac{SCD}{SCT}\right]\\
+&=N(SCE)\\
+&=Var_{SIS}(\hat{t}_{y,\pi})
+\end{align*}
+que coincide con la varianza del estimador de Horvitz-Thompson en muestreo sistemático
+
+:::
+
+Nótese que la primera parte de la anterior ecuación se refiere al valor del estimador de Horvitz-Thompson bajo un diseño de muestreo aleatorio simple sin reemplazo. Siguiendo esta idea, el efecto de diseño está dado por el siguiente resultado.
+
+::: {.callout-tip title="Resultado"}
+
+El efecto de diseño de la estrategia de muestreo que utiliza un diseño sistemático y el estimador de Horvitz-Thompson está dado por
+\begin{equation}
+Deff=\frac{Var_{SIS}\hat{t}_{\pi}}{Var_{MAS}\hat{t}_{\pi}}=\frac{N-1}{N-n}[1+(n-1)\rho]
+\end{equation}
+Dado el efecto de diseño, se concluye que esta estrategia de muestreo es
+
+1. Igual de eficiente al muestreo aleatorio simple sí $\rho=\frac{1}{1-N}$.
+2. Menos eficiente que el muestreo aleatorio simple sí $\rho > \frac{1}{1-N}$.
+3. Más eficiente que el muestreo aleatorio simple sí $\rho < \frac{1}{1-N}$.
+
+**Prueba.**
+
+La demostración es inmediata teniendo en cuenta el anterior resultado.
+
+:::
+
+### Diseño de muestreo $q$-sistemático
+
+Cuando la periodicidad es un problema o cuando se quiere tener un estimativo insesgado de la varianza del estimador de Horvitz-Thompson, @Mah propone el uso de muestras sistemáticas inter-penetradas. Este método consiste en seleccionar, no una, sino $q$ muestras sistemáticas. De esta manera se seleccionan $q$ arranques aleatorios en grupos de tamaño $aq$, de tal manera que el tamaño poblacional se escribe como $N=a\frac{n}{q}+c$.
+
+::: {.callout-important title="Definición"}
+
+<!-- index: Diseño de muestreo sistemático con $q$ réplicas -->El diseño de muestreo sistemático con $q$ réplicas está definido como
+$$
+p(s)= \frac{1}{\binom{a}{q}} \ \ \ \ \text{para todo $s \in Q_r$}
+$$ {#eq-poisson}
+con $Q_r$ definido en 3.4.4.
+
+:::
+
+Por supuesto, la cardinalidad del soporte es $\#Q_r=\binom{a}{q}$, por tanto este diseño de muestreo cumple las propiedades del capítulo anterior. Teniendo en cuenta que se han formado $a$ grupos, entonces el diseño de muestreo $q$-sistemático puede ser visto como un diseño MAS de tamaño de muestra igual a $q$ de los totales de todos los grupos. Una ve más, estos grupos también pueden ser vistos como conglomerados. <!-- index: Conglomerado -->
+
+::: {.callout-tip title="Resultado"}
+
+Para un diseño de muestreo sistemático, las probabilidades de inclusión de primer y segundo orden están dadas por
+\begin{eqnarray}
+  \pi_k &=& \frac{q}{a} \\
+  \pi_{kl} &=& \begin{cases} \frac{q}{a} &\text{si $k$ y $l$ pertenecen a$s_r$}\\
+\frac{q}{a}\frac{q-1}{a-1}  &\text{en otro caso}
+      \end{cases}
+\end{eqnarray}
+respectivamente.
+
+:::
+
+::: {.callout-tip title="Resultado"}
+
+Para el diseño de muestreo sistemático con $q$ réplicas, el estimador de Horvitz-Thompson y su varianza están dados por:
+\begin{equation}
+\hat{t}_{y,\pi}=\frac{a}{q}\sum_St_{sr}
+\end{equation}
+\begin{equation}
+Var_{SIS}(\hat{t}_{y,\pi})=\frac{a^2}{q}\left(1-\frac{q}{a}\right)S^2_{t_{s_r}U}
+\end{equation}
+\begin{equation}
+\widehat{Var}_{SIS}(\hat{t}_{y,\pi})=\frac{a^2}{q}\left(1-\frac{q}{a}\right)S^2_{t_{s_r}s}
+\end{equation}
+respectivamente, con $S^2_{t_{s_r}U}$ y $S^2_{t_{s_r}s}$ el estimador de la varianza de los totales de la característica de interés $y$ en cada grupo $s_r$ del universo y en la muestra. Nótese que $\hat{t}_{y,\pi}$ es insesgado para el total poblacional $t_y$ de la característica de interés $y$, y que $\widehat{Var}_{SIS}(\hat{t}_{y,\pi})$ es insesgado para $Var_{SIS}(\hat{t}_{y,\pi})$.
+
+:::
+
+Al respecto de esta estrategia, el lector debe notar que:
+
+- La varianza del estimador de Horvitz-Thompson bajo el diseño de muestro $q$-sistemático crece cuando se aplica a un universo que está ordenado igualmente de forma sistemática.
+- La varianza del estimador de Horvitz-Thompson bajo el diseño de muestro $q$-sistemático depende del ordenamiento de los valores de la característica de interés por lo que puede suceder que ésta no sea monótonamente decreciente en función del tamaño de muestra.
+- El efecto de la correlación intra-clase tiene una gran repercusión en el tamaño de muestra; si existe una alta correlación intra-clase entonces el tamaño de muestra debe ser mayor para tener un $c.v.e$ pequeño y viceversa.
+- En estudios de tipo electoral se dice que un candidato tiene alta correlación intra-clase (por ejemplo en los barrios) cuando la imagen del candidato está polarizada. Es decir, la mayoría de votación en determinado barrio es muy alta por el candidato o muy baja. Por otro lado, se dice que la campaña electoral tiene baja correlación intra-clase cuando la votación en los barrios no es ni muy baja ni muy alta.
+
+
+### Marco y Lucy
+
+<!-- index: Marco y Lucy -->En nuestro intento de obtener estimaciones precisas para la evaluación del comportamiento del sector industrial en lo corrido del último año fiscal, hemos notado que el marco de muestreo está ordenado de manera alfanumérica en orden ascendente por el rótulo de identificación industrial. Además, se sabe que el número de identificación de cada empresa no tiene una secuencia específica, sino que es asignado de acuerdo a la fecha de registro de la empresa. De tal forma, la primera empresa en ser registrada ante el organismo gubernamental competente es la identificada con el número de identificación **AB001** y la última empresa en ser registrada es la identificada con el número **AB987**.
+
+Nótese que las característica de interés son Ingreso, número de empleados e impuestos declarados en el último año fiscal y se supone, de manera correcta, que estas características no tienen ninguna relación con la fecha de registro de la empresa. Así, puede suceder que una empresa joven, tenga unos altos réditos, pocos empleados y una alta declaración de impuestos, pero puede suceder lo contrario; de hecho, este comportamiento está sujeto a la estrategia de *marketing* utilizada en cada periodo comercial y no a la antigüedad del negocio. Por las anteriores razones, se supone que el ordenamiento del marco de muestreo es completamente aleatorio.
+
+Se ha decidido que la población va a ser particionada en seis grupos, de tal forma que el tamaño efectivo de muestra será 399 o 400. El marco de muestreo es cargado en el ambiente de R.
+
+```{r, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+```
+
+```{r}
+N <- dim(BigLucy)[1]
+a <- 40
+floor(N/a)
+```
+El procedimiento que se sigue es la creación de los grupos sistemáticos. Esto puede realizarse con la función `(array(1:a,N))` que permite la creación de la secuencia **1,2,3,4,5,6,1,2,3,4,5,6,1,2...**; sin embargo, es indispensable definir este arreglo como un factor, es decir como una variable de tipo categórica nominal cuyos rótulos significan la pertenencia de un individuo a un grupo. 
+
+La selección de la muestra se realiza mediante la función `S.SY` del paquete `TeachingSampling` cuyos argumentos son `N`, el tamaño de la población y `a`, el número de grupos. Esta función sigue el algoritmo secuencial descrito en esta estrategia de muestreo y lo que hace es aleatoriamente asignar un arranque aleatorio y saltar, en este caso, de seis en seis elementos hasta barrer toda la lista. El resultado de la función es un listado de índices que aplicados a la población resulta en los valores de las características de interés de los elementos incluidos en la muestra realizada.
+
+```{r, message=FALSE}
+sam <- S.SY(N, a)
+muestra <- BigLucy[sam,]
+attach(muestra)
+```
+```{r}
+head(muestra)
+n <- dim(muestra)[1]
+n
+```
+
+En el anterior caso particular, el arranque aleatorio fue igual a tres; por tanto, la muestra está conformada por los elementos **3, 9, ..., 2385 y 2391** del marco de muestreo. Una vez recolectada la información de la muestra, se procede a realizar la estimación mediante el uso de la función\footnote{Dado que no existe el estimador genérico para la varianza del estimador de Horvitz-Thompson, esta función utiliza una aproximación conservadora de la varianza suponiendo que se realizó un muestreo aleatorio simple.} `E.SY` del paquete `TeachingSampling` cuyos argumentos son `N`,  `a` y un conjunto de datos conteniendo la información de las características de interés para cada elemento en la muestra.
+
+```{r, results='hide'}
+estima <- data.frame(Income, Employees, Taxes)
+E.SY(N, a, estima)
+```
+
+Los resultados de la estimación se muestran en la @tbl-t3-6. Es de considerar que la eficiencia de esta estrategia de muestreo es mucho mayor a la de una estrategia que utilice un diseño de muestreo aleatorio simple. Nótese que los coeficientes de variación son mucho menores y también, aunque este es un argumento un poco más débil, la desviación relativa es menor.
+
+```{r, echo = FALSE}
+#| label: tbl-t3-6
+#| tbl-cap: "Estimaciones para el diseño de muestreo sistemático"
+Estimaciones = E.SY(N, a, estima)
+knitr::kable(Estimaciones)
+```
+
+Es hora de preguntarse, ¿por qué los resultados de las estimaciones son mejores que en otro tipo de estrategias de muestreo? Vamos a realizar un procedimiento de evaluación, puramente académico, y vamos a suponer que tenemos acceso a la información de la característica de interés a nivel poblacional.
+
+En primer lugar, se realiza un análisis de varianza para obtener la descomposición de las sumas de cuadrados para la característica de interés `Income`. Para esto usamos la función `lm` que relaciona a la variable de interés con un factor de agrupamiento. La variable grupo fue creada como un vector de cinco niveles y puede ser usada en este caso. Aplicando la función `anova` al modelo, se obtiene una tabla de sumas de cuadrados.
+
+```{r, message=FALSE}
+data(BigLucy)
+attach(BigLucy)
+```
+```{r}
+N<-dim(BigLucy)[1]
+n<-2133
+a<-floor(N/n)
+c<-N-floor(N/n)*n
+a*n+c
+
+grupo<-as.factor(array(1:a,N))
+anova(lm(Income~grupo))
+```
+
+Siguiendo a @Dal, en la mayoría de textos estadísticos (incluyendo el que el lector tiene en sus manos) las sumas de cuadrados son rotuladas como `SCD, SCE y SCT`. Sin embargo, R usa una rotulación diferente. La variación **entre** los grupos es rotulada con el nombre del factor de agrupación, en este caso `grupo`. La variación **dentro** de los factores de agrupación es rotulada como `Residuals`. Por tanto, se observa que la variación total se encuentra dentro de los grupos; mientras que existe una baja variación entre los grupos. Esto es bueno para efectos de la eficiencia de la estrategia.
+
+Por un lado, al observar la gráfica de la característica de interés con respecto al ordenamiento natural del marco de muestreo, no es posible identificar un patrón lineal o de periodicidad, cuando realizamos el gráfico con respecto a los grupos, nos damos cuenta de que dentro de ellos existe una muy alta variabilidad y más aún, los cinco grupos tiene un comportamiento parecido entre ellos. El código necesario para la creación de este gráfico está dado a continuación.
+
+
+```{r}
+#| label: fig-cap3-5
+#| fig-cap: "Distribución de la característica `Income` con respecto a los grupos creados en el muestreo sistemático."
+DF = data.frame(Income = Income[sample(1000)], grupo = grupo[sample(1000)])
+ggplot(DF, aes(x=grupo, y=Income)) + 
+  geom_jitter()
+```
+
+
+Por otro lado, el ordenamiento aleatorio se observa muy claramente en la figura 3.6., en dónde los puntos marcados corresponden a los elementos seleccionados. Nótese la buena dispersión de la muestra en la población, haciéndola representativa. El código necesario para la creación de este gráfico es el siguiente.
+
+
+```{r}
+#| label: fig-cap3-6
+#| fig-cap: "Casos seleccionados en muestreo sistemático."
+sam <- seq(1, N, by=a)
+unos <- rep(0,N)
+unos[sam] <- 1
+ide = seq(1:N)
+
+DF = data.frame(Income = BigLucy$Income, unos = unos, ide = ide)
+s1 = sample(N,2000)
+DFs = DF[s1,]
+
+qplot(Income, ide, data=DFs) + 
+  geom_point(aes(colour = factor(unos))) +
+  scale_colour_manual(values=c("black","red")) + 
+  theme(legend.position="none")
+```
+
+
+Es claro que esta estrategia de muestreo resulto más eficiente que la estrategia de muestreo aleatorio simple. Pero, ¿cuánto más eficiente?. Con unos simple cálculos algebraicos se obtiene un coeficiente de correlación intra-clase muy cercano a cero y esto es bueno puesto que cumple con los requerimientos en la definición de $\rho$.
+
+```{r}
+SCD <- anova(lm(Income~grupo))$Sum[1]
+SCE <- anova(lm(Income~grupo))$Sum[2]
+rho <- 1 - (n / (n-1)) * (SCE / (SCD + SCE))  
+rho
+rho > 1 / (1 - N) 
+```
+
+Sin embargo, lo verdaderamente asombroso es que la ganancia en eficiencia al usar este diseño es de veintinueve veces puesto que el efecto de diseño es aproximadamente 0.02.
+
+```{r}
+VarHT <- N * SCD
+VarHT
+Deff <- (N - 1) * (1 + (n - 1) * rho) / (N - n) 
+Deff
+```
+
+Los anteriores diseños de muestreo pertenecen al grupo de los diseños de probabilidad de inclusión constante. En el siguiente capítulo veremos diseños con probabilidad de inclusión proporcional al tamaño que hace uso de información auxiliar continua en el marco de muestreo.
+
+## Ejercicios
+
+
+1. Suponga una población de 10 elementos $U=\{e_1, e_2,\ldots, e_{10}\}$.
+
+  - Seleccione una muestra mediante un diseño Bernoulli con probabilidad de inclusión $\pi=0.4$, utilizando el algoritmo de la sección 3.1.1. y teniendo en cuenta que para cada elemento en la población se obtuvo el siguiente conjunto de números aleatorios uniformes
+      $$\beps=\{0.152, 0.158, 0.614, 0.593, 0.140, 0.851, 0.803, 0.996, 0.433, 0.790\}$$
+  - Otra manera de seleccionar una muestra Bernoulli es generando un sólo número aleatorio de una distribución $Binomial(N, \pi)$; este valor generado es el tamaño de muestra $n(S)$ y con ayuda del marco de muestreo se selecciona una muestra aleatoria simple de tamaño $n(S)$. Suponiendo que la realización de $Binomial(10, 0.4)$ fue $n(s)= 5$, utilice el algoritmo coordinado negativo para la selección de una muestra, teniendo en cuenta que para cada elemento en la población se obtuvo el siguiente conjunto de números aleatorios uniformes
+      $$\bxi=\{0.370, 0.561, 0.064, 0.412, 0.952, 0.461, 0.256, 0.275, 0.213, 0.443\}$$
+
+2. Complete el cálculo léxico-gráfico del ejemplo 3.1.1.
+3. En un estudio de calidad de vida en cárceles, se utilizó un diseño de muestreo Bernoulli con probabilidad de inclusión $\pi=0.15$ para seleccionar una muestra de reclusos. En la penitenciaría hay 1243 reclusos y se observaron las características de interés **CVDP** y **OTMA** para los presos incluidos en la muestra. Además se obtuvieron los siguientes resultados
+
+| Característica | $\sum_s y_k$ | $\sum_sy_k^2$ |
+| --- | --- | --- |
+| CVDP | 5412 | 95299 |
+| OTMA | 82503 | 604926 |
+
+
+  - Utilice el estimador de Horvtiz-Thompson para calcular una estimación del total poblacional, el coeficiente de variación estimado y un intervalo de confianza al 95\% para estas características de interés.
+  - Utilice el estimador de Horvtiz-Thompson para calcular una estimación de la media poblacional, el coeficiente de variación estimado y un intervalo de confianza al 95\% para estas características de interés.
+  - Si el tamaño de muestra efectivo fue 191, utilice el estimador alternativo para calcular una estimación del total poblacional y de la media poblacional.
+
+
+4. Suponga una población de 12 elementos $U=\{e_1, e_2,\ldots, e_{12}\}$. Seleccione una muestra aleatoria simple sin reemplazo de tamaño $n=4$ utilizando el algoritmo de Fan-Muller-Rezucha teniendo en cuenta que para cada elemento en la población se obtuvo el siguiente conjunto de números aleatorios uniformes
+      $$\bxi=\{0.787, 0.946, 0.766, 0.338, 0.520, 0.849, 0.828, 0.165, 0.416, 0.105, 0.069, 0.853\}$$
+5. Complete el cálculo léxico-gráfico del ejemplo 3.2.2.
+6. Demuestre o refute la siguiente afirmación: <<En muestreo aleatorio simple, para la estimación de un total poblacional, el estimador de Horvitz-Thompson coincide con el estimador altervativo>>.
+7. Demuestre o refute la siguiente afirmación: <<En muestreo aleatorio simple, para la estimación de un total en dominios de interés, se cumple siempre que $\sum_{d=1}^D\hat{t}_{yd,\pi} > \hat{t}_{y,\pi}$>>.
+8. Demuestre o refute la siguiente afirmación: <<En muestreo aleatorio simple, el coeficiente de variación estimado del estimador de Horvitz-Thompson para el total poblacional es menor que el coeficiente de variación estimado del estimador de Horvitz-Thompson para la media poblacional>>.
+9. En un estudio de satisfacción empresarial en una entidad prestadora de salud que sirve a 748 asociados, se quiere averiguar el promedio del número de horas al mes (**NHM**) que los asociados permanecen en consulta médica. Para esto se planea un muestreo aleatorio simple pues se conoce que, para este caso particular, una aproximación para la varianza de esta característica de interés es de 3.4839 y para el coeficiente de variación es de 0.5324.
+
+  - Con una confianza del 95\%, determine el tamaño de muestra mínimo para estimar el parámetro de interés con un error absoluto no mayor 15 minutos.
+  - Con una confianza del 95\%, determine el tamaño de muestra mínimo para estimar el parámetro de interés con un erro relativo no mayor a 2\%.
+
+10. Demuestre las siguientes igualdades
+\begin{align*}
+(n-1)S^2_{yS}&=\sum_{k\in S}\left(y_k-\bar{y}_S\right)^2=\sum_{k\in S}y_{k}^2-\frac{(\sum_{k \in S}y_{k})^2}{n}\\
+(N-1)S^2_{yU}&=\sum_{k\in U}\left(y_k-\bar{y}_U\right)^2=\sum_{k\in U}y_{k}^2-\frac{(\sum_{k \in U}y_{k})^2}{N}\\
+\end{align*}
+11. Demuestre rigurosamente los resultados 3.2.7 y 3.2.8.
+
+12. Para el ejercicio 3.9, suponga que se deciden realizar $n=50$ entrevistas y que se obtuvo que $\sum_s y_k=178$ y $\sum_sy_k^2=826$. A continuación se presenta una tabla de frecuencias de las observaciones
+
+| NHM | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Frecuencia | 1 | 5 | 13 | 9 | 7 | 4 | 6 | 4 | 1 |
+
+
+  - Obtenga una estimación de Horvitz-Thompson para el total de horas mensuales que los asociados permanecen en consulta médica, reporte el coeficiente de variación estimado y un intervalo de confianza al 95\%.
+  - Obtenga una estimación de Horvitz-Thompson para el promedio de horas mensuales que los asociados permanecen en consulta médica, reporte el coeficiente de variación estimado y un intervalo de confianza al 95\%.
+  - Obtenga una estimación de Horvitz-Thompson para el total de asociados que permanecen en consulta médica menos (estrictamente) de cuatro horas, reporte el coeficiente de variación estimado y un intervalo de confianza al 95\%.
+  - Obtenga una estimación de Horvitz-Thompson para la proporción de asociados que permanecen en consulta médica, más (estrictamente) de seis horas, reporte el coeficiente de variación estimado y un intervalo de confianza al 95\%.
+
+13. Complete el cálculo léxico-gráfico del ejemplo 3.3.3.
+14. Para una población de $N=10$ elementos se planeó diseño aleatorio simple con reemplazo de tamaño de muestra $m=6$. Complete la siguiente salida del algoritmo secuencial utilizado para la extracción de la muestra
+    
+```
+ k    nbin          pbin    nk
+ [1,]                        0
+ [2,]    6     0.1111111     3
+ [3,]                        1
+ [4,]    2     0.1428571     0
+ [5,]          0.1666667     1
+ [6,]    1                    
+ [7,]    1     0.2500000     0
+ [8,]                        0
+ [9,]    1                   0
+[10,]    1                   1
+```
+
+15. Suponga que se realizó un muestreo aleatorio simple con reemplazo para la población del ejercicio 3.3.
+ 
+
+  - Utilice el estimador de Hansen-Hurwitz para obtener una estimación del total poblacional para características de interés **CVDP** y **OTMA**, reporte el coeficiente de variación estimado y un intervalo de confianza del 95\%.
+  - Bajo el supuesto de muestreo aleatorio simple con reemplazo, construya las probabilidades de inclusión de primer y segundo orden y utilice el estimador de Horvitz-Thompson para calcular una nueva estimación del total poblacional para las características de interés.
+
+
+16. Demuestre o refute la siguiente afirmación: <<Para tamaños de muestra iguales, la estrategia de muestreo aleatorio simple con reemplazo junto con el estimador de Hansen-Hurwitz es siempre de menor varianza que la estrategia de muestreo aleatorio simple sin reemplazo junto con el estimador de Horvitz-Thompson>>.
+    
+17. Demuestre o refute la siguiente afirmación: <<El diseño de muestreo sistemático es de tamaño de muestra fijo>>.
+    
+18. Demuestre o refute la siguiente afirmación: <<Aunque no existe la estimación de la varianza del estimador de Horvitz-Thompson en muestreo sistemático, es siempre conveniente reemplazarla por la expresión de la varianza estimada en un diseño aleatorio simple>>.
+    
+19. Para estimar el total de horas diarias que los estudiantes permanecen en la biblioteca de una universidad, se utilizó un diseño de muestreo sistemático con dos arranques aleatorios. La población fue divida en siete grupos latentes y se seleccionó una muestra simple de dos enteros entre el uno y el siete. Los enteros seleccionados son el 3, y 7. Lo anterior implica que la muestra de estudiantes, que serán entrevistados a la salida de la biblioteca, está conformada por dos grupos. A saber el grupo $s_3$ conformado por los estudiantes 3, 10, 17, ... y el grupo $s_7$ conformado por los estudiantes 7, 14, 21, ...Los resultados del sondeo para los dos grupos se dan acontinuación
+    
+    \begin{equation*}
+    t_{s_3}=\sum_{s_3}y_k=3574 \ \ \ \ \ \ \ \ \ \ t_{s_7}=\sum_{s_7}y_k=5024 
+    \end{equation*}
+    
+    Calcule una estimación insesgada para el número total de horas de permanencia en la biblioteca, reporte el coeficiente de variación estimado y un intervalo de confianza al 95\%.
+
+20. Suponga una población de 9 elementos cuyos valores para la característica de interés se dan a continuación
+    \begin{equation*}
+    \mathbf{y}=\{23, 20, 24, 31, 24, 29, 25, 33, 21\}
+    \end{equation*}
+
+
+  - Utilice el análisis de varianza (ANOVA) para calcular la varianza del estimador de Horvitz-Thompson en un diseño de muestreo sistemático simple con $a=2$ grupos.
+  - Calcule el coeficiente de variación intra-clase y el efecto de diseño. Decida si, para este caso particular, el diseño sistemático es más eficiente que el diseño de muestreo aleatorio simple.
+
+
+21. Demuestre o refute la siguiente afirmación: <<En un diseño de muestreo sistemático, si hay homogeneidad dentro de los grupos y heterogeneidad entre sus medias, entonces este diseño es menos eficiente que el diseño de muestreo aleatorio simple>>.

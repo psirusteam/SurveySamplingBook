@@ -1,0 +1,327 @@
+```{r, echo=FALSE, message=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+library(ggplot2)
+library(gridExtra)
+options(scipen = 100, digits = 2)
+set.seed(12345)
+library(knitr)
+opts_chunk$set(cache = TRUE)
+knit_theme$set("acid")
+```
+
+# Muestreo balanceado
+
+::: {.blockquote}
+El método del cubo propone un procedimiento general que permite la selección de muestras aleatorias balanceadas, con probabilidades de inclusión simples o desiguales en el sentido de que las estimaciones de Horvitz-Thompson son iguales, o casi iguales, al total poblacional de las variables de balanceo.
+@Til
+:::
+
+<!-- index: Muestreo balanceado -->Comúnmente, el muestreo balanceado ha sido conocido como una técnica de muestreo no probabilístico tal como el muestreo por cuotas<!-- index: Muestreo por cuotas -->, por conveniencia o por juzgamiento. Este tipo de muestreo sugiere la selección de muestras, para las cuales la media muestral de una característica de información auxiliar sea idéntica a la media poblacional de dicha característica de información auxiliar. Es más, si esta característica de información auxiliar está bien correlacionada con la característica de interés, entonces se dice que el muestreo balanceado es óptimo puesto que reproducirá con precisión el total o la media de la característica de interés en la población.
+
+@Til afirma que la idea de seleccionar muestras balanceadas nació con @Ney34 cuando afirmó que ?el método de la selección a conveniencia consiste en a) dividir la población de distritos en  estratos de segundo orden de acuerdo a los valores de $x$ e $y$, b) seleccionar aleatoriamente de cada estrato un número fijo de distritos. El número de selecciones está determinado por la condición del mantenimiento del promedio ponderado de la característica de interés?. Más adelante, en @Yates46 se encuentra el siguiente extracto: ?Se debe seleccionar una muestra aleatoria. Los individuos serán incluidos mediante el mismo proceso aleatorio, el primer miembro será comparado con el primer miembro de la muestra original, el segundo individuo con el segundo de la muestra original y así sucesivamente. Un nuevo miembro será sustituido si mejora el balance?.
+
+Recientemente, se ha llegado a soluciones parciales para la selección aleatoria (mediante diseños de muestreo propiamente definidos) de muestras balanceadas por medio de métodos propuestos por algunos reconocidos autores de como @Ardilly91 y @Deville92. Por otra parte, autores como  y @Valliant2000 o @RoyalHerson han considerado la construcción de estimadores, enmarcados bajo métodos de inferencia basada solamente en modelos poblacionales, y su optimalidad desde el punto de vista del modelo sin tomar en cuenta el diseño muestral y concluyen que un diseño de muestreo puede ser balanceado aunque no necesariamente aleatorio o probabilístico.
+
+Por otro lado, @DevTille2004 desarrollaron un procedimiento general y riguroso que permite la extracción de muestras probabilísticas balanceadas y la posterior estimación de las cantidades de interés, enmarcados bajo métodos de inferencia basados en el diseño de muestreo. Este procedimiento es conocido como el método del cubo y permite la selección de muestras
+aleatorias sobre un conjunto de características de información auxiliar (o variables de balanceo), y tiene la agradable propiedad de que el estimador de Horvitz-Thompson reproduce el total poblacional de las variables de balanceo. Más adelante, @DT05 adaptaron una aproximación de la varianza para el estimador de Horvitz-Thompson en muestreo balanceado.
+
+## Notación
+
+<!-- index: Muestreo balanceado -->Dado que bajo un diseño de muestreo balanceado, el estimador de Horvitz-Thompson, para los totales de un conjunto de variables
+auxiliares, debe ser igual al total poblacional de las mismas, la varianzas del estimador del total poblacional de la característica de interés se debe reducir de acuerdo al aumento de correlación con las variables auxiliares.
+
+El objetivo es estimar el total poblacional de la característica de interés $t_y=\sum_{k\in U}y_k$, entonces se supone que los valores de los vectores
+$$
+\mathbf{x}_k=\left(x_{k1},x_{k2},\ldots,x_{kQ}\right)'
+$$
+
+tomados para $q$ variables de balanceo, se conocen para todas las unidades de la población. Por tanto, el vector de totales de las variables de balanceo
+$$
+\mathbf{t}_{\mathbf{x}}=\sum_{k \in U}\mathbf{x}_k'
+$$
+
+es también conocido, y puede ser estimado, utilizando el estimador de Horvitz-Thompson, por medio de la siguiente expresión
+$$
+\hat{\mathbf{t}}_{\mathbf{x},\pi}=\sum_{k \in U}\frac{\mathbf{x}_k}{\pi_k}I_k.
+$$
+
+El objetivo es construir un diseño de muestreo balanceado, definido como sigue.
+
+::: {.callout-important title="Definición"}
+<!-- index: Diseño de muestreo balanceado -->Un **diseño de muestreo es balanceado** con respecto a las variables auxiliares $x_1, ..., x_Q$, sí y sólo sí éste satisface las ecuaciones de balance dadas por
+$$
+\hat{\mathbf{t}}_{\mathbf{x},\pi}=\mathbf{t}_{\mathbf{x}}
+$$
+
+para toda muestra $s \in \mathcal{S}$ tal que $p(\mathbf{s})>0$ y para todo $q=1,...,Q$. En otras palabras
+$$
+Var(\hat{\mathbf{t}}_{\mathbf{x},\pi})=\mathbf{0}
+$$
+
+:::
+
+Nótese que $Var(\hat{\mathbf{X}}_{\pi})$ es una matriz de varianzas covarianzas. En estos términos, el diseño de muestreo balanceado, define un soporte $\mathcal{Q}$ dado por
+$$
+\mathcal{Q}=\left\{ \mathbf{I} \in \mathcal{S}| \sum_{k\in U}\frac{\mathbf{x}_k}{\pi_k}I_k=\mathbf{t}_{\mathbf{x}} \right\}
+$$
+
+donde $\mathbf{I}=(I_1,\ldots,I_n)'$ es el vector de inclusión de los elementos en la muestra y $\mathcal{S}$ es el soporte simétrico sin reemplazo. Para aceptar que un diseño de muestreo puede estar condicionado, el lector deberá estar familiarizado con las definiciones dadas en los primeros capítulos de este texto. En particular, nótese que de la definición 2.1.5, el soporte simétrico sin reemplazo, que permite la definición del muestreo aleatorio simple, entre otros, es también un soporte condicionado y dado por
+$$
+\mathcal{S}_n=\left\{ \mathbf{s} \in \mathcal{S}| \sum_{k\in U}s_k=n \right\}
+$$
+
+También, el soporte simétrico con reemplazo de tamaño fijo, que permite la debida definición del diseño aleatorio simple con reemplazo, entre otros, está condicionado puesto que
+$$
+\mathcal{R}_n=\left\{ \mathbf{s} \in \mathcal{R} | \sum_{k\in U}s_k=n \right\}
+$$
+
+### Ejemplos
+
+<!-- index: Muestreo balanceado -->A continuación se presentan algunos ejemplos que, si bien no son útiles en la práctica, sí ilustran el objetivo del muestreo balanceado.
+
+::: {.callout-note title="Ejemplo"}
+***Muestreo aleatorio simple***: esta clase de diseños de muestreo de tamaño fijo $n$ son balanceados sobre la variable $x_k=\pi_k$, $k\in U$. Pues,
+$$
+\sum_{k\in S}\frac{xk}{\pi_k}=\sum_{k\in S}1=n=\sum_{k\in U}\pi_k
+$$
+
+:::
+
+::: {.callout-note title="Ejemplo"}
+***Estratificación***: suponga que en una población estratificada en $H$ estratos ($U_h$, $h=1,...,H$, $\#U_h=N_h$) se selecciona una muestra aleatoria simple de tamaño $n_h$ en cada estrato. El diseño es balanceado sobre las variables
+$$
+\delta_{kh}=
+\begin{cases}
+1       & \text{si la unidad *k* está en el estrato h,}\\
+0       & \text{en otro caso}
+\end{cases}
+$$
+
+Puesto que,
+$$
+\sum_{k\in S}\frac{\delta_{kh}}{\pi_k}=\sum_{k\in S}\delta_{kx}\frac{N_h}{n_h}
+=N_h=\sum_{k\in U}\delta_{kh}
+$$
+
+:::
+
+En la mayoría de problemas prácticos, las ecuaciones de balance no pueden ser exactamente satisfechas, en otras palabras existe un problema de redondeo que se da porque el inverso de la probabilidad de inclusión no es un entero. Por esta razón, el objetivo es construir un diseño muestral que satisfaga las ecuaciones de balanceo exactamente, si es posible, ó encontrar la mejor aproximación, si no lo es. El problema de redondeo es despreciable cuando el tamaño de muestra esperado es grande.
+
+## El método del cubo
+
+<!-- index: Método del cubo -->Este método se compone de dos fases, llamadas la fase de vuelo y fase de aterrizaje. En la primera, para que las restricciones sean satisfechas exactamente, se deben redondear a cero (0) o uno (1) las probabilidades de inclusión. La fase de aterrizaje consiste en el manejo adecuado del redondeo.
+
+Como hemos visto, cada vector $\mathbf{s}$, en muestreo sin reemplazo, es un vértice de un N-cubo y el número de posibles muestras es el número de vértices del N-cubo. Un diseño muestral con vector de probabilidades de inclusión $\boldsymbol{\pi}$, consiste en la asignación de una probabilidad a cada vértice.
+
+Geométricamente, un diseño muestral consiste en expresar el vector $\boldsymbol{\pi}$ como una combinación lineal convexa de los vértices del N-cubo. Un algoritmo puede ser visto como un camino (aleatorio) que lleve a alcanzar un vértice del N-cubo de tal manera que se satisfagan las ecuaciones de balanceo.
+
+### Fase de vuelo
+
+<!-- index: Fase de vuelo -->Es una caminata aleatoria que comienza con un vector de probabilidades de inclusión y permanece en la intersección del cubo
+y el subespacio restringido por las ecuaciones de balanceo. Esta caminata aleatoria se detiene en un vértice de dicha intersección.
+
+El objetivo de esta fase es escoger aleatoriamente un vértice de $$K=\{[0,1]^N \cap Q\},$$ donde $Q=\boldsymbol{\pi}+\ker\mathbf{A}$ y $\mathbf{A}=(\check{\mathbf{x}}_1, ..., \check{\mathbf{x}}_N)$, de tal forma que las ecuaciones de balance se reproduzcan a satisfacción. La fase de aterrizaje es sólo necesaria si el vector escogido no es un vértice del cubo y consiste en flexibilizar las restricciones (lo menos posible) para seleccionar una muestra, esto
+es, un vértice del cubo.
+
+::: {.callout-note title="Ejemplo"}
+La fase de vuelo transforma un vector de probabilidades de inclusión
+en un vector de ceros y unos.
+$$
+\boldsymbol{\pi}=\begin{pmatrix} 0.5 \\ 0.5 \\ 0.5 \\ 0.5
+\end{pmatrix}\rightarrow\begin{pmatrix} 0.666 \\ 0.666 \\ 0.666 \\ 0
+\end{pmatrix}\rightarrow\begin{pmatrix} 1 \\ 0.5 \\ 0.5 \\ 0
+\end{pmatrix}\rightarrow\begin{pmatrix} 1 \\ 0 \\ 1 \\ 0
+\end{pmatrix}
+$$
+
+Si existe un problema de redondeo, entonces algunos componentes no
+pueden ser convertidos en cero
+$$
+\boldsymbol{\pi}=\begin{pmatrix} 0.5 \\ 0.5 \\ 0.5 \\ 0.5 \\ 0.5
+\end{pmatrix}\rightarrow\begin{pmatrix} 0.625 \\ 0 \\0.625 \\ 0.625 \\
+0.625\end{pmatrix}\rightarrow\begin{pmatrix} 0.5 \\ 0 \\ 0.5 \\ 1 \\
+0.5\end{pmatrix}\rightarrow\begin{pmatrix} 1 \\ 0 \\ 0.5 \\ 1\\
+0\end{pmatrix}
+$$
+
+:::
+
+### La martingala balanceada
+
+<!-- index: Martingala balanceada -->El algoritmo general para llevar a cabo la fase de vuelo se realiza utilizando la siguiente definición.
+
+::: {.callout-important title="Definición"}
+<!-- index: Martingala balanceada -->Un proceso aleatorio discreto $\boldsymbol{\pi}(t) = [\boldsymbol{\pi}_k(t)]$ en $\mathbb{R}^N$, $t= 0, 1, ...$ se llama una **martingala balanceada** para un vector de probabilidades de inclusión $\boldsymbol{\pi}$ y para las variables auxiliares $x_1, ..., x_p$, si
+
+1. $\boldsymbol{\pi}(0) = \boldsymbol{\pi}$,
+1. $E [\boldsymbol{\pi}(t)|\boldsymbol{\pi}(t-1), ....,\boldsymbol{\pi}(0)] = \boldsymbol{\pi}(t-1)$, $t = 1, 2, ...$
+1. $\boldsymbol{\pi}(t) \in K = \{[0, 1]^N \cap (\boldsymbol{\pi} + \ker A)$
+:::
+
+### Implementación de la fase de vuelo
+
+<!-- index: Fase de vuelo -->Primero, inicializamos por $\boldsymbol{\pi}(0) = \boldsymbol{\pi}$. Luego, En la etapa $t = 1, ...., T$,
+
+1. Definimos un vector $\mathbf{u}(t)=[u_k(t)] \neq 0$ tal que
+- $\mathbf{u}(t)$ es en el kernel de la matriz A,
+- $u_k(t) = 0$ si $\pi_k(t)$ es entero.
+1. Calculamos $\lambda_1^*(t)$ y $\lambda_2^*(t)$, el valor más grande tal que
+$$
+0\leq \boldsymbol{\pi}(t) + \lambda_1^*(t)u(t)\leq1,
+$$
+$$
+0\leq \boldsymbol{\pi}(t) - \lambda_2^*(t)u(t)\leq1,
+$$
+1. Elegimos
+$$
+\boldsymbol{\pi}(t) =
+\begin{cases}
+\boldsymbol{\pi}(t-1)+ \lambda_1^*(t)\mathbf{u}(t) & \text{con probabilidad } q_1(t)\\
+\boldsymbol{\pi}(t-1)- \lambda_2^*(t)\mathbf{u}(t) & \text{con
+probabilidad } q_2(t)
+\end{cases}
+$$
+donde
+$$
+q_1(t)=\lambda_2^*(t)/(\lambda_1^*(t)+\lambda_2^*(t))
+$$
+y
+$$
+q_2(t)=\lambda_1^*(t)/(\lambda_1^*(t)+\lambda_2^*(t))
+$$
+
+### La fase de aterrizaje
+
+<!-- index: Fase de aterrizaje -->Al final de la primera fase, la martingala balanceada ha alcanzado un vértice de $K$, el cual no es necesariamente un vértice de $C$. Este vértice es denotado como $\boldsymbol{\pi}^*=[\pi_k^*]=\boldsymbol{\pi}(T)$. Sea $q$ el número de componentes no enteras en este vértice. Si $q=0$, el algoritmo está completo. Si $q>0$ algunas restricciones no pueden ser satisfechas rigurosamente.
+
+Sea $U=\{k \in U|0 < \pi_k^* < 1\}$. El objetivo es buscar un diseño muestral que arroje una muestra $s^*\subset U^*$ tal que
+$$\sum_{k\in S} a_k \approx \sum_{k\in U} a_k\pi_k^* = \sum_{k\in U}a_k\pi_k,$$ con $a_k=\check{\mathbf{x}}_k$ y $s^*=s \cap U^*$.
+
+Esto se resuelve mediante programación lineal. Aplicando el método *simplex* tenemos
+$$
+\min_{p^*(\cdot)}\sum_{s^*\subset U^*}Costo(s)p^*(s),
+$$
+
+sujeto a
+$$
+\begin{aligned}
+\sum_{s^*\subset U}p(s^*)&=1\\
+\sum_{s^*\ni k}p(s^*)&=\pi_k\\
+0\leq p(s^*)& \leq 1
+\end{aligned}
+$$
+
+En donde $Costo(s)$ es el costo de la muestra, que aumenta si las ecuaciones de balanceo, dadas en las secciones anteriores, no se tienen. Luego se selecciona una muestra con un diseño de muestreo $p(\cdot)^*$. Este programa no depende del tamaño poblacional sino sólo del número de variables de balanceo. Si el número de variables auxiliares es muy grande, al final de la fase de vuelo se debe eliminar una variable auxiliar. Por esta razón es importante ordenar las variables de balanceo de acuerdo a la correlación con las variables de interés.
+
+### Varianza
+
+@DT05 han propuesto aproximar la varianza suponiendo que la medida de muestreo balanceado se puede asumir como un muestreo
+condicional de Poisson. Así,
+$$
+Var(\hat{t}_{y,\pi})= Var(\hat{E}_{poisson})= \frac{N}{N - p}\sum_{k\in U} \frac{E^2_k}{\pi_k^2}\pi_k(1-\pi_k),
+$$
+
+donde $E_k = y_k - \mathbf{x}'_k\mathbf{B}$.
+
+::: {.callout-note title="Ejemplo"}
+Nótese que la misma función que cumple el muestreo balanceado, la cumple el diseño de muestreo $\pi$PT, puesto que, en virtud del conocimiento de un característica de interés, se garantiza, siguiendo el resultado 4.3.2, que el estimador del total poblacional de la característica de información auxiliar, $\hat{t}_{x,\pi}$, reproduzca al total poblacional de la característica de interés, $t_x$, con varianza nula.
+
+Sin embargo, el diseño de muestreo $\pi$PT, cumple esta función solamente para una y sólo una característica de información auxiliar, y cuando el investigador puede tener acceso a varias características de información auxiliar de manera simultanea, entonces el muestreo $\pi$PT deja de ser útil. En este orden de ideas, se pude decir que, abusando del lenguaje, el diseño de muestreo balanceado es una generalización del diseño de muestreo $\pi$PT.
+
+Este ejemplo trata de ilustrar el procedimiento computacional para la obtener el objetivo final de la selección de una muestra balanceada. Se utilizará la población `MU284` [@Sar] para tales efectos. En primer lugar suponga, sin pérdida de generalidad, que se planea utilizar, en principio, un diseño de muestreo $\pi$PT (podría ser cualquier otro diseño de muestreo). Utilizando la función `inclusionprobabilities` del paquete `sampling`, se obtienen las probabilidades de inclusión inducidas por este diseño de muestreo con probabilidad proporcional a la característica de información auxiliar P75. Nótese que el tamaño de la muestra es de 50 unidades.
+
+```{r}
+library(sampling)
+data(MU284)
+attach(MU284)
+pik <- inclusionprobabilities(P75, 50)
+sum(pik)
+```
+
+Suponga que deseamos obtener una muestra balanceada con respecto a todas las características de información auxiliar dadas por P75, CS82, SS82, S82, ME84 Y REV84. Para esto, incluimos todos los valores poblacionales observados de estas variables de balanceo en una matriz. A continuación, utilizamos la función `samplecube` para obtener una muestra que sea balanceada con respecto a todos los totales poblacionales de todas las variables de balanceo.
+
+```{r}
+X=cbind(P75, CS82, SS82, S82, ME84, REV84)
+s <- samplecube(X, pik, order = 1, comment = TRUE)
+```
+
+Nótese que la salida de esta función es muy explicativa. Para este caso particular, se necesito tanto de la fase de vuelo como de la fase de aterrizaje. Al final de la fase de vuelo, quedaban seis individuos cuyas probabilidades no eran cero o uno. Por lo tanto, el método del cubo, necesita de la fase de aterrizaje para alcanzar convergencia. Además de los comentarios para cada fase del método del cubo, esta función también devuelve una tabla que describe la calidad del procedimiento en términos de la desviación relativa. El lector no debe pasar por alto la calidad del balanceo. Es simplemente extraordinario que se consiga tal exactitud con una muestra de tan sólo 50 unidades.
+:::
+
+## Marco y Lucy
+
+<!-- index: Marco y Lucy -->Este capítulo cierra con la implementación del método del cubo para la selección de muestras balanceadas. Suponga que el investigador conoce el comportamiento estructural de algunas características de interés; a saber, Ingreso y Número de empleados. Para seleccionar una muestra balanceada, en principio, fijas las probabilidades de inclusión de acuerdo a un diseño de muestreo aleatorio simple. Como de costumbre, inserta la matriz de observaciones de las características de interés en la función `samplecube`.
+
+```{r, warning=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+attach(BigLucy)
+n <- 2000
+N <- nrow(BigLucy)
+pik <- rep(n/N, N)
+X <- cbind(Income, Employees)
+
+s <- samplecube(X, pik, order=1, comment=TRUE)
+```
+
+Para este caso particular, la función `samplecube` que implementa el método del cubo necesitó tanto de la fase de vuelo como de la fase de aterrizaje para alcanzar la convergencia. La fase de vuelo concluyó con 2 elementos cuyas probabilidades de inclusión no eran cero o uno. Sin embargo, después de la fase de aterrizaje una muestra balanceada fue seleccionada. Una vez más no puede pasar inadvertida la calidad del balanceo.
+
+Después de haber seleccionado la muestra balanceada, es tiempo de obtener las estimaciones pertinentes. En general, es posible utilizar la función `E.piPS` del paquete `TeachingSampling` puesto que el marco general del muestreo balanceado se acomoda a las características que rigen la estimación de Horvitz-Thompson.
+
+```{r, warning=FALSE, message=FALSE}
+sam <- (1:length(pik))[s == 1]
+pik.s <- pik[sam]
+muestra <- BigLucy[sam,]
+attach(muestra)
+estima <- data.frame(Income, Employees, Taxes)
+
+E.piPS(estima,pik.s)
+```
+
+Los resultados que arroja la función son óptimos, en el sentido de que además de obtener estimaciones cercanas al total poblacional para la característica de interés también mantiene los totales poblaciones de las características de interés en el diseño de muestreo.
+
+### Algunas preguntas
+
+<!-- index: Muestreo balanceado -->@Til responde algunas preguntas que surgen directamente con respecto al funcionamiento de este nuevo método en la práctica:
+
+- **¿Por qué no usar calibración en vez de balanceo?**\\
+La estratificación es un caso particular del muestreo balanceado, la post-estratificación es un caso particular de la calibración. En estratificación y balanceo, los pesos no son aleatorios. Esto hace que sea una mejor estrategia. La calibración tiene la ventaja de sólo requerir el conocimiento de los totales poblacionales de las variables auxiliares, mientras que en el balanceo se require el conocimiento de los valores de las variables auxiliares para todas las unidades de la población.
+- **¿Qué tan precisa es la aproximación de la estimación en muestreo balanceado?**\\
+@DevTille2004 han comprobado que bajo condiciones de regularidad realistas en la vida práctica se tiene que
+$$
+\left|\frac{\hat{t}_{x_q,\pi}-t_{xq}}{t_{xq}}\right|<O(p/N)\leq o_p(\sqrt{1/N})
+$$
+para todo $q=1,\ldots,Q$.
+- **¿Cómo estimar la varianza?**\\
+Mediante una técnica de residual desarrollada en @DT05. Esta técnica es comparable con la técnica usada para calcular la varianza del estimador de calibración y ha sido validada mediante un conjunto de simulaciones.
+- **¿Se puede usar balanceo y calibración simultáneamente?**\\
+Ambas técnicas pueden ser usadas juntas. No hay ninguna contradicción. La mejor estrategia muestral consistiría en usarlas juntas. De hecho la calibración puede arreglar el problema del redondeo después del balanceo. Más aún, se pueden utilizar distintas variables en la calibración de las usadas en el balanceo.
+- **¿Qué software usar?**\\
+En SAS-IML, existen dos paquetes (INSEE y University of Neuchâtel), en R el paquete `sampling` permite usar el método del cubo. Estos softwares están disponibles en internet de manera gratuita.
+
+## Ejercicios
+
+1. Suponga un diseño de muestreo de tamaño $n=2$ para una población de tamaño $N=3$ con una característica de información auxiliar tal que $x_k=\pi_k$ (k=1,2,3) y además $\pi_1+\pi_2+\pi_3=2$
+- Escriba las ecuaciones de balanceo.
+- Calcule las entradas de la matriz $\mathbf{A}$ (sección 15.2.1).
+- Defina el espacio nulo de la matriz $\mathbf{A}$; es decir $\ker(\mathbf{A})$.
+- Obtenga la forma explícita de $Q=\boldsymbol{\pi}+\ker(\mathbf{A})$.
+1. Suponga un diseño de muestreo balanceado con $N=8$ y $n=4$. Asuma que, el vector de probabilidades de inclusión de primer orden es
+$$\boldsymbol{\pi}=\left(\frac{1}{9},\frac{2}{9},\frac{3}{9},\frac{4}{9},\frac{5}{9},\frac{6}{9},\frac{7}{9},\frac{8}{9}\right)'$$
+y existen dos variables de balanceo; la primera, $x_{1k}=\pi_k$ y la segunda, $x_{2k}=1$, para todo $k\in U$.
+- Escriba las ecuaciones de balanceo.
+- Calcule las entradas de la matriz $\mathbf{A}$.
+- Si la función de costo es $$Costo_1(\mathbf{s})=\sum_{p=1}^P\frac{(\hat{t}_{x_p,\pi}-t_x)^2}{t_x^2}$$
+Obtenga el costo generado por la fase de aterrizaje para las muestras:\\
+$\mathbf{s}_1=(1,0,0,0,0,1,1,1)'$.\\
+$\mathbf{s}_2=(0,0,0,1,1,1,0,1)'$.\\
+$\mathbf{s}_3=(0,0,1,1,0,0,1,1)'$.\\
+$\mathbf{s}_4=(0,0,1,1,0,1,1,0)'$.\\
+- Si la función de costo es
+$$Costo_2(\mathbf{s})=(\mathbf{s}-\boldsymbol{\pi})'\mathbf{A}'(\mathbf{AA}')^{-1}\mathbf{A}(\mathbf{s}-\boldsymbol{\pi})$$
+Obtenga el costo generado por la fase de aterrizaje para las anteriores muestras.
+1. Demuestre o refute las siguientes afirmaciones
+- ?Utilizar muestreo balanceado siempre mejora la eficiencia de la estrategia de muestreo?
+- ?Utilizar calibración siempre mejora la eficiencia de la estrategia de muestreo balanceado?
+- ?Utilizar calibración y muestreo balanceado siempre mejora la eficiencia de la estrategia de muestreo?

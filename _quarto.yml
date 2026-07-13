@@ -1,0 +1,55 @@
+project:
+  type: book
+  output-dir: docs
+  resources:
+    - .nojekyll
+
+book:
+  title: "Estrategias de muestreo"
+  subtitle: "Diseño de encuestas y estimación de parámetros"
+  author: "Andrés Gutiérrez"
+  date: today
+  date-format: long
+  chapters:
+    - index.qmd
+    - chapters/cap1.qmd
+    - chapters/cap2.qmd
+    - chapters/cap3.qmd
+    - chapters/cap4.qmd
+    - chapters/cap5.qmd
+    - chapters/cap6.qmd
+    - chapters/cap7.qmd
+    - chapters/cap8.qmd
+    - chapters/cap9.qmd
+    - chapters/cap10.qmd
+    - chapters/cap11.qmd
+    - chapters/cap12.qmd
+    - chapters/cap13.qmd
+    - chapters/cap14.qmd
+    - chapters/cap15.qmd
+  page-footer: "Estrategias de muestreo"
+
+bibliography: references.bib
+lang: es
+
+crossref:
+  chapters: true
+  eq-prefix: ecuación
+  fig-prefix: figura
+  tbl-prefix: tabla
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    include-after-body: scripts/number-callouts.html
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto

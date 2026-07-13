@@ -1,0 +1,856 @@
+```{r, echo=FALSE, message=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+library(ggplot2)
+library(gridExtra)
+options(scipen = 100, digits = 2)
+set.seed(12345)
+library(knitr)
+opts_chunk$set(cache = TRUE)
+knit_theme$set("acid")
+```
+
+# Encuestas multi-propósito
+
+::: {.blockquote}
+Si los estadísticos teóricos hacen caso omiso al reto de enfrentar las encuestas multi-propósito, entonces el vacío existente entre ellos y los estadísticos prácticos se hará cada vez más grande. El diseño y análisis de encuestas multivariantes debe ser una de las próximas áreas de mayor investigación.
+@Smith76
+:::
+
+Este capítulo reúne una introducción a la motivación de investigación que hizo uno de los personajes más influyentes en la escena estadística mundial, el profesor Smith [@Smith76], quien discutió acerca de los fundamentos de la teoría del muestreo, desde sus primeros años hasta las últimas tendencias en cuanto a predicción y estimación en poblaciones finitas. En sus múltiples artículos, este autor afirmó que en el muestreo los problemas univariados (estimación de un parámetro desconocido para una sola característica de interés) se encuentran en unas cuantas ramas de aplicación, limitadas a encuestas de opinión pública, muestreo industrial de aceptación y muestreo en auditorías. Sin embargo, la gran mayoría de encuestas que se realizan alrededor del mundo son de tipo multi-propósito (estimación de varios parámetros desconocidos para varias características de interés). El profesor Smith tuvo en cuenta la limitación que presentan los grandes clásicos del muestreo al no considerar este tipo de estudios ni incluirlos en sus páginas y llamó la atención a los teóricos del muestreo a realizar investigación formal en este tipo de tópicos como lo muestra la motivación al principio del capítulo.
+
+## Introducción
+
+<!-- index: Encuestas multi-propósito -->La mayoría de aplicaciones en encuestas por muestreo involucran múltiples variables de estudio. En este breve apartado, se presenta un marco de referencia para la  estimación conjunta de los parámetros de interés, bajo algunos diseños de muestreo. Con respecto al diseño de muestreo, en @Hol y @Hol2 se ha desarrollado la teoría pertinente para la sección de muestras probabilísticas en encuestas multi-propósito, y con respecto a la estimación multi-paramétrica, en @Gut2009 se propone un sistema general de estimación basado en resultados clásicos de la teoría de los modelos lineales y del álgebra lineal.
+
+El propósito de un estudio por muestreo está enfocado en obtener información acerca de una población finita particular por medio de la estimación de parámetros poblacionales como medias, totales o proporciones o razones. Sin embargo, la mayoría de encuestas no involucra una sola característica sino varias características de interés. Los libros clásicos de muestreo parecen omitir el hecho de que raras veces se planea una encuesta con el fin de estimar un sólo parámetro y la teoría desarrollada por los investigadores del muestreo está enfocada en la búsqueda de estrategias de muestreo que intentan estimar un parámetro. Existen muchas ventajas desarrolladas en estos tópicos, como se vio en los capítulos anteriores; sin embargo, todas están motivadas bajo el supuesto de que el investigador está interesado en la estimación de un sólo parámetro. Como lo afirma @Hol, ?una encuesta típica en el sector económico involucra varias características de interés y varios parámetros objetivos... con múltiples parámetros de interés y múltiples requerimientos de precisión, el estadístico debería escoger un diseño de muestreo que tenga en cuenta las anteriores características?.
+
+Una encuesta puede ser divida en dos etapas: la etapa de diseño y la etapa de estimación. El trabajo de Anders Holmberg durante la década pasada está enfocado en la búsqueda de un diseño de muestreo que induzca probabilidades de inclusión desiguales y que sea óptimo en el sentido de que un haya un aumento significativo en la precisión de cada característica de interés. Este capítulo está enfocado en resumir las propuestas de diseño de muestreo y divulgar una posible solución al problema de la estimación multi-paramétrica por medio de un acercamiento matricial para brindar al lector un enfoque exhaustivo de estimación conjunta en muestreo. Aunque los resultados de este capítulo son simples, éstos ofrecen una herramienta poderosa para el planeamiento de estrategias de muestreo en encuestas multi-propósito. En primera instancia, se propondrá el enfoque de estimación en el caso de contar con múltiples características de información auxiliar. Más adelante, se resumirán los resultados de investigación de Holmberg en cuanto al diseño de muestreo de una estrategia que involucra varias características de interés. Por último, el capítulo cierra con un ejemplo numérico que devela el enfoque matricial y sus ventajas en encuestas multi-propósito.
+
+## Estimación de varios parámetros
+<!-- index: Estimación de varios parámetros -->
+
+Suponga que la encuesta involucra el estudio de $Q$ características de interés. Asuma que el $k$-ésimo elemento $(k\in U)$ está asociado a un vector de $Q$ características de interés, $\mathbf{y}_k=(y_{k1},\ldots,y_{kQ})$ cuyos valores son desconocidos para la población finita. De esta manera, la siguiente matriz será llamada la **matriz de interés**.
+
+\clearpage
+
+$$
+\mathbf{Y}_U=\left(
+             \begin{array}{cccc}
+               y_{11} & y_{12} & \ldots & y_{1Q} \\
+               \vdots & \vdots & \ddots & \vdots \\
+               y_{k1} & y_{k2} & \ldots & y_{kQ} \\
+               \vdots & \vdots & \ddots & \vdots \\
+               y_{N1} & y_{N2} & \ldots & y_{NQ} \\
+             \end{array}
+           \right)
+           =\left(
+           \begin{array}{ccccc}
+              \mathbf{y}^1 & \mathbf{y}^2 & \ldots & \mathbf{y}^Q \\
+            \end{array}
+            \right)
+$$
+
+Note que la entrada $y_{kq}$ se refiere al valor de la $q$-ésima característica de interés en el $k$-ésimo elemento, con $k\in U$ y $q=1,\ldots,Q$. En un contexto de inferencia basada en el diseño de muestreo, $\mathbf{y}^q$ no es considerado como un vector aleatorio, puesto que sus componentes son considerados como parámetros fijos aunque desconocidos. De esta manera, los valores de cada característica de interés no son necesariamente continuos como el ingreso, el peso o la estura sino también discretos como indicadores de subgrupos poblacionales como dominios, estratos o post-estratos. De esta manera, la matriz $\mathbf{Y}_U$ puede ser vista como una matriz de valores mixtos.
+
+El objetivo es estimar los $Q$ componentes del vector de totales definido por la siguiente expresión
+$$
+\mathbf{t}=(t_1,t_2,...,t_Q)'=\mathbf{Y}'_U\mathbf{1}_N,
+$$
+
+donde $\mathbf{1}_N=(1,1,\ldots,1)_{N\times 1}'$ y $t_q=\sum_{k\in U}y_{kq}$ es el total poblacional de la $q$-ésima característica de interés. Cuando la muestra de tamaño $n$ es seleccionada, entonces $y_{kq}$ es observado ($k\in S$) y es posible definir la siguiente matriz
+$$
+\mathbf{Y}_s=\left(
+             \begin{array}{cccc}
+               y_{11} & y_{12} & \ldots & y_{1Q} \\
+               \vdots & \vdots & \ddots & \vdots \\
+               y_{k1} & y_{k2} & \ldots & y_{kQ} \\
+               \vdots & \vdots & \ddots & \vdots \\
+               y_{n1} & y_{n2} & \ldots & y_{nQ} \\
+             \end{array}
+           \right).
+$$
+
+Nótese que cuando $s=U$, $\mathbf{Y}_U=\mathbf{Y}_s$. De esta manera, la matriz de probabilidades de inclusión está definida por la siguiente expresión
+$$
+\boldsymbol{\Pi}=diag(\pi_1, \pi_2, ..., \pi_n),
+$$
+
+En este orden de ideas, el estimador de Horvitz-Thompson del vector de totales $\mathbf{t}$ se define como
+$$
+\widehat{\mathbf{t}}_{\pi}=(\widehat{t}_{1,\pi}, \widehat{t}_{2,\pi},...,\widehat{t}_{Q,\pi})'= \mathbf{Y}_s'\boldsymbol{\Pi}^{-1}\mathbf{1}_n,
+$$
+
+con $\mathbf{1}_N=(1,1,\ldots,1)_{n\times 1}'$ y $\widehat{t}_{q,\pi}= \sum_{k \in s}y_{kq}/\pi_k$ es el estimador de Horvitz-Thompson de $t_q$. Es fácil probar que $\widehat{\mathbf{t}}_{\pi}$ corresponde a un estimador insesgado para $\mathbf{t}$, y su matriz de varianzas está dada por
+$$
+\mathbf{V}(\widehat{\mathbf{t}}_{\pi})=E(\widehat{\mathbf{t}}_{\pi}-\mathbf{t})(\widehat{\mathbf{t}}_{\pi}-\mathbf{t})'.
+$$
+
+Nótese que, si $N\geq q$, entonces $\mathbf{V}(\widehat{\mathbf{t}}_{\pi})$ será una matriz simétrica y definida positiva cuyo elemento $qq'$ es
+$$
+\sum_{k\in U}\sum_{l\in U}
+\Delta_{kl}\frac{y_{kq}}{\pi_k}\frac{y_{lq'}}{\pi_l},
+$$
+
+con $\Delta_{kl}=\pi_{kl}-\pi_k\pi_l$. Si $s\neq U$ es imposible calcular el valor de la anterior expresión. Sin embargo, si $n\geq q$, la varianza puede ser estimada mediante una matriz simétrica y definida positiva $\widehat{\mathbf{V}}(\widehat{\mathbf{t}}_{\pi})$ cuyo elemento $qq'$ es
+$$
+\sum_{k\in S}\sum_{l\in s}
+\frac{\Delta_{kl}}{\pi_{kl}}\frac{y_{kq}}{\pi_k}\frac{y_{lq'}}{\pi_l}.
+$$
+
+En algunos casos, el requerimiento de la encuesta es la estimación del vector de medias poblacionales dado por
+$$
+\bar{\mathbf{y}}=\frac{1}{N}\mathbf{t}.
+$$
+
+Por lo tanto, un estimador insesgado para $\bar{\mathbf{y}}$ es
+$$
+\bar{\mathbf{y}}_{\pi}=\frac{1}{N}\widehat{\mathbf{t}}_{\pi},
+$$
+
+cuya matriz de varianzas será estimada insesgadamente por $\frac{1}{N^2}\widehat{\mathbf{V}}(\widehat{\mathbf{t}}_{\pi})$. si el tamaño poblacional es desconocido, entonces puede ser estimada insesgadamente usando los principio del estimador de Horvitz-Thompson, tal que
+$$
+\widehat{N}_{\pi}=\mathbf{1}_n'\boldsymbol{\Pi}^{-1}\mathbf{1}_n.
+$$
+
+Note que la eficiencia computacional podría aumentarse con la incorporación de este enfoque matricial puesto que la estimación de varios parámetros de interés se realiza mediante una sola operación algebraica.
+
+## Algunos diseños de muestreo
+
+<!-- index: Estimación de varios parámetros -->En esta sección se introducen algunos ejemplos de estimación de varios parámetros de interés bajo los diseños de muestreo más comunes en la teoría.
+
+::: {.callout-tip title="Resultado"}
+Bajo el diseño de muestreo Bernoulli, el vector de totales $\mathbf{t}$ es estimado insesgadamente por
+$$
+\widehat{\mathbf{t}}_{\pi}=\frac{1}{\pi}\mathbf{Y}_s'\mathbf{1}_n
+$$
+
+y su matriz de varianzas es estimada insesgadamente por
+$$
+\widehat{\mathbf{V}}(\widehat{\mathbf{t}}_{\pi})=\frac{1}{\pi}\left(\frac{1}{\pi}-1\right)
+\mathbf{Y}_s\mathbf{Y}_s'.
+$$
+
+:::
+
+::: {.callout-tip title="Resultado"}
+Aunque el diseño de muestreo aleatorio simple sin reemplazo no es el más utilizado en la práctica, sí es utilizado en las últimas etapas de muestreo en diseños complejos. Bajo este diseño de muestreo $\mathbf{t}$ es estimado insesgadamente por
+$$
+\widehat{\mathbf{t}}_{\pi}=\frac{N}{n}\mathbf{Y}_s'\mathbf{1}_n.
+$$
+
+y su matriz de covarianzas es estimada insesgadamente por
+$$
+\widehat{\mathbf{V}}(\widehat{\mathbf{t}}_{\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)
+\mathbf{S}_y,
+$$
+
+con $\mathbf{S}_y$, la matriz de covarianzas de las característica de interés calculada con las observaciones recolectadas en la muestra seleccionada. Por otro lado, $\bar{\mathbf{y}}$ es estimada insesgadamente por
+$$
+\bar{\mathbf{y}}_{\pi}=\frac{1}{N}\widehat{\mathbf{t}}_{\pi}=\frac{1}{n}\mathbf{Y}_s'\mathbf{1}_n.
+$$
+
+y su matriz de covarianzas es estimada insesgadamente mediante la siguiente expresión
+$$
+\widehat{\mathbf{V}}(\bar{\mathbf{y}}_{\pi})=\frac{1}{N^2}\widehat{\mathbf{V}}(\widehat{\mathbf{t}}_{\pi}).
+$$
+
+:::
+### Estimación en dominios
+
+<!-- index: Estimación en dominios -->Si los requerimientos de la encuesta están relacionados con la estimación del tamaño absoluto de un dominio o del total de alguna o varias características de interés en tal dominio, entonces se propone la siguiente construcción metodológica. Suponga que la población está particionada en $D$ dominios tales que $U={U_1,\ldots,U_d,\ldots,U_D}$. Entonces, se define la** matriz indicadora de dominios** como
+$$
+\mathbf{Z}=\left(
+             \begin{array}{ccccc}
+               z_{11} & \ldots & z_{1d} & \ldots & z_{1D} \\
+               \vdots & \ddots & \vdots & \ddots & \vdots \\
+               z_{k1} & \ldots & z_{kd} & \ldots & z_{kD} \\
+               \vdots & \ddots & \vdots & \ddots & \vdots \\
+               z_{n1} & \ldots & z_{nd} & \ldots & z_{nD} \\
+             \end{array}
+           \right)
+$$
+
+donde el elemento
+$$
+z_{kd}=
+\begin{cases}
+1       & \text{si $k\in U_d$, y}\\
+0       & \text{en otro caso}
+\end{cases}
+$$
+
+El vector de tamaños absolutos del dominio $d$ está dado por
+$$
+\mathbf{N}_{d}=(N_{1},N_{2},...,N_{D})'
+$$
+
+donde
+$$
+N_{d}=\sum_{k\in U}z_{kd}.
+$$
+
+$\mathbf{N}_{d}$ es estimado insesgadamente por el estimador de Horvitz-Thompson de la siguiente manera
+$$
+\widehat{\mathbf{N}}_{d}=(\widehat{N}_{1},\widehat{N}_{2},...,\widehat{N}_{D})'=\mathbf{Z}'\boldsymbol{\Pi}^{-1}\mathbf{1}_n,
+$$
+
+su matriz de varianzas es estimada insesgadamente por $\widehat{\mathbf{V}}(\widehat{\mathbf{N}}_{d})$, la cual está definida análogamente a (13.2.6).
+
+En muchas ocasiones se requiere de la estimación de los totales de características de interés sobre todos los dominios. De esta forma, el total de la $q$-ésima variable sobre todos los $D$ dominios de interés está dado por
+$$
+\mathbf{t}_{dq}=(t_{1q},t_{2q},...,t_{Dq})'
+$$
+
+y una forma de estimarlo está dada por la siguiente expresión
+$$
+\widehat{\mathbf{t}}_{dq\pi}=(\widehat{t}_{1q\pi},\widehat{t}_{2q\pi},...,\widehat{t}_{Dq\pi})'
+=(\mathbf{y}^q\mathbf{1}_D\odot\mathbf{Z})'\boldsymbol{\Pi}^{-1}\mathbf{1}_n
+$$
+
+En donde, $\mathbf{y}^q$ denota la $q$-ésima columna de la matriz $\mathbf{Y}_s$, $\mathbf{1}_D=(1,\ldots,1)'_{D \times 1}$ y $\odot$ denota el producto matricial de Hadamard.
+
+::: {.callout-tip title="Resultado"}
+Bajo el diseño de muestreo aleatorio simple sin reemplazo, el estimador de Horvitz-Thompson para el vector de tamaños absolutos de los dominios y para el total de la $q$-ésima característica de interés en todos los $D$ dominios están dados por
+$$
+\widehat{\mathbf{N}}_{d}=(N/n)\mathbf{Z}'\mathbf{1}_n,
+$$
+$$
+\widehat{\mathbf{t}}_{dq\pi}=(N/n)(\mathbf{y}^q\mathbf{1}_D\odot\mathbf{Z})\mathbf{1}_n.
+$$
+respectivamente.
+
+:::
+### Estimación en diseños estratificados
+
+<!-- index: Estimación en diseños estratificados -->Para diseños estratificados se tiene el siguiente marco de referencia. La población finita $U$ se divide en $H$ grupos o estratos mutuamente excluyentes $U_1,\ldots,U_h\ldots,U_H$. Note que antes de la recolección de los datos, se conoce la membresía de cada elemento a cada estrato. De esta manera, se selecciona una muestra aleatoria en todos y cada uno de los $H$ estratos existentes en la población finita. Es necesario realizar un ordenamiento matricial en las matrices para obtener estimaciones usando los principios del estimador de Horvitz-Thompson estimator. Por lo tanto, la matriz $\mathbf{Y}_s$ se particiona en $H$ bloques de la siguiente manera
+$$
+\mathbf{Y}_s=\left(
+             \begin{array}{cccc}
+               \mathbf{Y}_{1} \\
+               \vdots \\
+               \mathbf{Y}_{h} \\
+               \vdots \\
+               \mathbf{Y}_{H} \\
+             \end{array}
+           \right),
+$$
+
+donde $\mathbf{Y}_h$ es una submatriz que contiene los valores de cada característica de interés para los elementos que pertenecen al $h$-ésimo estrato, con $h=1,\ldots,H$. Note que $\mathbf{Y}_s\in \mathfrak{R}^{Hn\times Q}$ y $\mathbf{Y}_h\in \mathfrak{R}^{n_h\times Q}$. Definido $\mathbf{n}=(n_1,\ldots,n_H)'$, entonces $n=\mathbf{n}'\mathbf{1}_H=n_1+\cdots+n_H$.
+
+Como de costumbre, el objetivo es la estimación de los $Q$ componentes del vector de totales en el $h$-ésimo estrato dado por
+$$
+\mathbf{t}_h=(t_{1h},t_{2h},...,t_{Qh})'=\mathbf{Y}_h'\mathbf{1}_{N_h},
+$$
+
+Donde $N_h$ es el tamaño del $h$-ésimo estrato. El total poblacional puede ser escrito como
+$$
+\mathbf{t}=(t_1,t_2,...,t_Q)'=\sum_{h=1}^{H}\mathbf{t}_h,
+$$
+
+donde $\mathbf{t}_h$ es estimado insesgadamente por la siguiente expresión
+$$
+\widehat{\mathbf{t}}_{h\pi}=(\widehat{t}_{1h\pi},\widehat{t}_{2h\pi},...,\widehat{t}_{Qh\pi})'=\mathbf{Y}_h'\mathbf{1}_{n_h},
+$$
+
+con $n_h$ el tamaño de la muestra en el $h$-ésimo estrato. Por supuesto, se asume independencia sobre el diseño de muestreo implementado en cada estrato. De esta forma el total poblacional está dado por
+$$
+\widehat{\mathbf{t}}_{\pi}=(\widehat{t}_{1\pi},\widehat{t}_{2\pi},...,\widehat{t}_{Q\pi})'=\sum_{h=1}^{H}\widehat{\mathbf{t}}_h,
+$$
+
+y su matriz de varianzas puede ser escrita como
+$$
+{\mathbf{V}}_{ST}(\widehat{\mathbf{t}}_{\pi})=\sum_{h=1}^{H}{\mathbf{V}}_h(\widehat{\mathbf{t}}_{\pi})
+$$
+
+la cual es estimada insesgadamente por
+$$
+\widehat{{\mathbf{V}}}_{ST}(\widehat{\mathbf{t}}_{\pi})=\sum_{h=1}^{H}\widehat{{\mathbf{V}}}_h(\widehat{\mathbf{t}}_{\pi}).
+$$
+
+::: {.callout-tip title="Resultado"}
+Bajo el diseño de muestreo aleatorio estratificado, el estimador de Horvitz-Thompson para el total poblacional es
+$$
+\widehat{\mathbf{t}}_{\pi}=\sum_{h=1}^H\frac{N_h}{n_h}\mathbf{Y}_h'\mathbf{1}_{n_h},
+$$
+
+y su matriz de covarianzas es estimada insesgadamente por
+$$
+\widehat{\mathbf{V}}_{STSI}(\widehat{\mathbf{t}}_{\pi})=\sum_{h=1}^H\frac{N_h^2}{n_h}\left(1-\frac{n_h}{N_h}\right)\mathbf{S}_{yh},
+$$
+
+con $\mathbf{S}_{yh}$, la matriz de varianzas de las características de interés en la muestra perteneciente al $h$-ésimo estrato.
+
+:::
+## Información auxiliar
+
+<!-- index: Información auxiliar -->Asuma que el $k$-ésimo elemento $(k\in U)$ está asociado con un vector de $P$ características de información auxiliar, contenidas en un vector $\mathbf{x}_k$. Los valores de este vector $\mathbf{x}_k=(x_{k1},\ldots,x_{kP})$ se suponen conocidos para la población finita. De esta manera se tiene la siguiente matriz
+$$
+\mathbf{X}_U=\left(
+             \begin{array}{cccc}
+               x_{11} & x_{12} & \ldots & x_{1P} \\
+               \vdots & \vdots & \ddots & \vdots \\
+               x_{k1} & x_{k2} & \ldots & x_{kP} \\
+               \vdots & \vdots & \ddots & \vdots \\
+               x_{N1} & x_{N2} & \ldots & x_{NP} \\
+             \end{array}
+           \right)
+           =\left(
+           \begin{array}{ccccc}
+              \mathbf{x}^1 & \mathbf{x}^2 & \ldots & \mathbf{x}^P \\
+            \end{array}
+            \right)
+$$
+
+que será llamada la **matriz de información auxiliar**.
+
+### Algunos relaciones
+
+<!-- index: Información auxiliar -->Es posible asumir que existe una relación lineal explícita entre cada uno de los componentes de las características de interés y las características de información auxiliar mediante un modelo de superpoblación $\xi_q$, $q=1,\ldots,Q$, tal que
+$$
+\begin{aligned}
+\underset{(N\times 1)}{\mathbf{Y}^q}&=\underset{(N\times P)}{\mathbf{X}}\underset{(P\times 1)}{\boldsymbol{\beta}^q}+\underset{(N\times 1)}{\mathbf{\boldsymbol{\varepsilon}}^q}.
+\end{aligned}
+$$
+
+El modelo $\xi_q$ tiene las siguientes propiedades:
+$$
+\begin{aligned}
+E_{\xi_q}(\boldsymbol{\varepsilon}^q)&=\mathbf{0} \\
+Var_{\xi_q}(\boldsymbol{\varepsilon}^q)&=\boldsymbol{\Sigma}_q.
+\end{aligned}
+$$
+
+$\Sigma_q$ establece la estructura de varianza del vector $\mathbf{\boldsymbol{\varepsilon}}^q$. Nótese que las anteriores relaciones pueden reescribirse mediante un modelo conjunto $\xi$ tal que
+$$
+\begin{aligned}
+\underset{(N\times Q)}{\mathbf{Y}}&=\underset{(N\times P)}{\mathbf{X}}\underset{(P\times Q)}{\boldsymbol{\beta}}+\underset{(N\times Q)}{\mathbf{\boldsymbol{\varepsilon}}}.
+\end{aligned}
+$$
+
+Este enfoque sugiere que $\mathbf{Y}$, $\mathbf{X}$ y $\boldsymbol{\varepsilon}$ son matrices aleatorias [@GN] definidas en el modelo de superpoblación $\xi$, para el cual $\mathbf{Y}_U$ y $\mathbf{X}_U$ se suponen meras realizaciones de las anteriores matrices aleatorias. Más precisamente, el modelo $\xi$ tiene las siguientes características:
+
+$$
+\begin{aligned}
+E_{\xi}(\boldsymbol{\varepsilon})&=\underset{(N\times Q)}{\mathbf{0}} \\
+Var_{\xi}(\vec \boldsymbol{\varepsilon})&=\underset{(NQ\times NQ)}{\boldsymbol{\Sigma}}=diag(\Sigma_1,\Sigma_2,\ldots,\Sigma_Q)
+\end{aligned}
+$$
+
+Note que el subíndice $\xi$ se refiere a la esperanza bajo la estructura particular que ese modelo de superpoblación induce. En situaciones prácticas, es común asumir $\boldsymbol{\Sigma}_q=\sigma^2_q diag(c_{1q},\ldots,c_{Nq})$, donde  $c_{kq}=f_q(x_{k1},\ldots,x_{kP})$ y $f_q$ es una función de valor real.
+
+El problema de estimar el vector de parámetros $\boldsymbol{\beta}$ se considera brevemente. Sea $D(\mathbf{X})$ una medida de dispersión invariante ante traslaciones tal que $D(\mathbf{X}+\mathbf{K})=D(\mathbf{X})$, con $\mathbf{K}$ una matriz de constantes. Entonces al estimación de $\boldsymbol{\beta}$ corresponderá a aquel vector que minimize la anterior medida de dispersión. Particularmente, $D(\cdot)$ podría estar dada por la varianza total multivariante definida como
+$$
+traza(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta})'(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}).
+$$ {#eq-tra}
+
+Con la anterior elección y recurriendo al método de mínimos cuadrados, (@eq-tra) es minimizada por la siguiente expresión
+$$
+\mathbf{B}=(\mathbf{B}_1,\mathbf{B}_2,\ldots,\mathbf{B}_Q),
+$$
+
+donde
+$$
+\mathbf{B}_q=(\mathbf{X}_U'\Sigma_q^{-1}\mathbf{X}_U)^{-1}(\mathbf{X}_U'\Sigma_q^{-1}\mathbf{Y}_U).
+$$
+
+Nótese que para poder calcular esta estimación, se deben conocer todos los valores poblacionales tanto de la matriz de características de interés como de las características de información auxiliar.
+
+### Información tradicional
+
+<!-- index: Información tradicional -->En aplicaciones reales sólo se selecciona una muestra y no es posible calcular $\mathbf{B}$. Por lo tanto, este valor debe ser estimado recurriendo a la información disponible en la muestra aleatoria seleccionada o realizada. Puede ser demostrado que la siguiente expresión corresponde a un estimador asintóticamente insesgado para $\mathbf{B}$
+$$
+\widehat{\mathbf{B}}=(\widehat{\mathbf{B}_1},\widehat{\mathbf{B}_2},\ldots,\widehat{\mathbf{B}_Q}),
+$$
+
+donde
+$$
+\widehat{\mathbf{B}_q}=(\mathbf{X}_s'\mathbf{A}_q^{-1}\mathbf{X}_s)^{-1}(\mathbf{X}_s'\mathbf{A}_q^{-1}\mathbf{Y}_s),
+$$
+
+$q=1,\ldots,Q$, $\mathbf{X_s}$ similarmente definido como en (13.2.3) y
+$$
+\mathbf{A}_q=\boldsymbol{\Pi}^{1/2}\Sigma_q\boldsymbol{\Pi}^{1/2}.
+$$
+
+Así, el <!-- index: Estimador múltiple de regresión general -->**estimador múltiple de regresión general** para el vector de totales poblacionales se define como
+$$
+\widehat{\mathbf{t}}_{Mgreg}=
+\widehat{\mathbf{t}}_{\mathbf{y}\pi}+\widehat{\mathbf{B}}'(\mathbf{t}_{\mathbf{x}}-\widehat{\mathbf{t}}_{\mathbf{x}\pi}),
+$$
+
+con, $\widehat{\mathbf{t}}_{\mathbf{y}\pi}$, $\widehat{\mathbf{t}}_{\mathbf{x}\pi}$ los estimadores de Horvitz-Thompson de $\mathbf{t_y}$ y $\mathbf{t}_{\mathbf{x}}$, respectivamente. Nótese que $\widehat{\mathbf{B}}_q$ también puede ser escrito como
+$$
+\begin{aligned}
+\widehat{\mathbf{B}}_q&=(\mathbf{X}_s'\mathbf{D}_{\lambda}\mathbf{X}_s)^{-1}\mathbf{X}_s\mathbf{D}_{\lambda}\mathbf{Y}_s\\
+&=\left(\sum_{k \in s}\mathbf{x}_k\lambda_k^q\mathbf{x}_k'\right)^{-1}\left(\sum_{k \in s}\mathbf{x}_k\lambda_k^q\mathbf{y}_k'\right)
+\end{aligned}
+$$
+
+donde $\mathbf{D}_{\lambda}=diag(\lambda_1^q,\ldots,\lambda_n^q)$ y $\lambda_k^q$ son funciones de valor real de las probabilidades de inclusión y de la información auxiliar. Note también que el modelo $\xi$ sirve como un vehículo para encontrar un estimador de regresión general apropiado. Una vez que éste se encuentra o se define, el modelo no será útil para ningún otro propósito de muestreo. Las propiedades del estimador múltiple de regresión general (esperanza y varianza) también se definen desde una perspectiva de inferencia basada en el diseño de muestreo.
+
+#### Algunos casos particulares
+
+<!-- index: Estimador múltiple de regresión general -->Los siguientes escenarios se enuncian bajo un marco de referencia general que resultan ser casos especiales del estimador múltiple de regresión general; en la mayoría de los casos su particularidad está inducida por la escogencia de los valores de $\lambda_k$.
+
+- Si $P=1$, $\mathbf{x}_k=x_k$, y $\lambda_k^q=(\pi_kx_k)^{-1}$, entonces se tiene el estimador de razón para cada característica de interés.
+- Si $P=2$, $\mathbf{x}_k=(1, x_k)'$, y  $\lambda_k^q=(\pi_k)^{-1}$, entonces se tiene el estimador de regresión clásico.
+- Si $P=M (\text{number of post-strata})$, $\mathbf{x}_k=\delta_k=(0,\ldots0,1,0,\ldots,0)'$, y $\lambda_k^q=(\pi_k)^{-1}$, donde $\delta_k$ representa $M$ variables indicadoras (cada indicadora representa la membresía del elemento poblacional al post-estrato en cuestión), entonces tenemos el estimador de post-estratificación.
+
+Nótese que el estimador múltiple de regresión general puede también escribirse de la siguiente manera
+$$
+\widehat{\mathbf{t}}_{Mgreg}=(\mathbf{W}'\odot\mathbf{Y}_s')\mathbf{1}_n,
+$$
+
+donde
+$$
+\mathbf{W}=\left(
+             \begin{array}{cccc}
+               w_{1}^1 & w_1^2 & \ldots & w_1^Q \\
+               \vdots & \vdots & \ddots & \vdots \\
+               w_k^1 & w_k^2 & \ldots & w_k^Q \\
+               \vdots & \vdots & \ddots & \vdots \\
+               w_n^1 & w_n^2 & \ldots & w_n^Q \\
+             \end{array}
+           \right)
+           =\left(
+           \begin{array}{ccccc}
+              \mathbf{w}^1 & \mathbf{w}^2 & \ldots & \mathbf{w}^Q \\
+            \end{array}
+            \right).
+$$
+
+Se tiene que $\mathbf{w}^q=(w_1^q,\ldots,w_k^q,\ldots,w_n^q)'$ es un vector de pesos o ponderaciones tales que
+$$
+w_k^q=\frac{1}{\pi_k}\left(1+\lambda_k^q \mathbf{x}_k'\left(\sum_{k \in s}\mathbf{x}_k\lambda_k^q\mathbf{x}_k'\right)^{-1} (\mathbf{t}_{\mathbf{x}}-\widehat{\mathbf{t}}_{\mathbf{x}\pi})  \right).
+$$
+
+A estos pesos, como se estudió en capítulos anteriores, se le conocen con el nombre de **ponderaciones de calibración** y ellos reproducen con exactitud el vector de totales $\mathbf{t}_{\mathbf{x}}$ cuando son aplicados a la información auxiliar disponible. Entonces, $\mathbf{W}$ es llamada **matriz de calibración**. No es difícil mostrar que la siguiente relación
+$$
+\sum_{k\in S}w_k^q\mathbf{x}_k=\mathbf{X}_s'\mathbf{w}^q=\mathbf{t}_{\mathbf{x}},
+$$
+
+se satisface para cada $q=1,\ldots,Q$. Es interesante observar que $\mathbf{t}_{\mathbf{x}}$ resulta calibrado bajo diferentes escogencias de los pesos $w^q$. Por otra parte, note que
+$$
+\mathbf{w}^q=\boldsymbol{\Pi}^{-1}\mathbf{1}_n+\mathbf{A}_q\mathbf{X}_s\left(\mathbf{X}_s'\mathbf{A}_q\mathbf{X}_s\right)^{-1}
+(\mathbf{t}_{\mathbf{x}}-\widehat{\mathbf{t}}_{\mathbf{x}\pi})
+$$
+
+Cuando se trata de estimación post-estratificada se debe recurrir al uso de una inversa generalizada, acudiendo a la propiedad de que el estimador múltiple de general de regresión es invariante ante cualquier inversa.
+
+### Información auxiliar conjunta
+
+<!-- index: Información auxiliar -->El método de mínimos cuadrados no es el único camino para obtener un estimador múltiple de regresión general. En esta sección, se supone la existencia de una matriz de información conjunta cuya estructura algebraica está definida por la siguiente expresión
+$$
+\mathbf{V}=\left(
+             \begin{array}{cccccccc}
+               y_{11} & y_{12} & \ldots & y_{1Q} & x_{11} & x_{12} & \ldots & x_{1P}\\
+               y_{21} & y_{22} & \ldots & y_{2Q} & x_{21} & x_{22} & \ldots & x_{2P}\\
+               \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+               y_{n1} & y_{n2} & \ldots & y_{nQ} & x_{n1} & x_{n2} & \ldots & x_{nP}\\
+             \end{array}
+           \right).
+$$
+
+El estimador del vector de totales de las características de interés y de las características de información auxiliar está dado por $\widehat{\mathbf{t}}_{\mathbf{v}\pi}$, el cual está definido como
+$$
+\widehat{\mathbf{t}}_{\mathbf{v}\pi}=\mathbf{V}'\boldsymbol{\Pi}^{-1}\mathbf{1}_n.
+$$
+
+De esta forma, suponga que $\widehat{\mathbf{t}}_{\mathbf{v}\pi}$ sigue una distribución normal multivariante con media
+$$
+E\left(\widehat{\mathbf{t}}_{\mathbf{v}\pi}\right)
+=(\mathbf{t}'_{\mathbf{Y}\pi},\mathbf{t}'_{\mathbf{X}\pi})'=\mathbf{t}_{\mathbf{v}},
+$$
+
+y matriz de varianzas definida como
+$$
+V\left(\widehat{\mathbf{t}}_{\mathbf{v}\pi}\right)=\left(
+             \begin{array}{cc}
+               V(\mathbf{\widehat{t}}_{\mathbf{y}\pi}) & C(\mathbf{\widehat{t}}_{\mathbf{y}\pi},\mathbf{\widehat{t}}_{\mathbf{x}\pi})\\
+               C(\mathbf{\widehat{t}}_{\mathbf{y}\pi},\mathbf{\widehat{t}}_{\mathbf{x}\pi}) & V(\mathbf{\widehat{t}}_{\mathbf{x}\pi})\\
+             \end{array},
+           \right),
+$$
+
+donde $V(\mathbf{\widehat{t}}_{\mathbf{y}\pi})$ se considera una matriz simétrica tal que el $j$-ésimo elemento de su diagonal está dado por la varianza de $\widehat{t}_{y_j\pi}$
+$$
+V(\widehat{t}_{y_j\pi})=\sum\sum_U\Delta_{kl}\frac{y_{jk}}{\pi_k}\frac{y_{jl}}{\pi_l},
+$$
+
+y el elemento $ij$, por afuera de su diagonal, está dado por la covarianza de $\widehat{t}_{y_i\pi}$ y $\widehat{t}_{y_j\pi}$,
+$$
+C(\widehat{t}_{y_i\pi},\widehat{t}_{y_j\pi})=\sum\sum_U\Delta_{kl}\frac{y_{ik}}{\pi_k}\frac{y_{jl}}{\pi_l}.
+$$
+
+$V(\mathbf{\widehat{t}}_{\mathbf{x}\pi})$ se define de forma análoga, y $C(\mathbf{\widehat{t}}_{\mathbf{y}\pi},\mathbf{\widehat{t}}_{\mathbf{x}\pi})$, no necesariamente simétrica, es tal que el elemento $ij$ está dado por la covarianza de $\widehat{t}_{y_i\pi}$ and $\widehat{t}_{x_j\pi}$
+$$
+C(\widehat{t}_{y_i}\pi,\widehat{t}_{x_j}\pi)=\sum\sum_U\Delta_{kl}\frac{y_{ik}}{\pi_k}\frac{x_{jl}}{\pi_l}.
+$$
+
+Siguiendo los resultados de inferencia multivariante para poblaciones con distribución normal, la distribución condicional de $\widehat{\mathbf{t}}_{\mathbf{Y}\pi}$ dado $\widehat{\mathbf{t}}_{\mathbf{X}\pi}$ sigue también una distribución normal multivariante con media condicional dada por
+$$
+E(\widehat{\mathbf{t}}_{\mathbf{y}\pi}|\widehat{\mathbf{t}}_{\mathbf{x}\pi})=\mathbf{t}_{\mathbf{y}\pi}+
+C(\mathbf{\widehat{t}}_{\mathbf{y}\pi},\mathbf{\widehat{t}}_{\mathbf{x}\pi})(V(\mathbf{\widehat{t}}_{\mathbf{x}\pi}))^{-1}(\mathbf{t}_{\mathbf{x}}
+-{\widehat{\mathbf{t}}}_{\mathbf{x}\pi}),
+$$ {#eq-cap14-1}
+
+Y varianza condicional dada por
+$$
+V(\widehat{\mathbf{t}}_{\mathbf{y}\pi}|\widehat{\mathbf{t}}_{\mathbf{x}\pi})=V(\mathbf{\widehat{t}}_{\mathbf{y}\pi})-
+C(\mathbf{\widehat{t}}_{\mathbf{y}\pi},\mathbf{\widehat{t}}_{\mathbf{x}\pi})
+(V(\mathbf{\widehat{t}}_{\mathbf{x}\pi}))^{-1}C(\mathbf{\widehat{t}}_{\mathbf{x}\pi},\mathbf{\widehat{t}}_{\mathbf{y}\pi}).
+$$ {#eq-cap14-2}
+
+Note que (@eq-cap14-1) y (@eq-cap14-2) son estimados insesgadamente por
+$$
+\begin{aligned}
+\widehat{\mathbf{t}}_{\mathbf{y}}&=\widehat{\mathbf{t}}_{\mathbf{y}\pi}+
+\widehat{C}(\mathbf{\widehat{t}}_{\mathbf{y}\pi},\mathbf{\widehat{t}}_{\mathbf{x}\pi})
+(\widehat{V}(\mathbf{\widehat{t}}_{\mathbf{x}\pi}))^{-1}(\mathbf{t}_{\mathbf{x}}-{\widehat{\mathbf{t}}}_{\mathbf{x}\pi})\\
+&=\widehat{\mathbf{t}}_{\mathbf{y}\pi}+\widehat{\mathbf{B}}(\mathbf{t}_{\mathbf{x}}-{\widehat{\mathbf{t}}}_{\mathbf{x}\pi})
+\end{aligned}
+$$
+
+y,
+$$
+\widehat{V}(\widehat{\mathbf{t}}_{\mathbf{y}})=V(\mathbf{\widehat{t}}_{\mathbf{Y}\pi})-C(\mathbf{\widehat{t}}_{\mathbf{Y}\pi},
+\mathbf{\widehat{t}}_{\mathbf{X}\pi})(V(\mathbf{\widehat{t}}_{\mathbf{X}\pi}))^{-1}
+C(\mathbf{\widehat{t}}_{\mathbf{X}\pi},\mathbf{\widehat{t}}_{\mathbf{Y}\pi}),
+$$
+
+respectivamente. Por otra parte, observe que (13.4.22) luce como el estimador múltiple de regresión general. Sin embargo, su pendiente, $\widehat{\mathbf{B}}$, sería diferente: mientras la pendiente del estimador de regresión general está dada por el método de mínimos cuadrados, la pendiente de éste último corresponde, según los resultados de la inferencia estadística multivariante, a un conjunto de regresiones múltiples de $\mathbf{X}$ sobre $\mathbf{Y}$. Este estimador del vector de totales de la característica de interés debería ser llamado **estimador óptimo de regresión general** y ha sido estudiado por @CV en el contexto de la inferencia basada en modelos poblacionales para la estimación del total de una sola característica de interés.
+
+## Diseños de muestreo óptimos
+
+<!-- index: Diseños de muestreo óptimos -->En esta sección se aborda el problema de la escogencia de la muestra bajo un criterio unificado que contemple el comportamiento estructural de cada una de las características de interés. Es decir, en la etapa de diseño de una encuesta multi-propósito se debe escoger un diseño de muestreo integral y para esto el enfoque de Holmbersg será considerado. De esta manera, se puede asumir que en la etapa de planeación de la estrategia, es posible contar con la participación de características de información auxiliar y con esto es posible asumir algunas posturas acerca de la validez de las relaciones estadísticas entre las características de interés y las variables de información auxiliar.
+
+### Diseño de muestreo de Holmberg
+
+<!-- index: Diseño de muestreo de Holmberg -->Suponga que las características de interés involucradas en la encuestas tienen todas la misma importancia^[Por supuesto, que es posible asumir variantes ante este supuesto y pueden ser consultadas en @Hol2. sin embargo, en este capítulo se asumirá que la encuesta contempla igual importancia para todas las características de interés.]. Bajo este enfoque se presenta a continuación un breve resumen del diseño de Holmberg utilizado en encuestas multi-propósito:
+
+1. Para cada una de las características de interés, el estadístico, el investigador o el usuario final debe proponer un diseño de muestreo, $p_q(\cdot)$ $(q=1,\ldots,Q)$, que sea óptimo y tal que el tamaño esperado de muestra sea $E(n(S))=n_q$. Por supuesto, note que cada uno de los $Q$ diseños de muestreo pueden ser diferentes; aún más, los tamaños de muestra, en cada diseño propuesto, no necesariamente deben ser equivalentes. Recuerde que el enfoque tradicional, que no se preocupa por la inclusión de varias características de interés, el estadístico debe proponer un sólo diseño de muestreo, el cual se supone que es óptimo para todos los parámetros que se deben estimar.
+
+1. Cada uno de los diseños de muestreo $p_q(\cdot)$ induce un vector de probabilidades de inclusión de tamaño $N$ para cada una de los elementos pertenecientes a la población finita. Estas probabilidades de inclusión deben tomar la siguiente forma [@Hol2, eq. 6]
+$$
+      \pi_{qk}=n_q\frac{\sigma_{qk}}{\sum_{k\in S}\sigma_{qk}},
+$$
+
+con $\sigma_{qk}$ medidas de tamaño (usualmente, aunque no necesariamente, vinculadas a un modelo de regresión lineal). La característica de ?diseño de muestreo óptimo? se obtiene si $\pi_{qk}\propto\sigma_{qk}$. Note que si el diseño de muestreo óptimo para la $q$-ésima característica de interés es un diseño de muestreo aleatorio simple sin reemplazo, entonces $\sigma_{qk}=1$ para todo $k\in U$. Por otra parte, con la escogencia de $\sigma_{qk}^2=\sigma^2_qx_{qk}^{\gamma_q}$, donde $\sigma^2_q$ es una constante y $x_{qk}$ corresponde al valor del $k$-ésimo elemento para alguna variable auxiliar, o una función de muchas variables de información auxiliar, entonces el diseño de muestreo óptimo debe ser proporcional al tamaño de $\sigma_{qk}$  ($\pi$PS). Es decir, $\pi_{qk}\propto x_{qk}^{\gamma_q/2}$.
+
+1. Basado en el criterio de mínima pérdida de eficiencia relativa general (ANOREL, por sus siglas en inglés), el tamaño de muestra óptimo para la encuesta multi-propósito estará dado por
+$$
+      n^*\geq \frac{(\sum_{k\in U}\sqrt{a_{qk}})^2}{(1+c)Q+\sum_{k\in U}a_{qk}},
+$$
+
+donde
+$$
+      a_{qk}= \sum_{q=1}^Q \frac{\sigma^2_{qk}}{\sum_{k\in U}\left( \frac{1}{\pi_{qk}}-1\right)\sigma^2_{qk}},
+$$
+
+y $c$ es el máximo error permitido, bajo el criterio ANOREL, en una escala de cero hasta uno. Nótese que en la práctica, $\sigma^2_{qk}$ es desconocido y debe ser escrito como una función de las variables de información auxiliar. @Hol2 afirma que el conocimiento subjetivo, la experiencia, o fuentes externas pueden ser usadas para obtener acercamientos al valor exacto de esta cantidad.
+
+1. Una vez que el tamaño de la muestra ha sido calculado, se debe crear un sólo vector de probabilidades de inclusión que sea óptimo para todas las características de interés. Este vector es inducido por el diseño de muestreo de Holmberg, el cual minimiza la pérdida de eficiencia relativa general, está dado por la siguiente expresión
+$$
+        \pi_{(opt)k}=\frac{n^*\sqrt{a_{qk}}}{\sum_{k\in U}\sqrt{a_{qk}}}
+$$
+
+1. En la mayoría de los casos, el vector de probabilidades de inclusión resultante, $\boldsymbol{\pi}_{(opt)}=(\pi_{(opt)1},\ldots,\pi_{(opt)N})'$, es un vector de probabilidades de inclusión desiguales. En esta situación, se debe usar un esquema de selección de muestras $\pi$PT
+
+### Un ejemplo numérico
+
+En esta sección, se considera un ejemplo del enfoque multi-propósito. En la etapa de diseño, se escoge un diseño de muestreo óptimo por medio del enfoque de Holmberg [@Hol2] y en la etapa de estimación se implementa el enfoque matricial [@Gut2009]. Ambas etapas se realizan por medio del software computacional R. Particularmente, se introduce el paquete `sampling` para la selección de muestras y la estimación en varios dominios de interés.
+
+Para este propósito, se considera una población real (la población de municipalidades suizas MU281 disponible en el apéndice B de @Sar). De esta forma, es posible planear una encuesta multi-propósito en donde las características de interés y los dominios de interés son provistos de antemano y en donde es posible tener cierta clase de creencias acerca del comportamiento estructural de la población y acerca de la relación entre las características de interés y las de información auxiliar. Nótese que no se quiere presentar un diseño de muestreo perfecto, pero más bien uno que ilustre el desarrollo práctico de la teoría en una encuesta multi-propósito. Las características de interés son:
+
+| $y_1$ | = | P85 | (Población en 1985) |
+| --- | --- | --- | --- |
+| $y_2$ | = | RMT85 | (Impuestos devengados por los municipios en 1985) |
+| $y_3$ | = | REV84 | (Valores de bienes raíces en 1984) |
+
+Las características de información auxiliar son:
+
+| $x_1$ | = | P75 | (Población en 1975) |
+| --- | --- | --- | --- |
+| $x_2$ | = | S82 | (Número de curules en el consejo de los municipios en 1982) |
+
+Para la estimación por dominios se utiliza la siguiente variable:
+
+| $z$ | = | REG | (indicador de región geográfica) |
+| --- | --- | --- | --- |
+
+Se utilizó el siguiente código computacional para especificar las características de la encuesta.
+
+```{r}
+library(sampling)
+data(MU284)
+MU281 <- MU284[MU284$RMT85 <= 3000,]
+attach(MU281)
+
+Y1 <- P85
+Y2 <- RMT85
+Y3 <- REV84
+X1 <- P75
+X2 <- S82
+Z  <- REG
+```
+
+Para tener algún grado de certeza acerca de las bondades de la estimación se tienen a la mano los totales de las características de interés y de información auxiliar.
+
+```{r}
+Ty <- c(sum(Y1), sum(Y2), sum(Y3))
+Tx <- c(281, sum(X1), sum(X2))
+
+Ty
+Tx
+```
+
+Ahora, suponiendo que la importancia de las tres características de interés es la misma, entonces a continuación se describe el enfoque de Holmberg para este caso particular:
+
+1. En la población MU281, el tamaño poblacional es $N=281$. Suponga que el estadístico considera que para cada una de las tres características de interés el tamaño de la muestra debe ser igual a 100.
+  
+```{r}
+N <- 281
+n <- 100
+```
+
+1. Asuma que, mediante conocimiento de fuentes externas, el estadístico asume que los mejores diseños de muestreo, en el sentido óptimo, son: Para $y_1$, un diseño de muestreo $\pi$PT con $\pi_{1k}\propto x_{1k}^{0.7}$, para $y_2$, un diseño de muestreo $\pi$PT con $\pi_{2k}\propto x_{1k}$ y por último para $y_3$, un diseño de muestreo aleatorio simple.
+
+```{r}
+sigy1 <- sqrt(X1^(1.4))
+sigy2 <- sqrt(X1^(2))
+sigy3 <- rep(1,N)
+
+pik1 <- n * sigy1 / (sum(sigy1))
+pik2 <- n * sigy2 / (sum(sigy2))
+pik3 <- n * sigy3 / (sum(sigy3))
+```
+
+1. El tamaño de muestra óptimo basado en el criterio ANOREL para este caso multiparamétrico sería de $n^*=108$. El siguiente código así lo comprueba.
+```{r}
+a1 <-  sigy1 ^ 2 / (sum(((1 / pik1) - 1) * sigy1 ^ 2))
+a2 <-  sigy2 ^ 2 / (sum(((1 / pik2) - 1) * sigy2 ^ 2))
+a3 <-  sigy3 ^ 2 / (sum(((1 / pik3) - 1) * sigy3 ^ 2))
+aqk <- a1 + a2 + a3
+
+n.st <- ((sum(sqrt(aqk))) ^ 2) / ((1 + 0.03) * 3 + (sum(aqk)))
+n.st <- as.integer(n.st)
+n.st
+```
+
+1. El vector de probabilidades de inclusión óptimas para las tres características de interés está dado por el siguiente código. Nótese que la suma de estas en la población equivale al tamaño de muestra.
+
+```{r}
+pikopt <- n.st * sqrt(aqk) / sum(sqrt(aqk))
+sum(pikopt) == n.st
+```
+
+1. Como las entradas del vector de probabilidades de inclusión resultante son desiguales, entonces se debe seleccionar la muestra con algún diseño de muestreo de orden (probabilidades de inclusión desiguales y tamaño de muestra fijo). La función `UPopips` del paquete `sampling` selecciona una muestra con las anteriores características. Una vez que la muestra se selecciona, se utiliza la función `getdata` para extraer los datos observados.
+
+```{r, warning=FALSE}
+sam <- UPopips(pikopt, "exponential")
+sel <- sam == 1
+head(getdata(MU281, sam))
+```
+
+Cuando la muestra es seleccionada, el estadístico se enfrenta al problema de la estimación multi-paramétrica sobre las características de interés. Es posible escribir un código computacional para lograr la estimación de los parámetros de interés (forma tradicional) o escribir un código computacional una sola vez, basado en el enfoque matricial. Para el ejemplo de la población MU281, para la cual se obtuvieron probabilidades de inclusión óptimas, $\pi_{(opt)k}$, el estimador de Horvitz-Thompson para el vector de totales de las características de interés, para el vector de totales de las características de información auxiliar y para el tamaño poblacional se calcula mediante el siguiente código.
+
+```{r}
+Ys <- cbind(Y1, Y2, Y3)[sel, ]
+Xs <- cbind(1, X1, X2)[sel, ]
+PI <- diag(pikopt[sel])
+ones <- rep(1, sum(sel))
+
+TyHT <- t(Ys) %*% solve(PI) %*% ones
+TxHT <- t(Xs) %*% solve(PI) %*% ones
+NHT <- t(ones) %*% solve(PI) %*% ones
+```
+
+El resultado de la ejecución del anterior código es un vector de totales estimados. En particular, la estimación de los totales de las características de interés está dado por
+
+```{r}
+TyHT
+```
+
+Si uno o varios dominios de interés están involucrados en la etapa de estimación, el enfoque matricial da un método simple, pero exhaustivo y efectivo, de estimación. El dominio de interés para este caso en particular corresponde a la variable `REG` la cual contiene 8 categorías geográficas. Entonces, es posible obtener estimaciones de los parámetros de interés discriminadas por estas regiones. Con el uso de la función `disjunctive` del paquete `sampling`, es posible crear la matriz de indicadores para los dominios dada en (13.3.7) y obtener las estimaciones correspondientes a (13.3.11) y (13.3.13).
+
+```{r}
+Z <- disjunctive(Z)[sel, ]
+NdHT <- t(Z) %*% solve(PI) %*% ones
+Ty1d <- t(Ys[, 1] * Z) %*% solve(PI) %*% ones
+Ty2d <- t(Ys[, 2] * Z) %*% solve(PI) %*% ones
+Ty3d <- t(Ys[, 3] * Z) %*% solve(PI) %*% ones
+```
+
+También es posible reunir los resultados de las estimaciones por medio de una sencilla tabla de datos dada por:
+
+```{r}
+TydHT <- data.frame(NdHT, Ty1d, Ty2d, Ty3d)
+TydHT
+```
+
+Si el estadístico sospecha que es posible utilizar un enfoque de inferencia asistido por modelos de superpoblación, entonces se deben establecer las relaciones entre las características de información auxiliar y las características de interés por medio de un modelo. En este ejemplo particular, existen tres modelos, $\xi_q$ $(q=1,2,3)$, involucrados en un modelo general $\xi$. La relación es como lo dicta la siguiente expresión:
+$$
+Y_q=\beta_{q0}+\beta_{q1}X_1+\beta_{q2}X_2+\boldsymbol{\varepsilon}_i \ \ \ \ \ \ \ q=1,2,3.
+$$
+
+Nótese que $E_{\xi_i}(\boldsymbol{\varepsilon}_i)=0$ y que la estructura de varianza de los modelos anteriores es inducida por el paso número dos del diseño de Holmberg que en particular está dado por
+$$
+\begin{aligned}
+\Sigma_1&=\sigma^2_1 diag(x_{11},x_{12},\ldots,x_{1N})^{1.4}\\
+\Sigma_2&=\sigma^2_2 diag(x_{11},x_{12},\ldots,x_{1N})^{2}\\
+\Sigma_3&=\sigma^2_3 \mathbf{I}_{N\times N}
+\end{aligned}
+$$
+
+Entonces, el modelo general toma la siguiente forma
+
+$$
+\begin{aligned}
+\left(
+  \begin{array}{ccc}
+    Y_{11} & Y_{21} & Y_{31} \\
+    Y_{12} & Y_{22} & Y_{32} \\
+    \vdots & \vdots & \vdots \\
+    Y_{1N} & Y_{2N} & Y_{3N} \\
+  \end{array}
+\right)
+&=
+\left(
+  \begin{array}{ccc}
+    1 & X_{11} & X_{21} \\
+    1 & X_{12} & X_{22} \\
+    \vdots & \vdots & \vdots \\
+    1 & X_{1N} & X_{2N} \\
+  \end{array}
+\right)
+\left(
+  \begin{array}{ccc}
+    \beta_{10} & \beta_{20} & \beta_{30} \\
+    \beta_{11} & \beta_{21} & \beta_{31} \\
+    \beta_{12} & \beta_{22} & \beta_{32} \\
+  \end{array}
+\right)\notag\\
+&+
+\left(
+  \begin{array}{ccc}
+    \varepsilon_{11} & \varepsilon_{21} & \varepsilon_{31} \\
+    \varepsilon_{12} & \varepsilon_{22} & \varepsilon_{32} \\
+    \vdots & \vdots & \vdots \\
+    \varepsilon_{1N} & \varepsilon_{2N} & \varepsilon_{3N} \\
+  \end{array}
+\right)
+\end{aligned}
+$$
+
+De esta manera, la estimación de la matriz de coeficientes de regresión en la población finita, que involucra la estructura de varianza de cada modelo, dada en (13.4.7) se calcula mediante el siguiente código:
+
+```{r}
+A1 <- diag(pikopt[sel] * Xs[, 2]^(1.4))
+B1 <- (solve(t(Xs) %*% A1 %*% Xs)) %*% (t(Xs) %*% A1 %*% Ys[, 1])
+A2 <- diag(pikopt[sel] * Xs[, 2]^(2))
+B2 <- (solve(t(Xs) %*% A2 %*% Xs)) %*% (t(Xs) %*% A2 %*% Ys[, 2])
+A3 <- diag(pikopt[sel])
+B3 <- (solve(t(Xs) %*% A3 %*% Xs)) %*% (t(Xs) %*% A3 %*% Ys[, 3])
+
+B <- matrix(c(B1, B2, B3), ncol = 3, nrow = 3)
+B
+```
+
+El siguiente paso es implementar el estimador múltiple de regresión general para los totales de interés dado (13.4.10). El código computacional requiere sólo de una linea para la realización del cálculo como se muestra a continuación.
+
+```{r}
+TyMgreg <- TyHT + t(B) %*% (Tx - TxHT)
+TyMgreg
+```
+
+Este estimador puede tomar distintas formas. Entre otras, puede ser reescrito de forma simplificada como en (13.4.13). Sin embargo, es necesario calcular antes la matriz de calibración dada por la expresión (13.4.14). el siguiente código muestra la implementación de la teoría
+
+```{r}
+w1 <- solve(PI) %*% ones + (A1 %*% Xs) %*% (solve(t(Xs) %*% A1 %*% Xs)) %*% (Tx - TxHT)
+w2 <- solve(PI) %*% ones + (A2 %*% Xs) %*% (solve(t(Xs) %*% A2 %*% Xs)) %*% (Tx - TxHT)
+w3 <- solve(PI) %*% ones + (A3 %*% Xs) %*% (solve(t(Xs) %*% A3 %*% Xs)) %*% (Tx - TxHT)
+W <- cbind(w1, w2, w3)
+TyMgreg <- t(W * Ys) %*% ones
+TyMgreg
+```
+
+El principio de calibración mostrado en (13.4.16) puede ser verificado fácilmente para cada columna de la matriz de calibración. Particularmente para la segunda columna el resultado se mantiene.
+
+```{r}
+t(w2) %*% Xs
+```
+
+De esta manera, se ha mostrado cómo planear y desarrollar una encuesta multi-propósito; en primera instancia, usando el diseño de muestreo de Holmberg en la etapa de diseño y el enfoque matricial en la etapa de estimación.
+
+## Marco y Lucy
+
+<!-- index: Marco y Lucy -->Al momento de planear una encuesta, la forma tradicional se enfoca en una sola variable de interés, la cual es insuficiente para aquel estadístico que debe responder por la estimación de varios parámetros de interés. En este capítulo, e indirectamente a lo largo de todo el libro, se planteó un enfoque útil para la estimación simultanea de varios parámetros de interés. Además de las ventajas computacionales, este enfoque matricial sirve como vehículo para la introducción de tópicos de muestreo avanzados como el sistema general de ponderación propuesto por @Lav.
+
+Por supuesto, este capítulo cierra con Marco y Lucy que, indirectamente a lo largo de todo el libro, han demostrado que el enfoque matricial de estimación simultanea debe ser usado por el estadístico teórico y práctico. Suponga que el marco de muestreo tiene la cualidad de proporcionar, además de la identificación y ubicación de cada empresa, una característica de información auxiliar como el Ingreso de cada empresa. En este orden de ideas, el lector, que ha seguido una lectura directa del libro hasta esta etapa, sabrá que el tamaño de la población es $N=2396$ y que se han obtenido excelentes resultados con diseños de muestreo proporcionales al tamaño del Ingreso de la empresa para las características de interés Empleados e Ingreso. Además, estos buenos resultados se han obtenido con un tamaño de muestra $n=2000$.
+
+Por otra parte, suponga que la relación entre la característica de información auxiliar Ingreso es lineal para la característica de interés Empleados pero cuadrática para la característica de interés Impuestos. Estas características se deben definir en el entorno computacional, determinando así las cantidades $\sigma_{qk}$ de la expresión (13.5.1), de la siguiente manera.
+
+```{r}
+data(BigLucy)
+attach(BigLucy)
+N <- nrow(BigLucy)
+n <- c(2000, 2000)
+sigy1 <- sqrt(Income^(1))
+sigy2 <- sqrt(Income^(2))
+sigma <- cbind(sigy1, sigy2)
+```
+
+Recurriendo a la función `PikHol`, del paquete `TeachingSampling`, la cual contiene tres parámetros computacionales: el primero, `n`, es un vector de tamaños de muestra según la optimalidad de cada diseño para cada variable de interés involucrada en la encuesta, `sigma` una matriz, de $N$ filas y tantas columnas como características de interés, en la cual se guardan cada una de las cantidades $\sigma_{qk}$  que determinan las relaciones de las características de interés con la información auxiliar y por último, `e`, que corresponde al error máximo permitido bajo el criterio ANOREL. El resultado de la función es un vector de probabilidades de inclusión óptimas para todos los individuos de la población finita, cuya suma da como resultado el tamaño de muestra óptimo bajo este criterio ANOREL.
+
+```{r}
+pis <- PikHol(n, sigma, e = 0.03)
+n.Hol <- ceiling(sum(pis))
+n.Hol
+```
+
+De aquí en adelante, todo se torna familiar puesto que se recurre a la función `S.piPS`, del paquete `TeachingSampling`, para seleccionar una muestra aleatoria de empresas. El resultado de esta función es, por un lado, un vector conteniendo la muestra realizada y, por otro, un vector de probabilidades de inclusión de las empresas seleccionadas. Después de la recolección de los datos, se utiliza la función `E.piPS` para obtener las estimaciones que resultan óptimas bajo el criterio ANOREL.
+
+```{r, message=FALSE}
+res <- S.piPS(n.Hol, pis)
+sam <- res[, 1]
+Pik.s <- res[, 2]
+muestra <- BigLucy[sam, ]
+attach(muestra)
+
+estima <- data.frame(Income, Employees, Taxes)
+E.piPS(estima, Pik.s)
+```
+
+```{r}
+#| label: tbl-t14-1
+#| tbl-cap: 'Muestreo de Holmberg: estimación de los totales de las características de interés'
+Estimaciones <- E.piPS(estima, Pik.s)
+knitr::kable(Estimaciones)
+```
+
+## Ejercicios
+
+1. Demuestre la siguiente igualdad
+$$
+\begin{aligned}
+Cov(\hat{t}_{y,\pi}, \hat{t}_{x,\pi})=\sum_U\sum_U\Delta_{kl}\frac{y_k}{\pi_k}\frac{x_l}{\pi_l}
+\end{aligned}
+$$
+
+1. Demuestre que, para un diseño de muestreo aleatorio simple, se tiene la siguiente relación
+$$
+\begin{aligned}
+Cov(\hat{t}_{y,\pi}, \hat{t}_{x,\pi})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)Cov_S(y,x)
+\end{aligned}
+$$
+En donde
+$$
+\begin{aligned}
+Cov_S(y,x)=\frac{1}{n-1}\sum_S(y_k-\bar{y}_S)(x_k-\bar{x}_S)
+\end{aligned}
+$$
+
+1. Obtenga una expresión para las probabilidades de inclusión de Holmberg cuando todas las medidas de tamaño son constantes en un estudio multipropósito.
+
+1. Demuestre la expresión (13.3.13)

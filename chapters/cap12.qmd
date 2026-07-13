@@ -1,0 +1,787 @@
+```{r, echo=FALSE, message=FALSE}
+library(TeachingSampling)
+data(BigLucy)
+library(ggplot2)
+library(gridExtra)
+options(scipen = 100, digits = 2)
+set.seed(12345)
+library(knitr)
+opts_chunk$set(cache = TRUE)
+knit_theme$set("acid")
+```
+
+# Muestreo en dos fases
+
+::: {.blockquote}
+Existen numerosos ejemplos que muestran cómo la información auxiliar disponible puede ser usada [en la estrategia de muestreo] para lograr mayor precisión en las estimaciones. Sin embargo, si la información auxiliar no está disponible pero se conoce que puede ser recolectada de forma barata y en gran escala, valdría la pena conseguir tal información en una primera fase y luego seleccionar una muestra para la característica de interés.
+@Raj
+:::
+
+## Introducción
+
+<!-- index: Diseño de muestreo en dos fases -->Propuesto por @Neyman38, el muestreo en dos fases es el diseño indicado cuando no se tienen conocimiento pleno del comportamiento estructural de la población de interés y esto se ve reflejado en un pésimo marco de muestreo que no contempla variables de información auxiliar (de ningún tipo: ni discreto, ni continuo) y por ello, no es posible proponer el uso de una estrategia de muestreo óptima (diseños avanzados proporcionales al tamaño o estratificados y estimadores de regresión o de calibración) para la estimación de los parámetros poblacionales de interés.
+
+En [@Swe] aparece un marco general que desarrolla la teoría del muestreo en dos fases de modo teórico e inducido por los principios del estimador de Horvitz-Thompson. El diseño de muestreo en dos fases (también conocido como muestreo  bifásico o muestreo doble) se utiliza cuando existe poco o nulo conocimiento sobre el comportamiento de la característica de interés a través de los individuos que conforman la población. Por ejemplo, el estimador de razón combinada requiere que todos los elementos de la población puedan ser estratificados y que el total poblacional de la característica de información auxiliar,  $t_x=\sum_{U}x_k$, sea conocido; sin embargo, en muchos casos prácticos no se tiene este tipo de información auxiliar (pertenencia de los miembros de la población a estratos específicos o el total poblacional de las características de información auxiliar). En estos casos en donde el marco de muestreo contiene poca o deficiente información para proponer un diseño de muestreo eficiente, el estadístico puede recurrir a las siguientes dos opciones [@Sar]:
+
+1. Usar un diseño de muestreo simple como el muestreo aleatorios simple sin reemplazo o el muestreo aleatorio de conglomerados y combinarlo con el estimador de Horvitz-Thompson para ganar más precisión conforme el tamaño de muestra aumenta.
+1. Obtener información acerca de la población para construir un nuevo marco muestral. Si se utiliza el estimador de regresión se logra una precisión deseada con un tamaño de muestra moderado.
+
+Nótese que la asignación de un tamaño de muestra grande o la construcción de un nuevo marco muestral implican el desgaste de recursos económicos y logísticos que tal vez el estudio no pueda soportar. De esta manera, una tercera opción es usar un diseño de muestreo en dos fases:
+
+1. [a)] En la primera fase, se selecciona una muestra de tamaño $n_a$ - moderado, más no pequeño - de elementos, la cual será denotada como $S_a$. La selección de esta primera muestra se realiza mediante un diseño $p_a(\cdot)$. Para cada uno de los elementos en $S_a$ se debe obtener información sobre una o más variables auxiliares^[Nótese que este proceso resulta menos costoso que obtener la información directamente de la población.]. Esta muestra queda determinada por las variables aleatorias
+
+$$
+I_k=
+\begin{cases}
+1,  &\text{si el elemento $k$ está en la muestra de la primera fase}\\
+0,  &\text{si el elemento $k$ no está en la muestra de la primera fase}
+\end{cases}
+$$
+
+Por lo tanto la probabilidad de inclusión de un elemento en la primera muestra $S_a$ de la primera fase está dada por la siguiente expresión
+$$
+\pi_{ak}=Pr(I_k=1)=\sum_{s_a \ni k}p_a(s_a)
+$$
+
+y la probabilidad de inclusión de segundo orden en $S_a$ está dada por
+$$
+\pi_{akl}=Pr(I_kI_l=1)=\sum_{S_a \ni \text{ $k$ y $l$}} p_a(s_a)
+$$
+
+1. [b)] En la segunda fase, con la ayuda de la información obtenida en la primera fase, se selecciona una submuestra $S$ de tamaño $n$, de $S_a$, mediante un diseño de muestreo $p(\cdot\mid{s_a})$. A continuación se observa la característica de interés para los elementos seleccionados en la submuestra. Esta muestra queda determinada por las variables aleatorias
+$$
+D_k=
+\begin{cases}
+1, &\text{si el elemento $k$ está en la muestra de la segunda fase}\\
+0  &\text{si el elemento $k$ no está en la muestra de la segunda fase}
+\end{cases}
+$$
+
+La probabilidad de que un elemento esté en esta submuestra depende de lo que haya pasado en la primera fase. La probabilidad de inclusión de los elementos en la muestra de la segunda fase está dada por la siguiente expresión
+$$
+\pi_{k \mid s_a}=Pr(D_k=1 \mid \mathbf{I})=\sum_{s \ni k}p(s|s_a)
+$$
+
+donde $\mathbf{I}=(I_1,\ldots,I_N)'$ denota el vector de inclusión de la primera muestra. Por otro lado, la probabilidad de inclusión de segundo orden en $S$ está dada por
+$$
+\pi_{kl \mid s_a}=Pr(D_kD_l=1\mid \mathbf{I})=\sum_{S \ni \text{ $k$ y $l$}} p(s|s_a)
+$$
+
+Por ejemplo, @Loh afirma que en una encuesta de empresas se podría extraer una muestra, en la primera fase, de declaraciones de impuestos y registrar el ingreso reportado por cada empresa seleccionada en esta primera fase (esta muestra puede ser grande puesto que se asume que no es costoso obtener la información auxiliar). En una segunda fase, se podría pensar en seleccionar una submuestra con probabilidad proporcional al ingreso medido en la primera fase, o bien, utilizar la información del ingreso para estratificar las empresas de la muestra de la primera fase y luego establecer contacto con un subconjunto de empresas en cada estrato con el fin de obtener la información deseada acerca de características de interés como gastos totales o impuestos declarados.
+
+El autor recalca que el diseño de muestreo que proporciona el soporte de muestreo que contempla tanto la primera como la segunda fase, no está dado por $p_a(s_a)$ ni por $p(s|s_a)$ sino que, recurriendo al teorema de probabilidad total [@Mood], está dado por la siguiente expresión
+$$
+p(s)=\sum_{s_a \supset s}p_a(s_a)p(s|s_a)
+$$
+
+Y por lo tanto la probabilidad de inclusión de cualquier elemento en la muestra final $S$, es
+$$
+\begin{aligned}
+\pi_{k}=Pr(I_kD_k=1)&=\sum_{s \ni k}\sum_{s_a \supset s}p_a(s_a)p(s|s_a) \notag \\
+&=\sum_{s_a \ni k}\sum_{\substack{S_a \subset S\\s\ni k}}p_a(s_a)p(s|s_a) \notag \\
+&=\sum_{s_a \ni k}p_a(s_a)\sum_{\substack{S_a \subset S\\s\ni k}}p(s|s_a) \notag \\
+&=\sum_{s_a \ni k}p_a(s_a)\pi_{k \mid s_a}
+\end{aligned}
+$$
+
+Por lo tanto, bajo este tipo de esquemas de muestreo en dos fases, no es posible utilizar los principios del estimador de Horvitz-Thompson, en términos de inferencia del total poblacional, puesto que aunque es posible conocer el valor de las probabilidades inducidas por $p_a(s_a)$ para cada muestra $S_a$, no es posible conocer siempre los valores de las probabilidades de inclusión en la segunda fase $\pi_{k \mid s_a}$ para cada muestra $S_a$ puesto que éstos están supeditados a la realización de la primera muestra.
+
+## El estimador **$\pi^*$**
+
+<!-- index: Estimador $\pi^*$ -->Nótese que otro posible estimador del total poblacional de la características de interés es $\sum_{S_a}y_k/\pi_{ak}$, este es otro estimador inútil puesto que sólo se podría calcular si $y_k$ y $\pi_{ak}$ fueran conocidos para todo $k\in{s_a}$. Pero $y_k$ solamente es conocido en la submuestra para $k\in{s}$. Por lo tanto, condicional a $s_a$, la muestra de la primera fase, la siguiente cantidad, $\sum_{s_a}y_k/\pi_{ak}$, es estimada insesgadamente por el estimador de Horvitz-Thompson condicionado mediante
+$$
+\hat{t}_{y,\pi^*}=\sum_{s}\frac{y_k}{\pi_{k}^*}=\sum_{s}\frac{y_k}{\pi_{ak}\pi_{k\mid{s_a}}}
+$$
+
+y definido como el estimador $\pi^*$ [@Swe].
+
+::: {.callout-tip title="Resultado"}
+En muestreo bifásico el total poblacional $t_y$ es estimado insesgadamente por el estimador $\pi^*$. Además la varianza del estimador y la estimación insesgada de la varianza están dadas por
+$$
+Var_{Bif}(\hat{t}_{y,\pi^*})=\sum\sum_U\Delta_{akl}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
++E_{p_a}\left(\sum\sum_{S_a}\Delta_{kl|S_a}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}\right)
+$$
+$$
+\widehat{Var}_{Bif}(\hat{t}_{y,\pi^*})=\sum\sum_S\frac{\Delta_{akl}}{\pi_{kl}^*}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
++\sum\sum_{S}\frac{\Delta_{kl|S_a}}{\pi_{kl|S_a}}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}
+$$
+
+respectivamente, con $\pi^*_k=\pi_{ak}\pi_{k|S_a}$, $\pi^*_{kl}=\pi_{akl}\pi_{kl|S_a}$, $\Delta_{akl}=\pi_{akl}-\pi_{ak}\pi_{al}$ y $\Delta_{kl|S_a}=\pi_{kl|S_a}-\pi_{k|S_a}\pi_{l|S_a}$, donde cada sumando de (12.2.3) es insesgado para su contraparte en (12.2.2).
+
+**Prueba.**
+Al usar el condicionamiento sucesivo del resultado 7.1.3, para la estructura probabilística del diseño de muestreo $p_a$, se tiene que
+$$
+\begin{aligned}
+E_{Bif}(\hat{t}_{y,\pi^*})
+&=E_{p_a}\left(E_p\left(\hat{t}_{y,\pi^*}\left|\right. \mathbf{I}\right)\right)\\
+&=E_{p_a}\left(E_p\left(\sum_{s}\frac{y_k}{\pi_{k}^*}\left|\right. \mathbf{I}\right)\right)\\
+&=E_{p_a}\left(\sum_{S_a}E_p(D_k\mid \mathbf{I})\frac{y_k}{\pi_{ak}\pi_{k\mid{s_a}}}\right)\\
+&=\sum_{U}E_{p_a}(I_k)\frac{y_k}{\pi_{ak}}=\sum_{U}y_k=t_y
+\end{aligned}
+$$
+
+Para probar los resultados de la varianza se utiliza un razonamiento similar dado que
+$$
+\begin{aligned}
+Var_{Bif}(\hat{t}_{y,\pi^*})=Var_{p_a}(E_p(\hat{t}_{y,\pi^*}|\mathbf{I}))+E_{p_a}(Var_p(\hat{t}_{y,\pi^*}|\mathbf{I}))
+\end{aligned}
+$$
+
+Para el primer sumando se tiene que, utilizando los principios del estimador de Horvitz-Thompson
+$$
+\begin{aligned}
+Var_{p_a}(E_p(\hat{t}_{y,\pi^*}|\mathbf{I}))
+&=Var_{p_a}\left(E_p\left(\sum_{s}\frac{y_k}{\pi_{k}^*}\left|\right. \mathbf{I}\right)\right)\\
+&=Var_{p_a}\left(\sum_{S_a}\frac{y_k}{\pi_{ak}}\right)\\
+&=\sum\sum_U\Delta_{akl}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
+\end{aligned}
+$$
+
+Para el segundo sumando se procede similarmente, haciendo $y_{ak}=y_k/\pi_{ak}$ se tiene que
+$$
+\begin{aligned}
+E_{p_a}(Var_p(\hat{t}_{y,\pi^*}|\mathbf{I}))
+&=E_{p_a}\left(Var_p\left(\sum_{s}\frac{y_k}{\pi_{k}^*}\left|\right. \mathbf{I}\right)\right)\\
+&=E_{p_a}\left(Var_p\left(\sum_{s}\frac{y_{ak}}{\pi_{k|S_a}}\left|\right. \mathbf{I}\right)\right)\\
+&=E_{p_a}\left(\sum\sum_{S_a}\Delta_{kl|S_a}\frac{y_{ak}}{\pi_{k|S_a}}\frac{y_{al}}{\pi_{l|S_a}}\right)\\
+&=E_{p_a}\left(\sum\sum_{S_a}\Delta_{kl|S_a}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}\right)
+\end{aligned}
+$$
+
+Por otro lado notando que $E(D_kD_l|\mathbf{I})=\pi_{kl|S_a}$ y $E(I_kI_l)=\pi_{akl}$ se tiene el insesgamiento de la estimación de la varianza.
+:::
+
+::: {.callout-note title="Ejemplo"}
+Continuando con nuestra población ejemplo $U$ de tamaño $N=5$, suponga que en una primera fase se selecciona una muestra de $n_a=2$ elementos de acuerdo a un diseño de muestreo aleatorio simple. En la segunda fase se selecciona una submuestra de $n=1$ de acuerdo a un diseño de muestreo aleatorio simple^[Aunque utilizar en las dos fases un diseño de muestreo aleatorio simple no es realista en la vida práctica, este ejemplo sirve para tener una mayor comprensión acerca de la estructura probabilística inducida por el muestreo en dos fases.].
+
+Para la primera fase, y recurriendo al ejemplo 2.1.1, las $\binom{N}{n_a}$ posibles muestras, junto con su respectiva probabilidad de selección, son
+
+```text
+        X1      X2     p_a
+1     Yves      Ken     0.1
+2     Yves     Erik     0.1
+3     Yves   Sharon     0.1
+4     Yves   Leslie     0.1
+5      Ken     Erik     0.1
+6      Ken   Sharon     0.1
+7      Ken   Leslie     0.1
+8     Erik   Sharon     0.1
+9     Erik   Leslie     0.1
+10  Sharon   Leslie     0.1
+```
+
+La probabilidad de inclusión en la muestra de la primera fase, para cada uno de los 5 elementos de $U$, es
+$$
+\pi_{ak}=\frac{n_a}{N}=\frac{2}{5}
+$$
+
+Para la segunda fase existen $\binom{n}{n_a}$ posibles submuestras por cada muestra de la primera fase, el diseño de muestreo de la segunda fase y el diseño de muestreo general queda definido de la siguiente manera
+
+```text
+        X1        X2     p_a     S      p( |s_a)     p(s)
+
+1     Yves      Ken     0.1     Yves        0.5      0.05
+                                Ken         0.5      0.05
+
+2     Yves     Erik     0.1     Yves        0.5      0.05
+                                Erik        0.5      0.05
+
+3     Yves   Sharon     0.1     Yves        0.5      0.05
+                                Sharon      0.5      0.05
+
+4     Yves   Leslie     0.1     Yves        0.5      0.05
+                                Leslie      0.5      0.05
+
+5      Ken     Erik     0.1     Ken         0.5      0.05
+                                Erik        0.5      0.05
+
+6      Ken   Sharon     0.1     Ken         0.5      0.05
+                                Sharon      0.5      0.05
+
+7      Ken   Leslie     0.1     Ken         0.5      0.05
+                                Leslie      0.5      0.05
+
+8     Erik   Sharon     0.1     Erik        0.5      0.05
+                                Sharon      0.5      0.05
+
+9     Erik   Leslie     0.1     Erik        0.5      0.05
+                                Leslie      0.5      0.05
+
+10  Sharon   Leslie     0.1     Sharon      0.5      0.05
+                                Leslie      0.5      0.05
+```
+
+Nótese que, recurriendo al teorema de probabilidad total, el diseño de muestreo final, que contempla la dinámica probabilística de la primera y segunda fase, queda definido como sigue a continuación:
+$$
+p(s)=
+\begin{cases}
+0.2, &\text{si $s=\{\text{Yves}\}$},\\
+0.2, &\text{si $s=\{\text{Ken}\}$},\\
+0.2, &\text{si $s=\{\text{Erik}\}$},\\
+0.2, &\text{si $s=\{\text{Sharon}\}$},\\
+0.2, &\text{si $s=\{\text{Leslie}\}$}.
+\end{cases}
+$$
+
+La probabilidad de inclusión de un elemento de $S_a$ en la submuestra de la última fase, condicionada a la realización de una muestra particular, está dada por
+$$
+\pi_{k|S_a}=\frac{n_a}{n}=\frac{1}{2}
+$$
+
+Luego la probabilidad de inclusión de un elemento de $U$ condicional dada por $\pi_k^*$ es
+$$
+\pi_k^*=\pi_{ak}\pi_{k|S_a}=\frac{n_a}{N}\frac{n_a}{n}=\frac{n}{N}=\frac{1}{5}
+$$
+
+que, para este caso particular coincide con la probabilidad de inclusión (propiamente dicha) del elemento dada en (12.1.6). Sin embargo, casi siempre $\pi_k^* \neq \pi_k$ como se demuestra con la siguiente configuración inducida por un diseño de muestreo con probabilidades de selección desiguales.
+
+```text
+        X1        X2     p_a     S      p( |S_a)       p(s)
+
+1     Yves      Ken     0.25     Yves        0.9      0.225
+                                 Ken         0.1      0.025
+
+2     Yves     Erik     0.15     Yves        0.8      0.120
+                                 Erik        0.2      0.030
+
+3     Yves   Sharon     0.15     Yves        0.7      0.105
+                                 Sharon      0.3      0.045
+
+4     Yves   Leslie     0.10     Yves        0.6      0.060
+                                 Leslie      0.4      0.040
+
+5      Ken     Erik     0.10     Ken         0.5      0.050
+                                 Erik        0.5      0.050
+
+6      Ken   Sharon     0.05     Ken         0.4      0.020
+                                 Sharon      0.6      0.030
+
+7      Ken   Leslie     0.05     Ken         0.3      0.015
+                                 Leslie      0.7      0.035
+
+8     Erik   Sharon     0.05     Erik        0.2      0.010
+                                 Sharon      0.8      0.040
+
+9     Erik   Leslie     0.05     Erik        0.1      0.005
+                                 Leslie      0.9      0.045
+
+10  Sharon   Leslie     0.05     Sharon      0.5      0.025
+                                 Leslie      0.5      0.025
+```
+
+Nótese que, para esta configuración, y una vez más recurriendo al teorema de probabilidad total, el diseño de muestreo final, queda definido de la siguiente manera:
+$$
+p(s)=
+\begin{cases}
+0.510, &\text{si $s=\{\text{Yves}\}$},\\
+0.110, &\text{si $s=\{\text{Ken}\}$},\\
+0.140, &\text{si $s=\{\text{Sharon}\}$},\\
+0.095, &\text{si $s=\{\text{Erik}\}$},\\
+0.145, &\text{si $s=\{\text{Leslie}\}$}.
+\end{cases}
+$$
+
+En este caso, para la primera fase, la probabilidad de inclusión en la muestra de la primera fase, para cada uno de los 5 elementos de $U$, es
+
+$$
+\pi_{ak}=
+\begin{cases}
+0.65, &\text{si $k=\text{Yves}$},\\
+0.45, &\text{si $k=\text{Ken}$},\\
+0.35, &\text{si $k=\text{Erik}$},\\
+0.30, &\text{si $k=\text{Sharon}$},\\
+0.25, &\text{si $k=\text{Leslie}$}.
+\end{cases}
+$$
+
+La probabilidad de inclusión de un elemento de $S_a$ en la submuestra de la segunda fase, condicionada a la realización de una muestra particular, está dada por los siguientes 10 casos (tantos casos como muestras en la primera fase)
+
+- Si $S_a=S_1$, entonces
+$$
+\pi_{k|S_a}=
+\begin{cases}
+0.90, &\text{si $k=\text{Yves}$},\\
+0.10, &\text{si $k=\text{Ken}$}.
+\end{cases}
+$$
+- Si $S_a=S_2$, entonces
+$$
+\pi_{k|S_a}=
+\begin{cases}
+0.80, &\text{si $k=\text{Yves}$},\\
+0.20, &\text{si $k=\text{Erik}$}.
+\end{cases}
+$$
+- Y así sucesivamente, hasta
+- Si $S_a=S_{10}$, entonces
+$$
+\pi_{k|S_a}=
+\begin{cases}
+0.50, &\text{si $k=\text{Sharon}$},\\
+0.50, &\text{si $k=\text{Leslie}$}.
+\end{cases}
+$$
+
+Por lo tanto, también existirán 10 casos para el cálculo de la cantidad $\pi_k^*$, así:
+
+- Si $S_a=S_1$, entonces
+$$
+\pi_{k}^*=
+\begin{cases}
+0.65 \times 0.90 = 0.585, &\text{si $k=\text{Yves}$},\\
+0.45 \times 0.10 = 0.045, &\text{si $k=\text{Ken}$}.
+\end{cases}
+$$
+- Si $S_a=S_2$, entonces
+$$
+\pi_{k}^*=
+\begin{cases}
+0.65 \times 0.80 = 0.520, &\text{si $k=\text{Yves}$},\\
+0.35 \times 0.20 = 0.007, &\text{si $k=\text{Erik}$}.
+\end{cases}
+$$
+- Y así sucesivamente, hasta
+- Si $S_a=S_{10}$, entonces
+$$
+\pi_{k}^*=
+\begin{cases}
+0.30 \times 0.50 = 0.150, &\text{si $k=\text{Sharon}$},\\
+0.25 \times 0.50 = 0.125, &\text{si $k=\text{Leslie}$}.
+\end{cases}
+$$
+
+Lo anterior muestra que $\pi_k^* \neq \pi_k$, puesto que la probabilidad de inclusión está dada por
+$$
+\pi_{k}=
+\begin{cases}
+0.510, &\text{si $k=\text{Yves}$},\\
+0.110, &\text{si $k=\text{Ken}$},\\
+0.140, &\text{si $k=\text{Erik}$},\\
+0.095, &\text{si $k=\text{Sharon}$},\\
+0.145, &\text{si $k=\text{Leslie}$}.
+\end{cases}
+$$
+
+Nótese que en la vida práctica, con poblaciones bastante grandes, no es posible calcular $\pi_k$. Como ejercicio, utilizando los datos del ejemplo 2.1.3, se debe corroborar el insesgamiento del estimador $\pi_k^*$ tanto en la primera como en esta última configuración.
+:::
+
+## Estratificación en muestreo bifásico
+
+<!-- index: Diseño de muestreo estratificado en dos fases -->@HiRa afirman que la primera propuesta de @Neyman38 fue la estratificación en muestreo bifásico, en donde en la primera fase se selecciona una muestra aleatoria $S_a$ de tamaño $n_a$. El siguiente paso es observar una variable de información auxiliar $x_k$ para cada elemento $k\in S_a$ y con base en el comportamiento de esta característica se estratifica la muestra $S_a$; es decir todo elemento $k\in S_a$ se clasifica en un y sólo un estrato $h$ con $h=1\ldots, H$, de tal forma que
+$$
+S_a=\bigcup_{h=1}^H S_{ah} \ \ \ \ \ \ \ \ n_a=\sum_{h=1}^H n_{ah}
+$$
+
+en donde $S_{ah}$ corresponde al $h$-ésimo estrato de tamaño $n_{ah}$, que comúnmente se considera aleatorio. En la segunda fase se selecciona una muestra $S_{h}$ de tamaño fijo\footnote{@HiRa afirman que el supuesto de que $n_h$ es fijo es inconsistente puesto que depende de la variable $n_{ah}$, la cual varia de cero hasta $\min(n_1,N_h)$, donde $N_h$ corresponde al tamaño poblacional del estrato $h$.} $n_h$ para cada estrato $h=1,\ldots,H$, de tal forma que
+$$
+S=\bigcup_{h=1}^H S_{h} \ \ \ \ \ \ \ \ n=\sum_{h=1}^H n_{h}
+$$
+
+en donde $S$ corresponde a la submuestra de la segunda fase de tamaño $n$. Nótese que la muestra de la primera fase $S_a$ se selecciona mediante un diseño arbitrario $p_a(s_a)$ mientras que la submuestra de la segunda fase $S_h$ dentro de cada estrato $h=1,\ldots,H$ también se selecciona mediante un diseño arbitrario en cada estrato^[La propuesta inicial de @Neyman38 fue utilizar un diseño aleatorio simple tanto para la selección de la primera muestra en la primera fase como para la selección de las submuestras de la segunda fase en cada estrato.] denotado por $p_h(S_h|S_a)$.
+
+::: {.callout-tip title="Resultado"}
+Bajo este marco de referencia, el total poblacional $t_y$ es estimado insesgadamente por
+$$
+\hat{t}_{y,\pi^*}\sum_{h=1}^H\sum_{S_h}\frac{Y_k}{\pi_k^*}
+$$
+Además, la varianza del estimador y la estimación insesgada de la varianza están dadas por
+$$
+\begin{aligned}
+Var_{Bif}(\hat{t}_{y,\pi^*})&=\sum\sum_U\Delta_{akl}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}\notag\\
+&+E_{p_a}\left(\sum_{h=1}^H\sum\sum_{S_{ah}}\Delta_{kl|S_a}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}\right)
+\end{aligned}
+$$
+$$
+\widehat{Var}_{Bif}(\hat{t}_{y,\pi^*})=\sum\sum_S\frac{\Delta_{akl}}{\pi_{kl}^*}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
++\sum_{h=1}^H\sum\sum_{S_h}\frac{\Delta_{kl|S_a}}{\pi_{kl|S_a}}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}
+$$
+
+respectivamente, donde cada sumando de (12.3.3) es insesgado para su contraparte en (12.3.2).
+
+:::
+Suponga que, en la primera fase, se extrae una muestra aleatoria simple $S_a$ de tamaño $n_a$ de una población de tamaño $N$. Por tanto,
+$$
+\pi_{ak}=\frac{n_a}{N}\ \ \ \ \ \ \ \ \
+\pi_{akl}=\frac{n_a(n_a-1)}{N(N-1)}
+$$
+
+Luego, con la información recopilada en la primera fase, es posible separar las unidades en $H$ estratos distintos (sólo se
+sabe a qué estrato pertenece el elemento hasta que se selecciona la muestra en la primera fase). Luego, para cada estrato, mediante un diseño de muestreo aleatorio simple, se selecciona una muestra de tamaño $n_h$, suponiendo que los estratos son de tamaño $n_{ah}$ con $h=1,2,...,H$. Luego, para la segunda fase, la probabilidad de inclusión de un elemento está dado por
+$$
+\pi_{k\mid s_a}=\frac{n_h}{n_{ah}}\ \ \ \ \ \ \ \text{para $k\in S_{ah}$ con $h=1,\ldots,H$}
+$$
+
+y la probabilidad de inclusión de segundo orden es
+$$
+\pi_{kl\mid s_a}=
+\begin{cases}
+\frac{n_h}{n_{ah}}                          &\text{si $k=l \in S_{ah}$}\\ \\
+\frac{n_h(n_h-1)}{n_{ah}(n_{ah}-1)}         &\text{si $k\neq l$, $k,l \in S_{ah}$}\\ \\
+\frac{n_h}{n_{ah}}\frac{n_{h'}}{n_{ah'}}    &\text{si $k\in S_{ah}$, $l\in S_{ah'}$}
+\end{cases}
+$$
+
+De lo anterior se tiene que el estimador del total poblacional es
+$$
+\hat{t}_{y,\pi^*}=
+\sum_{S}\frac{y_k}{\pi_{k}^*}=
+\frac{N}{n_a}\sum_{S_h}\frac{n_{ah}}{n_h}y_k
+$$
+
+Para calcular la varianza se procede con el condicionamiento sucesivo de la siguiente manera
+$$
+\begin{aligned}
+Var_{Bif}(\hat{t}_{y,\pi^*})
+&=Var_{MAS}(E_{MAE}(\hat{t}_{y,\pi^*}\mid \mathbf{I}))+E_{MAS}(Var_{MAE}(\hat{t}_{y,\pi^*}\mid \mathbf{I}))\\
+&=Var_{MAS}\left(\frac{N}{n_a}\sum_{S_a}y_k\right)\\
+&=+E_{MAS}\left(Var_{MAE}\left(\frac{N}{n_a}\sum_{S_h}\frac{n_{ah}}{n_h}y_k\mid \mathbf{I}\right)\right)\\
+&=\underbrace{\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)S^2_{y_U}}_{V_1}
++\underbrace{\frac{N^2}{n_a^2}E_{MAS}\left(\sum_{h=1}^H\frac{n_{ah}^2}
+{n_h}\left(1-\frac{n_h}{n_{ah}}\right)S^2_{y_{ah}}\right)}_{V_2}
+\end{aligned}
+$$
+
+donde el primer término hace referencia a la varianza de la muestra en la primera fase mientras que el segundo término hace referencia a la varianza adicional debida al submuestreo en la segunda fase. Nótese que $S^2_{y_{ah}}$ es la varianza de la característica de interés en el estrato $h$-ésimo de la muestra de la primera fase. Es importante recalcar que en el segundo término, el operador $E_{MAS}$ está especificado sobre todas y cada una de las posibles muestras estratificadas de la segunda
+fase.
+
+@Rao1973 propuso la estimación para estos componentes de varianza los cuales son estimados insesgadamente por las siguientes expresiones
+$$
+\begin{aligned}
+\hat{V}_1=
+\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)
+\sum_{h=1}^H\frac{n_{ah}}{n_a}\left\{(1-Q_h)S^2_{y_{S_h}}+\frac{n_a}{n_a-1}(\bar{y}_{S_h}-\bar{y}_S)\right\}
+\end{aligned}
+$$
+$$
+\begin{aligned}
+\hat{V}_2=\frac{N^2}{n_a^2}\left(\sum_{h=1}^H\frac{n_{ah}^2}{n_h}\left(1-\frac{n_h}{n_{ah}}\right)S^2_{y_{ah}}\right)
+\end{aligned}
+$$
+respectivamente, y donde $Q_h=\dfrac{(n_a-n_{ah}}{n_h(n_a-1)}$. La demostración de este resultado puede ser consultada en @HiRa.
+
+## Selección proporcional al tamaño
+
+<!-- index: Selección proporcional al tamaño -->En las secciones anteriores se ha podido comprobar cómo la información auxiliar puede ser usada para ganar precisión y eficiencia en la estimación del total de una característica de interés. En algunas ocasiones esta información puede ser utilizada en la etapa de diseño y en otras en la etapa de estimación. Cuando se quiere utilizarla en la etapa de diseño se puede utilizar un diseño de muestreo proporcional a alguna característica de información auxiliar $x$. En esta ocasión se presentará la segunda opción.
+
+Si se sabe que el comportamiento estructura de la característica de información auxiliar es proporcional al comportamiento de la característica de interés, entonces sería deseable seleccionar la muestra con probabilidad proporcional a $x$. Sin embargo, esta información $x$ no está disponible a nivel poblacional, pero se sabe que es barato conseguirla al menos en una muestra grande. Por tanto, ésta se recolecta en una muestra inicial $s_a$ de tamaño $n_a$ inducida por un diseño de muestreo aleatorio simple de una población de tamaño $N$. Después de que sea posible tener acceso a esta información auxiliar, entonces se selecciona una submuestra $s$ de tamaño $m$ con reemplazo proporcional a la variable de información auxiliar $x$.
+
+::: {.callout-tip title="Resultado"}
+Bajo este marco de referencia en donde la muestra inicial $s_a$ de tamaño $n_a$ es seleccionada mediante muestreo aleatorio simple y la submuestra $s$ de tamaño $m$ es seleccionada proporcional a $x$, entonces el estimador insesgado del total poblacional, su varianza y su varianza estimada están dados por
+$$
+\hat{t}_y=\frac{N}{n_a}\hat{t}_{ay}
+=\frac{N}{n_a}\frac{1}{m}\sum_{k\in S}\frac{y_k}{p_{ak}}
+=\frac{N}{n_a}\frac{t_{ax}}{m}\sum_{k\in S}\frac{y_k}{x_k}
+$$
+$$
+\begin{aligned}
+Var_{Bif}(\hat{t}_y)&=\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)S^2_{y_U}\notag\\
+&+\frac{N(n_a-1)}{(N-1)n_a}\frac{1}{m}\sum_U\frac{1}{p_{k}}\left(\frac{y_k}{p_{ak}}-t_y\right)^2
+\end{aligned}
+$$
+{\footnotesize
+$$
+\begin{aligned}
+\widehat{Var}_{Bif}(\hat{t}_y)
+&=\frac{N^2}{n}\frac{t_{ax}^2}{m(m-1)}\left[\sum_{k\in S}\frac{y_k^2}{x_k^2}-\frac{1}{m}\left(\sum_{k\in S}\frac{y_k}{x_k}\right)^2\right]\\
+&+\frac{N(N-n_a)}{mn_a(n_a-1)}\left(t_{ax}\sum_{k\in S}\frac{y_k^2}{x_k}+\frac{t_{ax}^2}{n_a(m-1)}
+\left[\sum_{k\in S}\frac{y_k^2}{x_k^2}-\frac{1}{m}\left(\sum_{k\in S}\frac{y_k}{x_k}\right)^2\right]\right)\notag
+\end{aligned}
+$$
+}
+respectivamente, con $\hat{t}_{ay}=\frac{1}{m}\sum_{s}\frac{y_k}{p_{ak}}$, $p_{ak}=\frac{x_k}{t_{ax}}$ y $t_{ax}=\sum_{S_a}x_k$.
+
+**Prueba.**
+Utilizando una vez más la propiedad del condicionamiento sucesivo se tiene que
+$$
+\begin{aligned}
+E(\hat{t}_y)&=E_{MAS}\left(\frac{N}{n}E_{PPT}\left(\sum_{s}\frac{y_k}{p_{ak}}|\mathbf{I}\right)\right)\\
+&=E_MAS\left(\frac{N}{n}\sum_{s_a}y_k\right)=t_y
+\end{aligned}
+$$
+
+Y concerniente al primer término de la varianza se tiene que
+$$
+\begin{aligned}
+Var_{MAS}(E_{PPT}(\hat{t}_y))=Var_{MAS}\left(\frac{N}{n_a}\sum_{s_a}y_k\right)
+=\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)S^2_{y_U}
+\end{aligned}
+$$
+
+Para el segundo término, acudiendo al resultado 2.2.14 y al resultado 4.2.6, nótese que
+$$
+\begin{aligned}
+Var_{PPT}(\hat{t}_y|\mathbf{I})&=\frac{N^2}{n_a^2}Var_{PPT}\left(\frac{1}{m}\sum_{s}\frac{y_k}{p_k}|\mathbf{I}\right)\\
+&=\frac{N^2}{n_a^2}\frac{1}{m}\sum_{k\in S_a}p_{ak}\left(\frac{y_k}{p_{ak}}-t_{ay}\right)^2
+=\frac{N^2}{n_a^2}\frac{1}{m}\sum_{S_a}\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2
+\end{aligned}
+$$
+
+Por lo tanto, se tiene que
+$$
+\begin{aligned}
+E_{MAS}(Var_{PPT}(\hat{t}_y))
+&=E_{MAS}\left(\frac{N^2}{n_a^2}\frac{1}{m}\sum_{S_a}\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2\right)\\
+&=E_{MAS}\left(\frac{N^2}{n_a^2}\frac{1}{m}\sum_{U}\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2I_kI_l\right)\\
+&=\frac{N^2}{n_a^2}\frac{1}{m}\sum_{U}\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2E_{MAS}(I_kI_l)\\
+&=\frac{N^2n_a(n_a-1)}{n_a^2N(N-1)}\frac{1}{m}\sum_{U}\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2\\
+&=\frac{N(n_a-1)}{(N-1)n_a}\frac{1}{m}\sum_U\frac{1}{p_{k}}\left(\frac{y_k}{p_{ak}}-t_y\right)^2
+\end{aligned}
+$$
+
+Lo anterior usando la forma alternativa de la varianza del diseño de muestreo $PPT$. La demostración de la estimación insesgada de la varianza del estimador puede ser consultada en @Raj.
+:::
+
+## Otras aplicaciones
+
+<!-- index: Diseño de muestreo en dos fases -->Este diseño de muestreo bifásico tiene muchas aplicaciones en la vida práctica y los tópicos que se han tocado hasta el momento no son sino una breve introducción al complejo y basto mundo de las encuestas por muestreo con sus deficiencias y limitaciones. Sin embargo, este capítulo ha mostrado que sí es posible afrontar estas limitaciones desde el punto de vista teórico y encontrar una solución mediática a estos problemas. A continuación, un breve resumen de otras aplicaciones del muestreo bifásico.
+
+### Mejorando el estimador
+
+Este capítulo se enfocó en la búsqueda de un diseño de muestreo óptimo y en el mejoramiento de la forma de selección de muestras en la segunda etapa. Sin embargo, es posible considerar un diseño de muestreo muy simple y sencilla en ambas etapas pero con la ayuda de información auxiliar, recopilada en la muestra de la primera fase, mejorar el estimador al utilizar el planteamiento del estimador general de regresión o de los estimadores de calibración. Por supuesto, dependiendo de la calidad de la información conseguida, es posible mejorar tanto el diseño de muestreo como el estimador.
+
+Como lo afirma @Est1, una característica distintiva del muestreo en dos fases es que la información auxiliar puede ser encontrada en varios niveles:
+
+- A nivel poblacional completo: el valor de cada una de las características de información auxiliar se conoce para todos y cada uno de los individuos que pertenecen a la población.
+- A nivel poblacional incompleto: sólo se conoce el valor de los totales de las características de información auxiliar mas no se valor individual.
+- A nivel de la primera fase $S_a$: el valor de cada una de las características de información auxiliar se conoce para todos y cada uno de los individuos que pertenecen a la muestra de la primera fase $S_a$.
+- A nivel de la segunda fase $S$: el valor de cada una de las características de información auxiliar se conoce para todos y cada uno de los individuos que pertenecen a la submuestra de la segunda fase $S$.
+
+Alguna información reposa en el nivel poblacional mientras que otra lo hace en el nivel de la muestra en la primera fase de muestreo. Aun teniendo acceso a las dos, el investigador decide a discreción si utiliza ambas o alguna o incluso ninguna para obtener estimaciones eficientes. La varianza del estimador (de regresión o de calibración) dependerá entonces del nivel en que se encuentre la información auxiliar que se ha decido utilizar. Es importante identificar cuál es el tipo de información auxiliar que es relevante para el estudio puesto que no siempre es posible encontrar la información auxiliar completa; pero inclusio si es posible encontrarla, se debe definir si se va a utilizar o no; puesto que
+
+1. En algunas situaciones, la eficiencia puede decrecer dramáticamente si se ignora alguna característica de información auxiliar en el proceso de calibración. Incluso es posible obtener un estimador de calibración cuya varianza sea menor que la de aquel construido con base en información auxiliar completa.
+1. No siempre es posible contar con información auxiliar completa así que se debe lograr el objetivo de mejorar la estimación con la información que se tiene a la mano. Es importante conocer cómo este tipo de limitaciones afecta la varianza del estimador.
+
+@Est1 han mostrado que existen exactamente diez casos diferentes conteniendo distintas configuraciones de información auxiliar para los estimadores de calibración y da cuenta de la varianza de los mismos dependiendo del caso. El tratamiento de @Swe para el estimador general de regresión es exhaustivo y comprende una muy buena fuente de referencia para estrategias de muestreo de tipo bifásico para las cuales en la etapa de estimación consideran un modelo de superpoblación para asistir en la eficiencia del estimador. Esta lectura puede ser complementada con el capítulo 9 de @Sar.
+
+### Un modelo para la ausencia de respuesta
+
+<!-- index: Ausencia de respuesta -->Las personas que  no responden con frecuencia difieren de manera crucial de las personas que sí lo hacen. De esta forma, es posible hacer la siguiente clasificación: a) **la ausencia de respuesta por unidad**, en donde falta toda la unidad de observación y suele suceder porque el encuestador no pudo establecer contacto con el hogar, la persona seleccionada está enferma o se rehúsa a participar. En esta etapa el encuestador debe determinar algunas características demográficas del hogar para su posterior imputación y b) **la ausencia de respuesta por registro**, en donde faltan algunos registros de la unidad de observación aunque otros si están efectivamente respondidos. Los siguientes son algunos puntos de vista para enfrentar la ausencia de Respuesta<!-- index: Ausencia de respuesta -->:
+
+- Prevención: diseñar la encuesta de modo que la ausencia de respuesta se pequeña. Éste es el mejor método de enfrentarla.
+- Sub-muestra: seleccionar una sub-muestra representativa de las unidades que no respondieron y realizar inferencias.
+- Modelos: utilizar un modelo para predecir los valores de las unidades que no respondieron. Es decir reemplazar los registros de la unidad faltante, por registros predichos resultantes del modelo.
+- Ignorancia: es una práctica muy común ignorar la ausencia de respuesta en la encuesta y realizar inferencias con los datos recopilados de las unidades respondientes.
+
+La ausencia de repuesta conlleva grandes efectos^[Si se insiste en calcular y estimar totales y medias, sin tener en cuenta la ausencia de respuesta, se debe informar en el reporte técnico la cifra correspondiente a la tasa de respuesta.] en los resultados de calidad de las estimaciones. Por ejemplo, si se aumentara el tamaño de muestra para enfrentar la ausencia de respuesta, es posible que nos encontremos con una mayor cantidad de personas de la misma clase de respondientes (homogeneidad). Nótese que el sesgo puede aumentar porque se malgastaron recursos que hubiesen servido para remediar la ausencia de respuesta. Por otro lado, si se omite el efecto de la ausencia de respuesta en una encuesta de victimización, se subestima el número total de víctimas. Ahora, en la población se forman dos estratos ?respondientes? y ?no respondientes? y el sesgo se reduce si el promedio es similar en los dos estratos (esta opción es imposible de conocer pues los ?no respondientes? simplemente no responden) o si hay poca ausencia de respuesta.
+
+@Loh plantea que algunos de los factores que inciden en el aumento de la ausencia de respuesta pueden ser:
+
+1. Contenido: encuestas relacionadas con el uso de drogas, finanzas. Se puede acotar la tasa de respuesta si se ordenan las preguntas de manera adecuada.
+1. Tiempo de la encuesta: algunas temporadas arrojan tasas de no respuestas más altas que otras.
+1. Encuestadores: aplicar métodos estándar de mejoramiento de la calidad para aumentar la precisión y tasa de respuesta de los entrevistadores involucrados en el estudio.
+1. Método de recolección: las encuestas telefónicas y por correo tienen una tasa de respuesta menor que las entrevistas personales^[Utilizar un sistema CATI (entrevista telefónica asistida por computador, por sus siglas en inglés) mejora la precisión de los datos.].
+1. Diseño de cuestionario: formulación de las preguntas.
+1. Agobio: encuestas demasiado largas que indisponen al respondiente.
+1. Presentación de la encuesta: es el primer contacto entre el respondiente y el encuestador.
+1. Incentivos: los incentivos financieros o ?regalos? aumentan la tasa de respuesta. Los anti-incentivos también son de utilidad, por ejemplo la suspensión de la licencia de conducción al negarse a contestar.
+
+@Brew afirma que la ausencia de respuesta y el muestreo en dos fases están relacionados de la siguiente manera: la forma más sencilla de tratar con la ausencia de respuesta es tratando a la muestra de respondientes como si éstos constituyesen la muestra objetivo, o equivalentemente como si la población de respondientes efectivo y no respondientes estuvieran gobernados por la misma estructura de probabilidad. De esta manera, la muestra objetivo es tratada como la muestra de la primera fase y el conjunto de respondientes efectivos es tratada como la submuestra de la segunda fase.
+
+@Lund menciona que este enfoque comienza con el supuesto de que la distribución de las respuestas es conocida (aunque en la práctica no es así). Esto implica que las probabilidades de respuesta de primer y segundo orden están dadas por
+$$
+Pr(k\in r|S)=\theta_k \ \ \ \ \ \ Pr(k,l\in r|S)=\theta_{kl}
+$$
+
+las cuales se asumen conocidas y donde $r$ denota el grupo de respondientes efectivos y $S$ la muestra total conformada por respondientes y no respondientes. De esta forma es posible calcular las ponderaciones combinadas (nótese la similitud con la construcción de la cantidad $\pi_k^*$) $(1/\pi_k)\times(1/\theta_k)$ y calcular el siguiente estimador insesgado de dos fases
+$$
+\hat{t}_y=\sum_{k\in r}\frac{y_k}{\pi_k\theta_k}
+$$
+
+Como las probabilidades de respuesta $\theta_k$ son desconocidas, entonces el anterior estimador es imposible de calcular. Por tanto, para hacerlo operacional, se debe encontrar una estimación de estas. Suponga que existen características de información auxiliar disponibles que permiten obtener un estimador (o también predictor) de esta probabilidad, denotado como $\hat{\theta}_k$. Por lo tanto, se ha obtenido un estimador de dos fases que contempla la ausencia de respuesta reemplazando $\theta_k$ por $\hat{\theta}_k$ y dado por
+$$
+\hat{t}_y=\sum_{k\in r}\frac{y_k}{\pi_k\hat{\theta}_k}
+$$
+
+Existen distintas formas de encontrar estimadores $\hat{\theta}_k$, algunos de ellos son discutidos en el capítulo 9 de @Sar.
+
+### Muestreo en ocasiones
+
+<!-- index: Muestreo en ocasiones -->En muchos estudios de investigación se seleccionan muestras de la misma población de manera repetida en el tiempo y la misma característica de interés se mide en cada ocasión. De esta manera, el comportamiento estructural de ésta puede ser medido a través del tiempo. El muestreo en dos ocasiones considera una población finita y en la primera ocasión, se selecciona una muestra $S_a$ mediante un diseño de muestreo $p_a(\cdot)$ y se mide la característica de interés $y$. En la segunda ocasión se seleccionan dos muestras independientes, una muestra traslapada, $S_t$, proveniente de la anterior muestra $S_a$ y otra no traslapada, $S_{nt}$ tomada del complemento de la primera muestra $S_a^c$. En el capítulo 9 de @Sar se aborda la teoría para el tratamiento de la anterior configuración de muestreo.
+
+## Marco y Lucy
+
+<!-- index: Marco y Lucy -->A continuación se utiliza la población de empresas del sector industrial para ejemplificar el desarrollo del muestreo en dos fases y cómo éste permite mejorar bastante la estrategia de muestreo. En esta sección se contemplan tres configuraciones que muestran claramente escenarios difíciles pero comunes en la vida práctica, en donde las encuestas y los marcos de muestreo sufren de imperfecciones y es necesario afilar las herramientas estadísticas para poder tratar con estos problemas.
+
+### Primera configuración: estratificación
+
+En este primer escenario se considera que el marco de muestreo es deficiente y sólo contempla la ubicación e identificación de las empresas del sector industrial. Bajo este marco de referencia se supone que no se conoce absolutamente nada acerca del comportamiento estructural de la población a través de las variables de interés: Ingreso, Gastos e Impuestos declarados durante el año pasado.
+
+Suponga que el investigador conoce que el sector industrial está dividido en tres niveles. Grande, Mediano y Pequeño y que además el comportamiento de las características de interés es sustancialmente diferente en cada uno de los anteriores subgrupos poblacionales. Si las bondades del marco de muestreo llegaran hasta determinar la clasificación de cada empresa a alguno de los anteriores tres estratos, entonces podría utilizarse un diseño de muestreo estratificado para mejorar la estimación. Sin embargo, suponga que no es posible contar con tal información a nivel poblacional. Sin embargo, existen algunas entidades de origen privado que venden esta información a un precio razonable. La mala noticia es que, debido a conflictos de intereses, no entregan la lista completa sino un subconjunto de 1000 de las 2396 empresas del sector industrial. La buena noticia es que el investigador puede determinar las mil empresas a su gusto.
+
+Bajo la anterior configuración, es posible utilizar un diseño de muestreo bifásico de la siguiente manera: en la primera fase, seleccionar una muestra de tamaño $n_a=1000$ y obtener la información del nivel para cada una de las empresas incluidas en esta primera muestra. Para esto, se utiliza la función `S.SI` del paquete `TeachingSampling` para obtener la primera muestra que será llamada como `Fase1`.
+
+```{r, message=FALSE}
+data(BigLucy)
+N <- dim(BigLucy)[1]
+n <- 4000
+sam <- S.SI(N,n)
+Fase1 <- BigLucy[sam,]
+attach(Fase1)
+head(Fase1)
+```
+
+La muestra realizada en la primera fase es de tamaño 1000 y está dividida en cada uno de los tres estratos. Por otro lado, en la segunda fase, y acudiendo a la información de pertenencia a los estratos, se selecciona una segunda muestra estratificada de tamaño $n=2000$ y para esto se configura la función `S.STSI` del paquete `TeachingSampling`.
+
+```{r, message=FALSE}
+na1 <- summary(Level)[[1]]
+na2 <- summary(Level)[[2]]
+na3 <- summary(Level)[[3]]
+n.a <- c(na1,na2,na3)
+n.a
+
+n1 <- 120
+n2 <- 880
+n3 <- 1000
+n <- c(n1,n2,n3)
+
+sam <- S.STSI(Level,n.a,n)
+data.fase2 <- Fase1[sam,]
+head(data.fase2)
+attach(data.fase2)
+```
+
+La submuestra realizada en la segunda fase es de tamaño 400 y está dividida en cada uno de los tres estratos. Una vez conseguida la información, se procede a estimar las cantidades de interés. Para esto se utiliza la función `E.STSI` del paquete `TeachingSampling`, la cual arroja las estimaciones expandidas a la muestra de la primera fase. Para expandirlas a la población basta con multiplicarlas por el inverso de la probabilidad de inclusión de la primera muestra\footnote{Esta operación **solamente** tiene sentido para las estimaciones de los totales y no para las varianzas ni sus estimaciones. Por lo tanto, estas se deben obviar puesto que no conducen al verdadero valor de las cantidades mencionadas.}. Los resultados se muestran a continuación.
+
+```{r, message=FALSE}
+estima <- data.frame(Income, Employees, Taxes)
+(N/sum(n.a))*E.STSI(Level,n.a,n,estima)[1,,]
+```
+
+Nótese que esta estrategia es recomendable cuando se desean obtener estimaciones eficiente por subgrupos poblacionales.
+
+### Segunda configuración: selección proporcional al tamaño
+
+En este apartado suponga que se tienen las mismas condiciones que en el escenario anterior. Sin embargo, el interés ahora no se centra en la estimación eficiente de los totales de la característica de interés dentro de algunos subgrupos poblacionales sino en la estimación eficiente del total poblacional de las características de interés. De esta manera, se desea ejecutar un diseño de muestreo aleatorio simple, en una primera etapa, para poder incorporar información auxiliar en la segunda etapa. Como antes, se utiliza la función `S.SI` del paquete `TeachingSampling` para la selección de esta primera muestra.
+
+```{r, message=FALSE}
+data(BigLucy)
+N <- dim(BigLucy)[1]
+na <- 4000
+sam <- S.SI(N,na)
+Fase1 <- BigLucy[sam,]
+attach(Fase1)
+```
+
+Una vez se ha seleccionado la muestra, el investigador se ve forzado a recopilar información auxiliar que le permita mejorar la estrategia de muestreo. En este caso, el investigador conoce que la característica Ingreso está relacionada directamente con las características de interés Número de Empleados e Impuestos. Además, es fácil conseguir tal información, puesto que, al igual que en la configuración anterior, existe una entidad que suministra dicha información aunque sólo para 1000 empresas por términos de cláusulas de confidencialidad. De esta manera, el investigador recopila los datos de Ingreso para las 1000 empresas incluidas en la muestra de la primera fase y toma la decisión de mejorar la estrategia de muestreo por medio de la incorporación de esta información auxiliar en el diseño de muestreo. En este orden de ideas, él decide utilizar un diseño de muestreo proporcional al Ingreso de las empresas. Para la selección de la submuestra se utiliza la función `S.PPS` del paquete `TeachingSampling`. La submuestra es de tamaño $m=400$ y se selecciona con reemplazo.
+
+```{r, message=FALSE}
+n <- 2000
+res <- S.PPS(n, Income)
+sam <- res[,1]
+pk.s <- res[,2]
+sum(pk.s)
+
+data <- Fase1[sam,]
+attach(data)
+estima <- data.frame(Income, Employees, Taxes)
+```
+
+Para la estimación del total poblacional de las características de interés se procede con la función `E.PPS` del paquete `TeachingSampling`, la cual provee la estimación expandida en la muestra de la Fase 1. Para expandir los resultados a la población, una vez más, basta con multiplicar estos resultados por el inverso de la probabilidad de inclusión de la primera fase dada por 2396/1000.
+
+```{r, message=FALSE}
+(N/na)*E.PPS(estima,pk.s)[1,]
+```
+
+### Tercera configuración: estimación de calibración
+
+Para este último escenario, suponga que el investigador selecciona una muestra aleatoria simple para la primera fase de muestreo con el fin de recolectar información que le permita mejorar la estrategia de muestreo.
+
+```{r, message=FALSE}
+data(BigLucy)
+N <- dim(BigLucy)[1]
+na <- 4000
+sam <- S.SI(N,na)
+Fase1 <- BigLucy[sam,]
+attach(Fase1)
+```
+
+Suponga ahora, que la entidad que provee la información, está dispuesta a brindar para cada una de las empresas incluidas en la muestra de la primera fase, no sólo la información del Ingreso sino que también la información acerca del Número de Empleados. De esta forma, el investigador propone seleccionar una submuestra mediante un diseño de muestreo aleatorio simple y combinarlo con un estimador de calibración mediante el método de Raking.
+
+```{r, message=FALSE}
+t.ax  <- c(na, sum(Income), sum(Employees))
+n <- 2000
+sam <- S.SI(na,n)
+data <- Fase1[sam,]
+attach(data)
+```
+
+Para estimar los resultados expandidos a la primera fase se utiliza la función `calib` del paquete `Sampling`, la cual proporciona las ponderaciones calibradas para la Fase 1. De la misma manera, estos resultados se expanden a la población mediante la multiplicación del inverso de la probabilidad de inclusión de la primera muestra.
+
+```{r, message=FALSE}
+library(sampling)
+y.as  <- data.frame(Income, Employees, Taxes)
+x.as  <- cbind(1, Income, Employees)
+pi.ak <- rep(n/na, times=n)
+w.ak <- calib(x.as, d = 1/pi.ak, t.ax, method="raking")
+
+tc.a <- t(w.ak/pi.ak) %*% as.matrix(y.as)
+(N/na) * tc.a
+```
+
+#### Comparación de resultados
+
+Aunque a primera vista, parecería que los resultados no tan cercanos a los totales poblacionales verdaderos, nótese que en particular para la características de interés Ingreso se obtiene una ganancia amplia comparado con un diseño de muestreo aleatorio simple. Nótese también que en este caso, el estimador de calibración arroja mejores resultados.
+
+| Método | Total poblacional | Total estimado | Desv. \% |
+| --- | --- | --- | --- |
+| Estratos | 28654 | 27854 | -2.79 |
+| Proporcional | 28654 | 30031 | 4.81 |
+| Calibración | 28654 | 27995 | -2.29 |
+
+: Estimaciones realizadas bajo distintos escenarios para el muestreo bifásico. {#tbl-tablacalib}
+
+## Ejercicios
+
+1. Suponga un estudio longitudinal que plantea tres encuestas, tipo semipanel, en diferentes tiempos. Para la tercera medición, se utilizó un diseño de muestreo con una rotación del 20\% para las siguientes posibles especificaciones:
+- De tamaño $n_1$ que fue seleccionada sólo de la muestra de la primera medición.
+- De tamaño $n_{12}$ que fue seleccionada de las muestras de las mediciones uno y dos.
+- De tamaño $n_{123}$ que fue seleccionada de las muestras de las tres mediciones.
+- De tamaño $n_{23}$ que fue seleccionada de las muestras de las mediciones dos y tres.
+- De tamaño $n_{3}$ que fue seleccionada de la muestra de la tercera medición.
+
+1. Dibuje un diagrama que ilustre la rotación de la muestra en las tres mediciones y los tamaños relativos de las cinco configuraciones anteriores.
+1. Proponga una fórmula para la estimación del total poblacional de la característica de interés en la tercera medición para las cinco configuraciones anteriores.
+1. Sin escribir ninguna fórmula estadística para las varianzas, indique en cuál de estas configuraciones y por qué, induce mayor eficiencia en las estimaciones.
+
+1. Suponga un diseño de muestreo en dos fases. En la primera fase, se seleccionó una muestra aleatoria simple sin reeemplazo $s_a$ de tamaño $n_a=150$. En esta fase se levantó la información de una característica de interés $x$. En la segunda fase, se decidió seleccionar una muestra $s$, mediante un diseño de muestreo Poisson con tamaño de muestra esperado $n_s=10$, mediante probabilidades de inclusión proporcionales a la característica de información auxiliar. La información para la muestra de la segunda fase es como sigue a continuación:
+
+| y | x |
+| --- | --- |
+| 2653 | 33 |
+| 17949 | 247 |
+| 1060 | 12 |
+| 1324 | 12 |
+| 2223 | 18 |
+| 2553 | 30 |
+| 2216 | 20 |
+| 13205 | 138 |
+| 3475 | 35 |
+| 7072 | 62 |
+| 4623 | 47 |
+
+1. Calcule una estimación insesgada para el total poblacional de $y$, teniendo en cuenta que el total de la característica de interés en la muestra de la primera fase es 4060.
+Utilice la siguiente expresión para calcular el respectivo coeficiente de variación estimado
+
+$$
+\begin{aligned}
+\widehat{Var}(\hat{t}_{y,\pi^*})&=
+\left(\frac{N}{n}\bar{x}_{s_a}\right)^2\frac{1}{n_a-1}
+\left[(n_a-f_a)\sum_s \left(\frac{y_k}{x_k}\right)^2-(1-f_a)\left(\sum_s\frac{y_k}{x_k}\right)^2\right]
+- \frac{N}{n}\bar{x}_{s_a}\sum_s\frac{y_k^2}{x_k}
+\end{aligned}
+$$
+
+1. Asuma que la muestra de la segunda fase del ejercicio anterior se obtuvo mediante muestreo PPT. Calcule una estimación insesgada para el total poblacional de $y$ y calcule el respectivo coeficiente de variación estimado.
+
+1. Suponga un diseño de muestreo en dos fases. En la primera fase, se seleccionó una muestra aleatoria simple sin reeemplazo $s_a$ de tamaño $n_a=160$. En esta fase se estratificó la población en cuatro subgrupos, cada uno de tamaño 40. En la segunda fase, se decidió seleccionar una muestra aleatoria estratificada de $20$ elementos en cada estrato y se observó la característica de interés. Los resultados obtenidos se muestran a continuación:
+
+| Estrato $h$ | $\bar{y}_{s_h}$ | $S^2_{y_{s_h}}$ |
+| --- | --- | --- |
+| 1 | 17.05 | 19945 |
+| 2 | 19.75 | 24179 |
+| 3 | 22.40 | 28359 |
+| 4 | 31.25 | 42829 |
+
+1. Calcule una estimación insesgada para el total poblacional de $y$.
+1. Obtenga una estimación para la varianza y reporte el respectivo coeficiente de variación estimado.
+1. Obtenga una estimación para la varianza y reporte el respectivo coeficiente de variación estimado, suponiendo que la muestra hubiese sido obtenido de un muestreo, en una sola fase, aleatorio estratificado de tamaño $n=80$.
