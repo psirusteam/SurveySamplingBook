@@ -2,7 +2,7 @@
 
 Este proyecto contiene la version HTML del libro migrado desde LaTeX/Sweave a Quarto.
 
-La version web publicada esta disponible en: https://psirusteam.github.io/EstrategiasDeMuestreo/
+La version web publicada esta disponible en: https://psirusteam.github.io/SurveySamplingBook/
 
 ## Archivos principales
 
