@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.36">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Estimación con información auxiliar – Estrategias de Muestreo</title>
+<title>9&nbsp; Estimation with Auxiliary Information – Sampling Strategies</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -113,17 +113,17 @@ div.csl-indent {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No se han encontrado resultados",
-    "search-matching-documents-text": "documentos encontrados",
-    "search-copy-link-title": "Copiar el enlace en la búsqueda",
-    "search-hide-matches-text": "Ocultar resultados adicionales",
-    "search-more-match-text": "resultado adicional en este documento",
-    "search-more-matches-text": "resultados adicionales en este documento",
-    "search-clear-button-title": "Borrar",
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancelar",
-    "search-submit-button-title": "Enviar",
-    "search-label": "Buscar"
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -166,13 +166,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/cap9.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimación con información auxiliar</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/cap9.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimation with Auxiliary Information</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -184,12 +184,12 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Estrategias de Muestreo</a> 
+      <a href="../">Sampling Strategies</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Buscar"></div>
+        <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -197,97 +197,97 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prólogo</span></a>
+ <span class="menu-text">Foreword</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Encuestas y estudios por muestreo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Surveys and Sampling Studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Muestras probabilísticas y estimadores</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability Samples and Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Muestras con probabilidades simples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Samples With Simple Probabilities</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Muestras con probabilidades proporcionales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Samples with probabilities proportional to size</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo estratificado</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Stratified sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Muestreo de conglomerados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cluster sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Muestreo en varias etapas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multistage sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap8.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimación de parámetros diferentes al total</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimation of Parameters Other than the Total</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap9.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimación con información auxiliar</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimation with Auxiliary Information</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimadores de calibración</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Calibration Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Muestreo balanceado</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Balanced Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Muestreo en dos fases</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Two-Phase Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap13.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Muestreo indirecto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Indirect Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap14.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Encuestas multi-propósito</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Multipurpose Surveys</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap15.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Inferencia basada en modelos poblacionales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Model-Based Inference for Populations</span></span></a>
   </div>
 </li>
     </ul>
@@ -297,18 +297,18 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Tabla de contenidos</h2>
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">9.1</span> Introducción</a></li>
-  <li><a href="#estimador-general-de-regresión" id="toc-estimador-general-de-regresión" class="nav-link" data-scroll-target="#estimador-general-de-regresión"><span class="header-section-number">9.2</span> Estimador general de regresión</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">9.1</span> Introduction</a></li>
+  <li><a href="#general-regression-estimator" id="toc-general-regression-estimator" class="nav-link" data-scroll-target="#general-regression-estimator"><span class="header-section-number">9.2</span> General regression estimator</a>
   <ul class="collapse">
-  <li><a href="#construcción" id="toc-construcción" class="nav-link" data-scroll-target="#construcción"><span class="header-section-number">9.2.1</span> Construcción</a></li>
-  <li><a href="#otras-propiedades-del-estimador-general-de-regresión" id="toc-otras-propiedades-del-estimador-general-de-regresión" class="nav-link" data-scroll-target="#otras-propiedades-del-estimador-general-de-regresión"><span class="header-section-number">9.2.2</span> Otras propiedades del estimador general de regresión</a></li>
+  <li><a href="#construction" id="toc-construction" class="nav-link" data-scroll-target="#construction"><span class="header-section-number">9.2.1</span> Construction</a></li>
+  <li><a href="#other-properties-of-the-general-regression-estimator" id="toc-other-properties-of-the-general-regression-estimator" class="nav-link" data-scroll-target="#other-properties-of-the-general-regression-estimator"><span class="header-section-number">9.2.2</span> Other properties of the general regression estimator</a></li>
   </ul></li>
-  <li><a href="#estimador-de-media-común" id="toc-estimador-de-media-común" class="nav-link" data-scroll-target="#estimador-de-media-común"><span class="header-section-number">9.3</span> Estimador de media común</a>
+  <li><a href="#common-mean-estimator" id="toc-common-mean-estimator" class="nav-link" data-scroll-target="#common-mean-estimator"><span class="header-section-number">9.3</span> Common mean estimator</a>
   <ul class="collapse">
-  <li><a href="#algunos-diseños-de-muestreo" id="toc-algunos-diseños-de-muestreo" class="nav-link" data-scroll-target="#algunos-diseños-de-muestreo"><span class="header-section-number">9.3.1</span> Algunos diseños de muestreo</a></li>
+  <li><a href="#some-sampling-designs" id="toc-some-sampling-designs" class="nav-link" data-scroll-target="#some-sampling-designs"><span class="header-section-number">9.3.1</span> Some sampling designs</a></li>
   <li><a href="#marco-y-lucy" id="toc-marco-y-lucy" class="nav-link" data-scroll-target="#marco-y-lucy"><span class="header-section-number">9.3.2</span> Marco y Lucy</a></li>
   </ul></li>
   </ul>
@@ -319,7 +319,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimación con información auxiliar</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimation with Auxiliary Information</span></h1>
 </div>
 
 
@@ -337,107 +337,107 @@ window.Quarto = {
 
 
 <blockquote class="blockquote">
-<p>Si los datos son útiles en la estimación o no, dependerá de la manera en que <span class="math inline">\(\mathbf{x}\)</span> esté relacionado con <span class="math inline">\(\mathbf{y}\)</span>. Si el conocimiento y experiencia del estadístico le dicen que efectivamente <span class="math inline">\(\mathbf{x}\)</span> tiene una fuerte relación con <span class="math inline">\(\mathbf{y}\)</span>, entonces el modelo comienza a tener sentido. Entre más conocimiento se tenga, se ajustará un mejor modelo. <span class="citation" data-cites="Intertres">Kott et&nbsp;al. (<a href="#ref-Intertres" role="doc-biblioref">2005</a>)</span></p>
+<p>Whether the data are useful in estimation will depend on the way in which <span class="math inline">\(\mathbf{x}\)</span> is related to <span class="math inline">\(\mathbf{y}\)</span>. If the statistician’s knowledge and experience indicate that <span class="math inline">\(\mathbf{x}\)</span> does indeed have a strong relationship with <span class="math inline">\(\mathbf{y}\)</span>, then the model begins to make sense. The more knowledge one has, the better the model that can be fitted. <span class="citation" data-cites="Intertres">Kott et al. (<a href="#ref-Intertres" role="doc-biblioref">2005</a>)</span></p>
 </blockquote>
-<p>Las nociones de la inferencia en poblaciones finitas fueron expresadas hace más de 60 años en muchos libros clásicos como Cochran, Hansen, Hurwitz y Madow, Deming, Muthy, Des Raj y otros. La teoría de muestreo era aplicada desde la perspectiva misma de la selección aleatorizada de posibles muestras en la población finita. Dependiendo de las circunstancias prácticas, la selección se hacía de distintas maneras: muestreo aleatorio simple, muestreo aleatorio estratificado, muestreo de conglomerados, muestreo en dos etapas, etc. El muestreo era considerado como la actividad primaria y la estimación nunca fue considerada como una práctica separada sino como una consecuencia automática. Lo anterior se debía a que cada tipo de diseño de muestreo inducía un estimador cuyas propiedades estadísticas como el insesgamiento y la varianza eran establecidas de antemano con el diseño y así, la varianza era calculable y estimable.</p>
-<p>Así que, para la década de los sesenta, muchos creyeron que la investigación en el campo del muestreo y de la inferencia en poblaciones finitas ya estaba muerta porque se deberían inventar nuevas formas de selección de muestras (tarea ardua y difícil), más allá de las que se cubrían en los libros clásicos del muestreo. Aunque el estimador de razón fue considerado en algún detalle por los textos de referencia, la inclusión de varias variables de información auxiliar no se vio como un tópico que prometiera rédito alguno para emprender el camino de la investigación en esa vía. En la década de los setenta, varios autores dieron un viraje en su perspectiva epistemológica de la inferencia en poblaciones finitas. Es así como Basú, Brewer, Godambe y Royall, entre otros, consideraron los modelos estadísticos (en sintonía con la estadística clásica Fisheriana) como los verdaderos fundamentos de la estimación e inferencia en poblaciones finitas. Su trabajo se cimentó alrededor de la posibilidad de tener una inferencia que dependiera estrictamente del modelo propuesto y no tuviera nada que ver con el diseño de muestreo utilizado en la recolección de los datos. Como consecuencia, la atención se tornó alrededor de la estimación y se dejo de lado el muestreo por la relación existente o propuesta entre la característica de interés y las variables de información auxiliar.</p>
-<p>El camino que tomó la historia del muestreo fue, precisamente, la incorporación de las dos corrientes de pensamiento bajo una sola sombrilla. Así que, fue posible combinar la aleatorización clásica con un percepción más general de la relación de y con x. No hubo necesidad de sacrificar los principios basados en la aleatorización. Así nació la inferencia asistida por modelos pero basada en ala aleatorización (<em>model assisted design-based inference</em> por su original en inglés). Este nuevo tipo de inferencia se hizo muy atractiva porque la regresión y los modelos acompañan al estadístico desde sus primeros cursos y van tomando más fuerzas a medida que se avanza en el camino universitario. Así que, este pensamiento “asistido por modelos” es un matrimonio efectivo y tolerante que permite las ideas de la regresión junto con el paradigma de la aleatorización.</p>
-<p>Jan Wrettman <span class="citation" data-cites="Intertres">Kott et&nbsp;al. (<a href="#ref-Intertres" role="doc-biblioref">2005</a>)</span> opina que el ajuste de un modelo se ha convertido en parte integral de la teoría clásica del muestreo, aunque los principios de la misma deben permanecer intocables porque las propiedades de los estimadores son evaluadas con respecto al mecanismo de probabilidad que genera la muestra y no con respecto a cualquier modelo asumido.</p>
-<section id="introducción" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">9.1</span> Introducción</h2>
-<!-- index: Información auxiliar -->
-<p>En los capítulos anteriores de este texto, el lector ha sido introducido en los diferentes diseños de muestreo que, dependiendo de la configuración de los valores de la característica de interés, mejoran la eficiencia de los estimadores de Horvitz-Thompson o Hansen-Hurwitz, según sea el caso. En algunas ocasiones, el uso correcto de la información auxiliar en la etapa de diseño hace que la eficiencia de los estimadores mejore dramáticamente. Por ejemplo, si la información auxiliar es de tipo categórico y está bien correlacionada con el comportamiento estructural de la característica de interés, es posible acudir a un diseño de muestreo estratificado. De otra forma, si la información auxiliar disponible en la población es de tipo continuo, podemos utilizar un diseño de muestreo PPT o <span class="math inline">\(\pi\)</span>PT para mejorar la precisión de las estimaciones. En cualquiera de los casos, es necesario:</p>
+<p>The notions of finite-population inference were expressed more than 60 years ago in many classic books, such as those by Cochran, Hansen, Hurwitz and Madow, Deming, Muthy, Des Raj, and others. Sampling theory was applied from the perspective of randomized selection of possible samples from the finite population. Depending on practical circumstances, selection was carried out in different ways: simple random sampling, stratified random sampling, cluster sampling, two-stage sampling, and so on. Sampling was considered the primary activity, and estimation was never treated as a separate practice but rather as an automatic consequence. This was because each type of sampling design induced an estimator whose statistical properties, such as unbiasedness and variance, were established in advance by the design; hence, the variance was computable and estimable.</p>
+<p>Thus, by the 1960s, many believed that research in sampling and finite-population inference was already dead, because new forms of sample selection would have to be invented, a difficult and demanding task beyond what was covered in classic sampling books. Although the ratio estimator was considered in some detail in the reference texts, the inclusion of several auxiliary information variables was not seen as a topic promising enough to justify a research path in that direction. In the 1970s, several authors shifted their epistemological perspective on finite-population inference. Basu, Brewer, Godambe, and Royall, among others, considered statistical models, in tune with classical Fisherian statistics, to be the true foundations of estimation and inference in finite populations. Their work was built around the possibility of inference depending strictly on the proposed model and having nothing to do with the sampling design used in data collection. As a consequence, attention turned toward estimation, and sampling was set aside in favor of the existing or proposed relationship between the characteristic of interest and the auxiliary information variables.</p>
+<p>The path taken by the history of sampling was precisely the incorporation of the two schools of thought under a single umbrella. It became possible to combine classical randomization with a more general perception of the relationship between y and x. There was no need to sacrifice randomization-based principles. Thus, model-assisted design-based inference was born. This new type of inference became very attractive because regression and models accompany statisticians from their first courses and gain strength as they progress through university training. Thus, this “model-assisted” thinking is an effective and tolerant marriage that allows regression ideas to coexist with the randomization paradigm.</p>
+<p>Jan Wretman <span class="citation" data-cites="Intertres">Kott et al. (<a href="#ref-Intertres" role="doc-biblioref">2005</a>)</span> argues that model fitting has become an integral part of classical sampling theory, although its principles must remain untouched because the properties of estimators are evaluated with respect to the probability mechanism that generates the sample, not with respect to any assumed model.</p>
+<section id="introduction" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">9.1</span> Introduction</h2>
+<!-- index: Auxiliary information -->
+<p>In the previous chapters of this text, the reader was introduced to different sampling designs that, depending on the configuration of the values of the characteristic of interest, improve the efficiency of the Horvitz-Thompson or Hansen-Hurwitz estimators, as appropriate. On some occasions, the correct use of auxiliary information at the design stage dramatically improves estimator efficiency. For example, if the auxiliary information is categorical and is well correlated with the structural behavior of the characteristic of interest, a stratified sampling design may be used. Alternatively, if the auxiliary information available in the population is continuous, we can use a PPS or <span class="math inline">\(\pi\)</span>PS sampling design to improve the precision of the estimates. In either case, it is necessary to:</p>
 <ol type="1">
-<li>Conocer los valores de la información auxiliar, ya sea de tipo continua o categórica, para todos los elementos que conforman la población.</li>
-<li>Tener la certeza de que la característica de interés guarda una estrecha correlación positiva con la información auxiliar.</li>
+<li>Know the values of the auxiliary information, whether continuous or categorical, for all elements that make up the population.</li>
+<li>Be certain that the characteristic of interest has a strong positive correlation with the auxiliary information.</li>
 </ol>
-<p>En este capítulo, el interés está centrado en mejorar la eficiencia de las estimaciones incorporando al estimador la información auxiliar, que puede ser de tipo categórico o continuo, fijando el diseño de muestreo utilizado. En otras palabras, se quiere hacer uso de la información auxiliar en la etapa de estimación. Para este fin es necesario:</p>
+<p>In this chapter, the focus is on improving the efficiency of estimates by incorporating auxiliary information, categorical or continuous, into the estimator while holding the sampling design fixed. In other words, we want to use auxiliary information at the estimation stage. For this purpose, it is necessary to:</p>
 <ol type="1">
-<li>Contar con la experticia del investigador que ha sabido discernir y escoger el mejor diseño de muestreo para la configuración de los valores de la característica de interés.</li>
-<li>Saber que la característica de interés está bien relacionada con la información auxiliar. Como se verá más adelante no es necesario el conocimiento estricto de los valores de la información auxiliar en todos los elementos de la población, aunque sí es necesario conocer estos valores para la muestra junto con el total poblacional de la información auxiliar en la población<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</li>
+<li>Rely on the researcher’s expertise in discerning and choosing the best sampling design for the configuration of the values of the characteristic of interest.</li>
+<li>Know that the characteristic of interest is well related to the auxiliary information. As will be seen later, strict knowledge of the auxiliary information values for all elements of the population is not required, although it is necessary to know these values for the sample, along with the population total of the auxiliary information in the population<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</li>
 </ol>
-<p>Por supuesto, los nuevos estimadores, que incorporan información auxiliar, apuntan a la mejora dramática en la eficiencia de las estrategias de estimación de totales poblacionales. Además de esta característica, existen muchas otras que tienen que ver con la consistencia y el insesgamiento. Sin embargo, una característica importante de un estimador construido a partir de la información auxiliar está dada por la siguiente definición.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Definición">
+<p>Of course, the new estimators that incorporate auxiliary information aim to dramatically improve the efficiency of strategies for estimating population totals. In addition to this characteristic, many others relate to consistency and unbiasedness. However, an important characteristic of an estimator built from auxiliary information is given by the following definition.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definition">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Definición
+<span class="screen-reader-only">Important</span>Definition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<!-- index: Estrategia de muestreo representativa -->
-<p>Una estrategia de muestreo se dice <strong>representativa</strong> con respecto a la información auxiliar <span class="math inline">\(\mathbf{x}\)</span>, sí y sólo sí</p>
+<!-- index: Representative sampling strategy -->
+<p>A sampling strategy is said to be <strong>representative</strong> with respect to the auxiliary information <span class="math inline">\(\mathbf{x}\)</span> if and only if</p>
 <p><span id="eq-rep"><span class="math display">\[
 \hat{t}_S(\mathbf{x})=t_{\mathbf{x}}.
 \tag{9.1}\]</span></span></p>
-<p>Es decir, si el estimador aplicado a las variables auxiliares reproduce exactamente el total poblacional de las mismas.</p>
+<p>That is, if the estimator applied to the auxiliary variables exactly reproduces their population total.</p>
 </div>
 </div>
-<p>La idea detrás del principio de representatividad de la estrategia es que si se tiene el conocimiento de que la característica de interés guarda una estrecha relación lineal con la información auxiliar entonces podemos pensar en que la siguiente igualdad se cumple</p>
+<p>The idea behind the representativeness principle of the strategy is that if the characteristic of interest is known to have a close linear relationship with the auxiliary information, then we can think of the following equality as holding:</p>
 <p><span class="math display">\[
     t_\mathbf{x}\approx t_y
 \]</span></p>
-<p>y, una consecuencia inmediata de esta propiedad, bajo los anteriores supuestos es que</p>
+<p>and, under the preceding assumptions, an immediate consequence of this property is that</p>
 <p><span class="math display">\[
     \hat{t}_S(y)\approx t_y
 \]</span></p>
-<p>Sin importar el diseño de muestreo utilizado para la selección de la muestra, si el total poblacional de las variables auxiliares, <span class="math inline">\(t_\mathbf{x}\)</span>, es conocido, se puede utilizar esta información para construir un estimador aún más preciso. En este capítulo se consideran los estimadores lineales de la forma</p>
+<p>Regardless of the sampling design used for sample selection, if the population total of the auxiliary variables, <span class="math inline">\(t_\mathbf{x}\)</span>, is known, this information can be used to construct an even more precise estimator. This chapter considers linear estimators of the form</p>
 <p><span class="math display">\[
 \hat{t}_S(y)=w_0+\sum_{k\in S}w_ky_k,
 \]</span></p>
-<p>En donde los pesos<!-- index: Peso --> <span class="math inline">\(w_k\)</span> pueden depender del vector de información auxiliar. Es claro que no todos los estimadores lineales cumplen la ecuación de representatividad. Por ejemplo, el estimador de Horvitz-Thompson es insesgado pero no utiliza información auxiliar por tanto no cumple la ecuación de representatividad para la información auxiliar. Aunque de manera teórica no es difícil mostrar que, utilizando un diseño de muestreo de tamaño de muestra fijo, el estimador de <span class="math inline">\(\hat{t}_{y\pi}\)</span> arroja una estrategia representativa sobre el vector de probabilidades de inclusión <span class="math inline">\(\pi_1, \ldots, \pi_N\)</span>.</p>
-<p>Si <span class="math inline">\(\hat{t}_{y,\pi}\)</span> y <span class="math inline">\(\hat{t}_{\mathbf{x},\pi}\)</span> son los estimadores de Horvitz-Thompson de <span class="math inline">\(y\)</span> y <span class="math inline">\(\mathbf{x}\)</span> respectivamente, entonces es posible construir nuevos estimadores que, sin importar el diseño de muestreo, arrojen estrategias representativas sobre el vector de información auxiliar <span class="math inline">\(\mathbf{x}\)</span>. Bajo estas condiciones la precisión de la estimación queda asegurada mediante la aplicación del siguiente resultado.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>where the weights<!-- index: Weight --> <span class="math inline">\(w_k\)</span> may depend on the auxiliary information vector. It is clear that not all linear estimators satisfy the representativeness equation. For example, the Horvitz-Thompson estimator is unbiased but does not use auxiliary information, and therefore does not satisfy the representativeness equation for the auxiliary information. However, theoretically it is not difficult to show that, using a fixed sample-size sampling design, the estimator <span class="math inline">\(\hat{t}_{y\pi}\)</span> yields a representative strategy over the vector of inclusion probabilities <span class="math inline">\(\pi_1, \ldots, \pi_N\)</span>.</p>
+<p>If <span class="math inline">\(\hat{t}_{y,\pi}\)</span> and <span class="math inline">\(\hat{t}_{\mathbf{x},\pi}\)</span> are the Horvitz-Thompson estimators of <span class="math inline">\(y\)</span> and <span class="math inline">\(\mathbf{x}\)</span>, respectively, then it is possible to construct new estimators that, regardless of the sampling design, yield representative strategies over the auxiliary information vector <span class="math inline">\(\mathbf{x}\)</span>. Under these conditions, the precision of the estimation is ensured through the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si el estimador <span class="math inline">\(\hat{t}_S(\cdot)\)</span> induce una estrategia representativa sobre el vector de información auxiliar <span class="math inline">\(\mathbf{x}\)</span>, tal que (<a href="#eq-rep" class="quarto-xref">ecuación&nbsp;<span>9.1</span></a>) se satisface. Entonces <span class="math inline">\(\hat{t}_S(\mathbf{x})\)</span> estimará el total <span class="math inline">\(t_{\mathbf{x}}\)</span> con varianza nula.</p>
-<p><strong>Prueba.</strong> Si (<a href="#eq-rep" class="quarto-xref">ecuación&nbsp;<span>9.1</span></a>) se cumple, entonces <span class="math display">\[
+<p>If the estimator <span class="math inline">\(\hat{t}_S(\cdot)\)</span> induces a representative strategy over the auxiliary information vector <span class="math inline">\(\mathbf{x}\)</span> such that (<a href="#eq-rep" class="quarto-xref">equation&nbsp;<span>9.1</span></a>) is satisfied, then <span class="math inline">\(\hat{t}_S(\mathbf{x})\)</span> estimates the total <span class="math inline">\(t_{\mathbf{x}}\)</span> with zero variance.</p>
+<p><strong>Proof.</strong> If (<a href="#eq-rep" class="quarto-xref">equation&nbsp;<span>9.1</span></a>) holds, then <span class="math display">\[
 \begin{aligned}
 Var(\hat{t}_S(\mathbf{x}))=Var(t_\mathbf{x})=0
 \end{aligned}
-\]</span> Nótese que el operador <span class="math inline">\(Var(\cdot)\)</span> se calcula sobre todas las posibles muestras del soporte <span class="math inline">\(Q\)</span> inducido por el diseño de muestreo. Es decir, para todas las muestras pertenecientes a <span class="math inline">\(Q\)</span> el estimador <span class="math inline">\(\mathbf{\hat{t}}_S(\mathbf{x})\)</span> reproducirá el total <span class="math inline">\(\mathbf{t}_\mathbf{x}\)</span></p>
+\]</span> Note that the operator <span class="math inline">\(Var(\cdot)\)</span> is calculated over all possible samples in the support <span class="math inline">\(Q\)</span> induced by the sampling design. That is, for all samples belonging to <span class="math inline">\(Q\)</span>, the estimator <span class="math inline">\(\mathbf{\hat{t}}_S(\mathbf{x})\)</span> will reproduce the total <span class="math inline">\(\mathbf{t}_\mathbf{x}\)</span>.</p>
 </div>
 </div>
-<p>Este resultado es muy importante porque si es cierto que la característica de interés está relacionada con la información auxiliar, entonces <span class="math inline">\(\hat{t}_S(y)\)</span> tenderá a contar con una varianza muy pequeña.</p>
-<p>Ahora es tiempo de discutir sobre la incorporación de la información auxiliar al estimador. ¿Cómo es posible introducir esta información en una expresión matemática que intenta estimar un parámetro? La respuesta es simple y clara: mediante un modelo de super-población <span class="math inline">\(\xi\)</span>.</p>
+<p>This result is very important because, if the characteristic of interest is indeed related to the auxiliary information, then <span class="math inline">\(\hat{t}_S(y)\)</span> will tend to have a very small variance.</p>
+<p>It is now time to discuss incorporating auxiliary information into the estimator. How can this information be introduced into a mathematical expression that attempts to estimate a parameter? The answer is simple and clear: through a superpopulation model <span class="math inline">\(\xi\)</span>.</p>
 </section>
-<section id="estimador-general-de-regresión" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="estimador-general-de-regresión"><span class="header-section-number">9.2</span> Estimador general de regresión</h2>
-<!-- index: Estimador general de regresión -->
-<p>En esta sección se construye un estimador del total poblacional de la característica de interés <span class="math inline">\(t_y\)</span> que mejora dramáticamente en eficiencia al incorporar información auxiliar. La manera en que esta incorporación se realiza es mediante el supuesto de que las variables de información auxiliar están relacionadas con la característica de interés mediante un modelo <span class="math inline">\(\xi\)</span>. Este modelo es un modelo lineal general y le da el nombre al estimador que se propone en este capítulo. Así que si existen <span class="math inline">\(N\)</span> variables aleatorias <span class="math inline">\(Y_1,Y_2,\ldots,Y_N\)</span> y un vector de variables aleatorias <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,\ldots,\mathbf{X}_N\)</span> y la relación entre estas variables aleatorias está dada por un modelo de super-población, de tal forma que:</p>
+<section id="general-regression-estimator" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="general-regression-estimator"><span class="header-section-number">9.2</span> General regression estimator</h2>
+<!-- index: General regression estimator -->
+<p>This section constructs an estimator of the population total of the characteristic of interest <span class="math inline">\(t_y\)</span> that dramatically improves efficiency by incorporating auxiliary information. This incorporation is carried out by assuming that the auxiliary information variables are related to the characteristic of interest through a model <span class="math inline">\(\xi\)</span>. This model is a general linear model and gives its name to the estimator proposed in this chapter. Thus, if there are <span class="math inline">\(N\)</span> random variables <span class="math inline">\(Y_1,Y_2,\ldots,Y_N\)</span> and a vector of random variables <span class="math inline">\(\mathbf{X}_1,\mathbf{X}_2,\ldots,\mathbf{X}_N\)</span>, and if the relationship between these random variables is given by a superpopulation model such that:</p>
 <p><span class="math display">\[
 Y_k=\mathbf{X}_k'\boldsymbol{\beta}+\varepsilon_k
 \]</span></p>
-<p>Donde cada uno de los <span class="math inline">\(\varepsilon_k\)</span> <span class="math inline">\(k\in U\)</span> son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza <span class="math inline">\(c_k\sigma^2\)</span>, tales que: <span class="math display">\[
+<p>where each of the <span class="math inline">\(\varepsilon_k\)</span>, <span class="math inline">\(k\in U\)</span>, are independent and identically distributed random variables with mean zero and variance <span class="math inline">\(c_k\sigma^2\)</span>, such that: <span class="math display">\[
 \begin{aligned}
 E_{\xi}(Y_k)&amp;=\mathbf{X}_k'\boldsymbol{\beta} \\
 Var_{\xi}(Y_k)&amp;=c_k\sigma^2.
 \end{aligned}
 \]</span></p>
-<p>Al considerar este modelo general es posible construir un estimador del total poblacional que conciba esta relación.</p>
-<section id="construcción" class="level3" data-number="9.2.1">
-<h3 data-number="9.2.1" class="anchored" data-anchor-id="construcción"><span class="header-section-number">9.2.1</span> Construcción</h3>
-<!-- index: Estimador general de regresión -->
-<p>Sea <span class="math inline">\(U\)</span> el conjunto de elementos en la población finita y <em>S</em> el conjunto de los elementos que conforman la muestra aleatoria. Sean <span class="math inline">\(y_k\)</span>, <span class="math inline">\(k\in S\)</span> y <span class="math inline">\(\mathbf{x}_{k}\)</span>, <span class="math inline">\(k\in U\)</span>, los valores de la característica de interés <em>y</em> y el vector de información auxiliar asociados al k-ésimo elemento de la población. Siendo <span class="math inline">\(\pi_k\)</span> la probabilidad de inclusión de primer orden, se asume que los totales poblacionales de la información auxiliar <span class="math inline">\(\mathbf{t}_{\mathbf{x}}=\sum_{k \in U}\mathbf{x_k}\)</span> son conocidos.</p>
-<p>De manera general, se asume que existe una relación entre la variable de interés y la información auxiliar por el modelo de super-población <span class="math inline">\(\xi\)</span>. Es decir, <span class="math display">\[
+<p>By considering this general model, it is possible to construct an estimator of the population total that accounts for this relationship.</p>
+<section id="construction" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="construction"><span class="header-section-number">9.2.1</span> Construction</h3>
+<!-- index: General regression estimator -->
+<p>Let <span class="math inline">\(U\)</span> be the set of elements in the finite population and <em>S</em> the set of elements that make up the random sample. Let <span class="math inline">\(y_k\)</span>, <span class="math inline">\(k\in S\)</span>, and <span class="math inline">\(\mathbf{x}_{k}\)</span>, <span class="math inline">\(k\in U\)</span>, be the values of the characteristic of interest <em>y</em> and the auxiliary information vector associated with the k-th element of the population. With <span class="math inline">\(\pi_k\)</span> denoting the first-order inclusion probability, assume that the population totals of the auxiliary information <span class="math inline">\(\mathbf{t}_{\mathbf{x}}=\sum_{k \in U}\mathbf{x_k}\)</span> are known.</p>
+<p>In general, it is assumed that there is a relationship between the variable of interest and the auxiliary information through the superpopulation model <span class="math inline">\(\xi\)</span>. That is, <span class="math display">\[
 y_k=f(x_{1k}, x_{2k}, \ldots, x_{pk})+E_k
 \]</span></p>
-<p>En particular, bajo <span class="math inline">\(\xi\)</span> existe una relación de tipo lineal entre <span class="math inline">\(y_k\)</span> y <span class="math inline">\(\mathbf{x_k}\)</span>. Por tanto, en la población finita se tiene que <span class="math display">\[
+<p>In particular, under <span class="math inline">\(\xi\)</span> there is a linear relationship between <span class="math inline">\(y_k\)</span> and <span class="math inline">\(\mathbf{x_k}\)</span>. Therefore, in the finite population, <span class="math display">\[
 \begin{aligned}
 y_k&amp;=\mathbf{x}_k'\mathbf{B}+E_k\\
 &amp;=y_kº+E_k
 \end{aligned}
 \]</span></p>
-<p>Entonces, el parámetro poblacional que se quiere estimar se puede escribir como <span class="math display">\[
+<p>Then the population parameter to be estimated can be written as <span class="math display">\[
 \begin{aligned}
 t_y&amp;=\sum_U(y_kº+y_k-y_kº)\\
 &amp;=\sum_U\mathbf{x}_k'\mathbf{B}+\sum_U(y_k-y_kº)\\
@@ -445,51 +445,51 @@ t_y&amp;=\sum_U(y_kº+y_k-y_kº)\\
 &amp;=\sum_Uy_kº+\sum_UE_k
 \end{aligned}
 \]</span></p>
-<p>Como el objetivo es estimar <span class="math inline">\(t_y\)</span> con los datos suministrados en la muestra. Entonces es necesario estimar dos cantidades. La primera es <span class="math inline">\(\mathbf{B}\)</span> que corresponde a un vector de coeficientes de regresión y que puede ser estimado siguiendo los principios del capítulo anterior. La segunda cantidad corresponde al total <span class="math inline">\(t_E\)</span> que puede ser estimado utilizando los principios del estimador de Horvitz-Thompson. De esta manera, se tiene la construcción del estimador general de regresión.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Definición">
+<p>Because the goal is to estimate <span class="math inline">\(t_y\)</span> with the data supplied in the sample, two quantities must be estimated. The first is <span class="math inline">\(\mathbf{B}\)</span>, which corresponds to a vector of regression coefficients and can be estimated following the principles of the previous chapter. The second quantity is the total <span class="math inline">\(t_E\)</span>, which can be estimated using the principles of the Horvitz-Thompson estimator. This gives the construction of the general regression estimator.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definition">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Definición
+<span class="screen-reader-only">Important</span>Definition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<!-- index: Estimador general de regresión -->
-<p>El estimador general de regresión está definido por la siguiente expresión <span class="math display">\[
+<!-- index: General regression estimator -->
+<p>The general regression estimator is defined by the following expression: <span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\sum_U\mathbf{x}_k'\mathbf{\hat{B}}+\sum_s\frac{y_k-\mathbf{x}_k'\mathbf{\hat{B}}}{\pi_k}
 \end{aligned}
 \]</span></p>
 </div>
 </div>
-<p>Desarrollando la expresión del estimador general de regresión y factorizando convenientemente, llegamos a que el estimador general de regresión se puede escribir como:</p>
+<p>Expanding the expression of the general regression estimator and factoring conveniently, we obtain that the general regression estimator can be written as:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\sum_U\mathbf{x}_k'\mathbf{\hat{B}}+\sum_s\frac{y_k}{\pi_k}-\sum_s\frac{\mathbf{x}_k'\mathbf{\hat{B}}}{\pi_k}\\
 &amp;=\hat{t}_{y\pi}+\sum_{j=1}^J\hat{B}_j(t_{xj}-\hat{t}_{xj\pi})
 \end{aligned}
 \]</span></p>
-<p>Que matricialmente se deja escribir como:</p>
+<p>In matrix form, this can be written as:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\hat{t}_{y\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{\hat{B}}
 \end{aligned}
 \]</span></p>
-<p>Como el estimador de <span class="math inline">\(\mathbf{B}\)</span> se halló utilizando la técnica de mínimos cuadrados, entonces</p>
+<p>Since the estimator of <span class="math inline">\(\mathbf{B}\)</span> was found using the least squares technique, then</p>
 <p><span class="math display">\[
 \hat{\mathbf{B}}=\hat{\mathbf{T}}^{-1}\hat{\mathbf{t}}
-\]</span> donde <span class="math display">\[
+\]</span> where <span class="math display">\[
 \begin{aligned}
 \mathbf{\widehat{T}}=\sum_S\dfrac{\mathbf{x}_k\mathbf{x}_k'}{\pi_kc_k}
 \end{aligned}
-\]</span> y <span class="math display">\[
+\]</span> and <span class="math display">\[
 \begin{aligned}
 \mathbf{\hat{t}}=\sum_S\dfrac{\mathbf{x}_ky_k}{\pi_kc_k}
 \end{aligned}
 \]</span></p>
-<p>Por tanto, al descomponer <span class="math inline">\(\mathbf{\hat{B}}\)</span>, el estimador toma la siguiente forma</p>
+<p>Therefore, by decomposing <span class="math inline">\(\mathbf{\hat{B}}\)</span>, the estimator takes the following form:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\sum_s\frac{y_k}{\pi_k}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{T}^{-1}\sum_s\frac{\mathbf{x}_ky_k}{c_k\pi_k}\\
@@ -497,11 +497,11 @@ t_y&amp;=\sum_U(y_kº+y_k-y_kº)\\
 &amp;=\sum_sg_{ks}\frac{y_k}{\pi_k}
 \end{aligned}
 \]</span></p>
-<p>Por lo tanto, se tienen distintas formas de escribir el mismo estimador; las últimas expresiones son particularmente útiles, pues los pesos<!-- index: Peso --> <span class="math inline">\(g_{ks}\)</span> tienen la propiedad de inducir estrategias representativas sobre cualquier variable del vector auxiliar. Es decir, al aplicar los pesos, sobre la muestra, a una variable de la información auxiliar, el resultado será el total poblacional de dicha variable.</p>
+<p>Therefore, there are different ways to write the same estimator; the last expressions are particularly useful because the weights<!-- index: Weight --> <span class="math inline">\(g_{ks}\)</span> have the property of inducing representative strategies over any variable of the auxiliary vector. That is, when the weights are applied to an auxiliary information variable in the sample, the result is the population total of that variable.</p>
 <p><span class="math display">\[
 \hat{\mathbf{t}}_{\mathbf{x},greg}=\sum_Sg_{ks}\frac{\mathbf{x}_k'}{\pi_k}=\mathbf{t}_{\mathbf{x}}
 \]</span></p>
-<p>Volviendo atrás a la introducción de este capítulo, se puede concluir que el estimador de regresión general es un estimador de tipo lineal con <span class="math inline">\(w_0=0\)</span> y <span class="math inline">\(w_k=\frac{g_{ks}}{\pi_k}\)</span>. De tal forma que</p>
+<p>Returning to the introduction of this chapter, we can conclude that the general regression estimator is a linear estimator with <span class="math inline">\(w_0=0\)</span> and <span class="math inline">\(w_k=\frac{g_{ks}}{\pi_k}\)</span>. Thus,</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\sum_Sw_ky_k\\
@@ -512,41 +512,41 @@ t_y&amp;=\sum_U(y_kº+y_k-y_kº)\\
 <p><span class="math display">\[
 g_{ks}=1+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{T}^{-1}\frac{\mathbf{x}_k}{c_k}
 \]</span></p>
-<p>A los pesos <span class="math inline">\(w_k\)</span> se les conoce con el nombre de <strong>pesos de calibración</strong><!-- index: Peso de calibración --> y son usados ampliamente en la construcción de estimadores asistidos en modelos de superpoblación. De esta manera, al usar los pesos calibrados el estimador asistido por modelos está dado por</p>
+<p>The weights <span class="math inline">\(w_k\)</span> are known as <strong>calibration weights</strong><!-- index: Calibration weight --> and are widely used in the construction of model-assisted estimators in superpopulation models. Thus, using the calibrated weights, the model-assisted estimator is given by</p>
 <p><span class="math display">\[
 \hat{t}_{y,cal}=\sum_{k\in S} w_ky_k.
 \]</span></p>
-<p>Nótese que una propiedad de los pesos de calibración es que el estimador de la información auxiliar reproduce exactamente los totales poblacionales de la misma. De esta forma, tenemos que</p>
+<p>Note that one property of calibration weights is that the estimator of the auxiliary information exactly reproduces its population totals. Thus, we have</p>
 <p><span class="math display">\[
 t_{x,cal}=\sum_{k\in S} w_kx_k=t_x.
 \]</span></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Para cualquier diseño de muestreo, el estimador <span class="math inline">\(\widehat{t}_{y,greg}\)</span> induce una estrategia representativa sobre el vector de variables auxiliares. Es decir</p>
+<p>For any sampling design, the estimator <span class="math inline">\(\widehat{t}_{y,greg}\)</span> induces a representative strategy over the vector of auxiliary variables. That is,</p>
 <p><span class="math display">\[
 \mathbf{\widehat{t}}_{\mathbf{x},greg}=\mathbf{t}_{\mathbf{x}}
 \]</span></p>
-<p><strong>Prueba.</strong> Utilizando la forma matricial del estimador general de regresión dada por la expresión (9.2.11) se tiene que <span class="math display">\[
+<p><strong>Proof.</strong> Using the matrix form of the general regression estimator given by expression (9.2.11), we have <span class="math display">\[
 \begin{aligned}
 \mathbf{\widehat{t}}_{\mathbf{x},greg}&amp;=\hat{\mathbf{t}}_{\mathbf{x}\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{\hat{B}}
 \end{aligned}
 \]</span></p>
-<p>Sin embargo, <span class="math inline">\(\mathbf{\hat{B}}\)</span> será los coeficiente de regresión, ajustados por mínimos cuadrados, entre la información auxiliar contra ella misma. Por lo tanto, se tratará de una matriz identidad. Esto es claro al desarrollarlo, por tanto</p>
+<p>However, <span class="math inline">\(\mathbf{\hat{B}}\)</span> will be the regression coefficients, fitted by least squares, of the auxiliary information against itself. Therefore, it will be an identity matrix. This is clear when developed; therefore,</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathbf{\hat{B}}=\mathbf{\widehat{T}}^{-1}\mathbf{\widehat{T}}=
 \left(\sum_S\dfrac{\mathbf{x}_k\mathbf{x}_k'}{\pi_kc_k}\right)^{-1}\left(\sum_S\dfrac{\mathbf{x}_k\mathbf{x}_k'}{\pi_kc_k}\right)=\mathbf{I}_{p\times p}
 \end{aligned}
 \]</span></p>
-<p>Entonces, el estimador general de regresión del vector de totales de la información auxiliar será</p>
+<p>Then the general regression estimator of the vector of auxiliary information totals will be</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathbf{\widehat{t}}_{\mathbf{x},greg}&amp;=\hat{\mathbf{t}}_{\mathbf{x}\pi}+
@@ -557,47 +557,47 @@ t_{x,cal}=\sum_{k\in S} w_kx_k=t_x.
 \]</span></p>
 </div>
 </div>
-<p>Es importante resaltar que la conformación estructural de los pesos de calibración<!-- index: Peso de calibración --> depende de</p>
+<p>It is important to emphasize that the structural configuration of the calibration weights<!-- index: Calibration weight --> depends on</p>
 <ol type="1">
-<li>El modelo de superpoblación y sus condicionamientos para la estimación de los parámetros de regresión. Es decir, la forma del modelo per se (con o sin intercepto y la cantidad de variables de información auxiliar) y la estructura de varianza (el valor que toma <span class="math inline">\(c_k\)</span>).</li>
-<li>El vector de probabilidades de inclusión en la muestra.</li>
-<li>La muestra realizada. Para cada posible muestra del soporte definido por el diseño de muestreo, existe una configuración distinta de pesos de calibración.</li>
+<li>The superpopulation model and its conditions for estimating the regression parameters. That is, the form of the model itself (with or without intercept and the number of auxiliary information variables) and the variance structure (the value taken by <span class="math inline">\(c_k\)</span>).</li>
+<li>The vector of inclusion probabilities in the sample.</li>
+<li>The realized sample. For each possible sample in the support defined by the sampling design, there is a different configuration of calibration weights.</li>
 </ol>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo">
+<div class="callout callout-style-default callout-note callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo
+<span class="screen-reader-only">Note</span>Example
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Retomando nuestra población ejemplo <span class="math inline">\(U\)</span>, suponga que el modelo de super-población <span class="math inline">\(\xi\)</span> es tal que</p>
+<p>Returning to our example population <span class="math inline">\(U\)</span>, suppose that the superpopulation model <span class="math inline">\(\xi\)</span> is such that</p>
 <p><span class="math display">\[
 Y_k=\beta_0+\beta_1X_k+\varepsilon_k
 \]</span></p>
-<p>Donde cada uno de los <span class="math inline">\(\varepsilon_k\)</span> <span class="math inline">\(k\in U\)</span> son variables aleatorias independientes e idénticamente distribuidas con media cero y estructura de varianza constante. Los valores de la característica de interés y de la información auxiliar continua se muestran a continuación</p>
+<p>where each of the <span class="math inline">\(\varepsilon_k\)</span>, <span class="math inline">\(k\in U\)</span>, are independent and identically distributed random variables with mean zero and constant variance structure. The values of the characteristic of interest and the continuous auxiliary information are shown below.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">34</span>, <span class="dv">46</span>, <span class="dv">89</span>, <span class="dv">35</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">52</span>, <span class="dv">60</span>, <span class="dv">75</span>, <span class="dv">100</span>, <span class="dv">50</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">52</span>, <span class="dv">60</span>, <span class="dv">75</span>, <span class="dv">100</span>, <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Mediante un diseño de muestreo aleatorio simple se selecciona una muestra de tamaño <span class="math inline">\(n=4\)</span>. Por supuesto, este diseño de muestreo induce probabilidades de inclusión <code>pik</code> para cada uno de los elementos.</p>
+<p>Using a simple random sampling design, a sample of size <span class="math inline">\(n=4\)</span> is selected. Of course, this sampling design induces inclusion probabilities <code>pik</code> for each of the elements.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">5</span>, <span class="dv">4</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pik <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">4</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pik <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">4</span> <span class="sc">/</span> <span class="dv">5</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Suponga que la muestra realizada está dada por los elementos 1, 2, 3 y 5 de la población, correspondientes a <strong>Yves, Ken, Erik, Leslie</strong>. Los valores de <code>y</code>, <code>x</code>, y de <code>pik</code> para cada uno de los elementos en la muestra están dados por</p>
+<p>Suppose that the realized sample is given by elements 1, 2, 3, and 5 of the population, corresponding to <strong>Yves, Ken, Erik, Leslie</strong>. The values of <code>y</code>, <code>x</code>, and <code>pik</code> for each of the elements in the sample are given by</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x.s <span class="ot">&lt;-</span> x[sam]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y.s <span class="ot">&lt;-</span> y[sam]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pik.s <span class="ot">&lt;-</span> pik[sam]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pik.s <span class="ot">&lt;-</span> pik[sam]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Con la ayuda de la función <code>Wk</code> del paquete <code>TeachingSampling</code> es posible realizar el cálculo de los pesos de calibración para los elementos seleccionados en la muestra. Esta función tiene cinco argumentos descritos a continuación: <code>x</code>, que es la matriz de información auxiliar conteniendo los valores para cada uno de los elementos de la muestra de la información auxiliar continua o discreta. Este argumento puede ser un vector, en el caso de una sola variable de información auxiliar, o una matriz, en el caso de múltiple información auxiliar. <code>tx</code>, que es el vector de totales poblacionales (que se suponen conocidos) de la información auxiliar. <code>pik</code>, es el vector de probabilidades de inclusión en los elementos incluidos en la muestra. <code>b0</code>, que por defecto toma el valor <code>FALSE</code> indicando que el modelo fue propuesto sin intercepto. De otra forma, si el modelo propuesto contiene intercepto, <code>b0</code> debe tomar el valor <code>TRUE</code>. El último argumento de la función es <code>ck</code> que hace alusión a la estructura de varianza del modelo. <code>ck</code> toma el valor 1 por defecto. Si la estructura de varianza es como en el modelo de razón, entonces <code>ck</code> deberá ser el mismo vector que se introdujo en el argumento <code>x</code>.</p>
-<p>De esta manera, se utiliza la función <code>Wk</code> del paquete <code>TeachingSampling</code> para encontrar los pesos de calibración<!-- index: Peso de calibración -->. Nótese que como el modelo fue propuesto con intercepto, eso quiere decir que la primera columna de la matriz de diseño es de sólo unos; por lo tanto, el argumento <code>tx</code> debe ser un vector conteniendo el total poblacional y el total de la variable de información auxiliar, así <code>tx=c(5,236)</code>. Como la estructura de varianza es constante, <code>ck</code> toma el valor uno.</p>
+<p>With the help of the <code>Wk</code> function from the <code>TeachingSampling</code> package, it is possible to calculate calibration weights for the elements selected in the sample. This function has five arguments, described below: <code>x</code>, the auxiliary information matrix containing, for each sample element, the values of the continuous or discrete auxiliary information. This argument may be a vector, in the case of a single auxiliary information variable, or a matrix, in the case of multiple auxiliary information. <code>tx</code> is the vector of population totals, assumed to be known, of the auxiliary information. <code>pik</code> is the vector of inclusion probabilities for the elements included in the sample. <code>b0</code>, which by default takes the value <code>FALSE</code>, indicates that the model was proposed without an intercept. Otherwise, if the proposed model contains an intercept, <code>b0</code> must take the value <code>TRUE</code>. The last argument of the function is <code>ck</code>, which refers to the variance structure of the model. <code>ck</code> takes the value 1 by default. If the variance structure is like that of the ratio model, then <code>ck</code> should be the same vector introduced in the <code>x</code> argument.</p>
+<p>Thus, the <code>Wk</code> function from the <code>TeachingSampling</code> package is used to find the calibration weights<!-- index: Calibration weight -->. Note that because the model was proposed with an intercept, the first column of the design matrix contains only ones; therefore, the <code>tx</code> argument must be a vector containing the population total and the total of the auxiliary information variable, that is, <code>tx=c(5,236)</code>. Because the variance structure is constant, <code>ck</code> takes the value one.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">Wk</span>(x.s, <span class="at">tx=</span><span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">236</span>), pik.s, <span class="at">ck=</span><span class="dv">1</span>, <span class="at">b0=</span><span class="cn">TRUE</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>w</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">Wk</span>(x.s, <span class="at">tx =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">236</span>), pik.s, <span class="at">ck =</span> <span class="dv">1</span>, <span class="at">b0 =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>w</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1]
 [1,] 1.30
@@ -606,25 +606,25 @@ Y_k=\beta_0+\beta_1X_k+\varepsilon_k
 [4,] 1.40</code></pre>
 </div>
 </div>
-<p>De esta manera se obtienen los pesos calibrado cuya agradable propiedad es que reproducen el total poblacional exacto de la información auxiliar.</p>
+<p>This gives the calibrated weights, whose pleasant property is that they reproduce the exact population total of the auxiliary information.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 236</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(y.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(y.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 341</code></pre>
 </div>
 </div>
-<p>Sin embargo, si el modelo <span class="math inline">\(\xi\)</span> hubiese sido formulado de manera distinta, como por ejemplo:</p>
+<p>However, if the model <span class="math inline">\(\xi\)</span> had been formulated differently, for example:</p>
 <p><span class="math display">\[
 Y_k=\beta_1X_k+\varepsilon_k
 \]</span></p>
-<p>Donde cada uno de los <span class="math inline">\(\varepsilon_k\)</span> <span class="math inline">\(k\in U\)</span> son variables aleatorias independientes e idénticamente distribuidas con media cero y estructura de varianza constante. Entonces, los argumentos en la función <code>Wk</code> del paquete <code>TeachingSampling</code> deben cambiar, de tal forma que</p>
+<p>where each of the <span class="math inline">\(\varepsilon_k\)</span>, <span class="math inline">\(k\in U\)</span>, are independent and identically distributed random variables with mean zero and constant variance structure. Then the arguments in the <code>Wk</code> function from the <code>TeachingSampling</code> package must change, so that</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">Wk</span>(x.s, <span class="at">tx=</span><span class="dv">236</span>, pik.s, <span class="at">ck=</span><span class="dv">1</span>, <span class="at">b0=</span><span class="cn">FALSE</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>w</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">Wk</span>(x.s, <span class="at">tx =</span> <span class="dv">236</span>, pik.s, <span class="at">ck =</span> <span class="dv">1</span>, <span class="at">b0 =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>w</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1]
 [1,]  1.2
@@ -633,38 +633,38 @@ Y_k=\beta_1X_k+\varepsilon_k
 [4,]  1.2</code></pre>
 </div>
 </div>
-<p>Nótese que aunque el modelo cambie, la propiedad de calibración se mantiene ante distintas configuraciones en los pesos.</p>
+<p>Note that although the model changes, the calibration property is maintained under different weight configurations.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 236</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(y.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(y.s <span class="sc">*</span> w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 332</code></pre>
 </div>
 </div>
-<p>Para este modelo de super-población, haga un ejercicio léxico-gráfico de todas las posibles muestras aleatorias simples de tamaño <span class="math inline">\(n=4\)</span>, donde calcule los pesos de calibración y verifique la propiedad de representatividad sobre el vector de información auxiliar.</p>
+<p>For this superpopulation model, carry out a lexical-graphic exercise over all possible simple random samples of size <span class="math inline">\(n=4\)</span>, calculating the calibration weights and verifying the representativeness property over the auxiliary information vector.</p>
 </div>
 </div>
 </section>
-<section id="otras-propiedades-del-estimador-general-de-regresión" class="level3" data-number="9.2.2">
-<h3 data-number="9.2.2" class="anchored" data-anchor-id="otras-propiedades-del-estimador-general-de-regresión"><span class="header-section-number">9.2.2</span> Otras propiedades del estimador general de regresión</h3>
-<!-- index: Estimador general de regresión -->
-<p>Por otro lado, acudiendo a la definición del estimador general de regresión, éste toma la siguiente forma</p>
+<section id="other-properties-of-the-general-regression-estimator" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="other-properties-of-the-general-regression-estimator"><span class="header-section-number">9.2.2</span> Other properties of the general regression estimator</h3>
+<!-- index: General regression estimator -->
+<p>On the other hand, using the definition of the general regression estimator, it takes the following form:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\sum_U\mathbf{x}_k'\mathbf{\hat{B}}+\sum_s\frac{y_k-\mathbf{x}_k'\mathbf{\hat{B}}}{\pi_k}\\
 &amp;=\sum_U\hat{y}_k+\sum_s\frac{e_k}{\pi_k}
 \end{aligned}
 \]</span></p>
-<p>En algunas ocasiones, el modelo <span class="math inline">\(\xi\)</span> que establece la relación entre la característica de interés y la información auxiliar es tal que</p>
+<p>On some occasions, the model <span class="math inline">\(\xi\)</span> that establishes the relationship between the characteristic of interest and the auxiliary information is such that</p>
 <p><span class="math display">\[
 \begin{aligned}
 \sum_s\frac{e_k}{\pi_k}=0.
 \end{aligned}
 \]</span></p>
-<p>Si la anterior ecuación se satisface, entonces el estimador general de regresión tomaría una forma mucho más sencilla dada por</p>
+<p>If the preceding equation is satisfied, then the general regression estimator would take the much simpler form given by</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\sum_U\hat{y}_k\\
@@ -672,27 +672,27 @@ Y_k=\beta_1X_k+\varepsilon_k
 &amp;=\mathbf{t'_x}\mathbf{\hat{B}}
 \end{aligned}
 \]</span></p>
-<p>Por lo que sólo se necesitaría del conocimiento del vector de totales poblacionales de las variables de información auxiliar <span class="math inline">\(\mathbf{t}_{\mathbf{x}}\)</span>, que pueden estar disponibles en alguna entidad administrativa, y de los valores que toman la característica de interés y el vector de información auxiliar, <span class="math inline">\(y_k\)</span> y <span class="math inline">\(\mathbf{x}_k\)</span> respectivamente, en la muestra realizada.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>Thus, only the vector of population totals of the auxiliary information variables <span class="math inline">\(\mathbf{t}_{\mathbf{x}}\)</span>, which may be available from some administrative entity, and the values taken by the characteristic of interest and the auxiliary information vector, <span class="math inline">\(y_k\)</span> and <span class="math inline">\(\mathbf{x}_k\)</span>, respectively, in the realized sample would be needed.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Una condición suficiente para que <span class="math display">\[
+<p>A sufficient condition for <span class="math display">\[
 \begin{aligned}
 \sum_s\frac{e_k}{\pi_k}=0.
 \end{aligned}
-\]</span> es que exista un vector <span class="math inline">\(\mathbf{v}\)</span> tal que <span class="math display">\[
+\]</span> is that there exists a vector <span class="math inline">\(\mathbf{v}\)</span> such that <span class="math display">\[
 \begin{aligned}
 \mathbf{v}'\mathbf{x}_k=c_k.
 \end{aligned}
 \]</span></p>
-<p><strong>Prueba.</strong> Si la ecuación (9.2.21) se satisface, entonces</p>
+<p><strong>Proof.</strong> If equation (9.2.21) is satisfied, then</p>
 <p><span class="math display">\[
 \begin{aligned}
 \sum_S\frac{e_k}{\pi_k}&amp;=\sum_S\frac{1}{\pi_k}\left(y_k-\mathbf{x}_k'\mathbf{\hat{B}}\right)\\
@@ -704,43 +704,43 @@ Y_k=\beta_1X_k+\varepsilon_k
 \]</span></p>
 </div>
 </div>
-<p><span class="citation" data-cites="Sar">Särndal et&nbsp;al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> afirman que algunos ejemplos de estructuras de varianza que satisfacen la ecuación (9.2.21) son:</p>
+<p><span class="citation" data-cites="Sar">Särndal et al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> state that some examples of variance structures that satisfy equation (9.2.21) are:</p>
 <ul>
-<li>Modelo de regresión lineal con intercepto <span class="math inline">\(x_{1k}=1\)</span> <span class="math inline">\(\forall k\in U\)</span> y estructura de varianza constante <span class="math inline">\(c_k=1\)</span>.</li>
-<li>Modelo de regresión lineal con estructura de varianza proporcional a alguna variable del vector de información auxiliar. Es decir, <span class="math display">\[
+<li>Linear regression model with intercept <span class="math inline">\(x_{1k}=1\)</span> <span class="math inline">\(\forall k\in U\)</span> and constant variance structure <span class="math inline">\(c_k=1\)</span>.</li>
+<li>Linear regression model with variance structure proportional to some variable in the auxiliary information vector. That is, <span class="math display">\[
           \sigma^2c_k\propto x_{jk}
-\]</span> Para algún <span class="math inline">\(j=1,\ldots,p\)</span> y para todo <span class="math inline">\(k\in U\)</span></li>
-<li>Modelo de regresión lineal con estructura de varianza proporcional a una combinación lineal de las variables de información auxiliar. Es decir, <span class="math display">\[
+\]</span> for some <span class="math inline">\(j=1,\ldots,p\)</span> and for all <span class="math inline">\(k\in U\)</span>.</li>
+<li>Linear regression model with variance structure proportional to a linear combination of the auxiliary information variables. That is, <span class="math display">\[
           \sigma^2c_k\propto \sum_{j=1}^pa_jx_{jk}
-\]</span> Para todo <span class="math inline">\(k\in U\)</span> y algunas constantes <span class="math inline">\(a_1,\ldots,a_p\)</span></li>
+\]</span> for all <span class="math inline">\(k\in U\)</span> and some constants <span class="math inline">\(a_1,\ldots,a_p\)</span>.</li>
 </ul>
-<p>Acerca de la filosofía que cubre el modelo <span class="math inline">\(\xi\)</span> en el estimador de regresión, <span class="citation" data-cites="Sar">Särndal et&nbsp;al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> afirman que el papel que juega este modelo se limita a la descripción, mas no explicación, de la nube de puntos en la población finita. Argumentan que se espera que el modelo propuesto ajuste razonablemente bien y que haga pensar que pudo haber generado el comportamiento particular de la característica de interés. Nótese que el supuesto es flexible y no exige la certeza de que el modelo en verdad haya generado los valores de <span class="math inline">\(y\)</span>. Por tanto, aunque el modelo induce aleatoriedad per se, las conclusiones de las estimaciones son independientes del mismo. Aún más, el modelo <span class="math inline">\(\xi\)</span> es un vehículo para encontrar una expresión matemática que permita estimar los coeficientes de regresión y la eficiencia de <span class="math inline">\(\hat{t}_{y,greg}\)</span> comparada con la del estimador de Horvitz-Thompson dependerá de la bondad del ajuste inducida por el modelo supuesto. Sin embargo, no depende de ninguna manera, de si el modelo es cierto o no. Por tanto todo tipo de inferencias acerca del estimador están basados en el diseño de muestreo y no en el modelo supuesto.</p>
-<p>Bajo la anterior argumentación, es necesario calcular y estimar la varianza del estimador general de regresión desde un punto de vista basado en el diseño de muestreo. Así que, siguiendo los lineamentos de la sección 8.1.1. en cuanto a la técnica de linealización de Taylor, se tiene el siguiente resultado.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>Regarding the philosophy surrounding the model <span class="math inline">\(\xi\)</span> in the regression estimator, <span class="citation" data-cites="Sar">Särndal et al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> state that the role played by this model is limited to describing, not explaining, the point cloud in the finite population. They argue that the proposed model is expected to fit reasonably well and to suggest that it could have generated the particular behavior of the characteristic of interest. Note that the assumption is flexible and does not require certainty that the model truly generated the values of <span class="math inline">\(y\)</span>. Therefore, although the model induces randomness per se, the conclusions of the estimates are independent of it. Moreover, the model <span class="math inline">\(\xi\)</span> is a vehicle for finding a mathematical expression that allows the regression coefficients to be estimated, and the efficiency of <span class="math inline">\(\hat{t}_{y,greg}\)</span> compared with that of the Horvitz-Thompson estimator will depend on the goodness of fit induced by the assumed model. However, it does not depend in any way on whether the model is true or not. Therefore, all types of inference about the estimator are based on the sampling design and not on the assumed model.</p>
+<p>Under the preceding argument, it is necessary to calculate and estimate the variance of the general regression estimator from a sampling-design-based perspective. Thus, following the guidelines of Section 8.1.1 on the Taylor linearization technique, we have the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El estimador general de regresión es aproximadamente insesgado para el total poblacional de la característica de interés <span class="math inline">\(t_y\)</span>. Además la aproximación de la varianza y la varianza estimada del estimador general de regresión están dadas por</p>
+<p>The general regression estimator is approximately unbiased for the population total of the characteristic of interest <span class="math inline">\(t_y\)</span>. In addition, the variance approximation and the estimated variance of the general regression estimator are given by</p>
 <p><span class="math display">\[
 AVar(\hat{t}_{y,greg})=\sum\sum_U\Delta_{kl}\frac{E_k}{\pi_k}\frac{E_l}{\pi_l}.
 \]</span> <span class="math display">\[
 \widehat{Var}(\hat{t}_{y,greg})=\sum\sum_S \dfrac{\Delta_{kl}}{\pi_{kl}}\frac{e_k}{\pi_k}\frac{e_l}{\pi_l}
 \]</span></p>
-<p>respectivamente. Donde <span class="math inline">\(E_k=y_k-\mathbf{x}_k'\mathbf{B}\)</span> son los errores en la población finita y <span class="math inline">\(e_k=y_k-\mathbf{x}_k'\mathbf{\hat{B}}\)</span> son los errores en la muestra seleccionada.</p>
-<p><strong>Prueba.</strong> Siguiendo los pasos de la linealización de Taylor, debemos expresar el estimador como una función de totales.</p>
+<p>respectively, where <span class="math inline">\(E_k=y_k-\mathbf{x}_k'\mathbf{B}\)</span> are the errors in the finite population and <span class="math inline">\(e_k=y_k-\mathbf{x}_k'\mathbf{\hat{B}}\)</span> are the errors in the selected sample.</p>
+<p><strong>Proof.</strong> Following the steps of Taylor linearization, we must express the estimator as a function of totals.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,greg}&amp;=\hat{t}_{y\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{\hat{B}}\\
 &amp;=f(\hat{t}_{y\pi},\hat{\mathbf{t}}_{\mathbf{x}\pi},\hat{\mathbf{T}},\hat{\mathbf{t}})
 \end{aligned}
 \]</span></p>
-<p>Nótese que <span class="math display">\[
+<p>Note that <span class="math display">\[
 \left.\frac{\partial f}{\partial\hat{\mathbf{T}}}\right|_{\hat{t}_{y\pi}=t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
 =\mathbf{T},\hat{\mathbf{t}}=\mathbf{t}}
 =(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'
@@ -748,7 +748,7 @@ AVar(\hat{t}_{y,greg})=\sum\sum_U\Delta_{kl}\frac{E_k}{\pi_k}\frac{E_l}{\pi_l}.
 =t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
 =\mathbf{T},\hat{\mathbf{t}}=\mathbf{t}}=\mathbf{0}
 \]</span></p>
-<p>y análogamente, se tiene que <span class="math display">\[
+<p>and analogously, we have <span class="math display">\[
 \left.\frac{\partial f}{\partial\hat{\mathbf{t}}}\right|_{\hat{t}_{y\pi}=t_y,
 \hat{\mathbf{t}}_{\mathbf{x}\pi}=\mathbf{t}_{\mathbf{x}},
 \hat{\mathbf{T}}=\mathbf{T},
@@ -760,7 +760,7 @@ AVar(\hat{t}_{y,greg})=\sum\sum_U\Delta_{kl}\frac{E_k}{\pi_k}\frac{E_l}{\pi_l}.
 \hat{\mathbf{t}}=\mathbf{t}}
 =\mathbf{0}.
 \]</span></p>
-<p>Por consiguiente, sólo se calcula las derivadas de <span class="math inline">\(f\)</span> con respecto a <span class="math inline">\(\hat{t}_{y\pi}\)</span> y <span class="math inline">\(\hat{\mathbf{t}}_{\mathbf{x}\pi}\)</span>, y se tiene que</p>
+<p>Consequently, only the derivatives of <span class="math inline">\(f\)</span> with respect to <span class="math inline">\(\hat{t}_{y\pi}\)</span> and <span class="math inline">\(\hat{\mathbf{t}}_{\mathbf{x}\pi}\)</span> are calculated, and we have</p>
 <p><span class="math display">\[
 \begin{aligned}
 a_1&amp;=\left.\dfrac{\partial f(\hat{t}_{y\pi},\hat{\mathbf{t}}_{\mathbf{x}\pi})}{\partial \hat{t}_{y\pi}}\right|_{\hat{t}_{y\pi}=t_y,\hat{\mathbf{t}}_{\mathbf{x}\pi}=\mathbf{t}_{\mathbf{x}},\hat{\mathbf{T}}
@@ -773,85 +773,85 @@ a_2&amp;=\left.\dfrac{\partial f(\hat{t}_{y\pi},\hat{\mathbf{t}}_{\mathbf{x}\pi}
 &amp;=-\mathbf{B}'
 \end{aligned}
 \]</span></p>
-<p>Por tanto, se tiene que <span class="math display">\[
+<p>Therefore, we have <span class="math display">\[
 \hat{t}_{y,greg}\cong t_y+(\hat{t}_{y\pi}-t_y)-
 \mathbf{B}'(\hat{\mathbf{t}}_{\mathbf{x}\pi}-\hat{\mathbf{t}}_{\mathbf{x}}),
-\]</span> y tomando esperanza, se tiene que <span class="math inline">\(E(\hat{t}_{y,greg})\cong t_y\)</span>.</p>
-<p>Al definir la nueva variable linealizada dada por la expresión (8.1.14), se tiene que <span class="math display">\[
+\]</span> and, taking expectations, <span class="math inline">\(E(\hat{t}_{y,greg})\cong t_y\)</span>.</p>
+<p>Defining the new linearized variable given by expression (8.1.14), we have <span class="math display">\[
 \begin{aligned}
 E_k=y_k-\mathbf{x}_k'\mathbf{B}
 \end{aligned}
 \]</span></p>
-<p>cuya aproximación con los datos recolectados en la muestra es <span class="math display">\[
+<p>whose approximation with the data collected in the sample is <span class="math display">\[
 \begin{aligned}
 e_k=y_k-\mathbf{x}_k'\mathbf{\widehat{B}}
 \end{aligned}
 \]</span></p>
-<p>Por tanto, la varianza se escribe, recurriendo al resultado 8.1.3, como</p>
+<p>Therefore, using Result 8.1.3, the variance is written as</p>
 <p><span class="math display">\[
 AVar(\hat{t}_{y,greg})=Var\left(\sum_S\frac{E_k}{\pi_k}\right)
 \]</span></p>
-<p>Utilizando los principios del estimador de Horvitz-Thompson se llega a los resultados de la aproximación de la varianza y de la varianza estimada.</p>
+<p>Using the principles of the Horvitz-Thompson estimator leads to the results for the variance approximation and the estimated variance.</p>
 </div>
 </div>
-<p><span class="citation" data-cites="Sar">Särndal et&nbsp;al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> proponen un estimador de la varianza que integra los pesos<!-- index: Peso --> <span class="math inline">\(g_{ks}\)</span>. La motivación de este nuevo estimador de la varianza recae en que una forma de escribir el estimador de regresión general está dada por</p>
+<p><span class="citation" data-cites="Sar">Särndal et al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> propose a variance estimator that incorporates the weights<!-- index: Weight --> <span class="math inline">\(g_{ks}\)</span>. The motivation for this new variance estimator is that one way to write the general regression estimator is</p>
 <p><span class="math display">\[
 \hat{t}_{y,greg}=\sum_Uy_kº+\sum_S\frac{g_{ks}E_k}{\pi_k}
 \]</span></p>
-<p>Por lo tanto, al calcular su varianza tenemos</p>
+<p>Therefore, when calculating its variance, we have</p>
 <p><span class="math display">\[
 \begin{aligned}
 Var\left(\hat{t}_{y,greg}\right)&amp;=Var\left(\sum_Uy_kº+\sum_S\frac{g_{ks}E_k}{\pi_k}\right)\\
 &amp;=Var\left(\sum_S\frac{g_{ks}E_k}{\pi_k}\right)
 \end{aligned}
 \]</span></p>
-<p>Utilizando los principios del estimador de Horvitz-Thompson, un estimador alternativo para la varianza del estimador general de regresión está dada por</p>
+<p>Using the principles of the Horvitz-Thompson estimator, an alternative estimator for the variance of the general regression estimator is given by</p>
 <p><span class="math display">\[
 \widehat{Var}(\hat{t}_{y,greg})=\sum\sum_S \dfrac{\Delta_{kl}}{\pi_{kl}}\frac{g_{ks}e_k}{\pi_k}\frac{g_{ls}e_l}{\pi_l}
 \]</span></p>
-<p>El lector debe tener muy claro que la propiedad de insesgamiento no aplica a esta clase de estimadores. Sin embargo, cuando el tamaño de muestra y el tamaño poblacional son grandes, entonces el sesgo del estimador general de regresión es despreciable. Se debe tener sumo cuidado en las muestras de tamaño pequeño, máxime cuando se realiza el proceso de estimación por intervalos de confianza. <span class="citation" data-cites="Sar">Särndal et&nbsp;al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> afirman al respecto que, aunque el sesgo afecta la validez de los intervalos de confianza generados con el estimador general de regresión, es válido utilizar el siguiente intervalo de confianza</p>
+<p>The reader should be very clear that the unbiasedness property does not apply to this class of estimators. However, when the sample size and population size are large, the bias of the general regression estimator is negligible. Great care must be taken with small samples, especially when carrying out confidence-interval estimation. <span class="citation" data-cites="Sar">Särndal et al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> state in this regard that, although bias affects the validity of the confidence intervals generated with the general regression estimator, it is valid to use the following confidence interval</p>
 <p><span class="math display">\[
 \hat{t}_{y,greg} \pm z_{1-\alpha/2}\sqrt{\widehat{Var}(\hat{t}_{y,greg})}
 \]</span></p>
-<p>incluso cuando el tamaño de muestra es modesto.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>even when the sample size is modest.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Bajo la familia de diseños de muestreo MAS, el estimador general de regresión es consistente en el sentido Cochran. Es decir, si <span class="math inline">\(s=U\)</span>, entonces <span class="math display">\[
+<p>Under the family of SRS sampling designs, the general regression estimator is consistent in Cochran’s sense. That is, if <span class="math inline">\(s=U\)</span>, then <span class="math display">\[
 \hat{t}_{y,greg}=t_y
 \]</span></p>
 </div>
 </div>
-<p>Hasta este momento, hemos definido el estimador general de regresión como un intento de conciliar la teoría clásica de modelos con el muestreo de poblaciones finitas. Este estimador ha ganado mucho campo en las últimas décadas y su uso, dadas sus propiedades deseables, es aún mayor a medida que el tiempo pasa. Sin embargo, el estimador general de regresión es el resultado de décadas de desarrollo teórico y construcción de estimadores asistidos por modelos que se constituyen como casos particulares de éste.</p>
-<p>En las próximas secciones, estudiaremos cada uno de estos casos particulares más utilizados en la práctica. El lector debe notar que cada uno de los estimadores que siguen en las siguientes secciones, fueron propuestos en los tiempos antiguos sin tener en cuenta un modelo de super-población sino con una motivación puramente empírica. Sin embargo, como se verá en desarrollo de las siguientes secciones, todos estos estimadores están cubiertos bajo los principios del estimador general de regresión y por los coeficientes de regresión que el modelo induzca.</p>
-<p>Para terminar la exposición del estimador general de regresión, el lector debe notar que este estimador es completamente inútil en la práctica. En otras palabras, su basta generalidad hace que este estimador sea inutilizable. Como en todo proceso estadístico, el modelo general y sus correspondientes expresiones matemáticas carecen de sentido sin el conocimiento del comportamiento particular de cada característica de interés. Con lo anterior, no es mi intención desactivar al lector. Por el contrario, cuando el estadístico logra entender qué es un modelo de super población, y obtiene un estimador particular conforme al comportamiento de la población de estudio, entonces la ganancia en eficiencia es tremenda.</p>
-<p>En las siguientes secciones se darán ejemplos particulares del estimador de regresión cuando el modelo que rige la población finita ya se ha especificado. Nótese que todos y cada uno de los estimadores que a continuación se presentan son casos particulares del estimador general de regresión. Por supuesto, cada uno de ellos recibe un nombre particular, que en la mayoría de los casos está supeditado al modelo que rige la población particular.</p>
-<p>El lector debe retomar en cada una de las siguientes páginas el espíritu del estimador general de regresión como una familia que cobija casos particulares de estimadores. Todos y cada uno de los estimadores que se revisan en este capítulo nacieron bajo especificaciones propias que los caracterizaban de manera singular. Por tanto, el desarrollo histórico de cada uno de ellos no estuvo fundamentado, en principio, como un caso particular de algún otro estimador. El estimador de razón, el estimador de regresión, el estimador de post-estratificación, entre otros, fueron concebidos aparte de la idea de los modelos lineales. Sus creadores no estaban pensando en calcular o estimar un coeficiente de regresión. Por supuesto, con el trascurrir del tiempo y los avances en términos de la teoría estadística de los modelos lineales, se creó una familia que unifica a todos los estimadores de este capítulo en un sólo estimador general.</p>
+<p>Up to this point, we have defined the general regression estimator as an attempt to reconcile classical model theory with finite-population sampling. This estimator has gained much ground in recent decades, and its use, given its desirable properties, continues to grow over time. However, the general regression estimator is the result of decades of theoretical development and construction of model-assisted estimators that are special cases of it.</p>
+<p>In the next sections, we study each of the special cases most commonly used in practice. The reader should note that each of the estimators appearing in the following sections was originally proposed without considering a superpopulation model, but rather with purely empirical motivation. However, as will be seen in the development of the following sections, all these estimators are covered by the principles of the general regression estimator and by the regression coefficients induced by the model.</p>
+<p>To conclude the presentation of the general regression estimator, the reader should note that this estimator is completely useless in practice. In other words, its vast generality makes it unusable. As in any statistical process, the general model and its corresponding mathematical expressions are meaningless without knowledge of the particular behavior of each characteristic of interest. With this statement, I do not intend to discourage the reader. On the contrary, when the statistician understands what a superpopulation model is and obtains a particular estimator according to the behavior of the study population, the efficiency gain is tremendous.</p>
+<p>The following sections give particular examples of the regression estimator when the model governing the finite population has already been specified. Note that every estimator presented below is a special case of the general regression estimator. Of course, each receives a specific name, which in most cases depends on the model governing the particular population.</p>
+<p>On each of the following pages, the reader should keep in mind the spirit of the general regression estimator as a family that covers special cases of estimators. Each estimator reviewed in this chapter arose under its own specifications, which characterized it in a singular way. Therefore, the historical development of each was not originally founded as a special case of some other estimator. The ratio estimator, the regression estimator, the post-stratification estimator, among others, were conceived separately from the idea of linear models. Their creators were not thinking about calculating or estimating a regression coefficient. Of course, over time and with advances in the statistical theory of linear models, a family was created that unifies all the estimators in this chapter into a single general estimator.</p>
 </section>
 </section>
-<section id="estimador-de-media-común" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="estimador-de-media-común"><span class="header-section-number">9.3</span> Estimador de media común</h2>
-<!-- index: Estimador de media común -->
-<p>Recuerde que la construcción de la estrategia de muestreo es la tarea más importante antes de realizar cualquier estudio por muestreo. Sin embargo, se debe reconocer que cada una de las posibles estrategias de muestreo tiene ventajas y desventajas sobre las restantes estrategias. Suponga que el diseño de muestreo que se ha propuesto consiste en un diseño de muestreo Bernoulli. ¿Qué tipo de estimador es el mejor para este diseño de muestreo?. En teoría, existen muchos estimadores insesgados para este diseño particular, por ejemplo el estimador de Horvitz-Thompson. Sin embargo, desde un punto de vista práctico, es posible que la muestra realizada o seleccionada para este diseño de muestreo consista en todas y cada una de las unidades de la población. Bajo el anterior escenario el estimador de Horvitz-Thompson no plantea ningún tipo de ventajas pues la estimación para el total poblacional será una estimación totalmente errónea, igual a <span class="math inline">\(t_y/\pi\)</span> y estrictamente mayor a <span class="math inline">\(t_y\)</span>.</p>
-<p>Como se vio en capítulos anteriores, aunque la probabilidad de que la muestra seleccionada o realizada contenga todas las unidades poblacionales, el estimador alternativo del total poblacional, dado en la expresión (2.2.17), proporciona una mejor opción que el estimador de Horvitz-Thompson. Este estimador alternativo se conoce con el nombre de estimador de media común y está motivado por el <strong>modelo de media común</strong> que supone que la población se comporta de la misma manera de acuerdo a una pendiente común para cada uno de los individuos que conforman. De esta manera <span class="math inline">\(p=1\)</span>, <span class="math inline">\(\mathbf{x}_k=1\)</span> y <span class="math inline">\(c_k=1\)</span> para todo <span class="math inline">\(k\in U\)</span>. La formulación del modelo de superpoblación está dada por</p>
+<section id="common-mean-estimator" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="common-mean-estimator"><span class="header-section-number">9.3</span> Common mean estimator</h2>
+<!-- index: Common mean estimator -->
+<p>Recall that constructing the sampling strategy is the most important task before conducting any sampling study. However, it must be recognized that each possible sampling strategy has advantages and disadvantages compared with the others. Suppose that the proposed sampling design consists of a Bernoulli sampling design. What type of estimator is best for this sampling design? In theory, many unbiased estimators exist for this particular design, such as the Horvitz-Thompson estimator. However, from a practical point of view, it is possible that the sample realized or selected under this sampling design consists of every unit in the population. Under this scenario, the Horvitz-Thompson estimator offers no advantage, because the estimate for the population total will be completely wrong, equal to <span class="math inline">\(t_y/\pi\)</span> and strictly greater than <span class="math inline">\(t_y\)</span>.</p>
+<p>As seen in previous chapters, although the probability that the selected or realized sample contains all population units may be small, the alternative estimator of the population total, given in expression (2.2.17), provides a better option than the Horvitz-Thompson estimator. This alternative estimator is known as the common mean estimator and is motivated by the <strong>common mean model</strong>, which assumes that the population behaves in the same way according to a common slope for each individual that composes it. Thus <span class="math inline">\(p=1\)</span>, <span class="math inline">\(\mathbf{x}_k=1\)</span>, and <span class="math inline">\(c_k=1\)</span> for all <span class="math inline">\(k\in U\)</span>. The superpopulation model formulation is given by</p>
 <p><span class="math display">\[
 Y_k=\beta+\varepsilon_k
 \]</span></p>
-<p>Donde cada uno de los <span class="math inline">\(\varepsilon_k\)</span> <span class="math inline">\(k\in U\)</span> son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza <span class="math inline">\(\sigma^2\)</span>. Como resultado de lo anterior se tiene que</p>
+<p>where each of the <span class="math inline">\(\varepsilon_k\)</span>, <span class="math inline">\(k\in U\)</span>, are independent and identically distributed random variables with mean zero and variance <span class="math inline">\(\sigma^2\)</span>. As a result, we have</p>
 <p><span class="math display">\[
 \begin{aligned}
 E_{\xi}(Y_k)&amp;=\beta \\
 Var_{\xi}(Y_k)&amp;=\sigma^2.
 \end{aligned}
 \]</span></p>
-<p>A simple vista el estimador resultante del modelo anterior no es mejor que el estimador de Horvitz-Thompson pues la información auxiliar es siempre constante. Sin embargo, el estimador resultante es muchas veces mejor que el estimador de Horvitz-Thompson como cuando la estrategia de muestreo implica un diseño de muestreo tipo Bernoulli. Es común utilizar el estimador de media común cuando el gráfico de dispersión entre la característica de interés y la característica de información auxiliar define una recta de regresión constante y paralela al eje de las abscisas. Por supuesto, el cociente entre estas dos características también definirá un gráfico de dispersión cuyo comportamiento sea constante con ligeras desviaciones uniformes como se puede observar en la siguiente figura.</p>
+<p>At first glance, the estimator resulting from the preceding model is no better than the Horvitz-Thompson estimator, because the auxiliary information is always constant. However, the resulting estimator is often better than the Horvitz-Thompson estimator, as when the sampling strategy involves a Bernoulli-type sampling design. It is common to use the common mean estimator when the scatterplot between the characteristic of interest and the auxiliary information characteristic defines a constant regression line parallel to the horizontal axis. Of course, the quotient between these two characteristics will also define a scatterplot whose behavior is constant, with slight uniform deviations, as can be seen in the following figure.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">500</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">10</span></span>
@@ -860,14 +860,16 @@ Var_{\xi}(Y_k)&amp;=\sigma^2.
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>N)</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, N)</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, sigma)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> b <span class="sc">*</span> x <span class="sc">+</span> e </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> b <span class="sc">*</span> x <span class="sc">+</span> e</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(z, y, x)</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> y)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> y <span class="sc">/</span> x)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> y <span class="sc">/</span> x)) <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-f9-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -875,51 +877,51 @@ Var_{\xi}(Y_k)&amp;=\sigma^2.
 <img src="cap9_files/figure-html/fig-f9-1-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-f9-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;9.1: Relación en un modelo de media común.
+Figure&nbsp;9.1: Relationship in a common mean model.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Si se tuviese acceso a toda la población finita, el estimador del coeficiente de regresión <span class="math inline">\(\beta\)</span> estaría dado por la minimización de la siguiente función de dispersión</p>
+<p>If the entire finite population were available, the estimator of the regression coefficient <span class="math inline">\(\beta\)</span> would be obtained by minimizing the following dispersion function:</p>
 <p><span class="math display">\[
 D=\sum_U \frac{\left(y_k-B \right)^2}{\sigma^2}.
 \]</span></p>
-<p>Utilizando el resultado 8.4.2 y recurriendo a la ecuación (8.4.6), el estimador <span class="math inline">\(B\)</span> en la población finita toma la siguiente forma <span class="math display">\[
+<p>Using Result 8.4.2 and equation (8.4.6), the estimator <span class="math inline">\(B\)</span> in the finite population takes the following form: <span class="math display">\[
 B=\frac{t_y}{N}=\bar{y}_U
 \]</span></p>
-<p>Por supuesto, como en la práctica sólo se tiene acceso a una muestra particular de población finita, <span class="math inline">\(B\)</span> debe ser estimado de tal manera que siguiendo el resultado 8.4.3. llegamos a la siguiente expresión <span class="math display">\[
+<p>Of course, since in practice only a particular sample from the finite population is available, <span class="math inline">\(B\)</span> must be estimated. Following Result 8.4.3, we arrive at the following expression: <span class="math display">\[
 \hat{B}=\frac{\hat{y}_{y,\pi}}{\hat{N}_{\pi}}=\widetilde{y}_S
 \]</span></p>
-<p>Con estas herramientas es posible ahora construir un estimador del total poblacional de la característica de interés el cual está dado por el siguiente resultado.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>With these tools, it is now possible to construct an estimator of the population total of the characteristic of interest, which is given by the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Bajo el modelo de media común, el estimador del total poblacional está dado por <span class="math display">\[
+<p>Under the common mean model, the estimator of the population total is given by <span class="math display">\[
 \hat{t}_{y,mc}=N\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}=N\widetilde{y}_S
-\]</span> cuya varianza aproximada es <span class="math display">\[
+\]</span> whose approximate variance is <span class="math display">\[
 AVar(\hat{t}_{y,mc})=\sum\sum_U\Delta_{kl}\frac{E_k}{\pi_k}\frac{E_l}{\pi_l}.
-\]</span> con <span class="math display">\[
+\]</span> with <span class="math display">\[
 \begin{aligned}
 E_k&amp;=y_k-B\\
 &amp;=y_k-\frac{t_y}{N}=y_k-\bar{y}_U.
 \end{aligned}
-\]</span> El estimador de la varianza es <span class="math display">\[
+\]</span> The variance estimator is <span class="math display">\[
 \widehat{Var}(\hat{t}_{y,greg})=\sum\sum_S \dfrac{\Delta_{kl}}{\pi_{kl}}\frac{e_k}{\pi_k}\frac{e_l}{\pi_l}
-\]</span> con <span class="math display">\[
+\]</span> with <span class="math display">\[
 \begin{aligned}
 e_k&amp;=y_k-\hat{B}\\
 &amp;=y_k-\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}=y_k-\widetilde{y}_S.
 \end{aligned}
 \]</span></p>
-<p><strong>Prueba.</strong> Antes de empezar la demostración, el lector debe tener en cuenta que estimador es un caso particular del estimador general de regresión. Por lo tanto, como <span class="math inline">\(\mathbf{x}_k=1\)</span> para todo <span class="math inline">\(k\in U\)</span>, adecuando la expresión (9.2.11) se tiene que</p>
+<p><strong>Proof.</strong> Before beginning the proof, the reader should keep in mind that this estimator is a special case of the general regression estimator. Therefore, since <span class="math inline">\(\mathbf{x}_k=1\)</span> for all <span class="math inline">\(k\in U\)</span>, adapting expression (9.2.11) gives</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,mc}&amp;=\hat{t}_{y,\pi}+\hat{B}(t_x-\hat{t}_{x,\pi})\\
@@ -927,47 +929,47 @@ e_k&amp;=y_k-\hat{B}\\
 &amp;=N\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}=N\widetilde{y}_S
 \end{aligned}
 \]</span></p>
-<p>El cálculo de la varianza aproximada y la estimación de la varianza del estimador de razón son inmediatos al utilizar el resultado 9.2.3.</p>
+<p>The calculation of the approximate variance and the variance estimator of the ratio estimator follows immediately from Result 9.2.3.</p>
 </div>
 </div>
-<p>El espíritu y la ventaja de este estimador está en la corrección que hace al estimador de Horvitz-Thompson mediante el cociente <span class="math inline">\(\frac{N}{\hat{N}_{\pi}}\)</span>. De esta manera, cuando el estimador de Horvitz-Thompson está subestimando o sobreestimando el total poblacional, entonces este cociente corrige inmediatamente esta sub o sobre estimación.</p>
-<p>A continuación se presentan otras características importantes del estimador de media común para el total poblacional. En primer lugar, nótese que fácilmente se puede demostrar que</p>
+<p>The spirit and advantage of this estimator lie in the correction it applies to the Horvitz-Thompson estimator through the quotient <span class="math inline">\(\frac{N}{\hat{N}_{\pi}}\)</span>. Thus, when the Horvitz-Thompson estimator is underestimating or overestimating the population total, this quotient immediately corrects that under- or overestimation.</p>
+<p>Other important characteristics of the common mean estimator for the population total are presented below. First, note that it can easily be shown that</p>
 <p><span class="math display">\[
 \begin{aligned}
 \sum_s\frac{e_k}{\pi_k}=0
 \end{aligned}
 \]</span></p>
-<p>Lo anterior se tiene puesto que, recurriendo al resultado 9.2.2, <span class="math inline">\(\mathbf{x}_k=c_k=1\)</span> y por lo tanto <span class="math inline">\(\mathbf{v}'=1\)</span>. Como consecuencia de lo anterior, es posible escribir al estimador de media común en una forma simplificada</p>
+<p>This holds because, using Result 9.2.2, <span class="math inline">\(\mathbf{x}_k=c_k=1\)</span> and therefore <span class="math inline">\(\mathbf{v}'=1\)</span>. As a consequence, the common mean estimator can be written in a simplified form:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,mc}=\sum_U\hat{y}_k&amp;=\sum_U\hat{B}\\
 &amp;=\sum_U\widetilde{y}_S=N\widetilde{y}_S
 \end{aligned}
 \]</span></p>
-<p>Además recurriendo a las expresiones (9.2.16) y (9.2.17) se tiene que</p>
+<p>In addition, using expressions (9.2.16) and (9.2.17), we have</p>
 <p><span class="math display">\[
 \begin{aligned}
 g_{ks}&amp;=1+\left(t_x-\hat{t}_{x,\pi}\right)\left(\hat{t}_{x,\pi}\right)^{-1}\\
 &amp;=1+\left(\dfrac{N-\hat{N}_{\pi}}{\hat{N}_{\pi}}\right)=\dfrac{N}{\hat{N}_{\pi}}
 \end{aligned}
 \]</span></p>
-<section id="algunos-diseños-de-muestreo" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="algunos-diseños-de-muestreo"><span class="header-section-number">9.3.1</span> Algunos diseños de muestreo</h3>
-<section id="diseño-de-muestreo-bernoulli" class="level4" data-number="9.3.1.1">
-<h4 data-number="9.3.1.1" class="anchored" data-anchor-id="diseño-de-muestreo-bernoulli"><span class="header-section-number">9.3.1.1</span> Diseño de muestreo Bernoulli</h4>
-<!-- index: Diseño de muestreo Bernoulli -->
-<p>Bajo el diseño de muestreo Bernoulli, el estimador de media común toma una forma idéntica al estimador alternativo propuesto en la expresión (3.1.14) de la sección 3.1. En esos apartados, no se dieron las expresiones para la varianza y la varianza estimada puesto que se requería de herramientas de las que no se disponían. Sin embargo, el siguiente resultado da cuenta de las expresiones exactas para este estimador alternativo.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<section id="some-sampling-designs" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="some-sampling-designs"><span class="header-section-number">9.3.1</span> Some sampling designs</h3>
+<section id="bernoulli-sampling-design" class="level4" data-number="9.3.1.1">
+<h4 data-number="9.3.1.1" class="anchored" data-anchor-id="bernoulli-sampling-design"><span class="header-section-number">9.3.1.1</span> Bernoulli sampling design</h4>
+<!-- index: Bernoulli sampling design -->
+<p>Under the Bernoulli sampling design, the common mean estimator takes a form identical to the alternative estimator proposed in expression (3.1.14) of Section 3.1. In those sections, expressions for the variance and estimated variance were not given because tools that were not yet available were required. However, the following result gives the exact expressions for this alternative estimator.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si el diseño de muestreo es Bernoulli, el estimador de media común, su varianza aproximada y el estimador de la varianza están dados por</p>
+<p>If the sampling design is Bernoulli, the common mean estimator, its approximate variance, and the variance estimator are given by</p>
 <p><span class="math display">\[
 \hat{t}_{y,mc}=N\widetilde{y}_S=N\dfrac{\sum_S y_k}{n(S)}=N\bar{y}_S.
 \]</span></p>
@@ -977,44 +979,44 @@ AV_{BER}\hat{t}_{y,mc}=N\left( \dfrac{1}{\pi}-1\right)S^2_{y_U}
 <p><span class="math display">\[
 \hat{Var}_{BER}\hat{t}_{y,mc}=(n(S) - 1)\dfrac{1}{\pi}\left( \dfrac{1}{\pi}-1\right)S^2_{y_S}
 \]</span></p>
-<p>respectivamente. Con <span class="math inline">\(S^2_{y_U}\)</span> la varianza poblacional de la característica de interés y <span class="math inline">\(S^2_{y_S}\)</span> la varianza muestral de la característica de interés.</p>
-<p><strong>Prueba.</strong> El resultado se sigue inmediatamente al evaluar la expresión (3.1.12) en cada una de las ecuaciones del resultado.</p>
+<p>respectively, where <span class="math inline">\(S^2_{y_U}\)</span> is the population variance of the characteristic of interest and <span class="math inline">\(S^2_{y_S}\)</span> is the sample variance of the characteristic of interest.</p>
+<p><strong>Proof.</strong> The result follows immediately by evaluating expression (3.1.12) in each equation of the result.</p>
 </div>
 </div>
 </section>
-<section id="diseño-de-muestreo-aleatorio-simple" class="level4" data-number="9.3.1.2">
-<h4 data-number="9.3.1.2" class="anchored" data-anchor-id="diseño-de-muestreo-aleatorio-simple"><span class="header-section-number">9.3.1.2</span> Diseño de muestreo aleatorio simple</h4>
-<!-- index: Diseño de muestreo aleatorio simple -->
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<section id="simple-random-sampling-design" class="level4" data-number="9.3.1.2">
+<h4 data-number="9.3.1.2" class="anchored" data-anchor-id="simple-random-sampling-design"><span class="header-section-number">9.3.1.2</span> Simple random sampling design</h4>
+<!-- index: Simple random sampling design -->
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si el diseño de muestreo es aleatorio simple, el estimador de media común toma la misma forma que el estimador de Horvitz-Thompson. Por supuesto, la varianza aproximada y el estimador de la varianza son los mismos que los del estimador de Horvitz-Thompson. En general, se tiene que</p>
+<p>If the sampling design is simple random sampling, the common mean estimator takes the same form as the Horvitz-Thompson estimator. Of course, the approximate variance and the variance estimator are the same as those of the Horvitz-Thompson estimator. In general, we have</p>
 <p><span class="math display">\[
 \hat{t}_{y,mc}=N\widetilde{y}_S=\frac{N}{n}\sum_Sy_k
 \]</span></p>
 <p><span class="math display">\[
-Var_{MAS}(\hat{t}_{y,mc})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{E_U}
+Var_{SRS}(\hat{t}_{y,mc})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{E_U}
 \]</span></p>
 <p><span class="math display">\[
-\widehat{Var}_{MAS}(\hat{t}_{y,mc})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{e_S}
+\widehat{Var}_{SRS}(\hat{t}_{y,mc})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{e_S}
 \]</span></p>
-<p>respectivamente. Con <span class="math inline">\(S^2_{E_U}\)</span> la varianza poblacional de los errores <span class="math inline">\(E_k=y_k-\bar{y}_U\)</span> y <span class="math inline">\(S^2_{e_S}\)</span> la varianza muestral de los errores <span class="math inline">\(e_k=y_k-\bar{y}_S\)</span>.</p>
-<p><strong>Prueba.</strong> El resultado se sigue inmediatamente al aplicar los principios del estimador de Horvitz-Thompson a las expresiones (9.3.7) y (9.3.10) bajo el diseño de muestreo aleatorio simple. Nótese que bajo el diseño de muestreo aleatorio simple, <span class="math inline">\(\bar{E}=0\)</span> y <span class="math inline">\(\bar{e}=0\)</span>, por lo tanto <span class="math inline">\(S^2_{E_U}=S^2_{y_U}\)</span> y <span class="math inline">\(S^2_{e_S}=S^2_{y_S}\)</span>.</p>
+<p>respectively, where <span class="math inline">\(S^2_{E_U}\)</span> is the population variance of the errors <span class="math inline">\(E_k=y_k-\bar{y}_U\)</span> and <span class="math inline">\(S^2_{e_S}\)</span> is the sample variance of the errors <span class="math inline">\(e_k=y_k-\bar{y}_S\)</span>.</p>
+<p><strong>Proof.</strong> The result follows immediately by applying the principles of the Horvitz-Thompson estimator to expressions (9.3.7) and (9.3.10) under the simple random sampling design. Note that under simple random sampling, <span class="math inline">\(\bar{E}=0\)</span> and <span class="math inline">\(\bar{e}=0\)</span>, and therefore <span class="math inline">\(S^2_{E_U}=S^2_{y_U}\)</span> and <span class="math inline">\(S^2_{e_S}=S^2_{y_S}\)</span>.</p>
 </div>
 </div>
 </section>
 </section>
 <section id="marco-y-lucy" class="level3" data-number="9.3.2">
 <h3 data-number="9.3.2" class="anchored" data-anchor-id="marco-y-lucy"><span class="header-section-number">9.3.2</span> Marco y Lucy</h3>
-<!-- index: Marco y Lucy -->
-<p>Retomando la población de empresas pertenecientes al sector industrial, suponga que se desea estimar el total de las características de interés mediante un estimador de regresión que obedezca al modelo dado por la expresión (9.3.2), en donde las características de interés están relacionadas con una variable que es constante y que supone el mismo comportamiento estructural a lo largo de toda la población. Suponga que se selecciona una muestra aleatoria simple de tamaño <span class="math inline">\(n=400\)</span></p>
+<!-- index: Marco and Lucy -->
+<p>Returning to the population of firms belonging to the industrial sector, suppose that we wish to estimate the total of the characteristics of interest using a regression estimator that follows the model given by expression (9.3.2), where the characteristics of interest are related to a variable that is constant and assumes the same structural behavior throughout the entire population. Suppose that a simple random sample of size <span class="math inline">\(n=400\)</span> is selected.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BigLucy)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(BigLucy)</span>
@@ -1022,26 +1024,26 @@ Var_{MAS}(\hat{t}_{y,mc})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)S^2_{E_U}
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">dim</span>(BigLucy)[<span class="dv">1</span>]</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> <span class="fu">S.SI</span>(N, n)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>muestra <span class="ot">&lt;-</span> BigLucy[sam,]</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(muestra)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> BigLucy[sam, ]</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(sample_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Para computar el estimador del total de las características de interés se define la matriz de información auxiliar, que en este caso particular corresponde a un vector de unos y se utiliza la función <code>GREG.SI</code> del paquete <code>TeachingSampling</code> que cuenta con siete argumentos: <code>N</code>, el tamaño poblacional, <code>n</code>, el tamaño de la muestra, <code>y</code>, correspondiente al vector o matriz de datos que contienen las observaciones de los individuos incluidos en la muestra, <code>x</code>, concerniente al vector o matriz de información auxiliar en la muestra, <code>tx</code>, el total poblacional de las variables de información auxiliar, <code>b</code>, el estimador de coeficientes de regresión y, por último, <code>b0</code>, que indica si el modelo está definido con o sin intercepto.</p>
-<p>Por consiguiente, definiendo correctamente los parámetros según el modelo dado por (9.3.2), tenemos el siguiente código computacional para el cálculo del estimador del total poblacional.</p>
+<p>To compute the estimator of the total of the characteristics of interest, the auxiliary information matrix is defined. In this particular case, it corresponds to a vector of ones, and the <code>GREG.SI</code> function from the <code>TeachingSampling</code> package is used. This function has seven arguments: <code>N</code>, the population size; <code>n</code>, the sample size; <code>y</code>, the vector or data matrix containing the observations of the individuals included in the sample; <code>x</code>, the vector or matrix of auxiliary information in the sample; <code>tx</code>, the population total of the auxiliary information variables; <code>b</code>, the estimator of regression coefficients; and finally <code>b0</code>, which indicates whether the model is defined with or without an intercept.</p>
+<p>Consequently, by correctly defining the parameters according to the model given by (9.3.2), we have the following computational code for calculating the population total estimator.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>estima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Income, Employees, Taxes)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Income, Employees, Taxes)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, n)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">E.Beta</span>(N, n, estima, x, <span class="at">ck=</span><span class="dv">1</span>, <span class="at">b0=</span><span class="cn">FALSE</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">as.matrix</span>(model[<span class="dv">1</span>,,]))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">E.Beta</span>(N, n, target_variables, x, <span class="at">ck =</span> <span class="dv">1</span>, <span class="at">b0 =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">as.matrix</span>(model[<span class="dv">1</span>, , ]))</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">&lt;-</span> <span class="fu">c</span>(N)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">GREG.SI</span>(N,n,estima,x,tx, b, <span class="at">b0=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">GREG.SI</span>(N, n, target_variables, x, tx, b, <span class="at">b0 =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Estimaciones <span class="ot">&lt;-</span> <span class="fu">GREG.SI</span>(N, n, estima, x, tx, b, <span class="at">b0 =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(Estimaciones)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">GREG.SI</span>(N, n, target_variables, x, tx, b, <span class="at">b0 =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(estimates)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tbl-t9-1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-t9-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;9.1: Estimaciones del estimador de regresión para el diseño de muestreo aleatorio simple sin reemplazo.
+Table&nbsp;9.1: Regression estimator estimates for the simple random sampling design without replacement.
 </figcaption>
 <div aria-describedby="tbl-t9-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1084,10 +1086,10 @@ Tabla&nbsp;9.1: Estimaciones del estimador de regresión para el diseño de mues
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Intertres" class="csl-entry" role="listitem">
-Kott, P. S., B. Sweensson, C. E. Särndal, y J. Wretman. 2005. <span>«An interview with the authors of the book: Model-assisted survey sampling»</span>. <em>Journal of Official Statistics</em> 21: 171-82.
+Kott, P. S., B. Sweensson, C. E. Särndal, and J. Wretman. 2005. <span>“An Interview with the Authors of the Book: Model-Assisted Survey Sampling.”</span> <em>Journal of Official Statistics</em> 21: 171–82.
 </div>
 <div id="ref-Sar" class="csl-entry" role="listitem">
-Särndal, C. E., B. Swensson, y J. Wretman. 1992. <em>Model Assisted Survey Sampling</em>. Springer, New York.
+Särndal, C. E., B. Swensson, and J. Wretman. 1992. <em>Model Assisted Survey Sampling</em>. Springer, New York.
 </div>
 </div>
 </section>
@@ -1095,7 +1097,7 @@ Särndal, C. E., B. Swensson, y J. Wretman. 1992. <em>Model Assisted Survey Samp
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Esta información puede ser suministrada por alguna entidad oficial.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>This information may be supplied by an official entity.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -1267,12 +1269,12 @@ Särndal, C. E., B. Swensson, y J. Wretman. 1992. <em>Model Assisted Survey Samp
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copiado");
+      button.setAttribute("title", "Copied!");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copiado");
+        button.setAttribute("data-bs-title", "Copied!");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
@@ -1644,13 +1646,13 @@ Särndal, C. E., B. Swensson, y J. Wretman. 1992. <em>Model Assisted Survey Samp
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/cap8.html" class="pagination-link" aria-label="Estimación de parámetros diferentes al total">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimación de parámetros diferentes al total</span></span>
+      <a href="../chapters/cap8.html" class="pagination-link" aria-label="Estimation of Parameters Other than the Total">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimation of Parameters Other than the Total</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/cap10.html" class="pagination-link" aria-label="Estimadores de calibración">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimadores de calibración</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/cap10.html" class="pagination-link" aria-label="Calibration Estimators">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Calibration Estimators</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1661,7 +1663,7 @@ Särndal, C. E., B. Swensson, y J. Wretman. 1992. <em>Model Assisted Survey Samp
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Estrategias de muestreo</p>
+<p>Sampling strategies</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

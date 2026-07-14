@@ -1,4 +1,4 @@
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(TeachingSampling)
 data(BigLucy)
 library(ggplot2)
@@ -10,95 +10,93 @@ opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
 
-# Muestreo balanceado
+# Balanced Sampling
 
 ::: {.blockquote}
-El método del cubo propone un procedimiento general que permite la selección de muestras aleatorias balanceadas, con probabilidades de inclusión simples o desiguales en el sentido de que las estimaciones de Horvitz-Thompson son iguales, o casi iguales, al total poblacional de las variables de balanceo.
+The cube method proposes a general procedure that allows the selection of balanced random samples, with equal or unequal inclusion probabilities, in the sense that the Horvitz-Thompson estimates are equal, or nearly equal, to the population total of the balancing variables.
 @Til
 :::
 
-<!-- index: Muestreo balanceado -->Comúnmente, el muestreo balanceado ha sido conocido como una técnica de muestreo no probabilístico tal como el muestreo por cuotas<!-- index: Muestreo por cuotas -->, por conveniencia o por juzgamiento. Este tipo de muestreo sugiere la selección de muestras, para las cuales la media muestral de una característica de información auxiliar sea idéntica a la media poblacional de dicha característica de información auxiliar. Es más, si esta característica de información auxiliar está bien correlacionada con la característica de interés, entonces se dice que el muestreo balanceado es óptimo puesto que reproducirá con precisión el total o la media de la característica de interés en la población.
+<!-- index: Balanced sampling -->Balanced sampling has commonly been known as a nonprobability sampling technique, such as quota sampling<!-- index: Quota sampling -->, convenience sampling, or judgment sampling. This type of sampling suggests selecting samples for which the sample mean of an auxiliary information characteristic is identical to the population mean of that auxiliary information characteristic. Moreover, if this auxiliary information characteristic is highly correlated with the characteristic of interest, then balanced sampling is said to be optimal because it will accurately reproduce the total or mean of the characteristic of interest in the population.
 
-@Til afirma que la idea de seleccionar muestras balanceadas nació con @Ney34 cuando afirmó que ?el método de la selección a conveniencia consiste en a) dividir la población de distritos en  estratos de segundo orden de acuerdo a los valores de $x$ e $y$, b) seleccionar aleatoriamente de cada estrato un número fijo de distritos. El número de selecciones está determinado por la condición del mantenimiento del promedio ponderado de la característica de interés?. Más adelante, en @Yates46 se encuentra el siguiente extracto: ?Se debe seleccionar una muestra aleatoria. Los individuos serán incluidos mediante el mismo proceso aleatorio, el primer miembro será comparado con el primer miembro de la muestra original, el segundo individuo con el segundo de la muestra original y así sucesivamente. Un nuevo miembro será sustituido si mejora el balance?.
+@Til states that the idea of selecting balanced samples began with @Ney34, who said that "the method of purposive selection consists of a) dividing the population of districts into second-order strata according to the values of $x$ and $y$, and b) randomly selecting from each stratum a fixed number of districts. The number of selections is determined by the condition that the weighted average of the characteristic of interest be maintained." Later, @Yates46 includes the following excerpt: "A random sample must be selected. Individuals will be included through the same random process; the first member will be compared with the first member of the original sample, the second individual with the second member of the original sample, and so on. A new member will be substituted if it improves the balance."
 
-Recientemente, se ha llegado a soluciones parciales para la selección aleatoria (mediante diseños de muestreo propiamente definidos) de muestras balanceadas por medio de métodos propuestos por algunos reconocidos autores de como @Ardilly91 y @Deville92. Por otra parte, autores como  y @Valliant2000 o @RoyalHerson han considerado la construcción de estimadores, enmarcados bajo métodos de inferencia basada solamente en modelos poblacionales, y su optimalidad desde el punto de vista del modelo sin tomar en cuenta el diseño muestral y concluyen que un diseño de muestreo puede ser balanceado aunque no necesariamente aleatorio o probabilístico.
+Recently, partial solutions have been obtained for the random selection of balanced samples, through properly defined sampling designs, using methods proposed by recognized authors such as @Ardilly91 and @Deville92. On the other hand, authors such as @Valliant2000 and @RoyalHerson have considered the construction of estimators, framed under inference methods based only on population models, and their optimality from the model point of view without considering the sampling design. They conclude that a sampling design can be balanced even if it is not necessarily random or probabilistic.
 
-Por otro lado, @DevTille2004 desarrollaron un procedimiento general y riguroso que permite la extracción de muestras probabilísticas balanceadas y la posterior estimación de las cantidades de interés, enmarcados bajo métodos de inferencia basados en el diseño de muestreo. Este procedimiento es conocido como el método del cubo y permite la selección de muestras
-aleatorias sobre un conjunto de características de información auxiliar (o variables de balanceo), y tiene la agradable propiedad de que el estimador de Horvitz-Thompson reproduce el total poblacional de las variables de balanceo. Más adelante, @DT05 adaptaron una aproximación de la varianza para el estimador de Horvitz-Thompson en muestreo balanceado.
+In contrast, @DevTille2004 developed a general and rigorous procedure that allows the extraction of balanced probability samples and the subsequent estimation of the quantities of interest, framed under design-based inference methods. This procedure is known as the cube method and allows the selection of random samples over a set of auxiliary information characteristics, or balancing variables. It has the attractive property that the Horvitz-Thompson estimator reproduces the population total of the balancing variables. Later, @DT05 adapted a variance approximation for the Horvitz-Thompson estimator in balanced sampling.
 
-## Notación
+## Notation
 
-<!-- index: Muestreo balanceado -->Dado que bajo un diseño de muestreo balanceado, el estimador de Horvitz-Thompson, para los totales de un conjunto de variables
-auxiliares, debe ser igual al total poblacional de las mismas, la varianzas del estimador del total poblacional de la característica de interés se debe reducir de acuerdo al aumento de correlación con las variables auxiliares.
+<!-- index: Balanced sampling -->Because, under a balanced sampling design, the Horvitz-Thompson estimator for the totals of a set of auxiliary variables must be equal to their population total, the variance of the estimator of the population total of the characteristic of interest should decrease as the correlation with the auxiliary variables increases.
 
-El objetivo es estimar el total poblacional de la característica de interés $t_y=\sum_{k\in U}y_k$, entonces se supone que los valores de los vectores
+The objective is to estimate the population total of the characteristic of interest, $t_y=\sum_{k\in U}y_k$. Thus, it is assumed that the values of the vectors
 $$
 \mathbf{x}_k=\left(x_{k1},x_{k2},\ldots,x_{kQ}\right)'
 $$
 
-tomados para $q$ variables de balanceo, se conocen para todas las unidades de la población. Por tanto, el vector de totales de las variables de balanceo
+taken for $q$ balancing variables are known for all units in the population. Therefore, the vector of totals of the balancing variables
 $$
 \mathbf{t}_{\mathbf{x}}=\sum_{k \in U}\mathbf{x}_k'
 $$
 
-es también conocido, y puede ser estimado, utilizando el estimador de Horvitz-Thompson, por medio de la siguiente expresión
+is also known and can be estimated using the Horvitz-Thompson estimator through the following expression:
 $$
 \hat{\mathbf{t}}_{\mathbf{x},\pi}=\sum_{k \in U}\frac{\mathbf{x}_k}{\pi_k}I_k.
 $$
 
-El objetivo es construir un diseño de muestreo balanceado, definido como sigue.
+The objective is to construct a balanced sampling design, defined as follows.
 
-::: {.callout-important title="Definición"}
-<!-- index: Diseño de muestreo balanceado -->Un **diseño de muestreo es balanceado** con respecto a las variables auxiliares $x_1, ..., x_Q$, sí y sólo sí éste satisface las ecuaciones de balance dadas por
+::: {.callout-important title="Definition"}
+<!-- index: Balanced sampling design -->A **sampling design is balanced** with respect to the auxiliary variables $x_1, ..., x_Q$ if and only if it satisfies the balancing equations given by
 $$
 \hat{\mathbf{t}}_{\mathbf{x},\pi}=\mathbf{t}_{\mathbf{x}}
 $$
 
-para toda muestra $s \in \mathcal{S}$ tal que $p(\mathbf{s})>0$ y para todo $q=1,...,Q$. En otras palabras
+for every sample $s \in \mathcal{S}$ such that $p(\mathbf{s})>0$ and for every $q=1,...,Q$. In other words,
 $$
 Var(\hat{\mathbf{t}}_{\mathbf{x},\pi})=\mathbf{0}
 $$
 
 :::
 
-Nótese que $Var(\hat{\mathbf{X}}_{\pi})$ es una matriz de varianzas covarianzas. En estos términos, el diseño de muestreo balanceado, define un soporte $\mathcal{Q}$ dado por
+Note that $Var(\hat{\mathbf{X}}_{\pi})$ is a variance-covariance matrix. In these terms, the balanced sampling design defines a support $\mathcal{Q}$ given by
 $$
 \mathcal{Q}=\left\{ \mathbf{I} \in \mathcal{S}| \sum_{k\in U}\frac{\mathbf{x}_k}{\pi_k}I_k=\mathbf{t}_{\mathbf{x}} \right\}
 $$
 
-donde $\mathbf{I}=(I_1,\ldots,I_n)'$ es el vector de inclusión de los elementos en la muestra y $\mathcal{S}$ es el soporte simétrico sin reemplazo. Para aceptar que un diseño de muestreo puede estar condicionado, el lector deberá estar familiarizado con las definiciones dadas en los primeros capítulos de este texto. En particular, nótese que de la definición 2.1.5, el soporte simétrico sin reemplazo, que permite la definición del muestreo aleatorio simple, entre otros, es también un soporte condicionado y dado por
+where $\mathbf{I}=(I_1,\ldots,I_n)'$ is the inclusion vector for the elements in the sample and $\mathcal{S}$ is the symmetric without-replacement support. To accept that a sampling design can be conditioned, the reader should be familiar with the definitions given in the first chapters of this text. In particular, note that, from Definition 2.1.5, the symmetric without-replacement support, which allows the definition of simple random sampling, among others, is also a conditioned support and is given by
 $$
 \mathcal{S}_n=\left\{ \mathbf{s} \in \mathcal{S}| \sum_{k\in U}s_k=n \right\}
 $$
 
-También, el soporte simétrico con reemplazo de tamaño fijo, que permite la debida definición del diseño aleatorio simple con reemplazo, entre otros, está condicionado puesto que
+Similarly, the symmetric with-replacement fixed-size support, which allows the proper definition of the simple random with-replacement design, among others, is conditioned because
 $$
 \mathcal{R}_n=\left\{ \mathbf{s} \in \mathcal{R} | \sum_{k\in U}s_k=n \right\}
 $$
 
-### Ejemplos
+### Examples
 
-<!-- index: Muestreo balanceado -->A continuación se presentan algunos ejemplos que, si bien no son útiles en la práctica, sí ilustran el objetivo del muestreo balanceado.
+<!-- index: Balanced sampling -->Some examples are presented below. Although they are not useful in practice, they illustrate the objective of balanced sampling.
 
-::: {.callout-note title="Ejemplo"}
-***Muestreo aleatorio simple***: esta clase de diseños de muestreo de tamaño fijo $n$ son balanceados sobre la variable $x_k=\pi_k$, $k\in U$. Pues,
+::: {.callout-note title="Example"}
+***Simple random sampling***: this class of fixed-size sampling designs of size $n$ is balanced on the variable $x_k=\pi_k$, $k\in U$. Indeed,
 $$
 \sum_{k\in S}\frac{xk}{\pi_k}=\sum_{k\in S}1=n=\sum_{k\in U}\pi_k
 $$
 
 :::
 
-::: {.callout-note title="Ejemplo"}
-***Estratificación***: suponga que en una población estratificada en $H$ estratos ($U_h$, $h=1,...,H$, $\#U_h=N_h$) se selecciona una muestra aleatoria simple de tamaño $n_h$ en cada estrato. El diseño es balanceado sobre las variables
+::: {.callout-note title="Example"}
+***Stratification***: suppose that in a population stratified into $H$ strata ($U_h$, $h=1,...,H$, $\#U_h=N_h$), a simple random sample of size $n_h$ is selected in each stratum. The design is balanced on the variables
 $$
 \delta_{kh}=
 \begin{cases}
-1       & \text{si la unidad *k* está en el estrato h,}\\
-0       & \text{en otro caso}
+1       & \text{if unit *k* is in stratum h,}\\
+0       & \text{otherwise}
 \end{cases}
 $$
 
-Puesto que,
+Since
 $$
 \sum_{k\in S}\frac{\delta_{kh}}{\pi_k}=\sum_{k\in S}\delta_{kx}\frac{N_h}{n_h}
 =N_h=\sum_{k\in U}\delta_{kh}
@@ -106,27 +104,24 @@ $$
 
 :::
 
-En la mayoría de problemas prácticos, las ecuaciones de balance no pueden ser exactamente satisfechas, en otras palabras existe un problema de redondeo que se da porque el inverso de la probabilidad de inclusión no es un entero. Por esta razón, el objetivo es construir un diseño muestral que satisfaga las ecuaciones de balanceo exactamente, si es posible, ó encontrar la mejor aproximación, si no lo es. El problema de redondeo es despreciable cuando el tamaño de muestra esperado es grande.
+In most practical problems, the balancing equations cannot be exactly satisfied. In other words, there is a rounding problem because the inverse of the inclusion probability is not an integer. For this reason, the objective is to construct a sampling design that satisfies the balancing equations exactly, if possible, or to find the best approximation if it is not. The rounding problem is negligible when the expected sample size is large.
 
-## El método del cubo
+## The Cube Method
 
-<!-- index: Método del cubo -->Este método se compone de dos fases, llamadas la fase de vuelo y fase de aterrizaje. En la primera, para que las restricciones sean satisfechas exactamente, se deben redondear a cero (0) o uno (1) las probabilidades de inclusión. La fase de aterrizaje consiste en el manejo adecuado del redondeo.
+<!-- index: Cube method -->This method is composed of two phases, called the flight phase and the landing phase. In the first phase, for the restrictions to be satisfied exactly, the inclusion probabilities must be rounded to zero (0) or one (1). The landing phase consists of the appropriate handling of the rounding.
 
-Como hemos visto, cada vector $\mathbf{s}$, en muestreo sin reemplazo, es un vértice de un N-cubo y el número de posibles muestras es el número de vértices del N-cubo. Un diseño muestral con vector de probabilidades de inclusión $\boldsymbol{\pi}$, consiste en la asignación de una probabilidad a cada vértice.
+As we have seen, each vector $\mathbf{s}$, in sampling without replacement, is a vertex of an N-cube, and the number of possible samples is the number of vertices of the N-cube. A sampling design with inclusion probability vector $\boldsymbol{\pi}$ consists of assigning a probability to each vertex.
 
-Geométricamente, un diseño muestral consiste en expresar el vector $\boldsymbol{\pi}$ como una combinación lineal convexa de los vértices del N-cubo. Un algoritmo puede ser visto como un camino (aleatorio) que lleve a alcanzar un vértice del N-cubo de tal manera que se satisfagan las ecuaciones de balanceo.
+Geometrically, a sampling design consists of expressing the vector $\boldsymbol{\pi}$ as a convex linear combination of the vertices of the N-cube. An algorithm can be viewed as a random path that reaches a vertex of the N-cube in such a way that the balancing equations are satisfied.
 
-### Fase de vuelo
+### Flight Phase
 
-<!-- index: Fase de vuelo -->Es una caminata aleatoria que comienza con un vector de probabilidades de inclusión y permanece en la intersección del cubo
-y el subespacio restringido por las ecuaciones de balanceo. Esta caminata aleatoria se detiene en un vértice de dicha intersección.
+<!-- index: Flight phase -->This is a random walk that begins with an inclusion probability vector and remains in the intersection between the cube and the subspace restricted by the balancing equations. This random walk stops at a vertex of that intersection.
 
-El objetivo de esta fase es escoger aleatoriamente un vértice de $$K=\{[0,1]^N \cap Q\},$$ donde $Q=\boldsymbol{\pi}+\ker\mathbf{A}$ y $\mathbf{A}=(\check{\mathbf{x}}_1, ..., \check{\mathbf{x}}_N)$, de tal forma que las ecuaciones de balance se reproduzcan a satisfacción. La fase de aterrizaje es sólo necesaria si el vector escogido no es un vértice del cubo y consiste en flexibilizar las restricciones (lo menos posible) para seleccionar una muestra, esto
-es, un vértice del cubo.
+The objective of this phase is to randomly choose a vertex of $$K=\{[0,1]^N \cap Q\},$$ where $Q=\boldsymbol{\pi}+\ker\mathbf{A}$ and $\mathbf{A}=(\check{\mathbf{x}}_1, ..., \check{\mathbf{x}}_N)$, in such a way that the balancing equations are reproduced satisfactorily. The landing phase is necessary only if the selected vector is not a vertex of the cube, and it consists of relaxing the restrictions as little as possible in order to select a sample, that is, a vertex of the cube.
 
-::: {.callout-note title="Ejemplo"}
-La fase de vuelo transforma un vector de probabilidades de inclusión
-en un vector de ceros y unos.
+::: {.callout-note title="Example"}
+The flight phase transforms an inclusion probability vector into a vector of zeros and ones.
 $$
 \boldsymbol{\pi}=\begin{pmatrix} 0.5 \\ 0.5 \\ 0.5 \\ 0.5
 \end{pmatrix}\rightarrow\begin{pmatrix} 0.666 \\ 0.666 \\ 0.666 \\ 0
@@ -135,8 +130,7 @@ $$
 \end{pmatrix}
 $$
 
-Si existe un problema de redondeo, entonces algunos componentes no
-pueden ser convertidos en cero
+If there is a rounding problem, then some components cannot be converted to zero:
 $$
 \boldsymbol{\pi}=\begin{pmatrix} 0.5 \\ 0.5 \\ 0.5 \\ 0.5 \\ 0.5
 \end{pmatrix}\rightarrow\begin{pmatrix} 0.625 \\ 0 \\0.625 \\ 0.625 \\
@@ -147,63 +141,63 @@ $$
 
 :::
 
-### La martingala balanceada
+### The Balanced Martingale
 
-<!-- index: Martingala balanceada -->El algoritmo general para llevar a cabo la fase de vuelo se realiza utilizando la siguiente definición.
+<!-- index: Balanced martingale -->The general algorithm for carrying out the flight phase is developed using the following definition.
 
-::: {.callout-important title="Definición"}
-<!-- index: Martingala balanceada -->Un proceso aleatorio discreto $\boldsymbol{\pi}(t) = [\boldsymbol{\pi}_k(t)]$ en $\mathbb{R}^N$, $t= 0, 1, ...$ se llama una **martingala balanceada** para un vector de probabilidades de inclusión $\boldsymbol{\pi}$ y para las variables auxiliares $x_1, ..., x_p$, si
+::: {.callout-important title="Definition"}
+<!-- index: Balanced martingale -->A discrete random process $\boldsymbol{\pi}(t) = [\boldsymbol{\pi}_k(t)]$ in $\mathbb{R}^N$, $t= 0, 1, ...$, is called a **balanced martingale** for an inclusion probability vector $\boldsymbol{\pi}$ and for the auxiliary variables $x_1, ..., x_p$ if
 
 1. $\boldsymbol{\pi}(0) = \boldsymbol{\pi}$,
 1. $E [\boldsymbol{\pi}(t)|\boldsymbol{\pi}(t-1), ....,\boldsymbol{\pi}(0)] = \boldsymbol{\pi}(t-1)$, $t = 1, 2, ...$
 1. $\boldsymbol{\pi}(t) \in K = \{[0, 1]^N \cap (\boldsymbol{\pi} + \ker A)$
 :::
 
-### Implementación de la fase de vuelo
+### Implementation of the Flight Phase
 
-<!-- index: Fase de vuelo -->Primero, inicializamos por $\boldsymbol{\pi}(0) = \boldsymbol{\pi}$. Luego, En la etapa $t = 1, ...., T$,
+<!-- index: Flight phase -->First, we initialize with $\boldsymbol{\pi}(0) = \boldsymbol{\pi}$. Then, at stage $t = 1, ...., T$,
 
-1. Definimos un vector $\mathbf{u}(t)=[u_k(t)] \neq 0$ tal que
-- $\mathbf{u}(t)$ es en el kernel de la matriz A,
-- $u_k(t) = 0$ si $\pi_k(t)$ es entero.
-1. Calculamos $\lambda_1^*(t)$ y $\lambda_2^*(t)$, el valor más grande tal que
+1. We define a vector $\mathbf{u}(t)=[u_k(t)] \neq 0$ such that
+- $\mathbf{u}(t)$ is in the kernel of matrix A,
+- $u_k(t) = 0$ if $\pi_k(t)$ is an integer.
+1. We calculate $\lambda_1^*(t)$ and $\lambda_2^*(t)$, the largest values such that
 $$
 0\leq \boldsymbol{\pi}(t) + \lambda_1^*(t)u(t)\leq1,
 $$
 $$
 0\leq \boldsymbol{\pi}(t) - \lambda_2^*(t)u(t)\leq1,
 $$
-1. Elegimos
+1. We choose
 $$
 \boldsymbol{\pi}(t) =
 \begin{cases}
-\boldsymbol{\pi}(t-1)+ \lambda_1^*(t)\mathbf{u}(t) & \text{con probabilidad } q_1(t)\\
-\boldsymbol{\pi}(t-1)- \lambda_2^*(t)\mathbf{u}(t) & \text{con
-probabilidad } q_2(t)
+\boldsymbol{\pi}(t-1)+ \lambda_1^*(t)\mathbf{u}(t) & \text{with probability } q_1(t)\\
+\boldsymbol{\pi}(t-1)- \lambda_2^*(t)\mathbf{u}(t) & \text{with
+probability } q_2(t)
 \end{cases}
 $$
-donde
+where
 $$
 q_1(t)=\lambda_2^*(t)/(\lambda_1^*(t)+\lambda_2^*(t))
 $$
-y
+and
 $$
 q_2(t)=\lambda_1^*(t)/(\lambda_1^*(t)+\lambda_2^*(t))
 $$
 
-### La fase de aterrizaje
+### The Landing Phase
 
-<!-- index: Fase de aterrizaje -->Al final de la primera fase, la martingala balanceada ha alcanzado un vértice de $K$, el cual no es necesariamente un vértice de $C$. Este vértice es denotado como $\boldsymbol{\pi}^*=[\pi_k^*]=\boldsymbol{\pi}(T)$. Sea $q$ el número de componentes no enteras en este vértice. Si $q=0$, el algoritmo está completo. Si $q>0$ algunas restricciones no pueden ser satisfechas rigurosamente.
+<!-- index: Landing phase -->At the end of the first phase, the balanced martingale has reached a vertex of $K$, which is not necessarily a vertex of $C$. This vertex is denoted as $\boldsymbol{\pi}^*=[\pi_k^*]=\boldsymbol{\pi}(T)$. Let $q$ be the number of noninteger components in this vertex. If $q=0$, the algorithm is complete. If $q>0$, some restrictions cannot be satisfied rigorously.
 
-Sea $U=\{k \in U|0 < \pi_k^* < 1\}$. El objetivo es buscar un diseño muestral que arroje una muestra $s^*\subset U^*$ tal que
-$$\sum_{k\in S} a_k \approx \sum_{k\in U} a_k\pi_k^* = \sum_{k\in U}a_k\pi_k,$$ con $a_k=\check{\mathbf{x}}_k$ y $s^*=s \cap U^*$.
+Let $U=\{k \in U|0 < \pi_k^* < 1\}$. The objective is to find a sampling design that yields a sample $s^*\subset U^*$ such that
+$$\sum_{k\in S} a_k \approx \sum_{k\in U} a_k\pi_k^* = \sum_{k\in U}a_k\pi_k,$$ with $a_k=\check{\mathbf{x}}_k$ and $s^*=s \cap U^*$.
 
-Esto se resuelve mediante programación lineal. Aplicando el método *simplex* tenemos
+This is solved by linear programming. Applying the *simplex* method, we have
 $$
-\min_{p^*(\cdot)}\sum_{s^*\subset U^*}Costo(s)p^*(s),
+\min_{p^*(\cdot)}\sum_{s^*\subset U^*}Cost(s)p^*(s),
 $$
 
-sujeto a
+subject to
 $$
 \begin{aligned}
 \sum_{s^*\subset U}p(s^*)&=1\\
@@ -212,116 +206,116 @@ $$
 \end{aligned}
 $$
 
-En donde $Costo(s)$ es el costo de la muestra, que aumenta si las ecuaciones de balanceo, dadas en las secciones anteriores, no se tienen. Luego se selecciona una muestra con un diseño de muestreo $p(\cdot)^*$. Este programa no depende del tamaño poblacional sino sólo del número de variables de balanceo. Si el número de variables auxiliares es muy grande, al final de la fase de vuelo se debe eliminar una variable auxiliar. Por esta razón es importante ordenar las variables de balanceo de acuerdo a la correlación con las variables de interés.
+where $Cost(s)$ is the cost of the sample, which increases if the balancing equations given in the previous sections are not met. A sample is then selected with a sampling design $p(\cdot)^*$. This program does not depend on the population size, but only on the number of balancing variables. If the number of auxiliary variables is very large, one auxiliary variable must be removed at the end of the flight phase. For this reason, it is important to order the balancing variables according to their correlation with the variables of interest.
 
-### Varianza
+### Variance
 
-@DT05 han propuesto aproximar la varianza suponiendo que la medida de muestreo balanceado se puede asumir como un muestreo
-condicional de Poisson. Así,
+@DT05 proposed approximating the variance by assuming that the balanced sampling measure can be treated as conditional Poisson sampling. Thus,
 $$
 Var(\hat{t}_{y,\pi})= Var(\hat{E}_{poisson})= \frac{N}{N - p}\sum_{k\in U} \frac{E^2_k}{\pi_k^2}\pi_k(1-\pi_k),
 $$
 
-donde $E_k = y_k - \mathbf{x}'_k\mathbf{B}$.
+where $E_k = y_k - \mathbf{x}'_k\mathbf{B}$.
 
-::: {.callout-note title="Ejemplo"}
-Nótese que la misma función que cumple el muestreo balanceado, la cumple el diseño de muestreo $\pi$PT, puesto que, en virtud del conocimiento de un característica de interés, se garantiza, siguiendo el resultado 4.3.2, que el estimador del total poblacional de la característica de información auxiliar, $\hat{t}_{x,\pi}$, reproduzca al total poblacional de la característica de interés, $t_x$, con varianza nula.
+::: {.callout-note title="Example"}
+Note that the same function fulfilled by balanced sampling is fulfilled by the $\pi$PT sampling design because, by virtue of knowing a characteristic of interest and following Result 4.3.2, it is guaranteed that the estimator of the population total of the auxiliary information characteristic, $\hat{t}_{x,\pi}$, reproduces the population total of the characteristic of interest, $t_x$, with zero variance.
 
-Sin embargo, el diseño de muestreo $\pi$PT, cumple esta función solamente para una y sólo una característica de información auxiliar, y cuando el investigador puede tener acceso a varias características de información auxiliar de manera simultanea, entonces el muestreo $\pi$PT deja de ser útil. En este orden de ideas, se pude decir que, abusando del lenguaje, el diseño de muestreo balanceado es una generalización del diseño de muestreo $\pi$PT.
+However, the $\pi$PT sampling design fulfills this function for one and only one auxiliary information characteristic. When the researcher has access to several auxiliary information characteristics simultaneously, $\pi$PT sampling is no longer useful. In this sense, it can be said, loosely speaking, that the balanced sampling design is a generalization of the $\pi$PT sampling design.
 
-Este ejemplo trata de ilustrar el procedimiento computacional para la obtener el objetivo final de la selección de una muestra balanceada. Se utilizará la población `MU284` [@Sar] para tales efectos. En primer lugar suponga, sin pérdida de generalidad, que se planea utilizar, en principio, un diseño de muestreo $\pi$PT (podría ser cualquier otro diseño de muestreo). Utilizando la función `inclusionprobabilities` del paquete `sampling`, se obtienen las probabilidades de inclusión inducidas por este diseño de muestreo con probabilidad proporcional a la característica de información auxiliar P75. Nótese que el tamaño de la muestra es de 50 unidades.
+This example illustrates the computational procedure for achieving the final objective of selecting a balanced sample. The `MU284` population [@Sar] will be used for this purpose. First suppose, without loss of generality, that the plan is initially to use a $\pi$PT sampling design; any other sampling design could also be used. Using the `inclusionprobabilities` function from the `sampling` package, the inclusion probabilities induced by this sampling design, with probability proportional to the auxiliary information characteristic P75, are obtained. Note that the sample size is 50 units.
 
 ```{r}
 library(sampling)
 data(MU284)
-attach(MU284)
-pik <- inclusionprobabilities(P75, 50)
+pik <- inclusionprobabilities(MU284$P75, 50)
 sum(pik)
 ```
 
-Suponga que deseamos obtener una muestra balanceada con respecto a todas las características de información auxiliar dadas por P75, CS82, SS82, S82, ME84 Y REV84. Para esto, incluimos todos los valores poblacionales observados de estas variables de balanceo en una matriz. A continuación, utilizamos la función `samplecube` para obtener una muestra que sea balanceada con respecto a todos los totales poblacionales de todas las variables de balanceo.
+Suppose that we want to obtain a balanced sample with respect to all auxiliary information characteristics given by P75, CS82, SS82, S82, ME84, and REV84. To do this, we include all observed population values of these balancing variables in a matrix. Next, we use the `samplecube` function to obtain a sample that is balanced with respect to all population totals of all balancing variables.
 
 ```{r}
-X=cbind(P75, CS82, SS82, S82, ME84, REV84)
+X <- as.matrix(MU284[, c("P75", "CS82", "SS82", "S82", "ME84", "REV84")])
 s <- samplecube(X, pik, order = 1, comment = TRUE)
 ```
 
-Nótese que la salida de esta función es muy explicativa. Para este caso particular, se necesito tanto de la fase de vuelo como de la fase de aterrizaje. Al final de la fase de vuelo, quedaban seis individuos cuyas probabilidades no eran cero o uno. Por lo tanto, el método del cubo, necesita de la fase de aterrizaje para alcanzar convergencia. Además de los comentarios para cada fase del método del cubo, esta función también devuelve una tabla que describe la calidad del procedimiento en términos de la desviación relativa. El lector no debe pasar por alto la calidad del balanceo. Es simplemente extraordinario que se consiga tal exactitud con una muestra de tan sólo 50 unidades.
+Note that the output of this function is very informative. For this particular case, both the flight phase and the landing phase were needed. At the end of the flight phase, six individuals had probabilities that were neither zero nor one. Therefore, the cube method needs the landing phase to reach convergence. In addition to the comments for each phase of the cube method, this function also returns a table describing the quality of the procedure in terms of relative deviation. The reader should not overlook the quality of the balancing. It is simply extraordinary that such accuracy can be achieved with a sample of only 50 units.
 :::
 
-## Marco y Lucy
+## Frame and Lucy
 
-<!-- index: Marco y Lucy -->Este capítulo cierra con la implementación del método del cubo para la selección de muestras balanceadas. Suponga que el investigador conoce el comportamiento estructural de algunas características de interés; a saber, Ingreso y Número de empleados. Para seleccionar una muestra balanceada, en principio, fijas las probabilidades de inclusión de acuerdo a un diseño de muestreo aleatorio simple. Como de costumbre, inserta la matriz de observaciones de las características de interés en la función `samplecube`.
+<!-- index: Frame and Lucy -->This chapter closes with the implementation of the cube method for selecting balanced samples. Suppose that the researcher knows the structural behavior of some characteristics of interest, namely Income and Number of employees. To select a balanced sample, first set the inclusion probabilities according to a simple random sampling design. As usual, insert the matrix of observations of the characteristics of interest into the `samplecube` function.
 
-```{r, warning=FALSE}
+```{r, warning = FALSE}
 library(TeachingSampling)
 data(BigLucy)
-attach(BigLucy)
 n <- 2000
 N <- nrow(BigLucy)
-pik <- rep(n/N, N)
-X <- cbind(Income, Employees)
+pik <- rep(n / N, N)
+X <- as.matrix(BigLucy[, c("Income", "Employees")])
 
-s <- samplecube(X, pik, order=1, comment=TRUE)
+s <- samplecube(X, pik, order = 1, comment = TRUE)
 ```
 
-Para este caso particular, la función `samplecube` que implementa el método del cubo necesitó tanto de la fase de vuelo como de la fase de aterrizaje para alcanzar la convergencia. La fase de vuelo concluyó con 2 elementos cuyas probabilidades de inclusión no eran cero o uno. Sin embargo, después de la fase de aterrizaje una muestra balanceada fue seleccionada. Una vez más no puede pasar inadvertida la calidad del balanceo.
+For this particular case, the `samplecube` function, which implements the cube method, needed both the flight phase and the landing phase to reach convergence. The flight phase ended with 2 elements whose inclusion probabilities were neither zero nor one. However, after the landing phase, a balanced sample was selected. Once again, the quality of the balancing cannot go unnoticed.
 
-Después de haber seleccionado la muestra balanceada, es tiempo de obtener las estimaciones pertinentes. En general, es posible utilizar la función `E.piPS` del paquete `TeachingSampling` puesto que el marco general del muestreo balanceado se acomoda a las características que rigen la estimación de Horvitz-Thompson.
+After selecting the balanced sample, it is time to obtain the corresponding estimates. In general, it is possible to use the `E.piPS` function from the `TeachingSampling` package because the general framework of balanced sampling fits the characteristics that govern Horvitz-Thompson estimation.
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning = FALSE, message = FALSE}
 sam <- (1:length(pik))[s == 1]
 pik.s <- pik[sam]
-muestra <- BigLucy[sam,]
-attach(muestra)
-estima <- data.frame(Income, Employees, Taxes)
+sample_data <- BigLucy[sam, ]
+target_variables <- data.frame(
+  Income = sample_data$Income,
+  Employees = sample_data$Employees,
+  Taxes = sample_data$Taxes
+)
 
-E.piPS(estima,pik.s)
+E.piPS(target_variables, pik.s)
 ```
 
-Los resultados que arroja la función son óptimos, en el sentido de que además de obtener estimaciones cercanas al total poblacional para la característica de interés también mantiene los totales poblaciones de las características de interés en el diseño de muestreo.
+The results returned by the function are optimal, in the sense that, in addition to obtaining estimates close to the population total for the characteristic of interest, they also maintain the population totals of the characteristics of interest in the sampling design.
 
-### Algunas preguntas
+### Some Questions
 
-<!-- index: Muestreo balanceado -->@Til responde algunas preguntas que surgen directamente con respecto al funcionamiento de este nuevo método en la práctica:
+<!-- index: Balanced sampling -->@Til answers some questions that arise directly with respect to how this new method works in practice:
 
-- **¿Por qué no usar calibración en vez de balanceo?**\\
-La estratificación es un caso particular del muestreo balanceado, la post-estratificación es un caso particular de la calibración. En estratificación y balanceo, los pesos no son aleatorios. Esto hace que sea una mejor estrategia. La calibración tiene la ventaja de sólo requerir el conocimiento de los totales poblacionales de las variables auxiliares, mientras que en el balanceo se require el conocimiento de los valores de las variables auxiliares para todas las unidades de la población.
-- **¿Qué tan precisa es la aproximación de la estimación en muestreo balanceado?**\\
-@DevTille2004 han comprobado que bajo condiciones de regularidad realistas en la vida práctica se tiene que
+- **Why not use calibration instead of balancing?**\\
+Stratification is a special case of balanced sampling; post-stratification is a special case of calibration. In stratification and balancing, the weights are not random. This makes it a better strategy. Calibration has the advantage of requiring only knowledge of the population totals of the auxiliary variables, whereas balancing requires knowledge of the values of the auxiliary variables for all units in the population.
+- **How accurate is the estimation approximation in balanced sampling?**\\
+@DevTille2004 showed that under realistic regularity conditions in practical settings,
 $$
 \left|\frac{\hat{t}_{x_q,\pi}-t_{xq}}{t_{xq}}\right|<O(p/N)\leq o_p(\sqrt{1/N})
 $$
-para todo $q=1,\ldots,Q$.
-- **¿Cómo estimar la varianza?**\\
-Mediante una técnica de residual desarrollada en @DT05. Esta técnica es comparable con la técnica usada para calcular la varianza del estimador de calibración y ha sido validada mediante un conjunto de simulaciones.
-- **¿Se puede usar balanceo y calibración simultáneamente?**\\
-Ambas técnicas pueden ser usadas juntas. No hay ninguna contradicción. La mejor estrategia muestral consistiría en usarlas juntas. De hecho la calibración puede arreglar el problema del redondeo después del balanceo. Más aún, se pueden utilizar distintas variables en la calibración de las usadas en el balanceo.
-- **¿Qué software usar?**\\
-En SAS-IML, existen dos paquetes (INSEE y University of Neuchâtel), en R el paquete `sampling` permite usar el método del cubo. Estos softwares están disponibles en internet de manera gratuita.
+for every $q=1,\ldots,Q$.
+- **How should the variance be estimated?**\\
+Through a residual technique developed in @DT05. This technique is comparable to the technique used to calculate the variance of the calibration estimator and has been validated through a set of simulations.
+- **Can balancing and calibration be used simultaneously?**\\
+Both techniques can be used together. There is no contradiction. The best sampling strategy would consist of using them together. In fact, calibration can fix the rounding problem after balancing. Moreover, different variables can be used in calibration from those used in balancing.
+- **What software should be used?**\\
+In SAS-IML, two packages exist (INSEE and University of Neuchatel); in R, the `sampling` package allows the cube method to be used. This software is available online free of charge.
 
-## Ejercicios
+## Exercises
 
-1. Suponga un diseño de muestreo de tamaño $n=2$ para una población de tamaño $N=3$ con una característica de información auxiliar tal que $x_k=\pi_k$ (k=1,2,3) y además $\pi_1+\pi_2+\pi_3=2$
-- Escriba las ecuaciones de balanceo.
-- Calcule las entradas de la matriz $\mathbf{A}$ (sección 15.2.1).
-- Defina el espacio nulo de la matriz $\mathbf{A}$; es decir $\ker(\mathbf{A})$.
-- Obtenga la forma explícita de $Q=\boldsymbol{\pi}+\ker(\mathbf{A})$.
-1. Suponga un diseño de muestreo balanceado con $N=8$ y $n=4$. Asuma que, el vector de probabilidades de inclusión de primer orden es
+1. Suppose a sampling design of size $n=2$ for a population of size $N=3$ with an auxiliary information characteristic such that $x_k=\pi_k$ (k=1,2,3) and, additionally, $\pi_1+\pi_2+\pi_3=2$.
+- Write the balancing equations.
+- Calculate the entries of the matrix $\mathbf{A}$ (Section 15.2.1).
+- Define the null space of the matrix $\mathbf{A}$; that is, $\ker(\mathbf{A})$.
+- Obtain the explicit form of $Q=\boldsymbol{\pi}+\ker(\mathbf{A})$.
+1. Suppose a balanced sampling design with $N=8$ and $n=4$. Assume that the first-order inclusion probability vector is
 $$\boldsymbol{\pi}=\left(\frac{1}{9},\frac{2}{9},\frac{3}{9},\frac{4}{9},\frac{5}{9},\frac{6}{9},\frac{7}{9},\frac{8}{9}\right)'$$
-y existen dos variables de balanceo; la primera, $x_{1k}=\pi_k$ y la segunda, $x_{2k}=1$, para todo $k\in U$.
-- Escriba las ecuaciones de balanceo.
-- Calcule las entradas de la matriz $\mathbf{A}$.
-- Si la función de costo es $$Costo_1(\mathbf{s})=\sum_{p=1}^P\frac{(\hat{t}_{x_p,\pi}-t_x)^2}{t_x^2}$$
-Obtenga el costo generado por la fase de aterrizaje para las muestras:\\
+and that there are two balancing variables: the first, $x_{1k}=\pi_k$, and the second, $x_{2k}=1$, for all $k\in U$.
+- Write the balancing equations.
+- Calculate the entries of the matrix $\mathbf{A}$.
+- If the cost function is $$Cost_1(\mathbf{s})=\sum_{p=1}^P\frac{(\hat{t}_{x_p,\pi}-t_x)^2}{t_x^2}$$
+Obtain the cost generated by the landing phase for the samples:\\
 $\mathbf{s}_1=(1,0,0,0,0,1,1,1)'$.\\
 $\mathbf{s}_2=(0,0,0,1,1,1,0,1)'$.\\
 $\mathbf{s}_3=(0,0,1,1,0,0,1,1)'$.\\
 $\mathbf{s}_4=(0,0,1,1,0,1,1,0)'$.\\
-- Si la función de costo es
-$$Costo_2(\mathbf{s})=(\mathbf{s}-\boldsymbol{\pi})'\mathbf{A}'(\mathbf{AA}')^{-1}\mathbf{A}(\mathbf{s}-\boldsymbol{\pi})$$
-Obtenga el costo generado por la fase de aterrizaje para las anteriores muestras.
-1. Demuestre o refute las siguientes afirmaciones
-- ?Utilizar muestreo balanceado siempre mejora la eficiencia de la estrategia de muestreo?
-- ?Utilizar calibración siempre mejora la eficiencia de la estrategia de muestreo balanceado?
-- ?Utilizar calibración y muestreo balanceado siempre mejora la eficiencia de la estrategia de muestreo?
+- If the cost function is
+$$Cost_2(\mathbf{s})=(\mathbf{s}-\boldsymbol{\pi})'\mathbf{A}'(\mathbf{AA}')^{-1}\mathbf{A}(\mathbf{s}-\boldsymbol{\pi})$$
+Obtain the cost generated by the landing phase for the previous samples.
+1. Prove or refute the following statements:
+- "Using balanced sampling always improves the efficiency of the sampling strategy."
+- "Using calibration always improves the efficiency of the balanced sampling strategy."
+- "Using calibration and balanced sampling always improves the efficiency of the sampling strategy."

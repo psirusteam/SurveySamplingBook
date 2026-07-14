@@ -1,4 +1,4 @@
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(TeachingSampling)
 data(BigLucy)
 library(ggplot2)
@@ -9,33 +9,33 @@ library(knitr)
 opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
-# Estimadores de calibración
+# Calibration Estimators
 
 ::: {.blockquote}
-La calibración [como proceso] se ha establecido como un importante instrumento metodológico en la producción de grandes masas de estadísticas. La mayoría de agencias estadísticas han desarrollado software especialmente diseñado para calcular las ponderaciones resultantes, usualmente calibradas a la información auxiliar disponible en registros administrativos y otras fuentes precisas.
+Calibration [as a process] has become an important methodological instrument in the production of large volumes of statistics. Most statistical agencies have developed software specifically designed to calculate the resulting weights, usually calibrated to auxiliary information available in administrative records and other accurate sources.
 @Sar08
 :::
 
-El proceso de calibración es el tema principal de los más recientes artículos publicados acerca de estimación en poblaciones finitas y muestreo. Este fenómeno se presenta debido a que la calibración provee una forma sistemática para la incorporación de la información auxiliar en la etapa de estimación en una encuesta. Un estimador de calibración es aquel estimador lineal<!-- index: Estimador lineal --> que tiene la agradable propiedad de la representatividad bajo cualquier diseño de muestreo; aunque el término calibración es nuevo, hay autores que coinciden en afirmar que han usado calibración desde mucho tiempo atrás, antes de conocer este proceso con éste nombre.
+The calibration process is the main topic of the most recent articles published on estimation in finite populations and sampling. This phenomenon arises because calibration provides a systematic way to incorporate auxiliary information at the estimation stage of a survey. A calibration estimator is a linear estimator<!-- index: Linear estimator --> with the desirable property of representativeness under any sampling design. Although the term calibration is new, some authors agree that they have used calibration for a long time, before knowing this process by that name.
 
-Como @Sar08 afirma, el ítem más importante en la calibración, como proceso sistemático de estimación, es la existencia de información auxiliar. Si no hay información auxiliar no hay nada a lo que se pueda calibrar, y por tanto no habrán estimadores de calibración que aplicar. Como se verá a lo largo del capítulo, los estimadores generales de regresión pueden arrojar los mismos resultados que los estimadores de calibración; sin embargo, el espíritu y la esencia de su aplicación tienen direcciones marcadamente diferentes.
+As @Sar08 states, the most important item in calibration, as a systematic estimation process, is the existence of auxiliary information. If there is no auxiliary information, there is nothing to calibrate to, and therefore there will be no calibration estimators to apply. As will be seen throughout the chapter, general regression estimators can yield the same results as calibration estimators; however, the spirit and essence of their application move in markedly different directions.
 
-¿Pero qué es un estimador de calibración? ¿cuál es su esencia?. A continuación una breve descripción de este método:
-1. Suponga que se tiene acceso a un vector de información auxiliar, $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$, de $p$ variables auxiliares y conocido para los individuos seleccionados en la muestra.
-1. Además, por registros administrativos u otras fuentes de confianza, se tiene el conocimiento del total del vector de información auxiliar $\mathbf{t_X}=\sum_{k\in U}\mathbf{x}_k$.
-1. El propósito del estudio es estimar el total de la característica de interés usando la información dada por $\mathbf{x}_k \ \ \ k\in S$.
-1. Aunque el estimador de Horvitz-Thompson es insesgado, se requiere que las estimaciones cumplan con la siguiente restricción dada por
+But what is a calibration estimator? What is its essence? Below is a brief description of this method:
+1. Suppose that an auxiliary information vector $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$ of $p$ auxiliary variables is available and known for the individuals selected in the sample.
+1. In addition, from administrative records or other reliable sources, the total of the auxiliary information vector $\mathbf{t_X}=\sum_{k\in U}\mathbf{x}_k$ is known.
+1. The purpose of the study is to estimate the total of the characteristic of interest using the information given by $\mathbf{x}_k \ \ \ k\in S$.
+1. Although the Horvitz-Thompson estimator is unbiased, the estimates are required to satisfy the following restriction:
 $$
   \sum_{k\in S}w_k\mathbf{x}_k = \mathbf{t_X}
 $$
-y conocida como ecuación de calibración.
-1. La idea consiste en buscar estos pesos $w_k$ tan cercanos como sea posible al inverso de la probabilidad de inclusión del $k$-ésimo elemento $d_k=1/\pi_k$
+which is known as the calibration equation.
+1. The idea is to seek these weights $w_k$ as close as possible to the inverse of the inclusion probability of the $k$-th element, $d_k=1/\pi_k$.
 
-Aunque el concepto de calibración es nuevo en la teoría de muestreo, la esencia del método y el espíritu práctico de obtener estimaciones que ajusten exactamente con totales conocidos no es nuevo. De hecho, este método se ha utilizado, y algunos investigadores lo están utilizando, sin saber que se llama calibración. Este fue el caso de @Dem quienes abordaron este tema utilizando tablas de contingencia con estimaciones internas y totales marginales conocidos. Ellos fueron los pioneros del **proceso iterativo de ajuste proporcional** o IPFP, por sus siglas en inglés.
+Although the concept of calibration is new in sampling theory, the essence of the method and the practical spirit of obtaining estimates that match known totals exactly are not new. In fact, this method has been used, and some researchers are still using it, without knowing that it is called calibration. This was the case of @Dem, who approached this topic using contingency tables with internal estimates and known marginal totals. They were the pioneers of the **iterative proportional fitting procedure**, or IPFP.
 
 ## IPFP
 
-<!-- index: Proceso iterativo de ajuste proporcional -->Suponga que existen dos variables cualitativas que dividen la poblaciones en subgrupos poblacionales. Por un lado una variable permite dividir la población en $H$ subgrupos poblacionales, $U_{1 \cdot},\ldots,U_{h \cdot}, \ldots, U_{H \cdot}$, y por otro lado una variable que permite dividir la población en $G$ subgrupos poblacionales, $U_{\cdot1},\ldots,U_{\cdot g}, \ldots, U_{\cdot G}$. Como resultado la población se particiona en $H\times G$ subgrupos poblacionales como lo muestra la siguiente tabla.
+<!-- index: Iterative proportional fitting procedure -->Suppose that there are two qualitative variables that divide the population into population subgroups. On the one hand, one variable divides the population into $H$ population subgroups, $U_{1 \cdot},\ldots,U_{h \cdot}, \ldots, U_{H \cdot}$; on the other hand, another variable divides the population into $G$ population subgroups, $U_{\cdot1},\ldots,U_{\cdot g}, \ldots, U_{\cdot G}$. As a result, the population is partitioned into $H\times G$ population subgroups, as shown in the following table.
 
 | $U_{11}$ | $\cdots$ | $U_{1g}$ | $\cdots$ | $U_{1G}$ | $U_{1 \cdot}$ |
 | --- | --- | --- | --- | --- | --- |
@@ -45,15 +45,15 @@ Aunque el concepto de calibración es nuevo en la teoría de muestreo, la esenci
 | $U_{H1}$ | $\cdots$ | $U_{Hg}$ | $\cdots$ | $U_{HG}$ | $U_{H \cdot}$ |
 | $U_{\cdot 1}$ | $\cdots$ | $U_{\cdot g}$ | $\cdots$ | $U_{\cdot G}$ | $U$ |
 
-: Distribución de la población en la tabla de contingencia. {#tbl-t10-static-1}
+: Population distribution in the contingency table. {#tbl-t10-static-1}
 
-Los tamaños de los subgrupos poblacionales se definen así: $N_{hg}=\#U_{hg}$, $N_{h\cdot}=\#U_{h\cdot}$, $N_{\cdot g}=\#U_{\cdot g}$. Nótese que se tiene que
+The sizes of the population subgroups are defined as follows: $N_{hg}=\#U_{hg}$, $N_{h\cdot}=\#U_{h\cdot}$, $N_{\cdot g}=\#U_{\cdot g}$. Note that
 
 $$
 N=\sum_{h=1}^H N_{h \cdot} = \sum_{g=1}^G N_{\cdot g}.
 $$
 
-Además de esto, los totales de las celdas de la tabla de contingencia siguen la siguiente relación:
+In addition, the cell totals of the contingency table follow the following relationship:
 
 | $N_{11}$ | $\cdots$ | $N_{1g}$ | $\cdots$ | $N_{1G}$ | $N_{1 \cdot}$ |
 | --- | --- | --- | --- | --- | --- |
@@ -63,9 +63,9 @@ Además de esto, los totales de las celdas de la tabla de contingencia siguen la
 | $N_{H1}$ | $\cdots$ | $N_{Hg}$ | $\cdots$ | $N_{HG}$ | $N_{H \cdot}$ |
 | $N_{\cdot 1}$ | $\cdots$ | $N_{\cdot g}$ | $\cdots$ | $N_{\cdot G}$ | $N$ |
 
-: Distribución de los tamaños poblacionales en la tabla de contingencia. {#tbl-t10-static-2}
+: Distribution of population sizes in the contingency table. {#tbl-t10-static-2}
 
-Después de la recolección y observación de los datos en la encuesta, se tiene la estimación definitiva de los totales de cada una de las celdas internas y de las celdas marginales. Así, $\hat{N}_{hg}$ corresponde a la estimación de $N_{hg}$, $\hat{N}_{h\cdot}$ corresponde a la estimación de $N_{h\cdot}$, $N_{\cdot g}$ corresponde a la estimación de $N_{\cdot g}$ y por último, $\hat{N}$ corresponde a la estimación de $N$. De está manera, es posible utilizar el estimador de Horvitz-Thompson, definiendo
+After data collection and observation in the survey, the final estimate of the totals for each internal cell and marginal cell is available. Thus, $\hat{N}_{hg}$ corresponds to the estimate of $N_{hg}$, $\hat{N}_{h\cdot}$ corresponds to the estimate of $N_{h\cdot}$, $N_{\cdot g}$ corresponds to the estimate of $N_{\cdot g}$, and finally $\hat{N}$ corresponds to the estimate of $N$. In this way, it is possible to use the Horvitz-Thompson estimator by defining
 
 $$
 \begin{aligned}
@@ -74,22 +74,22 @@ N_{h \cdot}=\sum_{k\in U}z_{gk}.
 \end{aligned}
 $$
 
-Donde,
+where,
 
 $$
 z_{hk}=
  \begin{cases}
- 1 &\text{si $k\in U_{h \cdot}$}\\
- 0  &\text{en otro caso}
+ 1 &\text{if $k\in U_{h \cdot}$}\\
+ 0  &\text{otherwise}
  \end{cases} \  \ \ \ \ \
 z_{gk}=
  \begin{cases}
- 1 &\text{si $k\in U_{\cdot g}$}\\
- 0  &\text{en otro caso}
+ 1 &\text{if $k\in U_{\cdot g}$}\\
+ 0  &\text{otherwise}
  \end{cases}
 $$
 
-Al utilizar el estimador de Horvitz-Thompson se garantiza el insesgamiento y se tiene la relación dada por la siguiente tabla
+Using the Horvitz-Thompson estimator guarantees unbiasedness, and the relationship given in the following table is obtained.
 
 | $\hat{N}_{11}$ | $\cdots$ | $\hat{N}_{1g}$ | $\cdots$ | $\hat{N}_{1G}$ | $\hat{N}_{1 \cdot}$ |
 | --- | --- | --- | --- | --- | --- |
@@ -99,21 +99,21 @@ Al utilizar el estimador de Horvitz-Thompson se garantiza el insesgamiento y se 
 | $\hat{N}_{H1}$ | $\cdots$ | $\hat{N}_{Hg}$ | $\cdots$ | $\hat{N}_{HG}$ | $\hat{N}_{H \cdot}$ |
 | $\hat{N}_{\cdot 1}$ | $\cdots$ | $\hat{N}_{\cdot g}$ | $\cdots$ | $\hat{N}_{\cdot G}$ | $\hat{N}$ |
 
-: Distribución de los tamaños poblacionales estimados en la tabla de contingencia. {#tbl-t10-static-3}
+: Distribution of estimated population sizes in the contingency table. {#tbl-t10-static-3}
 
-Hasta el momento, se ha cumplido con el objetivo de estimar las celdas internas y las marginales de la tabla de contingencia. Sin embargo, suponga que, debido a registros administrativos u otras fuentes de confianza, es posible tener acceso a los totales de las celdas marginales tanto por columnas como por filas. Es decir, suponga que $N_{\cdot g}$, $g=1,\ldots,G$ y  $N_{h \cdot}$, $g=1,\ldots,G$ son conocidos.
+Up to this point, the objective of estimating the internal and marginal cells of the contingency table has been met. However, suppose that, because of administrative records or other reliable sources, it is possible to access the marginal cell totals by both columns and rows. That is, suppose that $N_{\cdot g}$, $g=1,\ldots,G$, and $N_{h \cdot}$, $g=1,\ldots,G$, are known.
 
-Bajo el anterior supuesto, es posible construir un algoritmo que ajuste las estimaciones de las celdas internas y que tenga la agradable propiedad que, finalizado el algoritmo, al sumar por filas y columnas, las estimaciones correspondan a los totales conocidos de las celdas marginales. Este método de estimación basado en un algoritmo muy simple se conoce como **proceso iterativo de ajuste proporcional** o IPFP, por sus siglas en inglés, y fue propuesto por @Dem.
+Under the preceding assumption, it is possible to construct an algorithm that adjusts the estimates of the internal cells and has the desirable property that, once the algorithm is finished, the row and column sums of the estimates correspond to the known marginal cell totals. This estimation method, based on a very simple algorithm, is known as the **iterative proportional fitting procedure**, or IPFP, and was proposed by @Dem.
 
-### Algoritmo
+### Algorithm
 
-<!-- index: Algoritmo IPFP -->Aunque simple e intuitivo, el siguiente algoritmo es muy potente y tiene la buena propiedad de converger muy rápidamente si la tabla de contingencia no tiene valores nulos en sus celdas internas y si los totales marginales conocidos tienen sentido con la puesta en marcha de la encuesta.
+<!-- index: IPFP algorithm -->Although simple and intuitive, the following algorithm is very powerful and has the useful property of converging very quickly if the contingency table has no null values in its internal cells and if the known marginal totals are consistent with the survey implementation.
 
-1. Inicializar con
+1. Initialize with
 $$
   N_{hg}^{(0)}= \hat{N}_{hg} \ \ \ \ \ \ \ \ g=1,\ldots,G, h=1,\ldots,H
 $$
-1. Para $t=1,2,3,\ldots$
+1. For $t=1,2,3,\ldots$
 $$
 \begin{aligned}
   N_{hg}^{(2t-1)} &=& N_{hg}^{(2t-2)}\frac{N_{h \cdot}}{\sum_{g=1}^GN_{hg}^{(2t-2)}} \ \ \ g=1,\ldots,G, h=1,\ldots,H \\ \\ \\
@@ -121,135 +121,139 @@ $$
 \end{aligned}
 $$
 
-A simple vista, un defecto significativo de este método es que no tiene en cuenta el diseño de muestreo del cual provienen los datos para calibrar con respecto a la información auxiliar conocida. Sin embargo, como se verá en las próximas secciones, @DS y @Sautor probaron que efectivamente, el proceso iterativo de ajuste proporcional se podía tratar como un caso especial de los estimadores de calibración bajo el espíritu del numeral 5 de la introducción. A los estimadores de calibración que surgen bajo este marco de referencia se les conoce con el nombre de estimadores generalizados de raking.
+At first glance, a significant drawback of this method is that it does not take into account the sampling design from which the data used to calibrate to the known auxiliary information arise. However, as will be seen in the following sections, @DS and @Sautor proved that the iterative proportional fitting procedure can indeed be treated as a special case of calibration estimators under the spirit of item 5 in the introduction. The calibration estimators that arise under this frame of reference are known as generalized raking estimators.
 
 ### Marco y Lucy
 
-<!-- index: Marco y Lucy -->Volviendo con nuestra población de empresas del sector industrial, se sabe que las variables cualitativas Nivel y SPAM conforman una partición de la población. Por un lado, la variable Nivel, divide a la población en tres subgrupos de acuerdo a características de la empresa, a saber: Grande, Mediana y Pequeña. Por otro lado, la variable SPAM, divide a la población en dos subgrupos poblacionales, de acuerdo a sus estrategias publicitarias, así: `SPAM.SI` y `SPAM.NO`. En total la población se divide en $2\times 3= 6$ subgrupos poblacionales.
+<!-- index: Marco and Lucy -->Returning to our population of firms in the industrial sector, the qualitative variables Level and SPAM are known to form a partition of the population. On the one hand, the variable Level divides the population into three subgroups according to firm characteristics: Large, Medium, and Small. On the other hand, the variable SPAM divides the population into two population subgroups according to advertising strategies, namely `spam_yes` and `spam_no`. In total, the population is divided into $2\times 3= 6$ population subgroups.
 
-Ahora, suponga que se ha planeado un diseño de muestreo aleatorio simple con un tamaño de muestra $n=400$ y que se desea estimar el total de empresas por grupo industrial, el total de empresas que usan y no usan SPAM y su respectiva anidación interna en la tabla de contingencias, como lo muestra la siguiente tabla.
+Now suppose that a simple random sampling design with sample size $n=400$ has been planned, and that we wish to estimate the total number of firms by industrial group, the total number of firms that use and do not use SPAM, and their corresponding internal nesting in the contingency table, as shown in the following table.
 
-|  | SPAM.NO | SPAM.SI | Total |
+|  | spam_no | spam_yes | Total |
 | --- | --- | --- | --- |
-| Grande | $N_{11}$ | $N_{12}$ | $N_{1 \cdot}$ |
-| Mediana | $N_{21}$ | $N_{22}$ | $N_{2 \cdot}$ |
-| Pequeña | $N_{31}$ | $N_{32}$ | $N_{3 \cdot}$ |
+| Large | $N_{11}$ | $N_{12}$ | $N_{1 \cdot}$ |
+| Medium | $N_{21}$ | $N_{22}$ | $N_{2 \cdot}$ |
+| Small | $N_{31}$ | $N_{32}$ | $N_{3 \cdot}$ |
 | Total | $N_{\cdot 1}$ | $N_{\cdot 2}$ | $N$ |
 
-: Tabla de contingencia para SPAM. {#tbl-t10-static-4}
+: Contingency table for SPAM. {#tbl-t10-static-4}
 
-En primer lugar, con ayuda de la función `S.SI` perteneciente al paquete\\ `TeachingSampling`, se debe seleccionar una muestra probabilística de tamaño $n=2000$.
+First, with the help of the `S.SI` function from the\\ `TeachingSampling` package, a probability sample of size $n=2000$ must be selected.
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 data(BigLucy)
 attach(BigLucy)
 
 N <- dim(BigLucy)[1]
 n <- 2000
-sam <- S.SI(N,n)
-muestra <- BigLucy[sam,]
+sam <- S.SI(N, n)
+sample_data <- BigLucy[sam, ]
 
-attach(muestra)
-head(muestra)
+attach(sample_data)
+head(sample_data)
 ```
 
-Una vez que se ha observado y recolectado la información de cada una de las empresas seleccionadas en la muestra, se utiliza la función `Domains` del paquete `TeachingSampling` para obtener dos matrices, `SPAM.no` y `SPAM.si`, que indican la pertenencia o no de cada empresa seleccionada en la muestra a cada uno de los tres niveles del sector industrial.
+Once the information from each firm selected in the sample has been observed and collected, the `Domains` function from the `TeachingSampling` package is used to obtain two matrices, `spam_no` and `spam_yes`, indicating whether each firm selected in the sample belongs to each of the three levels of the industrial sector.
 
-```{r, message=FALSE}
-estima   <- data.frame(Domains(Level))
-Dominios <- data.frame(Domains(SPAM))
-SPAM.no <- Dominios[,1]*estima
-SPAM.si <- Dominios[,2]*estima
+```{r, message = FALSE}
+target_variables <- data.frame(Domains(Level))
+domains <- data.frame(Domains(SPAM))
+spam_no <- domains[, 1] * target_variables
+spam_yes <- domains[, 2] * target_variables
 ```
 
-A continuación se muestran los cinco primeros elementos de las dos matrices creadas.
+The first five elements of the two created matrices are shown below.
 
-```{r, message=FALSE}
-head(SPAM.no)
-head(SPAM.si)
+```{r, message = FALSE}
+head(spam_no)
+head(spam_yes)
 ```
 
-Para estimar los totales marginales correspondientes a las variables `Level` y `SPAM`, utilizamos la función `E.SI` del paquete `TeachingSampling`, la cual se aplica sobre los objetos `estima` y `dominios`, creados en el paso anterior.
+To estimate the marginal totals corresponding to the variables `Level` and `SPAM`, we use the `E.SI` function from the `TeachingSampling` package, applied to the objects `target_variables` and `domains` created in the previous step.
 
-```{r, message=FALSE}
-E.SI(N,n,estima)
-E.SI(N,n,Dominios)
+```{r, message = FALSE}
+E.SI(N, n, target_variables)
+E.SI(N, n, domains)
 ```
 
-Para estimar las celdas internas de la tabla de contingencia, utilizamos la función `E.SI` del paquete `TeachingSampling`, la cual se aplica sobre las matrices `SPAM.no` y `SPAM.si`, creadas anteriormente.
+To estimate the internal cells of the contingency table, we use the `E.SI` function from the `TeachingSampling` package, applied to the matrices `spam_no` and `spam_yes` created earlier.
 
-```{r, message=FALSE}
-E.SI(N,n,SPAM.no)
-E.SI(N,n,SPAM.si)
+```{r, message = FALSE}
+E.SI(N, n, spam_no)
+E.SI(N, n, spam_yes)
 ```
 
-Por tanto, la estimación de Horvitz-Thompson bajo muestreo aleatorio simple está dada por la tabla @tbl-t10-1. Ahora, suponga que, debido a registros administrativos u otras fuentes de confianza, es posible conocer el valor de los totales marginales para `Level` y `SPAM`; dadas por 2905 empresas grandes, 25795 empresas medianas y 56596 empresas pequeñas, para la variable `Level` y por 33355 empresas que no utilizan SPAM y 51941 empresas que sí utilizan SPAM, para la variable `SPAM`. Es posible, entonces, utilizar el procedimiento iterativo de ajuste proporcional para calibrar las estimaciones internas de la tabla de contingencia para que ajusten exactamente a los valores poblacionales conocidos. Lo primero que se debe hacer, se debe crear la tabla de contingencia en R.
+Therefore, the Horvitz-Thompson estimate under simple random sampling is given by @tbl-t10-1. Now suppose that, because of administrative records or other reliable sources, the marginal totals for `Level` and `SPAM` are known: 2905 large firms, 25795 medium firms, and 56596 small firms for the variable `Level`, and 33355 firms that do not use SPAM and 51941 firms that do use SPAM for the variable `SPAM`. It is then possible to use the iterative proportional fitting procedure to calibrate the internal estimates of the contingency table so that they match the known population values exactly. The first step is to create the contingency table in R.
 
-```{r, message=FALSE}
-t1 <- as.matrix(E.SI(N,n,SPAM.no)[1,2:4])
-t2 <- as.matrix(E.SI(N,n,SPAM.si)[1,2:4])
-Tab <- data.frame(SPAM.NO = t1, SPAM.SI = t2)
+```{r, message = FALSE}
+t1 <- as.matrix(E.SI(N, n, spam_no)[1, 2:4])
+t2 <- as.matrix(E.SI(N, n, spam_yes)[1, 2:4])
+Tab <- data.frame(spam_no = t1, spam_yes = t2)
+colnames(Tab) <- c("spam_no", "spam_yes")
 ```
 
 ```{r}
 #| label: tbl-t10-1
-#| tbl-cap: 'Estimación de Horvitz-Thompson para la tabla de contingencia de SPAM'
+#| tbl-cap: 'Horvitz-Thompson estimate for the SPAM contingency table.'
+colnames(Tab) <- c("spam_no", "spam_yes")
 knitr::kable(Tab)
 ```
 
-Una vez creada la tabla de contingencias, procedemos a implementar el algoritmo mediante la función `IPFP` del paquete `TeachingSampling`. Esta función consta de cuatro argumentos. El primer argumento es `Tab`, concerniente a la tabla de contingencias resultante de la estimación mediante el diseño probabilístico. El segundo argumento es `Col` y es un vector que contiene los totales marginales (poblacionales y conocidos) de las columnas de la tabla de contingencia. El tercer argumento es `Row` y es un vector que contiene los totales marginales (poblacionales y conocidos) de las filas de la tabla de contingencia. Por último `tol`, que por defecto es equivalente a 0.00001, corresponde a la tolerancia del algoritmo. La función `IPFP` arroja como resultado una tabla de contingencias calibrada según los argumentos `Col` y `Tol`. Para este ejemplo particular, se tiene la siguiente salida:
+Once the contingency table has been created, we implement the algorithm using the `IPFP` function from the `TeachingSampling` package. This function has four arguments. The first argument is `Tab`, which refers to the contingency table resulting from estimation under the probability design. The second argument is `Col`, a vector containing the marginal totals, known population values, of the columns of the contingency table. The third argument is `Row`, a vector containing the marginal totals, known population values, of the rows of the contingency table. Finally, `tol`, which by default is 0.00001, corresponds to the algorithm tolerance. The `IPFP` function returns a contingency table calibrated according to the arguments `Col` and `Tol`. For this particular example, the following output is obtained:
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 Col <- table(BigLucy$SPAM)
 Row <- table(BigLucy$Level)
-CalIPFP <- IPFP(Tab,Col,Row,tol=0.00001)
+CalIPFP <- IPFP(Tab, Col, Row, tol = 0.00001)
+colnames(CalIPFP)[1:2] <- c("spam_no", "spam_yes")
 CalIPFP
 ```
 
-A continuación se encuentran las tablas comparativas de las estimaciones calibradas mediante el proceso iterativo de ajuste proporcional y la información correspondiente a los totales poblacionales, respectivamente.
+The following are the comparative tables of the calibrated estimates obtained through the iterative proportional fitting procedure and the corresponding information for the population totals, respectively.
 
 ```{r}
 #| label: tbl-t10-2
-#| tbl-cap: 'Distribución poblacional (no conocida) para la tabla de contingencia de SPAM.'
+#| tbl-cap: 'Population distribution (unknown) for the SPAM contingency table.'
 Tab2 <- table(BigLucy$Level, BigLucy$SPAM)
 knitr::kable(Tab2)
 ```
 
 ```{r}
 #| label: tbl-t10-3
-#| tbl-cap: 'Estimación IPFP de calibración para la tabla de contingencia de SPAM.'
+#| tbl-cap: 'IPFP calibration estimate for the SPAM contingency table.'
+colnames(CalIPFP)[1:2] <- c("spam_no", "spam_yes")
 knitr::kable(CalIPFP)
 ```
 
-Nótese que la diferencia relativa es muy pequeña y que las estimaciones se acercan a la verdad. En estos términos relativos, esta estimación resulta mejor que la inducida por el estimador de Horvitz-Thompson.
+Note that the relative difference is very small and that the estimates are close to the truth. In these relative terms, this estimate is better than the one induced by the Horvitz-Thompson estimator.
 
-## Fundamentos teóricos
+## Theoretical foundations
 
-<!-- index: Estimador de calibración -->Como se estableció en la anterior sección, los estadísticos han intentado utilizar la incorporación de información auxiliar para mejorar las estimaciones de la encuesta. Es así como el estimador de regresión en todas sus posibles formas, requiere el conocimiento del total de un vector de variables auxiliares. Como @DS lo explican, los estimadores de calibración son una familia o clase de estimadores que tienen una forma muy atractiva y que se caracteriza por usar pesos calibrados, los cuales son tan cercanos como sea posible a los pesos originales o inversos de la probabilidad de inclusión del elemento seleccionado en la muestra y además estos estimadores de calibración respetan un conjunto de restricciones, las ecuaciones de calibración<!-- index: Ecuación de calibración -->.
+<!-- index: Calibration estimator -->As established in the previous section, statisticians have tried to use the incorporation of auxiliary information to improve survey estimates. Thus, the regression estimator in all its possible forms requires knowledge of the total of a vector of auxiliary variables. As @DS explain, calibration estimators are a family or class of estimators with a very attractive form, characterized by using calibrated weights that are as close as possible to the original weights or inverses of the inclusion probabilities of the elements selected in the sample; in addition, these calibration estimators respect a set of restrictions, the calibration equations<!-- index: Calibration equation -->.
 
-Considere una población finita $U=\{1,\ldots, k, \ldots, N\}$, de la cual se ha seleccionado una muestra probabilística $s$ $(s\subseteq U)$ inducida por un diseño de muestreo $p(\cdot)$. Luego, $p(s)$ es la probabilidad de que la muestra $s$ haya sido seleccionada. Se asume que las probabilidades de inclusión de primer y segundo orden son estrictamente positivas.
+Consider a finite population $U=\{1,\ldots, k, \ldots, N\}$ from which a probability sample $s$ $(s\subseteq U)$ has been selected, induced by a sampling design $p(\cdot)$. Then $p(s)$ is the probability that sample $s$ was selected. First- and second-order inclusion probabilities are assumed to be strictly positive.
 
-Sea $y_k$ el valor de la característica de interés para el $k$-ésimo individuo de la población, el cual también tiene asociado un vector de valores auxiliares dado por $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$. Nótese que $y_k$ y $\mathbf{x}_k$ se observan y se conocen para todos los elementos en la muestra. Además, se asume que se conoce, mediante registros administrativos u otras fuentes de confianza, el total poblacional del vector de información auxiliar $\mathbf{t}_{\mathbf{x}}=\sum_{k\in U}\mathbf{x}_k$.
+Let $y_k$ be the value of the characteristic of interest for the $k$-th individual in the population, which also has an associated vector of auxiliary values given by $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$. Note that $y_k$ and $\mathbf{x}_k$ are observed and known for all elements in the sample. In addition, it is assumed that the population total of the auxiliary information vector $\mathbf{t}_{\mathbf{x}}=\sum_{k\in U}\mathbf{x}_k$ is known through administrative records or other reliable sources.
 
-Como en la mayoría de situaciones que se presentan en este libro, el objetivo es estimar el total poblacional de la característica de interés, $t_y$. Sin embargo, el estimador de $t_y$ debe ser un estimador lineal<!-- index: Estimador lineal --> de la forma
+As in most situations presented in this book, the objective is to estimate the population total of the characteristic of interest, $t_y$. However, the estimator of $t_y$ must be a linear estimator<!-- index: Linear estimator --> of the form
 
 $$
 \hat{t}_S(y)=\sum_{k\in S}w_ky_k,
 $$
 
-Nótese que el estimador de Horvitz-Thompson toma la anterior forma pues
+Note that the Horvitz-Thompson estimator takes the preceding form because
 
 $$
 \hat{t}_{y,\pi}=\sum_{k\in S}\frac{y_k}{\pi_k}=\sum_{k\in S}d_ky_k,
 $$
 
-Además de la linealidad, la familia de estimadores de calibración debe inducir una estrategia de muestreo representativa para cualquier diseño de muestreo $p(\cdot)$. Es decir, se deben construir unos nuevos pesos $w_k$, que sean tan cercanos como sea posible a $d_k=1/\pi_k$ considerando alguna métrica y, que además cumplan con las ecuaciones de calibración
+In addition to linearity, the family of calibration estimators must induce a representative sampling strategy for any sampling design $p(\cdot)$. That is, new weights $w_k$ must be constructed so that they are as close as possible to $d_k=1/\pi_k$ according to some metric, and also satisfy the calibration equations
 
 $$
 \sum_{k\in S}w_k\mathbf{x}_k = \mathbf{t_X}.
 $$
 
-Nótese que los pesos $w_k$ dependen de $S$. Por ejemplo bajo el diseño MAS, el estimador de razón se puede escribir como
+Note that the weights $w_k$ depend on $S$. For example, under the SRS design, the ratio estimator can be written as
 
 $$
 \begin{aligned}
@@ -258,7 +262,7 @@ t_{y\pi}\frac{t_x}{\hat{t}_{x\pi}}&=\sum_{k\in S}\frac{N}{n}\frac{\bar{x}_U}{\ba
 \end{aligned}
 $$
 
-Además los pesos $w_k$ tienen la propiedad de calibración puesto que
+In addition, the weights $w_k$ have the calibration property because
 
 $$
 \begin{aligned}
@@ -266,111 +270,111 @@ $$
 \end{aligned}
 $$
 
-Dado que existe una variedad de estimadores que cumplen la restricción (10.2.3), se deben encontrar unos pesos<!-- index: Peso de calibración --> $w_k$ que tengan las siguientes propiedades [@Este]
-1. **Consistencia**: un sistema de pesos o ponderaciones que satisfaga (10.2.3) es atractivo, porque reproduce exactamente el total poblacional conocido para cada variable auxiliar<!-- index: Variable auxiliar -->.
-1. **Cercanía a los pesos básicos**: los pesos básicos $d_k=1/\pi_k$ tienen la atractiva propiedad de inducir estimaciones insesgadas con respecto al diseño de muestreo utilizado. Se quiere que cualquier desviación de estos pesos sea pequeña para preservar esta propiedad, al menos aproximadamente o asintóticamente.
-1. **Control sobre los totales de las variables auxiliares**: lo que dice la intuición es que entre más variables auxiliares sean usadas en el proceso de calibración, entonces mejor la estimación. Este argumento intuitivo es soportado por la teoría; de esta manera, @Este demuestran que la varianza de un estimador de calibración decrece mientras más variables auxiliares sean tenidas en cuenta en la calibración.
+Since there is a variety of estimators that satisfy restriction (10.2.3), weights<!-- index: Calibration weight --> $w_k$ must be found with the following properties [@Este]:
+1. **Consistency**: a system of weights or weightings that satisfies (10.2.3) is attractive because it exactly reproduces the known population total for each auxiliary variable<!-- index: Auxiliary variable -->.
+1. **Closeness to the basic weights**: the basic weights $d_k=1/\pi_k$ have the attractive property of inducing unbiased estimates with respect to the sampling design used. Any deviation from these weights should be small in order to preserve this property, at least approximately or asymptotically.
+1. **Control over the totals of auxiliary variables**: intuition says that the more auxiliary variables used in the calibration process, the better the estimate. This intuitive argument is supported by theory; thus, @Este show that the variance of a calibration estimator decreases as more auxiliary variables are taken into account in calibration.
 
-## Construcción
+## Construction
 
-<!-- index: Peso de calibración -->Para construir estos nuevos pesos $w_k$, se debe minimizar una pseudo-distancia<!-- index: Pseudo-distancia -->^[Una función de distancia $D(x_1,x_2)$ debe cumplir con las siguientes propiedades: i) ser estrictamente positiva (no negativa), decir que $D(x_1,x_2)\geq 0$; ii) $D(x_1,x_2)=0$ únicamente cuando $x_1=x_2$; iii) ser simétrica, es decir $D(x_1,x_2)=D(x_2,x_1)$; cumplir con la desigualdad triángular, es decir $D(x_1,x_3)\leq D(x_1,x_2)+D(x_2,x_3)$. La función $G(w_k/d_k)$ es una pseudo-distancia puesto que no necesariamente debe cumplir con la propiedad de simetría.] $G(w_k/d_k)$ entre $w_k$ y $d_k$ en toda la muestra. Éste se puede tomar como un problema de optimización de la distancia en toda la muestra dada por
+<!-- index: Calibration weight -->To construct these new weights $w_k$, a pseudo-distance<!-- index: Pseudo-distance -->^[A distance function $D(x_1,x_2)$ must satisfy the following properties: i) be strictly positive (nonnegative), meaning $D(x_1,x_2)\geq 0$; ii) $D(x_1,x_2)=0$ only when $x_1=x_2$; iii) be symmetric, that is, $D(x_1,x_2)=D(x_2,x_1)$; and satisfy the triangle inequality, that is, $D(x_1,x_3)\leq D(x_1,x_2)+D(x_2,x_3)$. The function $G(w_k/d_k)$ is a pseudo-distance because it does not necessarily have to satisfy symmetry.] $G(w_k/d_k)$ between $w_k$ and $d_k$ over the whole sample must be minimized. This can be viewed as an optimization problem for the distance over the whole sample given by
 
 $$
 \sum_{k\in S} d_k \frac{G(w_k/d_k)}{q_k}
 $$
 
-sujeto a la restricción (10.2.3). Donde, $q_k$ $(k\in S)$ forman un conjunto de ponderaciones conocidas y estrictamente positivos. Acerca de la pseudo-distancia $G(w_k/d_k)$, se supone que
+subject to restriction (10.2.3), where $q_k$ $(k\in S)$ form a set of known and strictly positive weights. For the pseudo-distance $G(w_k/d_k)$, it is assumed that
 
-- Debe ser estrictamente no negativa (para que tenga sentido como una función de distancia).
-- Debe ser estrictamente convexa^[Una función $G(x)$ es estrictamente convexa sí y sólo sí $G(ax_1+(1-a)x_2) < aG(x_1)+ (1-a)G(x_2)$ para todo $a\in (0,1)$ y todo $x_1\neq x_2$. Por otro lado, si la segunda derivada de $G$ es positiva en todo su dominio, entonces $G(x)$ es convexa.] (para que cualquier mínimo local sea un mínimo absoluto).
-- $G(1)=0$, esto es que la distancia entre pesos iguales es cero.
-- $G'(1)=0$, cuando los pesos son iguales la función debe tener un punto crítico.
-- $G?(1)=1$, ese punto crítico debe corresponder al minimizador.
+- It must be strictly nonnegative, so that it makes sense as a distance function.
+- It must be strictly convex^[A function $G(x)$ is strictly convex if and only if $G(ax_1+(1-a)x_2) < aG(x_1)+ (1-a)G(x_2)$ for all $a\in (0,1)$ and all $x_1\neq x_2$. On the other hand, if the second derivative of $G$ is positive over its entire domain, then $G(x)$ is convex.], so that any local minimum is an absolute minimum.
+- $G(1)=0$; that is, the distance between equal weights is zero.
+- $G'(1)=0$; when the weights are equal, the function must have a critical point.
+- $G?(1)=1$; that critical point must correspond to the minimizer.
 
-En resumen, la técnica de calibración induce un nuevo conjunto de pesos $w_k$ que surge de la minimización de una pseudo-distancia $G(\cdot)$ en la muestra que está sujeta a las ecuaciones de calibración. Es decir, que los nuevos pesos deben ser tales que
+In summary, the calibration technique induces a new set of weights $w_k$ that arises from minimizing a pseudo-distance $G(\cdot)$ in the sample, subject to the calibration equations. That is, the new weights must be such that
 $$
 \sum_{k\in S} w_k\mathbf{x}_k=\sum_U\mathbf{x}_k=\mathbf{t_x}
 $$
 
-Para resolver este problema de optimización, recurrimos a la técnica de los multiplicadores de Lagrange. De esta manera, la ecuación de Lagrange estará dada por la siguiente expresión
+To solve this optimization problem, we use the Lagrange multiplier technique. Thus, the Lagrange equation is given by the following expression:
 
 $$
 \mathcal{L}(w_1,\ldots,w_n,\boldsymbol{\lambda})=\sum_{k\in S} d_k \frac{G(w_k/d_k)}{q_k}-\boldsymbol{\lambda}'\left(\sum_{S}w_k\mathbf{x}_k - \mathbf{t_X}\right)
 $$
 
-Derivando la ecuación de Lagrange con respecto a $w_k$ e igualando a cero, se tiene
+Differentiating the Lagrange equation with respect to $w_k$ and setting it equal to zero, we have
 
 $$
 \frac{\partial \mathcal{L}}{\partial w_k}= \frac{d_k}{q_k}\frac{g(w_k/d_k)}{d_k}-\boldsymbol{\lambda}' \mathbf{x}_k=0
 $$
 
-Donde $g(\omega)=\frac{dG(\omega)}{d\omega}$, y por tanto se llega a que
+where $g(\omega)=\frac{dG(\omega)}{d\omega}$, and therefore
 
 $$
 g(w_k/d_k)=q_k\boldsymbol{\lambda}'\mathbf{x}_k
 $$
 
-En este paso es necesario definir una función $F(\cdot)$, tal que $F(\cdot)=g^{-1}(\cdot)$, es decir $F(g(\omega))=\omega$, por lo tanto
+At this step it is necessary to define a function $F(\cdot)$ such that $F(\cdot)=g^{-1}(\cdot)$; that is, $F(g(\omega))=\omega$. Therefore,
 
 $$
 F(g(w_k/d_k))= F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)
 $$
 
-Lo que nos guía al valor de los nuevos pesos
+which leads us to the value of the new weights:
 
 $$
 w_k=d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)
 $$
 
-El vector $\boldsymbol{\lambda}$ se obtiene al resolver el siguiente sistema de ecuaciones
+The vector $\boldsymbol{\lambda}$ is obtained by solving the following system of equations:
 
 $$
 \sum_{k\in S}\underbrace{d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)}_{w_k}\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
 $$
 
-### Distancias $G(\cdot)$, $g(\cdot)$ y $F(\cdot)$
+### Distances $G(\cdot)$, $g(\cdot)$, and $F(\cdot)$
 
-<!-- index: Distancias -->En general, hay varios tipos de distancias que pueden utilizarse en la construcción de un estimador de calibración. Sin embargo, @DS demuestran que todas ellas guían asintóticamente al mismo estimador. Las pseudo-distancias más utilizadas están dadas en tabla 10.8º. Dependiendo de la escogencia de cada distancia, se obtendrán distintos estimadores de calibración. También es posible fijar dos constantes $L$ y $U$ y restringir el rango de los pesos resultantes $w_k$ al intervalo $(L,U)$. Este método se utiliza para evadir los pesos extremos o negativos, que se pueden eliminar con una buena escogencia de $L$ y $U$.
+<!-- index: Distances -->In general, several types of distances can be used in the construction of a calibration estimator. However, @DS show that all of them asymptotically lead to the same estimator. The most commonly used pseudo-distances are given in Table 10.8. Depending on the choice of each distance, different calibration estimators are obtained. It is also possible to fix two constants $L$ and $U$ and restrict the range of the resulting weights $w_k$ to the interval $(L,U)$. This method is used to avoid extreme or negative weights, which can be eliminated through a good choice of $L$ and $U$.
 
-En resumen, el proceso para obtener un estimador de calibración es el siguiente:
+In summary, the process for obtaining a calibration estimator is as follows:
 
-1. Definir una distancia $G(\cdot)$ y observar los datos $y_k$ y $\mathbf{x}_k$.
-1. Resolver (10.3.4) para el vector $\boldsymbol{\lambda}$. En algunos casos esta solución requiere de procedimientos iterativos.
-1. Usar $\boldsymbol{\lambda}$ para obtener un estimador del total poblacional de la característica de interés dado por
+1. Define a distance $G(\cdot)$ and observe the data $y_k$ and $\mathbf{x}_k$.
+1. Solve (10.3.4) for the vector $\boldsymbol{\lambda}$. In some cases, this solution requires iterative procedures.
+1. Use $\boldsymbol{\lambda}$ to obtain an estimator of the population total of the characteristic of interest, given by
 $$
 \hat{t}_{y,cal}=\sum_{k\in S}w_ky_k=\sum_{k\in S}d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)y_k
 $$
 
-@DS asegura que el estimador $\hat{t}_{y,cal}$ arrojará estimaciones cercanas al total poblacional desconocido de la característica de interés si existe una fuerte relación entre $y$ y $\mathbf{x}$. De hecho, si $y$ estuviera perfectamente explicado por $\mathbf{x}$, la varianza del estimador $\hat{t}_{y,cal}$ sería nula para cada posible muestra.
+@DS states that the estimator $\hat{t}_{y,cal}$ will yield estimates close to the unknown population total of the characteristic of interest if there is a strong relationship between $y$ and $\mathbf{x}$. In fact, if $y$ were perfectly explained by $\mathbf{x}$, the variance of the estimator $\hat{t}_{y,cal}$ would be zero for every possible sample.
 
-| Distancia | $G(x)$ | $g(x)$ | $F(u)$ |
+| Distance | $G(x)$ | $g(x)$ | $F(u)$ |
 | --- | --- | --- | --- |
-| Ji cuadrado | $\frac{1}{2}(x-1)^2$ | $x-1$ | $1+u$ |
-| Entropía | $x\ln(x)-x+1$ | $\ln(x)$ | $\exp(u)$ |
+| Chi-square | $\frac{1}{2}(x-1)^2$ | $x-1$ | $1+u$ |
+| Entropy | $x\ln(x)-x+1$ | $\ln(x)$ | $\exp(u)$ |
 | Hellingster | $2(\sqrt{x}-1)^2$ | $2\left(1-\sqrt{\frac{1}{x}}\right)$ | $(1+\frac{u}{2})^{-2}$ |
-| Entropía inversa | $\ln(\frac{1}{x})+x-1$ | $1-\frac{1}{x}$ | $(1+u)^{-1}$ |
-| Ji cuadrado inversa | $\frac{1}{2}\frac{(x-1)^2}{x}$ | $\frac{1}{2}\left(1-\frac{1}{x}\right)^2$ | $(1+2u)^{-1/2}$ |
+| Inverse entropy | $\ln(\frac{1}{x})+x-1$ | $1-\frac{1}{x}$ | $(1+u)^{-1}$ |
+| Inverse chi-square | $\frac{1}{2}\frac{(x-1)^2}{x}$ | $\frac{1}{2}\left(1-\frac{1}{x}\right)^2$ | $(1+2u)^{-1/2}$ |
 
-: Ejemplos de pseudo-distancias para el proceso de calibración. {#tbl-t10-static-5}
+: Examples of pseudo-distances for the calibration process. {#tbl-t10-static-5}
 
-## Algunos casos particulares
+## Some particular cases
 
-<!-- index: Estimador de calibración -->@DS examinaron las propiedades estadísticas de $\hat{t}_{y,cal}$ bajo una serie de pseudo-distancias $G(\dot)$. En esta sección se revisarán algunos casos particulares que arrojan estimadores de calibración, algunos conocidos y otros nuevos.
+<!-- index: Calibration estimator -->@DS examined the statistical properties of $\hat{t}_{y,cal}$ under a series of pseudo-distances $G(\dot)$. This section reviews some particular cases that yield calibration estimators, some known and others new.
 
-### Método lineal: distancia Ji cuadrado
+### Linear method: chi-square distance
 
-Este método, quizás el más usado y uno de los más importantes en calibración, se obtiene cuando se escoge la utilizaremos la distancia Ji cuadrado que calcula la distancia, en toda la muestra, de los nuevos pesos $w_k$ a los pesos clásicos $d_k$ como
+This method, perhaps the most widely used and one of the most important in calibration, is obtained when the chi-square distance is chosen. It calculates, over the whole sample, the distance from the new weights $w_k$ to the classical weights $d_k$ as
 $$
 \begin{aligned}
 \sum_{S}d_kG(w_k/d_k)=\frac{1}{2}\sum_{S}\frac{(w_k-d_k)^2}{d_k}
 \end{aligned}
 $$
 
-::: {.callout-tip title="Resultado"}
-Bajo la distancia Ji cuadrado, y suponiendo que las ponderaciones $q_k=1/c_k$, el estimador de calibración toma la forma del estimador general de regresión.
+::: {.callout-tip title="Result"}
+Under the chi-square distance, and assuming that the weights $q_k=1/c_k$, the calibration estimator takes the form of the general regression estimator.
 
-**Prueba.**
-De (10.3.3), y utilizando el hecho de que, para este pseudo-distancia, $F(u)=1+u$, entonces se tiene que
+**Proof.**
+From (10.3.3), and using the fact that for this pseudo-distance $F(u)=1+u$, we have
 
 $$
 \begin{aligned}
@@ -380,19 +384,19 @@ w_k&=d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\\
 \end{aligned}
 $$
 
-y reemplazando en la ecuación de calibración (10.3.4)
+and replacing in the calibration equation (10.3.4),
 
 $$
 \sum_{s}d_k\mathbf{x}_k'+\sum_{s}d_kq_k \boldsymbol{\lambda}' \mathbf{x}_k\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
 $$
 
-Al despejar convenientemente, el multiplicador de Lagrange se resuelve como
+Solving conveniently, the Lagrange multiplier is
 
 $$
 \boldsymbol{\lambda}'=(\mathbf{t}_{\mathbf{x}}-\mathbf{t_{x\pi}})'\left(\sum_{S}d_kq_k\mathbf{x}_k \mathbf{x}_k'\right)^{-1}
 $$
 
-Así, suponiendo que $q_k=1/c_k$, se llega al estimador de calibración para el total de la característica de interés, puesto que
+Thus, assuming that $q_k=1/c_k$, we arrive at the calibration estimator for the total of the characteristic of interest, because
 
 $$
 \begin{aligned}
@@ -400,7 +404,7 @@ w_k&=d_k + d_k(\mathbf{t}_{\mathbf{x}}-\mathbf{t_{x\pi}})'\mathbf{T}^{-1} q_k\ma
 \end{aligned}
 $$
 
-donde $\mathbf{T}^{-1}$ está definido en (9.2.13). Entonces, se tiene que
+where $\mathbf{T}^{-1}$ is defined in (9.2.13). Then,
 
 $$
 \begin{aligned}
@@ -408,51 +412,55 @@ $$
 &=\sum_s\frac{y_k}{\pi_k}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\mathbf{T}^{-1}\sum_s\frac{\mathbf{x}_ky_k}{c_k\pi_k}
 \end{aligned}
 $$
-que coincide exactamente con la expresión (9.2.15) que define el estimador general de regresión.
+which exactly coincides with expression (9.2.15), which defines the general regression estimator.
 :::
 
-El autor recalca que el estimador general de regresión es un caso particular de la familia de estimadores de calibración. Es un error hacer aserciones acerca de los estimadores de calibración basados solamente en la forma funcional del estimador general de regresión (GREG). Aunque es cierto que una gran mayoría de artículos están basados bajo el espíritu del estimador general de regresión, se debe recalcar que la filosofía de un estimador de calibración, aunque no contradice el uso del estimador general de regresión, es bien diferente a la filosofía de éste. <!-- index: Método lineal --><!-- index: Distancia Ji cuadrado -->
+The author emphasizes that the general regression estimator is a special case of the family of calibration estimators. It is an error to make assertions about calibration estimators based only on the functional form of the general regression estimator (GREG). Although it is true that a large majority of articles are based on the spirit of the general regression estimator, it must be emphasized that the philosophy of a calibration estimator, while not contradicting the use of the general regression estimator, is quite different from its philosophy. <!-- index: Linear method --><!-- index: Chi-square distance -->
 
 ```{r}
 #| label: fig-f10-1
 #| message: false
 #| fig-height: 5
 #| echo: false
-#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando la distancia Ji cuadrado.'
+#| fig-cap: 'Functions $G(x)$ and $F(u)$ using the chi-square distance.'
 x <- sort(runif(100, -2, 2))
-G <- (1/2) * (x - 1) ^ 2
-F <-  1 + x
+G <- (1 / 2) * (x - 1)^2
+F <- 1 + x
 
-G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "G(x)")
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "G(x)")
 
-F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "F(x)")
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "F(x)")
 
-plot <- gridExtra::grid.arrange(G_x,F_x, nrow = 1)
+plot <- gridExtra::grid.arrange(G_x, F_x, nrow = 1)
 ```
 
-Nótese que el estimador general de regresión utiliza un modelo para incorporar la información auxiliar en el proceso de estimación, al igual que los estimadores de calibración, no todos los casos particulares del estimador general de regresión son estimadores de calibración. El espíritu más influyente de los estimadores de calibración no es incorporar un modelo al proceso de estimación sino conseguir un conjunto de pesos $w_k$. Como @Sar08 lo afirma, el concepto de *estimación GREG* y *estimación de calibración* reflejan una clara diferencia de pensamiento. La gran variedad de posibles modelos generan una amplia familia de estimadores tipo GREG. Por otro lado, la escogencia de una distancia en el proceso de calibración generan una amplia familia de estimadores de calibración, cuyo caso particular es la familia de estimadores GREG lineales.
+Note that the general regression estimator uses a model to incorporate auxiliary information into the estimation process. As with calibration estimators, not all special cases of the general regression estimator are calibration estimators. The most influential spirit of calibration estimators is not to incorporate a model into the estimation process, but to obtain a set of weights $w_k$. As @Sar08 states, the concepts of *GREG estimation* and *calibration estimation* reflect a clear difference in thinking. The wide variety of possible models generates a broad family of GREG-type estimators. On the other hand, the choice of a distance in the calibration process generates a broad family of calibration estimators, of which the family of linear GREG estimators is a special case.
 
-::: {.callout-tip title="Resultado"}
-Bajo la distancia Ji cuadrado, y suponiendo que las ponderaciones $q_k=1/x_k$ y que sólo existe una variable de información auxiliar; es decir $\mathbf{x}_k=x_k$, el estimador de calibración toma la forma del estimador de razón.
+::: {.callout-tip title="Result"}
+Under the chi-square distance, assuming that the weights $q_k=1/x_k$ and that there is only one auxiliary information variable; that is, $\mathbf{x}_k=x_k$, the calibration estimator takes the form of the ratio estimator.
 
-**Prueba.**
-Bajo las anteriores condiciones, se tiene que
+**Proof.**
+Under the preceding conditions, we have
 
 $$
 \boldsymbol{\lambda}=\frac{\sum_Ux_k}{\sum_Sd_kx_k}-1=\frac{t_x}{\hat{t}_{x,\pi}}-1
 $$
 
-Por tanto
+Therefore,
 
 $$
 w_k=d_k(1+q_kx_k\boldsymbol{\lambda})=d_k(1+\boldsymbol{\lambda})=d_k\left(\frac{t_x}{\hat{t}_{x,\pi}}\right)
 $$
 
-Luego, el estimador de calibración toma la forma siguiente
+Then the calibration estimator takes the following form:
 
 $$
 \begin{aligned}
@@ -462,24 +470,24 @@ $$
 \end{aligned}
 $$
 
-que coincide con la forma del estimador de razón dada por (9.4.15).
+which coincides with the form of the ratio estimator given by (9.4.15).
 :::
 
-### Método de raking: distancia de entropía
+### Raking method: entropy distance
 
-El método de raking utiliza la distancia de entropía como base de construcción del estimador de calibración. Esta distancia se define como:
+The raking method uses the entropy distance as the basis for constructing the calibration estimator. This distance is defined as:
 
 $$
 G(x)=x\log(x)-x+1
 $$
 
-Nótese que la distancia, en toda la muestra, de los nuevos pesos $w_k$ a los pesos clásicos $d_k$ como:
+Note that the distance, over the whole sample, from the new weights $w_k$ to the classical weights $d_k$ is
 
 $$
 \sum_Sd_kG(w_k/d_k)=\sum_Sd_k\left( \frac{w_k}{d_k} \ln\left(\frac{w_k}{d_k}\right)-\frac{w_k}{d_k}+1 \right)
 $$
 
-De (10.3.3), y utilizando el hecho de que, para este pseudo-distancia, $F(u) = \exp(u)$, entonces se tiene que
+From (10.3.3), and using the fact that for this pseudo-distance $F(u) = \exp(u)$, we have
 
 $$
 \begin{aligned}
@@ -488,19 +496,19 @@ w_k&=d_k F(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\\
 \end{aligned}
 $$
 
-y reemplazando en la ecuación de calibración (10.3.4)
+and replacing in the calibration equation (10.3.4),
 
 $$
 \sum_{s}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
 $$
 
-El anterior sistema debe ser resuelto para $\boldsymbol{\lambda}$ (que es un vector columna de multiplicadores de Lagrange). Después de que $\boldsymbol{\lambda}$ sea determinado, se calculan los pesos calibrados como $w_k=d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)$ y se obtiene el estimador de calibración para el total poblacional de la característica de interés, definido como:
+The preceding system must be solved for $\boldsymbol{\lambda}$, which is a column vector of Lagrange multipliers. After $\boldsymbol{\lambda}$ is determined, the calibrated weights are calculated as $w_k=d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)$, and the calibration estimator for the population total of the characteristic of interest is obtained, defined as:
 
 $$
 \hat{t}_{y,cal}=\sum_{S}w_ky_k=\sum_{S}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)y_k
 $$
 
-¿Qué interpretación teórico-práctica tiene que algún $w_k$ resulte negativo? Un aspecto realmente importante de este método de raking es que induce pesos $w_k$ que son estrictamente positivos, lo cual no sucede con el método lineal. <!-- index: Método de raking --><!-- index: Distancia de entropía -->
+What theoretical and practical interpretation would a negative $w_k$ have? A very important aspect of this raking method is that it induces weights $w_k$ that are strictly positive, which does not happen with the linear method. <!-- index: Raking method --><!-- index: Entropy distance -->
 
 ```{r}
 #| label: fig-f10-2
@@ -508,54 +516,57 @@ $$
 #| message: false
 #| fig-height: 5
 #| echo: false
-#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando la distancia de Entropía.'
+#| fig-cap: 'Functions $G(x)$ and $F(u)$ using the entropy distance.'
 x <- sort(runif(100, -1, 3))
 G <- x * log(x) - x + 1
-F <-  exp(x)
+F <- exp(x)
 
-G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "G(x)")
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "G(x)")
 
-F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "F(x)")
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "F(x)")
 
-plot <- gridExtra::grid.arrange(G_x,F_x,nrow = 1)
+plot <- gridExtra::grid.arrange(G_x, F_x, nrow = 1)
 ```
 
-#### Aspectos computacionales para el cálculo de $\boldsymbol{\lambda}$
+#### Computational aspects for calculating $\boldsymbol{\lambda}$
 
-Para calcular el estimador de calibración dado por (10.4.7), es necesario resolver el sistema de ecuaciones (10.4.6) para $\boldsymbol{\lambda}$. En @DS, se demuestra que una solución general pede ser obtenida usando el método iterativo de Newthon-Raphson. Nótese que el sistema de ecuaciones de calibración<!-- index: Ecuación de calibración --> puede ser re-escrito como una función $\phi$ en términos de $\boldsymbol{\lambda}$, así:
+To calculate the calibration estimator given by (10.4.7), it is necessary to solve the system of equations (10.4.6) for $\boldsymbol{\lambda}$. @DS show that a general solution can be obtained using the iterative Newton-Raphson method. Note that the system of calibration equations<!-- index: Calibration equation --> can be rewritten as a function $\phi$ in terms of $\boldsymbol{\lambda}$, as follows:
 
 $$
 \phi(\boldsymbol{\lambda})=\sum_{S}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'-\mathbf{t}_{\mathbf{x}}'
 $$
 
-Nótese que la derivada de esta función con respecto a $\boldsymbol{\lambda}$ está dada por:
+Note that the derivative of this function with respect to $\boldsymbol{\lambda}$ is given by:
 
 $$
 \phi'(\boldsymbol{\lambda})=\frac{\partial\phi(\boldsymbol{\lambda})}{\partial\boldsymbol{\lambda}}=\sum_{S}d_k\exp(q_k \boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'\mathbf{x}_k
 $$
 
-para algún vector $\boldsymbol{\lambda}$. Entonces, de acuerdo con el método de Newton-Raphson, una solución estaría dada por la iteración hasta convergencia de la siguiente expresión
+for some vector $\boldsymbol{\lambda}$. Then, according to the Newton-Raphson method, a solution would be given by iterating the following expression until convergence:
 
 $$
 \boldsymbol{\lambda}^{(a+1)}=\boldsymbol{\lambda}^{(a)}-\left[\phi'\left(\boldsymbol{\lambda}^{(a)}\right)\right]^{-1}\phi(\boldsymbol{\lambda}^{(a)})
 $$
 
-Nótese que el procedimiento converge cuando la diferencia entre $\boldsymbol{\lambda}^{(a+1)}$ y $\boldsymbol{\lambda}^{(a)}$ sea menor que una tolerancia fijada de antemano. Además, se debe tener en cuenta que $\boldsymbol{\lambda}^{(0)}=\mathbf{0}$.
+Note that the procedure converges when the difference between $\boldsymbol{\lambda}^{(a+1)}$ and $\boldsymbol{\lambda}^{(a)}$ is smaller than a tolerance fixed in advance. In addition, $\boldsymbol{\lambda}^{(0)}=\mathbf{0}$ must be taken into account.
 
-::: {.callout-tip title="Resultado"}
-Bajo el método de Newton-Raphson, la primera iteración del algoritmo da como resultado la solución para $\boldsymbol{\lambda}$ cuando se utilizaba la
-distancia Ji cuadrado. Es decir,
+::: {.callout-tip title="Result"}
+Under the Newton-Raphson method, the first iteration of the algorithm gives the solution for $\boldsymbol{\lambda}$ when the chi-square distance is used. That is,
 $$
 \begin{aligned}
 \boldsymbol{\lambda}^{(1)}=\hat{\mathbf{T}}^{-1}[\mathbf{t}_{\mathbf{x}}-\mathbf{\hat{t}_{x\pi}}]
 \end{aligned}
 $$
 
-**Prueba.**
+**Proof.**
 $$
 \begin{aligned}
 \boldsymbol{\lambda}^{(1)}&=\boldsymbol{\lambda}^{(0)}-\left[\phi'\left(\boldsymbol{\lambda}^{(0)}\right)\right]^{-1}\phi(\boldsymbol{\lambda}^{(0)})\\
@@ -567,94 +578,94 @@ $$
 \end{aligned}
 $$
 
-que coincide con la solución para $\boldsymbol{\lambda}$ dada por la expresión (10.4.2).
+which coincides with the solution for $\boldsymbol{\lambda}$ given by expression (10.4.2).
 :::
 
-Del anterior resultado se tiene que el estimador de calibración en la primera iteración estaría dado por
+From the preceding result, the calibration estimator in the first iteration would be given by
 
 $$
 \hat{t}_{y,cal}^{(1)}=\sum_{S}d_k\exp(q_k (\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\hat{\mathbf{T}}^{-1} \mathbf{x}_k)y_k
 $$
 
-#### Programación del estimador con R
+#### Programming the estimator with R
 
-<!-- index: R -->En esta sección se dan las ideas básicas para la programación computacional de un estimador de calibración basado en el método de raking para el caso en que se utiliza una sola variable de información auxiliar. Nótese que en el cálculo del vector $\boldsymbol{\lambda}$, cuya expresión está dada por la ecuación (10.4.8), están involucradas las funciones $\phi$ y $\phi'$. La programación computacional de esta técnica de los estimadores de calibración puede ser fácilmente implementada en cuatro sencillos pasos. A saber:
+<!-- index: R -->This section gives the basic ideas for computational programming of a calibration estimator based on the raking method when a single auxiliary information variable is used. Note that the functions $\phi$ and $\phi'$ are involved in calculating the vector $\boldsymbol{\lambda}$, whose expression is given by equation (10.4.8). Computational programming of this calibration estimator technique can be easily implemented in four simple steps:
 
-1. Programar la función $\phi$
-1. Programar la función $\phi'$
-1. Utilizar las anteriores expresiones para realizar el cálculo del vector $\boldsymbol{\lambda}$
-1. Iterar hasta convergencia
+1. Program the function $\phi$.
+1. Program the function $\phi'$.
+1. Use the preceding expressions to calculate the vector $\boldsymbol{\lambda}$.
+1. Iterate until convergence.
 
-En la programación de la función $\phi$ intervienen cuatro *objetos computacionales* los cuales son el vector $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, el vector $\boldsymbol{\lambda}$, el vector de valores auxiliares para cada elemento incluido en la muestra, dado por $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$ y el vector de totales poblacionales de las variables de información auxiliar $\mathbf{t}_{\mathbf{x}}$. De esta manera, el siguiente código crea una función que permite el cálculo de la función $\phi$.
+Four *computational objects* are involved in programming the function $\phi$: the vector $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, the vector $\boldsymbol{\lambda}$, the vector of auxiliary values for each element included in the sample, given by $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$, and the vector of population totals of the auxiliary information variables $\mathbf{t}_{\mathbf{x}}$. Thus, the following code creates a function that calculates $\phi$.
 
-```{r, eval=FALSE}
-Fi <- function(dk, l, x, tx){
+```{r, eval = FALSE}
+Fi <- function(dk, l, x, tx) {
   e <- matrix(0, n, 1)
   for (k in 1:n) {
     e[k] <- exp(x[k] * l)
-    }
+  }
   res <- sum(dk * e * x) - tx
   res
-  }
+}
 ```
 
-Por otra parte, en la programación de la función $\phi'$ intervienen sólo tres *objetos computacionales* que también estuvieron involucrados en la programación de la función $\phi$. La razón de lo anterior es porque $\phi'$ es la derivada de $\phi$. Estos elementos son $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, $\boldsymbol{\lambda}$ y $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$. Luego, el siguiente código crea una función que permite el cálculo de la función $\phi'$.
+On the other hand, only three *computational objects* are involved in programming the function $\phi'$, and they were also involved in programming $\phi$. The reason is that $\phi'$ is the derivative of $\phi$. These elements are $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, $\boldsymbol{\lambda}$, and $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$. The following code creates a function that calculates $\phi'$.
 
-```{r, eval=FALSE}
-Fiprima <- function(dk, l, x){
+```{r, eval = FALSE}
+Fiprima <- function(dk, l, x) {
   e <- matrix(0, n, 1)
-  for(k in 1:n) {
+  for (k in 1:n) {
     e[k] <- exp(x[k] * l)
-    }
+  }
   res <- sum(dk * e * x * x)
   res
-  }
+}
 ```
 
-Simultáneamente, se debe crear una función que calcule el estimador de calibración. En esta función intervienen cuatro *objetos computacionales* que son: $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, $\boldsymbol{\lambda}$, $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$ y por último el vector de valores de la característica de interés para los elementos de la muestra $y_k=(y_1, y_2,\ldots,y_n)$.
+At the same time, a function must be created to calculate the calibration estimator. Four *computational objects* are involved in this function: $d_k=(1/\pi_1,\ldots,1/\pi_k,\ldots,1/\pi_n)$, $\boldsymbol{\lambda}$, $\mathbf{x}_k=(x_{1k}, x_{2k},\ldots,x_{pk})$, and finally the vector of values of the characteristic of interest for the sample elements, $y_k=(y_1, y_2,\ldots,y_n)$.
 
-```{r, eval=FALSE}
-Cal <- function(dk, l, x, y){
+```{r, eval = FALSE}
+Cal <- function(dk, l, x, y) {
   w <- matrix(0, n, 1)
-  for(k in 1:n) {
+  for (k in 1:n) {
     w[k] <- exp(x[k] * l)
-    }
+  }
   res <- sum(dk * w * y)
   res
-  }
+}
 ```
 
-Por supuesto, los anteriores códigos no funcionan por sí solos. Nótese que las anteriores funciones tienen al elemento computacional $\boldsymbol{\lambda}$ en común; sin embargo, este elemento no existe aún y debe ser calculado con métodos iterativos como el de Newton-Raphson. Estas funciones deben ser ensambladas por una función que las recoja y que sea capaz de realizar el cálculo final del estimador de calibración.
+Of course, the preceding code does not work by itself. Note that the previous functions share the computational element $\boldsymbol{\lambda}$; however, this element does not yet exist and must be calculated with iterative methods such as Newton-Raphson. These functions must be assembled by a function that collects them and is able to carry out the final calculation of the calibration estimator.
 
-En primer lugar se debe fijar una tolerancia deseada, en este caso la tolerancia está dada por 0.000001. Esto quiere decir que el proceso iterativo se detiene cuando suceda que $|\boldsymbol{\lambda}^{(a+1)}-\boldsymbol{\lambda}^{(a)}| <- 0.000001$. Sin embargo, si esta condición no se satisface, entonces el proceso sigue iterándose repetitivamente. Cuando el proceso converge, entonces es posible utilizar las funciones que se declararon anteriormente y así calcular el valor de la estimación.
+First, a desired tolerance must be set; in this case, the tolerance is 0.000001. This means that the iterative process stops when $|\boldsymbol{\lambda}^{(a+1)}-\boldsymbol{\lambda}^{(a)}| <- 0.000001$. However, if this condition is not satisfied, the process continues iterating. When the process converges, the functions declared earlier can be used to calculate the value of the estimate.
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 tol <- 0.000001
 l <- 0
 l.k <- 4
 
-while(abs(l - l.k)>tol) {
+while (abs(l - l.k) > tol) {
   l.k <- l - Fi(l, xs, sum(xu)) / Fiprima(l, xs)
   l <- l.k
-  }
+}
 
 tcal <- Cal(l.k, xs, ys)
 ```
 
-Los anteriores códigos de programación pretenden ser una guía para el estudiante y no se declaran como la única alternativa de lógica computacional.
+The preceding programming code is intended as a guide for the student and is not presented as the only computational logic alternative.
 
-Nótese, sin embargo, que aunque el método de Raking posee la característica de que los pesos no son negativos, como suele suceder cuando se utiliza el método lineal, éstos pueden ser muy variables. Para resolver este inconveniente, @DS proponen los métodos logístico y lineal truncado. Éstas técnicas surgen motivadas por el deseo de restringir el rango de variación de los nuevos pesos de calibración sin alterar demasiado el estimador de calibración. En la práctica, el estadístico desea evadir los pesos extremos; en la siguientes secciones se muestra cómo estos pueden ser eliminados.
+Note, however, that although the raking method has the feature that the weights are not negative, unlike what often happens when the linear method is used, they can be highly variable. To solve this problem, @DS propose the logistic and truncated linear methods. These techniques are motivated by the desire to restrict the range of variation of the new calibration weights without excessively altering the calibration estimator. In practice, the statistician wants to avoid extreme weights; the following sections show how these can be eliminated.
 
-### Método logístico
+### Logistic method
 
-<!-- index: Método logístico -->
+<!-- index: Logistic method -->
 ```{r}
 #| label: fig-f10-3
 #| warning: false
 #| message: false
 #| fig-height: 5
 #| echo: false
-#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando el método logístico con $L=0.4$ y $U=2.5$la distancia de Entropía.'
+#| fig-cap: 'Functions $G(x)$ and $F(u)$ using the logistic method with $L=0.4$ and $U=2.5$.'
 x <- sort(runif(100, -3, 3))
 U <- 2.5
 L <- 0.4
@@ -666,195 +677,207 @@ F1 <- L * (U - 1) + U * (1 - L) * exp(A * x)
 F2 <- (U - 1) + (1 - L) * exp(A * x)
 F <- F1 / F2
 
-G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "G(x)")
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "G(x)")
 
-F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "F(x)")
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "F(x)")
 
-plot <- gridExtra::grid.arrange(G_x,F_x,nrow = 1)
+plot <- gridExtra::grid.arrange(G_x, F_x, nrow = 1)
 ```
 
-Conocido comúnmente como el método de calibración Logit $(L,U)$. Este método fija dos constantes $L$ y $U$ tales que $L<1<U$. De esta forma se define la siguiente cantidad
+Commonly known as the Logit $(L,U)$ calibration method, this method fixes two constants $L$ and $U$ such that $L<1<U$. Thus, the following quantity is defined:
 
 $$
 A=\frac{(U-L)}{(1-L)(U-1)}
 $$
 
-Luego, se define la siguiente función
+Then the following function is defined:
 
 $$
 G(x)=
  \begin{cases}
- \frac{1}{A}\left[(x-L)\lg \frac{x-L}{1-L}+(U-x)\lg  \frac{U-x}{U-1}\right] &\text{si $L<x<U$}\\ \\
- \infty  &\text{en otro caso}
+ \frac{1}{A}\left[(x-L)\lg \frac{x-L}{1-L}+(U-x)\lg  \frac{U-x}{U-1}\right] &\text{if $L<x<U$}\\ \\
+ \infty  &\text{otherwise}
  \end{cases}
 $$
 
-La correspondiente función $F$ está dada por
+The corresponding function $F$ is given by
 
 $$
 F(u)=
 \frac{L(U-1)+U(1-L)\exp(Au)}{U-1+(1-L)\exp(Au)}
 $$
 
-La anterior función toma valores restringidos al intervalo $(L,U)$ puesto que $F(-\infty)=L$ y $F(\infty)=U$. Por lo tanto los nuevos pesos de calibración están siempre en el intervalo $[Ld_k,Ud_k]$.
+The preceding function takes values restricted to the interval $(L,U)$ because $F(-\infty)=L$ and $F(\infty)=U$. Therefore, the new calibration weights are always in the interval $[Ld_k,Ud_k]$.
 
-### Método truncado lineal
-<!-- index: Método truncado lineal -->
+### Truncated linear method
+<!-- index: Truncated linear method -->
 
-Para restringir el intervalo de soluciones de los pesos de calibración es posible utilizar la misma función lineal pero restringida a dos valores $L$ y $U$, tales que $L<1<U$. De esta forma,
+To restrict the interval of calibration-weight solutions, it is possible to use the same linear function but restricted to two values $L$ and $U$, such that $L<1<U$. Thus,
 $$
 G(x)=
  \begin{cases}
- \frac{1}{2}(x-1)^2 &\text{si $L<x<U$}\\ \\
- \infty             &\text{en otro caso}
+ \frac{1}{2}(x-1)^2 &\text{if $L<x<U$}\\ \\
+ \infty             &\text{otherwise}
  \end{cases}
 $$
 
-De esta manera, la correspondiente función $F$, está dada por
+In this way, the corresponding function $F$ is given by
 $$
 F(u)=
  \begin{cases}
- 1+u             &\text{si $u\in [L-1,U-1]$} \\ \\
- L               &\text{si $u < L-1$}     \\ \\
- U               &\text{si $u > U-1$}     \\ \\
+ 1+u             &\text{if $u\in [L-1,U-1]$} \\ \\
+ L               &\text{if $u < L-1$}     \\ \\
+ U               &\text{if $u > U-1$}     \\ \\
  \end{cases}
 $$
 
-Así, los nuevos pesos de calibración están siempre en el intervalo $[Ld_k,Ud_k]$.
+Thus, the new calibration weights are always in the interval $[Ld_k,Ud_k]$.
 
-<!-- index: Método lineal truncado -->
+<!-- index: Truncated linear method -->
 ```{r}
 #| label: fig-f10-4
 #| warning: false
 #| message: false
 #| fig-height: 5
 #| echo: false
-#| fig-cap: 'Funciones $G(x)$ y $F(u)$ utilizando el método truncado lineal con $L=0.4$ y $U=2.5$la distancia de Entropía.'
+#| fig-cap: 'Functions $G(x)$ and $F(u)$ using the truncated linear method with $L=0.4$ and $U=2.5$.'
 x <- sort(runif(100, -3, 3))
 U <- 2.5
 L <- 0.4
-A <- (U - L)/((1 - L) * (U - 1))
+A <- (U - L) / ((1 - L) * (U - 1))
 
-Gw <- function(x,L,U){
-n <- length(x)
-Ge <- matrix(0,n,1)
-for(k in 1:n){
-if (L<x[k] && x[k]<U)
-  Ge[k] <- (1/2)*(x[k]-1)^2
-else
-  Ge[k] <- NA
-}
-return(Ge)
-}
-
-Fw <- function(x,L,U){
-n <- length(x)
-Fe <- matrix(0,n,1)
-for(k in 1:n){
-if ((L-1)<=x[k] && x[k]<=(U-1))
-  Fe[k] <- 1+x[k]
-if (x[k]<(L-1))
-  Fe[k] <- L
-if (x[k]>(U-1))
-Fe[k] <- U
-}
-return(Fe)
+Gw <- function(x, L, U) {
+  n <- length(x)
+  Ge <- matrix(0, n, 1)
+  for (k in 1:n) {
+    if (L < x[k] && x[k] < U) {
+      Ge[k] <- (1 / 2) * (x[k] - 1)^2
+    } else {
+      Ge[k] <- NA
+    }
+  }
+  return(Ge)
 }
 
-G <- Gw(x,L,U)
-F <- Fw(x,L,U)
+Fw <- function(x, L, U) {
+  n <- length(x)
+  Fe <- matrix(0, n, 1)
+  for (k in 1:n) {
+    if ((L - 1) <= x[k] && x[k] <= (U - 1)) {
+      Fe[k] <- 1 + x[k]
+    }
+    if (x[k] < (L - 1)) {
+      Fe[k] <- L
+    }
+    if (x[k] > (U - 1)) {
+      Fe[k] <- U
+    }
+  }
+  return(Fe)
+}
 
-G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "G(x)")
+G <- Gw(x, L, U)
+F <- Fw(x, L, U)
 
-F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) + 
-  geom_line() + geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) + labs(title = "F(x)")
+G_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = G)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "G(x)")
+
+F_x <- ggplot(data = data.frame(x = x, G = G), aes(x = x, y = F)) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(title = "F(x)")
 
 plot <- gridExtra::grid.arrange(G_x, F_x, nrow = 1)
 ```
 
-## Calibración y Post-estratificación
+## Calibration and Post-Stratification
 
-<!-- index: Estimador de calibración --><!-- index: Estimador de post-estratificación -->@Sautor derivaron en primer lugar el estimador de calibración y luego explicaron el estimador de post-estratificación y el estimador de Raking (bajo el algoritmo IPFP) como casos particulares del método de calibración bajo distintas distancias. En esta sección se dan las bases estadísticas para la construcción de estos estimadores.
+<!-- index: Calibration estimator --><!-- index: Post-stratification estimator -->@Sautor first derived the calibration estimator and then explained the post-stratification estimator and the raking estimator, under the IPFP algorithm, as special cases of the calibration method under different distances. This section gives the statistical foundations for constructing these estimators.
 
-### Post-estratificación
+### Post-stratification
 
-<!-- index: Estimador de post-estratificación -->Un caso especial muy importante de los estimadores de calibración corresponde al estimador de post-estratificación completa^[El término post-estratificación completa se usa cuando los totales internos de la tabla de contingencia son conocidos y se usan para el proceso de calibración.]. En este caso el número de variables de información auxiliar es igual al número de post-estratos que particionan la población. Este proceso supone la partición en $G$ grupos de la población finita. Así que $U=(U_1,U_2,\ldots,U_G)$. Se asume que la característica de interés está relacionada con $G$ vectores o variables dummy que toman el valor uno si el elemento pertenece al subgrupo $U_g$ $(g=1,\ldots,G)$ o cero si el elemento no pertenece al grupo. Así que $p=G$, $\mathbf{x}_k=\mathbf{d}_k=(\underbrace{0,0,\ldots, 1, \ldots,0,0}_{G` grupos`})'$ y $q_k=1$ para todo $k\in U$.
+<!-- index: Post-stratification estimator -->A very important special case of calibration estimators is the complete post-stratification estimator^[The term complete post-stratification is used when the internal totals of the contingency table are known and are used for the calibration process.]. In this case, the number of auxiliary information variables is equal to the number of post-strata that partition the population. This process assumes a partition of the finite population into $G$ groups. Thus $U=(U_1,U_2,\ldots,U_G)$. The characteristic of interest is assumed to be related to $G$ vectors or dummy variables that take the value one if the element belongs to subgroup $U_g$ $(g=1,\ldots,G)$ and zero if the element does not belong to the group. Thus $p=G$, $\mathbf{x}_k=\mathbf{d}_k=(\underbrace{0,0,\ldots, 1, \ldots,0,0}_{G` groups`})'$, and $q_k=1$ for all $k\in U$.
 
-Bajo la anterior formulación tenemos que el vector $\lambda$ toma la siguiente forma
+Under the preceding formulation, the vector $\lambda$ takes the following form:
 
 $$
 \boldsymbol{\lambda}'=(\lambda_1,\ldots,\lambda_g,\ldots,\lambda_G)
 $$
 
-y cada entrada del vector de información auxiliar para el $k$-ésimo elemento está dada por
+and each entry of the auxiliary information vector for the $k$-th element is given by
 
 $$
 x_{kg}=
  \begin{cases}
- 1 &\text{si $k\in U_g$}\\ \\
- 0 &\text{en otro caso}
+ 1 &\text{if $k\in U_g$}\\ \\
+ 0 &\text{otherwise}
  \end{cases}
 $$
 
-Nótese que
+Note that
 
 $$
 \mathbf{t_x=}\sum_{k\in U} \mathbf{x}_k'= (N_1,\ldots,N_g,\ldots,N_G),
 $$
 
-donde $N_g$ corresponde al total de elementos pertenecientes al subgrupo poblacional $U_g$.
+where $N_g$ corresponds to the total number of elements belonging to population subgroup $U_g$.
 
-::: {.callout-tip title="Resultado"}
-Los pesos de calibración para el caso de post-estratificación están dados por
+::: {.callout-tip title="Result"}
+The calibration weights for the post-stratification case are given by
 
 $$
 w_k=d_k\frac{N_g }{\hat{N}_{g,\pi}}\ \ \ \ \ \ \ g=1,\ldots,G
 $$
 
-y son invariantes a la escogencia de cualquier distancia.
+and are invariant to the choice of any distance.
 
-**Prueba.**
-La construcción del estimador de calibración para este esquema particular es como sigue. En primer lugar, nótese que si el $k$-ésimo elemento pertenece al subgrupo $U_g$, entonces
+**Proof.**
+The construction of the calibration estimator for this particular scheme is as follows. First, note that if the $k$-th element belongs to subgroup $U_g$, then
 
 $$
 \boldsymbol{\lambda}' \mathbf{x}_k= \lambda_g
 $$
 
-Por tanto la restricción de calibración dada por
+Therefore, the calibration restriction given by
 
 $$
 \sum_{k\in S}d_k F(\boldsymbol{\lambda}' \mathbf{x}_k)\mathbf{x}_k'=\mathbf{t}_{\mathbf{x}}'
 $$
 
-puede ser re-escrita como
+can be rewritten as
 
 $$
 \sum_{k\in U_g}d_k F(\lambda_g)=N_g \ \ \ \ \ \ \ g=1,\ldots,G
 $$
 
-Por tanto, despejando la anterior ecuación, se tiene finalmente que
+Therefore, solving the preceding equation, we finally have
 
 $$
 F(\lambda_g) =\frac{N_g }{\sum_{k\in U_g}d_k}=\frac{N_g }{\hat{N}_{g,\pi}}\ \ \ \ \ \ \ g=1,\ldots,G
 $$
 
-Luego, de (10.3.3) los pesos de calibración están dados por
+Then, from (10.3.3), the calibration weights are given by
 
 $$
 w_k=d_k\frac{N_g }{\hat{N}_{g,\pi}}\ \ \ \ \ \ \ g=1,\ldots,G
 $$
 
-Nótese que en la construcción de los pesos de calibración no importó la escogencia de la distancia.
+Note that the choice of distance did not matter in the construction of the calibration weights.
 :::
 
-Por tanto el estimador de calibración está dado por
+Therefore, the calibration estimator is given by
 
 $$
 \begin{aligned}
@@ -863,13 +886,13 @@ $$
 \end{aligned}
 $$
 
-que equivale al estimador de post-estratificación.
+which is equivalent to the post-stratification estimator.
 
 ### Raking
 
-<!-- index: Método de raking -->Si Deming hubiese dado cuenta de los estimadores de calibración cuando se usa la distancia multiplicativa como marco de referencia, hubiera estado muy contento al darse cuenta de que su método pudo ser generalizado e incluido en el contenido de la ciencia estadística. Al principio, el IPFP se usó de manera totalmente pragmática, simplemente se trataba de realizar un ajuste para que las estimaciones internas de la tabla de contingencia calibraran los totales conocidos. Bajo este marco de referencia, el IPFP era criticado por ser un método matemático y no estadístico cuyos resultados no tenían en cuenta el diseño de muestro que se había usado para la recolección de la información. Como se verá en esta sección, el estimador de calibración que apunta a la estimación de las celdas internas en tablas de contingencia es equivalente al resultante del método IPFP. De hecho, el método IPFP es un caso particular de este escenario que se conoce con el nombre de Raking.
+<!-- index: Raking method -->If Deming had known about calibration estimators when the multiplicative distance is used as a frame of reference, he would have been very pleased to see that his method could be generalized and included in statistical science. At first, IPFP was used in a fully pragmatic way: it was simply a matter of making an adjustment so that the internal estimates of the contingency table calibrated to the known totals. Under this frame of reference, IPFP was criticized for being a mathematical rather than statistical method, whose results did not take into account the sampling design used to collect the information. As will be seen in this section, the calibration estimator aimed at estimating internal cells in contingency tables is equivalent to the result of the IPFP method. In fact, the IPFP method is a special case of this scenario, known as raking.
 
-Como caso particular se considera la estimación de una tabla de contingencia a dos vías con calibración sobre los totales marginales. Por lo anterior, la partición de la población sigue el patrón de la siguiente tabla.
+As a particular case, consider the estimation of a two-way contingency table with calibration on the marginal totals. Therefore, the population partition follows the pattern in the following table.
 
 | $U_{11}$ | $\cdots$ | $U_{1g}$ | $\cdots$ | $U_{1G}$ | $U_{1 \cdot}$ |
 | --- | --- | --- | --- | --- | --- |
@@ -879,21 +902,21 @@ Como caso particular se considera la estimación de una tabla de contingencia a 
 | $U_{H1}$ | $\cdots$ | $U_{Hg}$ | $\cdots$ | $U_{HG}$ | $U_{H \cdot}$ |
 | $U_{\cdot 1}$ | $\cdots$ | $U_{\cdot g}$ | $\cdots$ | $U_{\cdot G}$ | $U$ |
 
-: Partición de la población. {#tbl-t10-static-6}
+: Population partition. {#tbl-t10-static-6}
 
-Se supone que $q_k=1$ para todo $k\in U$ y $\mathbf{x}_k=(\mathbf{d}_{1k}',\mathbf{d}_{1k}')$, donde $\mathbf{d}_{1k}$ es un vector de $H$ variables dummy denotando a cuál post-estrato pertenece el $k$-ésimo elemento y $\mathbf{d}_{2k}$ es un vector de $G$ variables dummy denotando a cuál post-estrato pertenece el $k$-ésimo elemento. Nótese que
+Assume that $q_k=1$ for all $k\in U$ and $\mathbf{x}_k=(\mathbf{d}_{1k}',\mathbf{d}_{1k}')$, where $\mathbf{d}_{1k}$ is a vector of $H$ dummy variables denoting which post-stratum the $k$-th element belongs to, and $\mathbf{d}_{2k}$ is a vector of $G$ dummy variables denoting which post-stratum the $k$-th element belongs to. Note that
 
 $$
 \mathbf{t_x=}\sum_{k\in U} \mathbf{x}_k'= (N_{1\cdot},\ldots,N_{h\cdot},\ldots,N_{H\cdot},N_{\cdot1},\ldots,N_{\cdot g},\ldots,N_{\cdot G})
 $$
 
-Sea $\mathbf{u}=(u_1,\ldots,u_H)'$ un vector de orden $H$ y $\mathbf{v}=(v_1,\ldots,v_G)'$ un vector de orden $G$. Definiendo $\boldsymbol{\lambda}'=(\mathbf{u}',\mathbf{v}')$, se tiene que si el $k$-ésimo elemento pertenece a la celda $U_{hg}$, entonces
+Let $\mathbf{u}=(u_1,\ldots,u_H)'$ be a vector of order $H$ and $\mathbf{v}=(v_1,\ldots,v_G)'$ a vector of order $G$. Defining $\boldsymbol{\lambda}'=(\mathbf{u}',\mathbf{v}')$, if the $k$-th element belongs to cell $U_{hg}$, then
 
 $$
 F(q_k\boldsymbol{\lambda}'\mathbf{x}_k)=F(u_h+v_g)
 $$
 
-Por tanto las ecuaciones de calibración<!-- index: Ecuación de calibración --> (10.5.6) pueden ser escritas como el siguiente sistema de ecuaciones
+Therefore, the calibration equations<!-- index: Calibration equation --> (10.5.6) can be written as the following system of equations:
 
 $$
 \begin{aligned}
@@ -902,13 +925,13 @@ $$
 \end{aligned}
 $$
 
-donde $\hat{N}_{hg,\pi}$ corresponde al estimador de Horvitz-Thompson de $N_{hg}$. Si se utiliza la distancia de entropía, se tiene que
+where $\hat{N}_{hg,\pi}$ corresponds to the Horvitz-Thompson estimator of $N_{hg}$. If the entropy distance is used, then
 
 $$
 F(u_h+v_g)=\exp(u_h+v_g)=\exp(u_h)\exp(v_g)
 $$
 
-Por tanto el sistema de ecuaciones dado por (10.5.12) y (10.5.13) toma la siguiente forma
+Therefore, the system of equations given by (10.5.12) and (10.5.13) takes the following form:
 
 $$
 \begin{aligned}
@@ -917,74 +940,74 @@ $$
 \end{aligned}
 $$
 
-Una solución para el anterior sistema de ecuaciones se obtiene al iterar hasta convergencia el algoritmo IPFP como sigue.
+A solution to the preceding system of equations is obtained by iterating the IPFP algorithm until convergence, as follows.
 
-1. Fijar $\exp(v_g)=1$ y calcular $\exp(u_h)$ en (10.5.15)
-1. Luego insertar este valor de $\exp(u_h)$ en (10.5.16) y calcular un nuevo valor de $\exp(v_g)$
-1. Iterar hasta convergencia
+1. Set $\exp(v_g)=1$ and calculate $\exp(u_h)$ in (10.5.15).
+1. Then insert this value of $\exp(u_h)$ in (10.5.16) and calculate a new value of $\exp(v_g)$.
+1. Iterate until convergence.
 
-Después de que el algoritmo ha finalizado, el estimador de calibración para el total de la celda $U_{hg}$ está dado por
+After the algorithm has finished, the calibration estimator for the total of cell $U_{hg}$ is given by
 
 $$
 \hat{N}_{hg,cal}=\hat{N}_{hg,\pi}\exp(u_h+v_g)=\hat{N}_{hg,\pi}\exp(u_h)\exp(v_g)
 $$
 
-y los nuevos pesos calibrados son $w_k=d_k\exp(u_h+v_g)=d_k\exp(u_h)\exp(v_g)$ si el $k$-ésimo elemento pertenece a la celda $U_{hg}$.
+and the new calibrated weights are $w_k=d_k\exp(u_h+v_g)=d_k\exp(u_h)\exp(v_g)$ if the $k$-th element belongs to cell $U_{hg}$.
 
-## Varianza de los estimadores de calibración
+## Variance of calibration estimators
 
-<!-- index: Varianza de los estimadores de calibración -->Cerramos este capítulo con una importante propiedad de los estimadores de calibración.
+<!-- index: Variance of calibration estimators -->We close this chapter with an important property of calibration estimators.
 
-::: {.callout-tip title="Resultado"}
-El estimador de calibración es asintóticamente equivalente al estimador general de regresión bajo las siguientes condiciones de regularidad:
-1. $\lim \dfrac{\mathbf{t}_{\mathbf{x}}}{N}$ existe
-1. $\dfrac{\hat{\mathbf{t}}_{\mathbf{x}\pi}-\mathbf{t}_{\mathbf{x}}}{N}\rightarrow \mathbf{0}$ en probabilidad^[El marco de referencia de esta medida de probabilidad está dado por el diseño muestral que se utilizó en la estrategia de muestreo.]
-1. $\sqrt{n}\dfrac{\hat{\mathbf{t}}_{\mathbf{x}\pi}-\mathbf{t}_{\mathbf{x}}}{N}$ converge en distribución a la normal multivariante $N(\mathbf{0},\mathbf{A})$
+::: {.callout-tip title="Result"}
+The calibration estimator is asymptotically equivalent to the general regression estimator under the following regularity conditions:
+1. $\lim \dfrac{\mathbf{t}_{\mathbf{x}}}{N}$ exists
+1. $\dfrac{\hat{\mathbf{t}}_{\mathbf{x}\pi}-\mathbf{t}_{\mathbf{x}}}{N}\rightarrow \mathbf{0}$ in probability^[The frame of reference for this probability measure is given by the sampling design used in the sampling strategy.]
+1. $\sqrt{n}\dfrac{\hat{\mathbf{t}}_{\mathbf{x}\pi}-\mathbf{t}_{\mathbf{x}}}{N}$ converges in distribution to the multivariate normal $N(\mathbf{0},\mathbf{A})$
 
-**Prueba.**
-La demostración del anterior resultado se sale del alcance de este libro. Sin embargo, el lector interesado puede consultar en @DS.
+**Proof.**
+The proof of the preceding result is beyond the scope of this book. However, interested readers may consult @DS.
 :::
 
-En particular, bajo el anterior resultado, el estimador de calibración comparte las mismas esperanzas asintóticas y las mismas varianzas asintóticas que el estimador general de regresión. Esto puede ser visto mediante el siguiente argumento heurístico:
+In particular, under the preceding result, the calibration estimator shares the same asymptotic expectations and the same asymptotic variances as the general regression estimator. This can be seen through the following heuristic argument:
 
-- Se asume que para tamaños de muestra grandes el estimador de Horvitz-Thompson, $\hat{\mathbf{t}}_{\mathbf{x}\pi}$, es cercano al total poblacional de las características de información auxiliar, $\mathbf{t}_{\mathbf{x}}$. Lo anterior se tiene puesto que $\hat{\mathbf{t}}_{\mathbf{x}\pi}$ es un estimador consistente para $\mathbf{t}_{\mathbf{x}}$.
-- Entonces, siguiendo la ecuación (10.3.4), el valor de $F(\cdot)$ debería ser cercano a uno y el valor de $\boldsymbol{\lambda}$ debería ser cercano a $\mathbf{0}$
-- Sin embargo, por la construcción de las funciones $F(\cdot)$ y dado que $F(0)=F'(0)=1$, entonces todas las funciones $F(\cdot)$ deberían tener el mismo comportamiento en la vecindad de $0$.
-- Por tanto, todas las funciones $F(\cdot)$ pueden ser aproximadas mediante la función $F(u)=u+1$.
-- Es decir, la misma función que corresponde al estimador general de regresión.
+- It is assumed that for large sample sizes, the Horvitz-Thompson estimator, $\hat{\mathbf{t}}_{\mathbf{x}\pi}$, is close to the population total of the auxiliary information characteristics, $\mathbf{t}_{\mathbf{x}}$. This holds because $\hat{\mathbf{t}}_{\mathbf{x}\pi}$ is a consistent estimator for $\mathbf{t}_{\mathbf{x}}$.
+- Then, following equation (10.3.4), the value of $F(\cdot)$ should be close to one and the value of $\boldsymbol{\lambda}$ should be close to $\mathbf{0}$.
+- However, by the construction of the functions $F(\cdot)$ and because $F(0)=F'(0)=1$, all functions $F(\cdot)$ should behave the same way in a neighborhood of $0$.
+- Therefore, all functions $F(\cdot)$ can be approximated by the function $F(u)=u+1$.
+- That is, the same function that corresponds to the general regression estimator.
 
-::: {.callout-tip title="Resultado"}
-La varianza aproximada y la estimación de la varianza del estimador de calibración está dada por.
+::: {.callout-tip title="Result"}
+The approximate variance and the variance estimate of the calibration estimator are given by
 $$
 AV(\hat{t}_{y,cal})=\sum\sum_U\Delta_{kl}(d_kE_k)(d_lE_l)
 $$
 $$
 \widehat{Var}(\hat{t}_{y,cal})=\sum\sum_S\frac{\Delta_{kl}}{\pi_{kl}}(w_ke_k)(w_le_l)
 $$
-respectivamente. Donde $E_k=y_k-\mathbf{x}_k'\mathbf{B}$ y $\mathbf{B}$ satisface las ecuaciones normales en la construcción del estimador de regresión. También $e_k=y_k-\mathbf{x}_k'\hat{\mathbf{B}}$ y $\hat{\mathbf{B}}$ es un estimador de $\mathbf{B}$.
+respectively, where $E_k=y_k-\mathbf{x}_k'\mathbf{B}$ and $\mathbf{B}$ satisfies the normal equations in the construction of the regression estimator. Also, $e_k=y_k-\mathbf{x}_k'\hat{\mathbf{B}}$ and $\hat{\mathbf{B}}$ is an estimator of $\mathbf{B}$.
 
 :::
 ## Marco y Lucy
 
-<!-- index: Marco y Lucy -->Volviendo con el ejercicio práctico de estimación, suponga que el gobierno desea obtener una estimación del total de impuestos que el sector industrial aportó en el último año fiscal. Estas estimaciones se requiere que sean muy precisas puesto que con base en estos resultados se replanteará una parte del presupuesto nacional.
+<!-- index: Marco and Lucy -->Returning to the practical estimation exercise, suppose that the government wants to obtain an estimate of the total taxes contributed by the industrial sector in the last fiscal year. These estimates must be very precise because part of the national budget will be redesigned based on these results.
 
-En esta ocasión, el gobierno pone a disposición del estadístico un marco de muestreo que incluye la identificación y ubicación de todas las empresas pertenecientes al sector industrial. Además de esto, el gobierno tiene la disponibilidad de conocimiento del total poblacional de dos características de información auxiliar; a saber, el total poblacional de la variable `Employees` correspondiente a 151950, el total poblacional de la variable `Income` correspondiente a 1035217 y, por supuesto, el total poblacional del número de empresas del sector industrial correspondiente a 2396.
+On this occasion, the government provides the statistician with a sampling frame that includes the identification and location of all firms belonging to the industrial sector. In addition, the government has knowledge of the population total of two auxiliary information characteristics: the population total of the variable `Employees`, equal to 151950; the population total of the variable `Income`, equal to 1035217; and, of course, the population total of the number of firms in the industrial sector, equal to 2396.
 
-Bajo el anterior esquema, se planearon varias estrategias de muestreo que manejaban un diseño aleatorio simple de 400 empresas y estimadores de calibración bajo varias distancias. Para la selección de tal muestra se utilizó el siguiente código computacional
+Under the preceding scheme, several sampling strategies were planned, using a simple random design of 400 firms and calibration estimators under several distances. The following computational code was used to select this sample.
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning = FALSE, message = FALSE}
 data(BigLucy)
 attach(BigLucy)
 N <- dim(BigLucy)[1]
-n <- 2000 
+n <- 2000
 sam <- sample(N, n)
-muestra <- BigLucy[sam, ]
-attach(muestra)
+sample_data <- BigLucy[sam, ]
+attach(sample_data)
 ```
 
-Una vez que la muestra fue seleccionada se utilizó el paquete `sampling` del software R para calcular lo estimadores de calibración. En particular se utilizó la función `calib` que calcula los pesos $w_k$ del estimador de calibración. Esta función cuenta con varios argumentos; entre ellos están lo siguientes: `Xs`, la matriz que contiene los valores de las características de información auxiliar para los individuos incluidos en la muestra, `d`, correspondiente al inverso de los pesos de las probabilidades de inclusión de los elementos en la muestra, `tx`, que corresponde al total poblacional de las variables de calibración, `method` que incluye cuatro posibles distancias que son la distancia Ji cuadrado cuyo acepción en la función `calib` está dada por `method=?linear?`, la distancia de entropía cuya acepción en la función `calib` está dada por `method=?raking?` y los métodos logístico y truncado cuyas acepciones en la función `calib` están dadas por `method=?logit?` y por `method=?truncated?`, respectivamente.
+Once the sample was selected, the R `sampling` package was used to calculate the calibration estimators. In particular, the `calib` function was used to calculate the weights $w_k$ of the calibration estimator. This function has several arguments, including the following: `Xs`, the matrix containing the values of the auxiliary information characteristics for the individuals included in the sample; `d`, corresponding to the inverse of the inclusion-probability weights of the sample elements; `tx`, which corresponds to the population total of the calibration variables; and `method`, which includes four possible distances: the chi-square distance, whose option in `calib` is `method="linear"`; the entropy distance, whose option in `calib` is `method="raking"`; and the logistic and truncated methods, whose options in `calib` are `method="logit"` and `method="truncated"`, respectively.
 
-Se calcularon las estimaciones de calibración usando los cuatro métodos y el código utilizado se muestra a continuación.
+Calibration estimates were calculated using the four methods, and the code used is shown below.
 
 ```{r}
 library(sampling)
@@ -993,77 +1016,77 @@ tx2 <- sum(BigLucy$Employees)
 
 ys <- data.frame(Income, Employees, Taxes)
 Xs <- cbind(1, Income, Employees)
-piks <- rep(n/N, times = n)
+piks <- rep(n / N, times = n)
 tx <- c(N, tx1, tx2)
 
-w1 <- calib(Xs, d = 1/piks, tx, method = "linear")
-w2 <- calib(Xs, d = 1/piks, tx, method = "raking")
-w3 <- calib(Xs, d = 1/piks, tx, method = "logit", bounds = c(0.75,1.2))
-w4 <- calib(Xs, d = 1/piks, tx, method = "truncated", bounds = c(0.75,1.2))
+w1 <- calib(Xs, d = 1 / piks, tx, method = "linear")
+w2 <- calib(Xs, d = 1 / piks, tx, method = "raking")
+w3 <- calib(Xs, d = 1 / piks, tx, method = "logit", bounds = c(0.75, 1.2))
+w4 <- calib(Xs, d = 1 / piks, tx, method = "truncated", bounds = c(0.75, 1.2))
 ```
 
-La función `calib` solamente calcula los pesos que intervienen en las ecuaciones de calibración. Para calcular las estimación final del total de la característica de interés `Taxes` se debe proceder a multiplicar las cantidades pertinentes. De esta manera, el siguiente código se utilizó para el cálculo de las cuatro estimaciones.
+The `calib` function only calculates the weights involved in the calibration equations. To calculate the final estimate of the total of the characteristic of interest `Taxes`, the relevant quantities must be multiplied. Thus, the following code was used to calculate the four estimates.
 
 ```{r}
-tcal1 <- t(w1/piks) %*% as.matrix(ys)
+tcal1 <- t(w1 / piks) %*% as.matrix(ys)
 tcal1
-tcal2 <- t(w2/piks) %*% as.matrix(ys)
+tcal2 <- t(w2 / piks) %*% as.matrix(ys)
 tcal2
-tcal3 <- t(w3/piks) %*% as.matrix(ys)
+tcal3 <- t(w3 / piks) %*% as.matrix(ys)
 tcal3
-tcal4 <- t(w4/piks) %*% as.matrix(ys)
+tcal4 <- t(w4 / piks) %*% as.matrix(ys)
 tcal4
 ```
 
-## Discusión
+## Discussion
 
-<!-- index: Estimador de calibración -->@Sar08 afirma que la definición del enfoque de calibración para la estimación de totales en poblaciones finitas sigue los siguientes procesos:
+<!-- index: Calibration estimator -->@Sar08 states that the definition of the calibration approach for estimating totals in finite populations follows these processes:
 
-1. Calcular nuevos pesos que incorporen información auxiliar específica y que están restringidos a la ecuación de calibración.
-1. Utilizar estos nuevos pesos para la construcción de estimadores lineales.
-1. Obtener estimaciones aproximadamente insesgadas en presencia de no respuesta<!-- index: Ausencia de respuesta --> y otros errores no muestrales.
+1. Calculate new weights that incorporate specific auxiliary information and are restricted by the calibration equation.
+1. Use these new weights to construct linear estimators.
+1. Obtain approximately unbiased estimates in the presence of nonresponse<!-- index: Nonresponse --> and other nonsampling errors.
 
-Al mismo tiempo, @Sar08 concluye que existen seis ideas sobre las cuales vale la pena profundizar un poco más. A continuación se exponen estos criterios que algunos estadísticos han usado para enfatizar el uso práctico de los estimadores de calibración:
+At the same time, @Sar08 concludes that there are six ideas worth exploring further. The following criteria are those some statisticians have used to emphasize the practical use of calibration estimators:
 
-- **Como un método de ponderación lineal:** la calibración tiene un vínculo íntimo con la práctica. La fijación con métodos de ponderación de las agencias que manejan las estadísticas oficiales es una poderosa costumbre en la práctica que empezó con la ponderación de unidades mediante el inverso de su probabilidad de inclusión y siguió con las ponderaciones surgidas del enfoque de post-estratificación. Las ponderaciones de calibración extienden las anteriores ideas. La calibración es nueva como término en el muestreo (casi 15 años) pero no es nueva como una técnica para producir ponderaciones, por ejemplo, el muestreo por cuotas<!-- index: Muestreo por cuotas --> es una forma de muestreo no probabilístico que induce estimaciones calibradas con los totales demográficos de la población de estudio. La ponderación de los valores observados de las características de interés fue un tópico muy importante antes que el término calibración comenzara a ser popular. Algunos autores derivaron estas ponderaciones con el argumento que deberían diferir de la manera más mínima posible de los pesos originales. Otros autores encontraron las ponderaciones al reconocer que un estimador de regresión lineal podría ser escrito como una suma ponderada de los valores de la característica de interés. De allí surgieron términos tales como ponderación de muestreo, ponderación de regresión y ponderación de caso.
-- **Como una forma sistemática para utilizar la información auxiliar:** la calibración provee una forma sistemática para involucrar la información auxiliar. En la mayoría de aplicaciones práctica la calibración provee un enfoque simple para incorporar esta información dentro de la etapa de estimación. La información auxiliar fue usada para mejorar la precisión de los estimativos mucho antes que el término calibración fuera popular. Existen cientos de artículos que fueron escritos con este propósito en mente. Hoy en día la calibración ofrece un camino para incorporar esta información auxiliar. Por ejemplo la calibración puede ser usada efectivamente en encuestas donde la información auxiliar está disponible en diferentes niveles. Al realizar un muestreo en dos etapas la información auxiliar puede existir para las unidades de la primera etapa (los conglomerados) y puede existir otra información para las unidades de la segunda etapa (elementos o conglomerados).
-- **Como un enfoque para conseguir consistencia:** en algunas ocasiones el término calibración se refiere a una forma de conseguir estimativos consistentes^[En este apartado la palabra consistente se da en el sentido de la consistencia con los totales de la información auxiliar.]. Las ecuaciones de calibración<!-- index: Ecuación de calibración --> imponen la característica de consistencia sobre el vector de ponderaciones; así que, cuando éste se aplica a las variables auxiliares el resultado será consistente con los totales de estas variables. Un deseo de promover la credibilidad en las estadísticas oficiales es una razón para que las entidades busquen la consistencia. Cuando la motivación primaria para la calibración no es la concordancia con los totales de la información auxiliar sino el reducir la varianza y el sesgo debido a la ausencia de respuesta entonces el vector de ponderaciones se dice balanceado.
-- **Como excusa de transparencia y conveniencia:** el enfoque de calibración ha ganado popularidad en las aplicaciones reales debido a que las estimaciones resultantes son fáciles de interpretar y de motivar puesto que están directamente relacionadas a los pesos inducidos por el diseño de muestreo. La calibración sobre los totales conocidos brinda al usuario una forma natural y transparente de estimación. El usuario que entiende la ponderación muestral aprecia el método de calibración puesto que modifica sutilmente los pesos originales, pero al mismo tiempo respeta los totales de la información auxiliar y mantiene el sesgo despreciable. Existe otra ventaja que es apreciada por los usuarios, en la mayoría de aplicaciones, la calibración induce un único vector de ponderaciones aplicable a todas las variables involucradas en el estudio. Esta última razón hace que este método sea muy apetecido en las entidades oficiales que manejan encuestas muy extensas.
-- **En combinación cono otros términos:** Algunos autores usan la palabra calibración en combinación con otros términos para describir varias direcciones de pensamientos, entre esta proliferación de términos están: calibración modelo, calibración G, calibración armonizada, calibración a un nivel más alto, calibración de regresión, calibración no lineal, calibración super-generalizada, calibración de modelos de redes neuronales y calibración basada en modelos locales polinomiales, entre otras. La calibración juega un rol significativo en los métodos de muestreo indirectos (ver capítulo 12). Este término también ha sido usado, aunque en un espíritu diferente, en conceptos tales como imputación calibrada y calibración sesgada.
-- **Como una nueva dirección de pensamiento:** si la calibración representa un nuevo enfoque demarcado claramente de sus predecesores, entonces es tiempo de hacer la pregunta: ¿La calibración generaliza las teorías anteriores? ¿La calibración da mejores respuestas a las preguntas de importancia, que los enfoques de estimación anteriores? En la práctica el estadístico encuentra algunos pormenores tales como ausencia de respuestas, deficiencias del marco muestral y errores de medición. Es cierto que algunos procesos como la imputación y la reponderación para no respuestas son ampliamente difundidos y usados en la práctica. Sin embargo queda un sinsabor al utilizar estos métodos pues no están enmarcados dentro de una teoría exhaustiva de inferencias en poblaciones finitas. La mayoría de artículos teóricos tratan con la estimación de parámetros bajo un mundo ideal, que no existe en la práctica, donde la ausencia de respuesta y otros errores no muestrales están ausentes.
+- **As a linear weighting method:** calibration has an intimate link with practice. The attachment of official statistics agencies to weighting methods is a powerful habit in practice that began with weighting units by the inverse of their inclusion probability and continued with the weights arising from the post-stratification approach. Calibration weights extend these earlier ideas. Calibration is new as a term in sampling, nearly 15 years old, but not new as a technique for producing weights. For example, quota sampling<!-- index: Quota sampling --> is a form of nonprobability sampling that induces estimates calibrated to the demographic totals of the study population. Weighting the observed values of the characteristics of interest was a very important topic before the term calibration became popular. Some authors derived these weights with the argument that they should differ as little as possible from the original weights. Other authors found the weights by recognizing that a linear regression estimator could be written as a weighted sum of the values of the characteristic of interest. From there arose terms such as sampling weight, regression weight, and case weight.
+- **As a systematic way to use auxiliary information:** calibration provides a systematic way to involve auxiliary information. In most practical applications, calibration provides a simple approach to incorporating this information into the estimation stage. Auxiliary information was used to improve the precision of estimates long before the term calibration became popular. Hundreds of articles were written with this purpose in mind. Today, calibration offers a path for incorporating this auxiliary information. For example, calibration can be used effectively in surveys where auxiliary information is available at different levels. In two-stage sampling, auxiliary information may exist for the first-stage units, the clusters, and other information may exist for the second-stage units, elements or clusters.
+- **As an approach to achieving consistency:** sometimes the term calibration refers to a way of obtaining consistent estimates^[In this section, consistent is used in the sense of consistency with the totals of the auxiliary information.]. The calibration equations<!-- index: Calibration equation --> impose consistency on the vector of weights; thus, when it is applied to the auxiliary variables, the result will be consistent with the totals of these variables. A desire to promote credibility in official statistics is one reason why agencies seek consistency. When the primary motivation for calibration is not agreement with the totals of the auxiliary information but rather reducing variance and bias due to nonresponse, the vector of weights is said to be balanced.
+- **As a reason for transparency and convenience:** the calibration approach has gained popularity in real applications because the resulting estimates are easy to interpret and motivate, since they are directly related to the weights induced by the sampling design. Calibration on known totals gives the user a natural and transparent form of estimation. Users who understand sampling weights appreciate the calibration method because it subtly modifies the original weights while also respecting the totals of the auxiliary information and keeping bias negligible. There is another advantage appreciated by users: in most applications, calibration induces a single vector of weights applicable to all variables involved in the study. This last reason makes this method highly valued in official agencies that handle very large surveys.
+- **In combination with other terms:** some authors use the word calibration in combination with other terms to describe various lines of thought. Among this proliferation of terms are model calibration, G calibration, harmonized calibration, calibration at a higher level, regression calibration, nonlinear calibration, super-generalized calibration, neural-network model calibration, and calibration based on local polynomial models, among others. Calibration plays a significant role in indirect sampling methods (see Chapter 12). The term has also been used, although in a different spirit, in concepts such as calibrated imputation and biased calibration.
+- **As a new direction of thought:** if calibration represents a new approach clearly demarcated from its predecessors, then it is time to ask: Does calibration generalize previous theories? Does calibration provide better answers to important questions than previous estimation approaches? In practice, the statistician encounters details such as nonresponse, sampling frame deficiencies, and measurement errors. It is true that processes such as imputation and reweighting for nonresponse are widely disseminated and used in practice. However, there remains an unsatisfying feeling when using these methods because they are not framed within an exhaustive theory of inference in finite populations. Most theoretical articles deal with parameter estimation under an ideal world, which does not exist in practice, where nonresponse and other nonsampling errors are absent.
 
-## Estimadores óptimos de calibración
+## Optimal calibration estimators
 
-<!-- index: Estimador óptimo de calibración -->Como lo afirma @Wu1 existen dos variantes en la construcción de un estimador de calibración: una está dada por la escogencia de la distancia y la otra por el conjunto de ecuaciones de calibración^[Nótese que si el vector de información auxiliar tiene $P$ variables auxiliares, entonces habrán $P$ ecuaciones de calibración.] en áreas como la demografía existe la costumbre de calibrar sobre muchas variables, para que se logre estimar con varianza nula los totales conocidos de las variables auxiliares, sin importar que el estimador resultante pueda perder eficiencia. En estos términos, sería mejor utilizar la menor cantidad de ecuaciones de calibración para no estropear el buen comportamiento del estimador. La pregunta que debe plantearse el investigador es ¿cuál es la mejor ecuación de calibración que se debe usar en la construcción de un estimador de este tipo?
+<!-- index: Optimal calibration estimator -->As @Wu1 states, there are two variants in the construction of a calibration estimator: one is given by the choice of distance and the other by the set of calibration equations^[Note that if the auxiliary information vector has $P$ auxiliary variables, then there will be $P$ calibration equations.]. In areas such as demography, it is customary to calibrate on many variables in order to estimate the known totals of the auxiliary variables with zero variance, regardless of whether the resulting estimator may lose efficiency. In these terms, it would be better to use the fewest possible calibration equations so as not to spoil the good behavior of the estimator. The question the researcher must ask is: what is the best calibration equation to use in constructing an estimator of this type?
 
-Si $u_k=u(\mathbf{x}_k)$, donde $u(\cdot)$ es una función de valor real, entonces una nueva forma de construir un estimador de calibración estaría dada por la consecución de unos pesos $w_k$ restringidos^[Bajo este marco de referencia aparece una reducción en la cantidad de restricciones que se utilizan en la calibración.] a
+If $u_k=u(\mathbf{x}_k)$, where $u(\cdot)$ is a real-valued function, then a new way to construct a calibration estimator is given by obtaining weights $w_k$ restricted^[Under this frame of reference, there is a reduction in the number of restrictions used in calibration.] to
 $$
 \sum_{k\in S}w_ku(\mathbf{x}_k)=\sum_{k\in U}u(\mathbf{x}_k)
 $$ {#eq-caloptu}
-Por tanto, la pregunta se torna más diáfana y se convierte en ¿cuál función $u(\cdot)$ hace al estimador $\hat{t}_{ycal}$ más eficiente?  Ahora, es bien sabido que bajo la inferencia basada en el diseño de muestreo, no existe un estimador insesgado de mínima varianza uniformemente [@CSW]. Sin embargo, es posible obtener un estimador óptimo bajo la inferencia asistida por modelos de super-población. La respuesta a estas preguntas está dada por la propuesta de @Wu1 que construyó un estimador óptimo de calibración suponiendo que las respuestas de $y_k$ pueden ser vistas como realizaciones del siguiente modelo de super-población semi-paramétrica
+Therefore, the question becomes clearer: which function $u(\cdot)$ makes the estimator $\hat{t}_{ycal}$ more efficient? It is well known that under sampling-design-based inference, there is no uniformly minimum-variance unbiased estimator [@CSW]. However, it is possible to obtain an optimal estimator under inference assisted by superpopulation models. The answer to these questions is given by the proposal of @Wu1, who constructed an optimal calibration estimator assuming that the responses $y_k$ can be viewed as realizations of the following semiparametric superpopulation model:
 $$
 E_\xi(y_k|\mathbf{x}_k)=\mu(\mathbf{x}_k,\boldsymbol{\theta}),\ \ \
 Var_\xi(y_k|\mathbf{x}_k)=[\nu(\mathbf{x}_k)]^2\sigma^2 \ \ \ \ \ ,
 $$ {#eq-modeloopt}
 
-donde $\mu(\cdot\ , \cdot)$ y $v(\cdot)$ son funciones conocidas, $\boldsymbol{\theta}$ y $\sigma^2$ son parámetros desconocidos del modelo. Se asume que los $y_k$, $k\in U$, son condicionalmente independientes dadas las $\mathbf{x}_k$. Nótese que $\nu$ puede ser una función conocida de $\mu$ como en los modelos lineales generalizados.
+where $\mu(\cdot\ , \cdot)$ and $v(\cdot)$ are known functions, and $\boldsymbol{\theta}$ and $\sigma^2$ are unknown model parameters. It is assumed that the $y_k$, $k\in U$, are conditionally independent given the $\mathbf{x}_k$. Note that $\nu$ may be a known function of $\mu$, as in generalized linear models.
 
-Los estimadores óptimos, asistidos por un modelo de super-población $\xi$, que minimizan el valor esperado de la varianza basada en un diseño de muestreo, $E_\xi(Var_p(\hat{Y}))$, han sido discutidos^[Los términos $E_p$ y $Var_p$ se refieren a la esperanza y varianza bajo un diseño muestral $p(\cdot)$, y $E_\xi$ y $Var_\xi$ denotan la esperanza y varianza bajo un modelo de super-población $\xi$.] por muchos autores. Por ejemplo, en @Isaki esta varianza esperada tomó el nombre de varianza anticipada.
+Optimal estimators, assisted by a superpopulation model $\xi$, that minimize the expected value of the sampling-design-based variance, $E_\xi(Var_p(\hat{Y}))$, have been discussed^[The terms $E_p$ and $Var_p$ refer to expectation and variance under a sampling design $p(\cdot)$, and $E_\xi$ and $Var_\xi$ denote expectation and variance under a superpopulation model $\xi$.] by many authors. For example, in @Isaki this expected variance was called anticipated variance.
 
-::: {.callout-tip title="Teorema 1 de @Wu1"}
-Sea $t_{y,C_u}$ un estimador de calibración del total poblacional de la característica de interés, construido utilizado la restricción (@eq-caloptu), donde $C_u=\left\{ u(\mathbf{x}_1),u(\mathbf{x}_2),\ldots,u(\mathbf{x}_N)\right\}$ es la familia de vectores de todas las posibles funciones de valor real aplicadas a la información auxiliar. Dentro de la clase de estimadores de calibración $t_{y,C_u}$, la escogencia de
+::: {.callout-tip title="Theorem 1 of @Wu1"}
+Let $t_{y,C_u}$ be a calibration estimator of the population total of the characteristic of interest, constructed using restriction (@eq-caloptu), where $C_u=\left\{ u(\mathbf{x}_1),u(\mathbf{x}_2),\ldots,u(\mathbf{x}_N)\right\}$ is the family of vectors of all possible real-valued functions applied to the auxiliary information. Within the class of calibration estimators $t_{y,C_u}$, the choice of
 $$
 C_{\mu}=\left\{\mu(\mathbf{x}_1,\boldsymbol{\theta}),\mu(\mathbf{x}_2,\boldsymbol{\theta}),\ldots,\mu(\mathbf{x}_N,\boldsymbol{\theta})\right\}
 $$
-minimiza $E_\xi(Var_p(\hat{Y}))$ bajo el modelo de super-población dado por (@eq-modeloopt) y suponiendo condiciones de regularidad en el diseño de muestreo.
+minimizes $E_\xi(Var_p(\hat{Y}))$ under the superpopulation model given by (@eq-modeloopt) and assuming regularity conditions in the sampling design.
 
 :::
-Con este resultado podemos proseguir a la construcción del estimador óptimo de calibración resultante de minimizar Ji-cuadrado sujeta a la siguiente restricción
+With this result, we can proceed to the construction of the optimal calibration estimator resulting from minimizing chi-square subject to the following restriction:
 $$
 \sum_{k\in S}w_k\hat{\mu}_k=\sum_{k\in U}\hat{\mu}_k
 $$
 
-Donde $\hat{\mu}_k=\mu(\mathbf{x}_k,\hat{\boldsymbol{\theta}})$. La razón para esto se debe a que los valores del vector $\boldsymbol{\theta}$ son desconocidos y se deben reemplazar por un estimador basado en la muestra seleccionada dado por $\hat{\boldsymbol{\theta}}$. La minimización se realiza usando un multiplicador de Lagrange como en @Dev. De esta manera, es muy fácil conseguir la expresión del estimador óptimo de calibración, el cual está dado por [@Wu3]
+where $\hat{\mu}_k=\mu(\mathbf{x}_k,\hat{\boldsymbol{\theta}})$. The reason is that the values of the vector $\boldsymbol{\theta}$ are unknown and must be replaced by an estimator based on the selected sample, given by $\hat{\boldsymbol{\theta}}$. The minimization is carried out using a Lagrange multiplier, as in @Dev. In this way, it is very easy to obtain the expression of the optimal calibration estimator, which is given by [@Wu3]
 $$
 \begin{aligned}
 \hat{t}_{y,opt}&=\sum_{k\in S}w_ky_k\\
@@ -1071,40 +1094,39 @@ $$
 \end{aligned}
 $$
 
-en donde $t_{\hat{\mu}}=\sum_{k\in U}\hat{\mu}_k$ es el total poblacional de las funciones $\hat{\mu}$, $\hat{t}_{\hat{\mu}\pi}$ su correspondiente estimador de Horvitz-Thompson y
+where $t_{\hat{\mu}}=\sum_{k\in U}\hat{\mu}_k$ is the population total of the functions $\hat{\mu}$, and $\hat{t}_{\hat{\mu}\pi}$ is its corresponding Horvitz-Thompson estimator, with
 $$
 \hat{B}_y=\frac{\sum_{k\in S}d_kq_k\hat{\mu}_ky_k}{\sum_{k\in S}d_kq_k\hat{\mu}_k^2}
 $$
 
-En resumen, los estimadores óptimos de calibración se han estudiado y profundizado en @Wu3 y  @Wu1 y su fundamento se encuentra en la inferencia asistida por modelos. Para motivar las condiciones de optimalidad se utilizó un modelo de super-población semi-paramétrica general dado por (@eq-modeloopt). Estos estimadores de calibración para el total poblacional de la característica de interés tiene las siguientes características:
-1. Una distancia Ji-cuadrado cuyos factores de peso satisfacen $q_k>0$ y además sean tales que $N^{-1}\sum_{k=1}^N q_k^2=O(1)$.
-1. Una sola restricción, dada por una reducción de dimensión $u_k=\mu(\mathbf{x}_k,\boldsymbol{\theta})$, donde la forma funcional
-$\mu(\cdot\ ,\cdot)$ puede ser arbitraria.
+In summary, optimal calibration estimators have been studied in depth in @Wu3 and @Wu1, and their foundation lies in model-assisted inference. To motivate the optimality conditions, a general semiparametric superpopulation model given by (@eq-modeloopt) was used. These calibration estimators for the population total of the characteristic of interest have the following characteristics:
+1. A chi-square distance whose weight factors satisfy $q_k>0$ and are also such that $N^{-1}\sum_{k=1}^N q_k^2=O(1)$.
+1. A single restriction, given by a dimension reduction $u_k=\mu(\mathbf{x}_k,\boldsymbol{\theta})$, where the functional form $\mu(\cdot\ ,\cdot)$ may be arbitrary.
 
-Algunos de los resultados más importantes de este método pueden ser resumidos de la siguiente manera [@Wu1]:
+Some of the most important results of this method can be summarized as follows [@Wu1]:
 
-- Sea $\hat{\boldsymbol{\theta}}=(\sum_{k\in S}d_kq_k\mathbf{x}_k\mathbf{x}_k')^{-1} \sum_{k\in S}d_kq_k\mathbf{x}_ky_k$. Si se usa $u_k=\mathbf{x}_k'\boldsymbol{\theta}$ como variable de calibración, el estimador de calibración resultante es idéntico al estimador convencional de calibración dado por $\hat{t}_{ycal}$. Por tanto la clase de estimadores resultantes de este método es muy general pues incluye al estimador original como un caso particular.
-- Para cualquier estimador consistente de $\boldsymbol{\theta}$ tal que $\hat{\boldsymbol{\theta}}=\boldsymbol{\theta} + o_p(1)$, si se reemplaza $\boldsymbol{\theta}$ por $\hat{\boldsymbol{\theta}}$, en las ecuaciones de calibración, el estimador de calibración resultante no cambia asintóticamente.
-- Los estimadores óptimos de calibración obtenidos usando $u_k=E_\xi(y_k \mid \mathbf{x}_k)=\mu(\mathbf{x}_i,\boldsymbol{\theta})$ son óptimos bajo el criterio del mínima varianza esperada.
-- Los estimadores óptimos de calibración son óptimos bajo el modelo de super-población $\xi$, pero aun si el modelo considerado es incorrectamente especificado, estos estimadores permanecen consistentes.
+- Let $\hat{\boldsymbol{\theta}}=(\sum_{k\in S}d_kq_k\mathbf{x}_k\mathbf{x}_k')^{-1} \sum_{k\in S}d_kq_k\mathbf{x}_ky_k$. If $u_k=\mathbf{x}_k'\boldsymbol{\theta}$ is used as the calibration variable, the resulting calibration estimator is identical to the conventional calibration estimator given by $\hat{t}_{ycal}$. Therefore, the class of estimators resulting from this method is very general because it includes the original estimator as a special case.
+- For any consistent estimator of $\boldsymbol{\theta}$ such that $\hat{\boldsymbol{\theta}}=\boldsymbol{\theta} + o_p(1)$, if $\boldsymbol{\theta}$ is replaced by $\hat{\boldsymbol{\theta}}$ in the calibration equations, the resulting calibration estimator does not change asymptotically.
+- Optimal calibration estimators obtained using $u_k=E_\xi(y_k \mid \mathbf{x}_k)=\mu(\mathbf{x}_i,\boldsymbol{\theta})$ are optimal under the minimum expected variance criterion.
+- Optimal calibration estimators are optimal under the superpopulation model $\xi$, but even if the considered model is incorrectly specified, these estimators remain consistent.
 
-Dado que no existe un estimador insesgado con varianza mínima uniforme, la única escogencia de $u(\cdot)$ que hace a $\hat{t}_{yopt}$ un estimador con las anteriores características es $u(\mathbf{x}_k)=y_i$, y por supuesto esto es prácticamente inútil. Por tanto se debe hacer $u(\mathbf{x}_k)\approx y_k$.
+Since there is no uniformly minimum-variance unbiased estimator, the only choice of $u(\cdot)$ that makes $\hat{t}_{yopt}$ an estimator with the preceding characteristics is $u(\mathbf{x}_k)=y_i$, which is of course practically useless. Therefore, one should make $u(\mathbf{x}_k)\approx y_k$.
 
-El lector debe notar que la estructura del modelo $\xi$ dado por (@eq-modeloopt) es muy general e incluye dos importantes casos: el primero el modelo de regresión lineal o no lineal dado por
+The reader should note that the structure of the model $\xi$ given by (@eq-modeloopt) is very general and includes two important cases. The first is the linear or nonlinear regression model given by
 $$
 y_k=\mu(\mathbf{x}_k,\boldsymbol{\theta})+\nu_k\varepsilon_k
 $$
 
-donde los $\varepsilon_k$ son variables aleatorias independientes e idénticamente distribuidas con $E_\xi(\varepsilon_k)=0$, $Var_\xi(\varepsilon_k)=\sigma^{2}$ y $\nu_k=\nu(\mathbf{x}_k)$ es una función conocida y estrictamente positiva.
+where the $\varepsilon_k$ are independent and identically distributed random variables with $E_\xi(\varepsilon_k)=0$, $Var_\xi(\varepsilon_k)=\sigma^{2}$, and $\nu_k=\nu(\mathbf{x}_k)$ is a known and strictly positive function.
 
-El segundo caso se refiere al modelo lineal generalizado dado por
+The second case refers to the generalized linear model given by
 $$
 g(\mu_i)=\mathbf{x}'_k\boldsymbol{\theta}, \ \ \ Var_\xi(y_k|\mathbf{x}_k)=\nu(\mu_k)
 $$ {#eq-glmopt}
 
-donde $\mu_k=E_\xi(y_k|\mathbf{x}_k)$, $g(\cdot)$ es una función de vínculo y $\nu(\cdot)$ es una función de varianza.
+where $\mu_k=E_\xi(y_k|\mathbf{x}_k)$, $g(\cdot)$ is a link function, and $\nu(\cdot)$ is a variance function.
 
-A continuación se describe el comportamiento de los estimadores óptimos de calibración bajo un modelo lineal y un modelo log-lineal.
+The behavior of optimal calibration estimators under a linear model and a log-linear model is described below.
 
 ```{r}
 #| label: fig-f10-5
@@ -1112,28 +1134,30 @@ A continuación se describe el comportamiento de los estimadores óptimos de cal
 #| message: false
 #| fig-height: 5
 #| echo: false
-#| fig-cap: 'Comportamiento lineal de la característica de interés explicada por la información auxiliar.'
+#| fig-cap: 'Linear behavior of the characteristic of interest explained by the auxiliary information.'
 x <- runif(1000, 1, 30)
 y <- rnorm(1000, 1.2 * x, sqrt(x))
 dat <- data.frame(x = x, y = y)
 
-ggplot(dat, aes(x = x, y = y)) + geom_point(shape = 1) + geom_smooth()  
+ggplot(dat, aes(x = x, y = y)) +
+  geom_point(shape = 1) +
+  geom_smooth()
 ```
 
-Si la información auxiliar explica a la característica de interés de forma lineal, como se observa en la figura 10.5, entonces tendría sentido el argumento que se expresa en @DS, en donde motivados por el estimador de razón, se argumenta que \textsl{?...las ponderaciones [de calibración] que se ajustan bien a las variables auxiliares [reproducen exactamente su total poblacional], también se ajustan bien a la variable de estudio...?}
+If the auxiliary information explains the characteristic of interest linearly, as observed in Figure 10.5, then the argument expressed in @DS would make sense; motivated by the ratio estimator, they argue that \textsl{?...the [calibration] weights that fit the auxiliary variables well [exactly reproduce their population total] also fit the study variable well...?}
 
-En el caso multivariado, la función que hace óptimo al estimador de calibración está dada por
+In the multivariate case, the function that makes the calibration estimator optimal is given by
 $$
 u(\mathbf{x}_k,\boldsymbol{\theta})=\mathbf{x}_k'\boldsymbol{\theta}=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}
 $$
 
-en donde $\boldsymbol{\theta}=(\theta_0,\theta_1,...,\theta_P)$ es estimado a través de mínimos cuadrados ponderados, como en una regresión múltiple. Por lo tanto la característica de interés sigue el siguiente modelo de super-población
+where $\boldsymbol{\theta}=(\theta_0,\theta_1,...,\theta_P)$ is estimated through weighted least squares, as in multiple regression. Therefore, the characteristic of interest follows the following superpopulation model:
 
 $$
 y_k=\mathbf{x}_k'\boldsymbol{\theta}+\nu_k\varepsilon_k
 $$
 
-donde los $\varepsilon_k$ son independientes e idénticamente distribuidos con $E_\xi(\varepsilon_k)=0$ y $Var_\xi(\varepsilon_k)=\sigma^{2}$, y $\nu_k=\nu(\mathbf{x}_k)=1$. Por tanto al estimar $\boldsymbol{\theta}$ usando la técnica de mínimos cuadrados se tiene que
+where the $\varepsilon_k$ are independent and identically distributed with $E_\xi(\varepsilon_k)=0$ and $Var_\xi(\varepsilon_k)=\sigma^{2}$, and $\nu_k=\nu(\mathbf{x}_k)=1$. Therefore, when estimating $\boldsymbol{\theta}$ using the least squares technique, we have
 $$
 \begin{aligned}
 \hat{\boldsymbol{\theta}}&=\left(\sum_{k\in S}q_kd_k\mathbf{x}_k\mathbf{x}_k'\right)^{-1}\sum_{k\in S}q_kd_k\mathbf{x}_ky_k\\
@@ -1141,15 +1165,15 @@ $$
 \end{aligned}
 $$
 
-donde $\mathbf{V}=diag(d_1q_1,\ldots,d_nq_n)=\frac{1}{\sigma^2}diag(d_1,\ldots,d_n)$.
+where $\mathbf{V}=diag(d_1q_1,\ldots,d_nq_n)=\frac{1}{\sigma^2}diag(d_1,\ldots,d_n)$.
 
-::: {.callout-tip title="Resultado"}
-De esta forma, el estimador de calibración del total poblacional resultante del anterior modelo de super-población está dado por
+::: {.callout-tip title="Result"}
+In this way, the calibration estimator of the population total resulting from the preceding superpopulation model is given by
 $$
 \hat{t}_{y,opt}=t_{y\pi}+(\mathbf{t}_{\mathbf{x}}-\hat{\mathbf{t}}_{\mathbf{x}\pi})'\hat{\boldsymbol{\theta}}
 $$
 
-**Prueba.**
+**Proof.**
 $$
 \begin{aligned}
 \hat{t}_{y,opt}&=\hat{t}_{y\pi}+(t_{\hat{\mu}}-\hat{t}_{\hat{\mu}\pi}){\hat{B}_y}\\
@@ -1160,11 +1184,11 @@ $$
 &=\hat{t}_{y\pi}+(\sum_{k\in U}\mathbf{x}_k-\sum_{k\in U}d_k\mathbf{x}_k)'\hat{\boldsymbol{\theta}}
 \end{aligned}
 $$
-puesto que ${\hat{B}_y}=1$. Lo anterior se tiene de la definición de $\hat{B}_y$ teniendo en cuenta que
+because ${\hat{B}_y}=1$. This follows from the definition of $\hat{B}_y$, taking into account that
 $$
 \hat{\mu}_k=\mathbf{x}_k'\boldsymbol{\theta}=x_k'(\mathbf{X}'\mathbf{V}^{-1}\mathbf{X})^{-1}\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}
 $$
-Por tanto,
+Therefore,
 $$
 \begin{aligned}
 \sum_{k\in S}d_kq_k\hat{\mu}_k^2&=\mathbf{y}'\mathbf{V}^{-1}\mathbf{X}
@@ -1177,11 +1201,11 @@ $$
 
 :::
 
-Nótese que el termino $\hat{B}_Y$ es igual a uno y por tanto desaparece, lo que hace que el estimador óptimo de calibración sea idéntico al estimador de calibración clásico dado por (10.4.5).
+Note that the term $\hat{B}_Y$ is equal to one and therefore disappears, making the optimal calibration estimator identical to the classical calibration estimator given by (10.4.5).
 
-#### $u(\mathbf{x})$ Vía modelo lineal generalizado
+#### $u(\mathbf{x})$ via generalized linear model
 
-<!-- index: Modelo lineal generalizado -->¿Qué sucede si la información auxiliar no describe a la característica de interés con un comportamiento lineal?, como se observa en la figura 10.6
+<!-- index: Generalized linear model -->What happens if the auxiliary information does not describe the characteristic of interest with linear behavior, as observed in Figure 10.6?
 
 ```{r}
 #| label: fig-f10-6
@@ -1189,74 +1213,72 @@ Nótese que el termino $\hat{B}_Y$ es igual a uno y por tanto desaparece, lo que
 #| message: false
 #| fig-height: 5
 #| echo: false
-#| fig-cap: 'Comportamiento no lineal de la característica de interés explicada por la información auxiliar.'
+#| fig-cap: 'Nonlinear behavior of the characteristic of interest explained by the auxiliary information.'
 x <- runif(1000, 1, 3)
-y <- rnorm(1000, 4 * exp(x), 2*x)
+y <- rnorm(1000, 4 * exp(x), 2 * x)
 dat <- data.frame(x = x, y = y)
 
-ggplot(dat, aes(x = x, y = y)) + geom_point(shape = 1) + geom_smooth()  
+ggplot(dat, aes(x = x, y = y)) +
+  geom_point(shape = 1) +
+  geom_smooth()
 ```
 
-Es ésta la parte más importante del desarrollo práctico en los estimadores óptimos de calibración. Al respecto, el
-usuario puede pensar por un instante en los siguientes cuestionamientos:
+This is the most important part of the practical development of optimal calibration estimators. In this regard, the user may pause for a moment on the following questions:
 
-- Si una característica de información auxiliar explica muy bien a la característica de interés, entonces calibrar con respecto a esta información auxiliar sería muy conveniente. Sin embargo, esta relación no siempre será lineal.
-- Si queremos estimaciones perfectas deberíamos utilizar a la misma característica de interés para calibrar, pero como esto es un absurdo se debe utilizar $u(\mathbf{x})$ semejante a $y$.
+- If an auxiliary information characteristic explains the characteristic of interest very well, then calibrating with respect to this auxiliary information would be very convenient. However, this relationship will not always be linear.
+- If we want perfect estimates, we should use the characteristic of interest itself for calibration, but since this is absurd, we must use $u(\mathbf{x})$ similar to $y$.
 
-Si se conoce que la información auxiliar disponible no describe a la característica de interés de forma lineal, se ponen en tela de juicio la aplicación de los estimadores clásicos de calibración motivadas por @Dev. Por tanto, si los valores de la característica de interés son considerados como realizaciones de un modelo de super-población $\xi$ como en (@eq-modeloopt) que puede ser descrito a través de su primer y segundo momento, entonces claramente el modelo lineal generalizado (MLG), descrito detalladamente en @nelder y dado por (@eq-glmopt). La mayor particularidad del MLG es que la varianza de la característica de interés depende de la media $\mu_k$. Además, en el MLG se considera que la característica de interés se relaciona con las variables de información auxiliar mediante la media $\mu_k$ y una función de vínculo $g(\cdot)$ tal que
+If it is known that the available auxiliary information does not describe the characteristic of interest linearly, the application of the classical calibration estimators motivated by @Dev is called into question. Therefore, if the values of the characteristic of interest are considered realizations of a superpopulation model $\xi$ as in (@eq-modeloopt), which can be described through its first and second moments, then the generalized linear model (GLM), described in detail in @nelder and given by (@eq-glmopt), is clearly relevant. The main feature of the GLM is that the variance of the characteristic of interest depends on the mean $\mu_k$. In addition, in the GLM the characteristic of interest is considered to be related to the auxiliary information variables through the mean $\mu_k$ and a link function $g(\cdot)$ such that
 $$
 g(\mu_k)=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}
 $$
 
-Nótese que el modelo clásico de regresión lineal es un caso particular del MLG en donde $g(\mu_k)=\mu_k$ y $V(\mu_k)=1$. Por supuesto, existen otras formas de la función de varianza y, vínculos no lineales también son permitidos. Por ejemplo, entre las funciones de vínculo y de varianza más populares están el vínculo logarítmico dado por $g(\mu_k)=\log(\mu_k)$ y las funciones de varianza de Poisson dada por $V(\mu_k)=\mu_k$ y la varianza Gamma dada por $V(\mu_k)=\mu_k^2$.
+Note that the classical linear regression model is a special case of the GLM where $g(\mu_k)=\mu_k$ and $V(\mu_k)=1$. Of course, other forms of the variance function exist, and nonlinear links are also allowed. For example, among the most popular link and variance functions are the logarithmic link given by $g(\mu_k)=\log(\mu_k)$, the Poisson variance function given by $V(\mu_k)=\mu_k$, and the Gamma variance given by $V(\mu_k)=\mu_k^2$.
 
-El MLG es un método semi-paramétrico y requiere especificaciones solamente en el primer y segundo momento. La función de vínculo $\mu_k$ está relacionada a las variables independientes y la función de varianza describe cómo la variación en la característica de interés está relacionada con la media.
+The GLM is a semiparametric method and requires specifications only for the first and second moments. The link function $\mu_k$ is related to the independent variables, and the variance function describes how the variation in the characteristic of interest is related to the mean.
 
-Los coeficientes $(\theta_0,\theta_1,...,\theta_k)$ pueden ser estimados, como en nuestro caso, usando el método de máxima
-cuasi-verosimilitud. Para el caso más general, el estimador del vector de parámetros poblacionales
-$\hat{\boldsymbol{\theta}}=(\hat{\theta_0},\hat{\theta_1},...,\hat{\theta_P})'$, es la solución de la siguiente ecuación
+The coefficients $(\theta_0,\theta_1,...,\theta_k)$ can be estimated, as in our case, using the maximum quasi-likelihood method. In the most general case, the estimator of the vector of population parameters $\hat{\boldsymbol{\theta}}=(\hat{\theta_0},\hat{\theta_1},...,\hat{\theta_P})'$ is the solution of the following equation:
 $$
 \mathbf{D}'\mathbf{V}^{-1}(\mathbf{y}-\boldsymbol{\mu})=0
 $$ {#eq-cap10-4-13}
-La anterior, no es más que una generalización de las ecuaciones normales en un modelo de regresión múltiple. Donde $\mathbf{y}=(y_1,...,y_n)'$ y $\boldsymbol{\mu}=(\mu_1,...,\mu_n)'$, $\mathbf{V}=diag(V(\mu_1),...,V(\mu_n))$
-son las estructuras de media y varianza del modelo respectivamente, y $\mathbf{D}=\partial\mu/\partial\theta$. Los parámetros $\theta_p$, $p=1,\ldots,P$, se encuentran implícitos en (@eq-cap10-4-13). En el caso más simple, el modelo lineal clásico, se tiene que $\mu_k=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}$, $\boldsymbol{\mu}=\mathbf{X}'\boldsymbol{\theta}$ y $\mathbf{D}=\mathbf{X}'$. Luego, (@eq-cap10-4-13) queda convertida en $\mathbf{X}'\mathbf{V}^{-1}\mathbf{X}\boldsymbol{\theta}=\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}$, las cuales corresponden a las ecuaciones normales de la regresión múltiple.
+The preceding equation is simply a generalization of the normal equations in a multiple regression model. Here $\mathbf{y}=(y_1,...,y_n)'$ and $\boldsymbol{\mu}=(\mu_1,...,\mu_n)'$, $\mathbf{V}=diag(V(\mu_1),...,V(\mu_n))$ are the mean and variance structures of the model, respectively, and $\mathbf{D}=\partial\mu/\partial\theta$. The parameters $\theta_p$, $p=1,\ldots,P$, are implicit in (@eq-cap10-4-13). In the simplest case, the classical linear model, we have $\mu_k=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}$, $\boldsymbol{\mu}=\mathbf{X}'\boldsymbol{\theta}$, and $\mathbf{D}=\mathbf{X}'$. Then (@eq-cap10-4-13) becomes $\mathbf{X}'\mathbf{V}^{-1}\mathbf{X}\boldsymbol{\theta}=\mathbf{X}'\mathbf{V}^{-1}\mathbf{y}$, which corresponds to the normal equations of multiple regression.
 
-Por otro lado, en cualquier otro modelo, en donde la función de vínculo sea distinta de la identidad, la mayor dificultad para encontrar el estimador máximo cuasi-verosímil de $\boldsymbol{\theta}$ es que para resolver (@eq-cap10-4-13) se necesita utilizar procedimientos iterativos.
+On the other hand, in any other model where the link function is different from the identity, the main difficulty in finding the maximum quasi-likelihood estimator of $\boldsymbol{\theta}$ is that solving (@eq-cap10-4-13) requires iterative procedures.
 
-::: {.callout-tip title="Resultado"}
-Bajo un modelo de super-población MLG, el estimador óptimo de calibración está dado por
+::: {.callout-tip title="Result"}
+Under a GLM superpopulation model, the optimal calibration estimator is given by
 $$
 \begin{aligned}
 \hat{t}_{y,opt}=\hat{t}_{y\pi}+(t_{\hat{\mu}}-\hat{t}_{\hat{\mu}\pi}){\hat{B}_y}
 \end{aligned}
 $$
-con
+with
 $$
 \hat{B}_y=\frac{\sum_{k\in S}d_kq_k\hat{\mu}_ky_k}{\sum_{k\in S}d_kq_k\hat{\mu}_k^2}
 $$
-donde $\hat{\mu}_k=g^{-1}(\mathbf{x}_k'\boldsymbol{\theta})$ y $g^{-1}(\cdot)$ es la inversa de la función de vínculo.
+where $\hat{\mu}_k=g^{-1}(\mathbf{x}_k'\boldsymbol{\theta})$ and $g^{-1}(\cdot)$ is the inverse of the link function.
 
 :::
-El software estadístico R tiene implementada la función `glm`, la cual permite estimar los parámetros del MLG. Suponga que se desea encontrar el estimador de máxima cuasi-verosimilitud de $\boldsymbol{\theta}=(\theta_0,\theta_1,...,\theta_P)'$ para el modelo
+The R statistical software implements the `glm` function, which allows the GLM parameters to be estimated. Suppose that we want to find the maximum quasi-likelihood estimator of $\boldsymbol{\theta}=(\theta_0,\theta_1,...,\theta_P)'$ for the model
 
 $$
 \mu_k=\exp(\theta_0+\theta_1x_{k1}), \ \ \ Var_\xi(y_k|\mathbf{x}_k)=\nu(\mu_k)^2=\mu_k^2
 $$
 
-Por supuesto, desde (10.9.3), se tiene que la función de vínculo es el logaritmo. Las siguientes líneas de código muestran cómo obtener $\hat{\boldsymbol{\theta}}$
+Of course, from (10.9.3), the link function is the logarithm. The following lines of code show how to obtain $\hat{\boldsymbol{\theta}}$.
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 theta0 <- lm(Y ~ X)
 theta1 <- glm(Y ~ X, start = theta0, quasi(var = "mu^2", link = "log"))
 ```
 
-Nótese que `theta0` es el estimador de mínimos cuadrados y sirve como estimador inicial para el proceso iterativo. Análogamente, es posible crear un código propio para computar las estimaciones del vector de parámetros basado en @nelder.
+Note that `theta0` is the least squares estimator and serves as the initial estimator for the iterative process. Analogously, it is possible to create custom code to compute estimates of the parameter vector based on @nelder.
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 tol <- 0.000000001
-theta0 <- solve(t(X) %*% X, t(X) %*% (Y))  ## valores iniciales
+theta0 <- solve(t(X) %*% X, t(X) %*% (Y)) ## initial values
 dif <- 1
-while(dif >= tol) { ## condición de iteración
+while (dif >= tol) { ## iteration condition
   mu <- exp(as.vector(X %*% theta0))
   V <- diag(1 / mu)
   theta1 <- theta0 + solve(t(X) %*% X, t(X) %*% V %*% (Y - mu))
@@ -1265,11 +1287,11 @@ while(dif >= tol) { ## condición de iteración
 }
 ```
 
-Por supuesto, el anterior código debe coincidir con la salida que arroje el procedimiento `glm` de R.
+Of course, the preceding code should match the output produced by R's `glm` procedure.
 
-## Ejercicios
+## Exercises
 
-1. [@TiAr, Ejercicio 7.1] Usando un procedimiento de muestreo, se obtuvieron las siguientes estimaciones para los tamaños absolutos $\hat{N}_{ij}$ de dos sub-poblaciones de interés:
+1. [@TiAr, Exercise 7.1] Using a sampling procedure, the following estimates were obtained for the absolute sizes $\hat{N}_{ij}$ of two subpopulations of interest:
 
 | 80 | 170 | 150 | 400 |
 | --- | --- | --- | --- |
@@ -1277,13 +1299,13 @@ Por supuesto, el anterior código debe coincidir con la salida que arroje el pro
 | 10 | 80 | 130 | 220 |
 | 180 | 330 | 490 | 1000 |
 
-Por otro lado, mediante fuentes oficiales, los tamaños marginales sí se conocen con certeza. Los verdaderos totales para las filas son $(430, 360, 210)$ y los totales verdaderos para las columnas son $(150, 300, 550)$.
+On the other hand, from official sources, the marginal sizes are known with certainty. The true totals for the rows are $(430, 360, 210)$ and the true totals for the columns are $(150, 300, 550)$.
 
-1. Ajuste la tabla sobre los verdaderos totales marginales de la población usando el algoritmo IPFP.
-1. Ajuste la tabla sobre los verdaderos totales marginales de la población usando el enfoque de calibración con el método de *raking*.
-1. Explique las diferencias o similitudes entre las anteriores estimaciones.
+1. Adjust the table to the true marginal population totals using the IPFP algorithm.
+1. Adjust the table to the true marginal population totals using the calibration approach with the *raking* method.
+1. Explain the differences or similarities between the preceding estimates.
 
-1. [@TiAr, Ejercicio 7.4] Suponga que se obtuvo la siguiente tabla y que los verdaderos totales para las filas son $(84, 37, 444, 464)$ y los totales verdaderos para las columnas son $(49, 859, 11, 10)$.
+1. [@TiAr, Exercise 7.4] Suppose that the following table was obtained and that the true totals for the rows are $(84, 37, 444, 464)$ and the true totals for the columns are $(49, 859, 11, 10)$.
 
 | 78 | 6 | 0 | 0 | 84 |
 | --- | --- | --- | --- | --- |
@@ -1292,30 +1314,30 @@ Por otro lado, mediante fuentes oficiales, los tamaños marginales sí se conoce
 | 0 | 0 | 432 | 32 | 464 |
 | 110 | 11 | 859 | 49 | 1029 |
 
-Como se puede notar, los totales estimados por fila coinciden plenamente con los verdaderos totales. Explique por qué está tabla no se puede ajustar al utilizar el algoritmo IPFP.
+As can be noted, the estimated row totals fully coincide with the true totals. Explain why this table cannot be adjusted using the IPFP algorithm.
 
-1. Considere una region agrícola consistente en $N=2010$ fincas, para la cual se seleccionó una muestra aleatoria simple de fincas de tamaño $n=100$. Además, se sabe que hay 1580 fincas con menos de 160 hectáreas (post-estrato 1) y  430 fincas con más de 160 hectáreas (post-estrato 2). La característica de interés medida en cada finca incluida en la muestra es el área de cereal cultivada en cada finca. Si se tuvo una muestra realizada en donde $n_1=70$, $n_2=30$, $\bar{y}_1=19.4$ y $\bar{y}_2=51.63$, estime usando la técnica de calibración, la media poblacional del área de cereal cultivada en la región agrícola y reporte el coeficiente de variación estimado.
+1. Consider an agricultural region consisting of $N=2010$ farms, for which a simple random sample of farms of size $n=100$ was selected. In addition, it is known that there are 1580 farms with fewer than 160 hectares (post-stratum 1) and 430 farms with more than 160 hectares (post-stratum 2). The characteristic of interest measured in each farm included in the sample is the cereal-cultivated area on each farm. If the realized sample had $n_1=70$, $n_2=30$, $\bar{y}_1=19.4$, and $\bar{y}_2=51.63$, estimate, using the calibration technique, the population mean of the cereal-cultivated area in the agricultural region and report the estimated coefficient of variation.
 
-1. Considere un diseño de muestreo de Poisson con probabilidades de inclusión desiguales $\pi_k$, $k\in U$. Suponga que se tiene interés en la estimación del total poblacional $t_y$. Construya un estimador de calibración usando una sola característica de información auxiliar $x_k=1$ y $q_k=1$, para todo $k\in U$, usando la siguiente pseudo-distancia (parametrizada por $\alpha$):
+1. Consider a Poisson sampling design with unequal inclusion probabilities $\pi_k$, $k\in U$. Suppose that the population total $t_y$ is of interest. Construct a calibration estimator using a single auxiliary information characteristic $x_k=1$ and $q_k=1$, for all $k\in U$, using the following pseudo-distance (parameterized by $\alpha$):
 
 $$
 G(x)=
 \begin{cases}
-\frac{1}{\alpha(\alpha-1)}(x^{\alpha}+(\alpha-1)-\alpha x), & \text{si $\alpha \in \mathbb{R}-\{0,1\}$} \\
-x\ln(x)+1-x, & \text{si $\alpha=1$} \\
-\ln(1/x)-1+x, & \text{si $\alpha=0$}
+\frac{1}{\alpha(\alpha-1)}(x^{\alpha}+(\alpha-1)-\alpha x), & \text{if $\alpha \in \mathbb{R}-\{0,1\}$} \\
+x\ln(x)+1-x, & \text{if $\alpha=1$} \\
+\ln(1/x)-1+x, & \text{if $\alpha=0$}
 \end{cases}
 $$
 
-1. Escriba las ecuaciones de calibración.
-1. Obtenga la función $g(x)$ para los tres casos de $\alpha$.
-1. Demuestre que la función $F(u)$ es fija e igual a $N/\hat{N}$.
-1. Deduzca los pesos de calibración.
-1. Obtenga el estimador de calibración resultante. ¿Qué forma tiene el estimador resultante?.
+1. Write the calibration equations.
+1. Obtain the function $g(x)$ for the three cases of $\alpha$.
+1. Show that the function $F(u)$ is fixed and equal to $N/\hat{N}$.
+1. Deduce the calibration weights.
+1. Obtain the resulting calibration estimator. What form does the resulting estimator have?
 
-1. Suponga que la información del ejercicio 8.7. es el resultado de un plan de muestreo Poisson con probabilidad de inclusión $\pi_k=n (x_k/t_x)$. Utilizando los resultados del ejercicio anterior y suponiendo que $x_k=1$ y $q_k=1$, para todo $k\in U$, obtenga una estimación de calibración para el total de habitantes en el municipio, el numero de automóviles en el municipio y el número de efectivos militares en el municipio. Obtenga los correspondientes coeficientes de variación estimados.
+1. Suppose that the information from Exercise 8.7 is the result of a Poisson sampling plan with inclusion probability $\pi_k=n (x_k/t_x)$. Using the results of the previous exercise and assuming that $x_k=1$ and $q_k=1$ for all $k\in U$, obtain a calibration estimate for the total number of inhabitants in the municipality, the number of automobiles in the municipality, and the number of military personnel in the municipality. Obtain the corresponding estimated coefficients of variation.
 
-1. Sustente o refute las siguientes afirmaciones
-1. Los estimadores de calibración inducidos por la distancia Ji-cuadrado coinciden plenamente con los estimadores de regresión general.
-1. La cantidad $q_k$ es constante para todos los individuos bajo la distancia de entropía.
-1. Bajo la distancia Ji-cuadrado inversa, al minimizar la distancia con respecto a las restricciones de calibración, siempre se llega a que los pesos $w_k$ son iguales al inverso de la probabilidad de inclusión del $k$-ésimo elemento.
+1. Support or refute the following statements.
+1. Calibration estimators induced by the chi-square distance fully coincide with general regression estimators.
+1. The quantity $q_k$ is constant for all individuals under the entropy distance.
+1. Under the inverse chi-square distance, minimizing the distance with respect to the calibration restrictions always leads to weights $w_k$ equal to the inverse of the inclusion probability of the $k$-th element.

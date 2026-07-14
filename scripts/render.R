@@ -1,6 +1,6 @@
 if (!requireNamespace("quarto", quietly = TRUE)) {
   stop(
-    "Falta el paquete R 'quarto'. Ejecuta primero: ",
+    "The R package 'quarto' is missing. Run this first: ",
     "source('scripts/00-check-packages.R')",
     call. = FALSE
   )

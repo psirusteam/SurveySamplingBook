@@ -1,4 +1,4 @@
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(TeachingSampling)
 data(BigLucy)
 library(ggplot2)
@@ -9,125 +9,125 @@ library(knitr)
 opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
-# Muestreo en varias etapas
+# Multistage sampling
 
 ::: {.blockquote}
-En muchas situaciones, los elementos de un conglomerado pueden ser demasiado similares, de modo que el análisis de todos los elementos que conforman el conglomerado será un desperdicio de recursos. En estos casos podría ser más barato seleccionar más conglomerados y tomar una submuestra<!-- index: Submuestra --> dentro de cada uno de ellos.
+In many situations, the elements of a cluster may be too similar, so analyzing all the elements that make up the cluster would be a waste of resources. In these cases, it may be cheaper to select more clusters and take a subsample<!-- index: Subsample --> within each of them.
 
 @Loh
 
 :::
 
-En el capítulo anterior se utilizó la agrupación natural de los elementos en la población para ahorrar costes financieros y logísticos al planear una estrategia de muestreo por conglomerados. Sin embargo, el ahorro en términos operativos se ve reflejado en un alto precio por pagar con respecto a la eficiencia estadística de la estrategia. Una posible solución para disminuir la varianza es aumentar el tamaño de muestra de conglomerados, solución que aumentaría los costos operativos.
+In the previous chapter, the natural grouping of elements in the population was used to save financial and logistical costs when planning a cluster sampling strategy. However, the savings in operational terms are reflected in a high price to pay with respect to the statistical efficiency of the strategy. One possible solution to reduce the variance is to increase the cluster sample size, a solution that would increase operating costs.
 
-Para mantener un equilibrio entre los costos financieros y las bondades de la estrategia de muestreo es posible aprovechar la homogeneidad dentro de los conglomerados y, de esta manera, no realizar un censo dentro de cada conglomerado seleccionado sino proceder a seleccionar una sub-muestra dentro del conglomerado seleccionado. Como el comportamiento estructural de la característica de interés al interior de los conglomerados es homogéneo, entonces una estimación del total del conglomerado tendría una varianza pequeña. Por supuesto, como no se tienen acceso a un marco de muestreo de elementos, se debe realizar un empadronamiento para levantar un marco de muestreo de elementos en cada uno y sólo en los conglomerados seleccionados. Una vez se disponga del marco de muestreo de elementos dentro de los conglomerados, se dispone la selección de las sub-muestras de elementos. @Baut plantea que el principio básico del muestreo en varias etapas se puede definir como el proceso jerárquico que realiza $l$ veces los siguientes pasos:
-- Construcción de $l$ marcos de muestreo de unidades (conglomerados en las primeras $l-1$ etapas del diseño muestral y de elementos en la última etapa).
-- Aplicación de un diseño muestral y selección de la muestras (o sub-muestras) de cada marco de muestreo.
+To maintain a balance between financial costs and the advantages of the sampling strategy, it is possible to take advantage of homogeneity within clusters and, in this way, avoid carrying out a census within each selected cluster and instead select a subsample within the selected cluster. Because the structural behavior of the characteristic of interest inside the clusters is homogeneous, an estimate of the cluster total would have small variance. Of course, because there is no access to a sampling frame of elements, an enumeration must be carried out to build a sampling frame of elements in each and only in the selected clusters. Once the sampling frame of elements within the clusters is available, the subsamples of elements are selected. @Baut states that the basic principle of multistage sampling can be defined as the hierarchical process that carries out the following steps $l$ times:
+- Construction of $l$ sampling frames of units (clusters in the first $l-1$ stages of the sampling design and elements in the last stage).
+- Application of a sampling design and selection of the samples (or subsamples) from each sampling frame.
 
-Nótese que se ha introducido el concepto de **unidad de muestreo** refiriéndose a conglomerados de elementos o a los elementos. Si el diseño de muestreo tiene tres etapas, por ejemplo: si se quieren obtener estimaciones acerca del comportamiento de los alumnos en determinada ciudad, y no se dispone de un marco de muestreo de los alumnos, es posible en una **primera etapa** levantar un marco de muestreo de todas y cada una de las  escuelas en la ciudad y realizar una selección de una muestra de escuelas mediante cierto diseño de muestreo. Una vez que las escuelas son seleccionadas, en una **segunda etapa**, se levanta un marco de muestreo de niveles académicos dentro de las escuelas (cursos o clases) y se procede a seleccionar una muestra de niveles. De tal forma que en la **tercera y última etapa** se levanta un marco de muestreo de elementos; es decir, de alumnos pertenecientes a cada nivel seleccionado, y se realiza una muestra de elementos que serán observados y medidos.
+Note that the concept of a **sampling unit** has been introduced, referring either to clusters of elements or to the elements themselves. If the sampling design has three stages, for example, if the goal is to obtain estimates about the behavior of students in a given city and no sampling frame of students is available, it is possible in a **first stage** to build a sampling frame of each and every school in the city and select a sample of schools using a certain sampling design. Once the schools are selected, in a **second stage**, a sampling frame of academic levels within schools (courses or classes) is built and a sample of levels is selected. Thus, in the **third and final stage**, a sampling frame of elements is built; that is, of students belonging to each selected level, and a sample of elements that will be observed and measured is drawn.
 
-Es interesante observar cómo la población, en el estado de la naturaleza, se subdivide gracias al comportamiento <<jerárquico>>, que en este caso particular toma la siguiente forma:
-
-$$
-\underbrace{\textbf{Ciudad}}_{\text{Población$U$}} \Rrightarrow
-\underbrace{\textbf{Escuelas}}_{\text{UPM}} \Rrightarrow
-\underbrace{\textbf{Niveles}}_{\text{USM}} \Rrightarrow
-\underbrace{\textbf{Alumnos}}_{\text{UTM}}
-$$
-
-Como notación, se llama **Unidad Primaria de Muestreo**<!-- index: Unidad primaria de muestreo --> o **UPM** a la primera subdivisión en conglomerados de la población original, **Unidad Secundaria de Muestreo** o **USM** a la sub-subdivisión de la población, es decir la subdivisión de las **UPM**. La **Unidad Terciaria de Muestreo** o **UTM** corresponde a los elementos de la población objetivo, que en este caso particular son los alumnos de la ciudad.
-
-No siempre las unidades finales de muestreo son elementos, es así como es posible planear un diseño en dos etapas de conglomerados, refiriéndose a que la unidad secundaria de muestreo son conglomerados, o también es posible aplicar un diseño en cuatro etapas de elementos, en donde las unidades finales de muestreo sean elementos; por ejemplo, en @Baut se presenta el siguiente caso:
+It is interesting to observe how the population, in its natural state, is subdivided through a "hierarchical" behavior, which in this particular case takes the following form:
 
 $$
-\underbrace{\textbf{Ciudad}}_{\text{Población$U$}} \Rrightarrow
-\underbrace{\textbf{Sección}}_{\text{UPM}} \Rrightarrow
-\underbrace{\textbf{Manzana}}_{\text{USM}} \Rrightarrow
-\underbrace{\textbf{Vivienda}}_{\text{UTM}} \Rrightarrow
-\underbrace{\textbf{Persona}}_{\text{UCM}}
+\underbrace{\textbf{City}}_{\text{Population $U$}} \Longrightarrow
+\underbrace{\textbf{Schools}}_{\text{PSU}} \Longrightarrow
+\underbrace{\textbf{Levels}}_{\text{SSU}} \Longrightarrow
+\underbrace{\textbf{Students}}_{\text{TSU}}
 $$
 
-El principio básico de una estrategia de muestreo en varias etapas es construir estimaciones desde abajo hasta arriba. Pero para que los resultados de la estimación basada en el diseño de muestreo sean aplicables, se deben satisfacer los siguientes dos supuestos:
-- **Invariancia:** sugiere que la probabilidad de selección de una muestra de unidades de muestreo (conglomerados o elementos) no depende del diseño de muestreo de la anterior etapa.
-- **Independencia:** interpretado como que el sub-muestreo de cualquier unidad de muestreo se lleva a cabo de manera independiente con las otras unidades de muestreo, en la misma etapa o en etapas superiores o inferiores.
+As notation, the first cluster subdivision of the original population is called the **Primary Sampling Unit**<!-- index: Primary sampling unit --> or **PSU**; the **Secondary Sampling Unit** or **SSU** is the sub-subdivision of the population, that is, the subdivision of the **PSUs**. The **Tertiary Sampling Unit** or **TSU** corresponds to the elements of the target population, which in this particular case are the students in the city.
 
-Para el resto del capítulo se asume implícitamente que estas propiedades se satisfacen en cada etapa de muestreo de la estrategia. Si los supuestos no se satisfacen, entonces el lector puede consultar la sección de muestreo en varias fases del capítulo de Tópicos avanzados. Para asentar aún más la filosofía interna del muestreo en varias etapas, es necesario estudiar el más simple de todos los diseños de muestreo de esta clase: el muestreo en dos etapas.
+The final sampling units are not always elements. Thus, it is possible to plan a two-stage cluster design, meaning that the secondary sampling units are clusters, or it is also possible to apply a four-stage design of elements, where the final sampling units are elements; for example, @Baut presents the following case:
 
-## Muestreo en dos etapas
+$$
+\underbrace{\textbf{City}}_{\text{Population $U$}} \Longrightarrow
+\underbrace{\textbf{Section}}_{\text{PSU}} \Longrightarrow
+\underbrace{\textbf{Block}}_{\text{SSU}} \Longrightarrow
+\underbrace{\textbf{Dwelling}}_{\text{TSU}} \Longrightarrow
+\underbrace{\textbf{Person}}_{\text{FSU}}
+$$
 
-<!-- index: Diseño de muestreo en dos etapas -->También llamado muestreo <<bietápico>> por @Mah, este diseño de muestreo estima el total de cada cluster $t_i$ mediante una sub-muestra dentro de los conglomerados seleccionados de la población. En la estimación de los parámetros de interés se encuentran dos fuentes de variabilidad cada una en cada etapa. Es decir, existe variabilidad debido a la selección de las unidades primarias de muestreo o conglomerados y, por supuesto, también existe variabilidad debido a la selección de una muestra de elementos, unidades secundarias de muestro en los conglomerados seleccionados.
+The basic principle of a multistage sampling strategy is to build estimates from the bottom up. But for the results of estimation based on the sampling design to be applicable, the following two assumptions must be satisfied:
+- **Invariance:** this suggests that the selection probability of a sample of sampling units (clusters or elements) does not depend on the sampling design of the previous stage.
+- **Independence:** interpreted as meaning that the subsampling of any sampling unit is carried out independently of the other sampling units, in the same stage or in higher or lower stages.
 
-Suponga que la población de elementos $U$ se divide en $N_I$ unidades primarias de muestreo, que definen una partición de la población, llamados también \\textbf{conglomerados} y denotadas como $U_I=\{U_1,\ldots,U_{N_I}\}$. El $i$-ésimo conglomerado $U_i$ $i=1,\dots,N_I$ es de tamaño $N_i$. @Sar dan un marco general para el muestreo en dos etapas, de tal manera que
-- Una muestra $s_I$ de unidades primarias de muestreo es seleccionada de $U_I$ de acuerdo a un diseño de muestreo $p_I(s_I)$. Nótese que $S_I$ representa la muestra aleatoria de conglomerados tal que $Pr(S_I=s_I)=p_I(s_I)$.
-- Para cada conglomerado $U_i$ $i=1,\dots,N_I$ seleccionado en la muestra $s_I$, se selecciona una muestra $s_i$ de elementos seleccionada de acuerdo a un diseño de muestreo $p_i(s_i)$. Nótese que $S_i$ representa la muestra aleatoria de elementos tal que $Pr(S_i=s_i)=p_i(s_i)$.
+For the rest of the chapter, it is implicitly assumed that these properties are satisfied at each sampling stage of the strategy. If the assumptions are not satisfied, the reader may consult the section on multiphase sampling in the Advanced Topics chapter. To further establish the internal philosophy of multistage sampling, it is necessary to study the simplest of all sampling designs of this class: two-stage sampling.
 
-Este diseño de muestreo bietápico debe cumplir las dos propiedades de invarianza y de independencia. La invarianza significa que los diseños de muestreo $p_i(s_i)$ de la segunda etapa **no dependen** del resultado en la primera etapa, es decir, que el diseño de muestreo siempre debe ser el mismo dentro de cada una de las unidades primarias de muestreo.
+## Two-stage sampling
+
+<!-- index: Two-stage sampling design -->Also called two-stage sampling by @Mah, this sampling design estimates the total of each cluster $t_i$ through a subsample within the selected clusters of the population. In estimating the parameters of interest, two sources of variability are found, one in each stage. That is, there is variability due to the selection of primary sampling units or clusters and, of course, there is also variability due to the selection of a sample of elements, or secondary sampling units, within the selected clusters.
+
+Suppose that the population of elements $U$ is divided into $N_I$ primary sampling units, which define a partition of the population, also called \\textbf{clusters} and denoted as $U_I=\{U_1,\ldots,U_{N_I}\}$. The $i$-th cluster $U_i$, $i=1,\dots,N_I$, has size $N_i$. @Sar provide a general framework for two-stage sampling, such that
+- A sample $s_I$ of primary sampling units is selected from $U_I$ according to a sampling design $p_I(s_I)$. Note that $S_I$ represents the random sample of clusters such that $Pr(S_I=s_I)=p_I(s_I)$.
+- For each cluster $U_i$, $i=1,\dots,N_I$, selected in sample $s_I$, a sample $s_i$ of elements is selected according to a sampling design $p_i(s_i)$. Note that $S_i$ represents the random sample of elements such that $Pr(S_i=s_i)=p_i(s_i)$.
+
+This two-stage sampling design must satisfy the two properties of invariance and independence. Invariance means that the sampling designs $p_i(s_i)$ of the second stage **do not depend** on the result in the first stage; that is, the sampling design must always be the same within each of the primary sampling units.
 
 $$
 Pr(S_i = s_i\left|\right. S_I=s_I) = Pr(S_i = s_i).
 $$
 
-Nótese que lo anterior implica que $p_i(\cdot|s_I)=p_I(\cdot)$
+Note that the above implies that $p_i(\cdot|s_I)=p_I(\cdot)$.
 
-La independencia significa que el proceso de selección de muestras en la segunda etapa dentro de cada unidad primaria de muestreo no depende de los procesos de selección utilizados en los restantes unidades primarias de muestreo. Es decir, el submuestreo en una unidad primaria de muestreo particular es independiente del submuestreo en otras unidades primarias de muestreo ^[Nótese el símil con el proceso de estratificación.], por tanto, para cada muestra aleatoria $S_I$ en la primera etapa se cumple que
+Independence means that the sample selection process in the second stage within each primary sampling unit does not depend on the selection processes used in the remaining primary sampling units. That is, subsampling in a particular primary sampling unit is independent of subsampling in other primary sampling units^[Note the similarity with the stratification process.]; therefore, for each random sample $S_I$ in the first stage, we have
 
 $$
 Pr\left(\bigcup_{i \in s_I}s_i|s_I\right)=\prod_{i \in s_I}Pr(s_i|s_I)
 $$
 
-Si el diseño de muestreo en la primera etapa es con reemplazo, entonces un conglomerado puede aparecer más de una vez, y se debe proceder a realizar el sub-muestreo tantas veces como aparezca dicha unidad primaria en la muestra realizada $s_I$, con esto se garantiza que se cumplan las propiedades de independencia e invarianza. En términos de soporte, es posible hablar de también del tres clases de soporte. A saber:
+If the sampling design in the first stage is with replacement, then a cluster may appear more than once, and subsampling must be carried out as many times as that primary unit appears in the realized sample $s_I$; this guarantees that the properties of independence and invariance are satisfied. In terms of support, it is also possible to speak of three types of support, namely:
 
-- En la primera etapa existe un soporte $Q_I$ conteniendo todas las posibles muestras realizadas de las unidades primarias de muestreo.
-- En la segunda etapa existe un soporte $Q^i$ para cada $i\in U_I$, es decir, para cada unidad primaria en la etapa anterior.
-- En general, el soporte $Q$ conteniendo todas las posibles muestras de elementos mediante un diseño bietápico está dado por
+- In the first stage, there is a support $Q_I$ containing all possible realized samples of the primary sampling units.
+- In the second stage, there is a support $Q^i$ for each $i\in U_I$, that is, for each primary unit in the previous stage.
+- In general, the support $Q$ containing all possible samples of elements under a two-stage design is given by
 
 $$
 \begin{aligned}
-Q&=\bigcup_{r=1}^{\#Q_I} \bigcup_{i\in s_I^{(r)}} s_i, \ \ \ \ \text{con} \ \ s_i \in Q^i \notag \\
-    &=\left\{ \bigcup_{i\in s_I^{(r)}} s_i, \ \ \ \ \text{con} \ \ s_i \in Q^i, r=1,\ldots,\#Q_I\right\}
+Q&=\bigcup_{r=1}^{\#Q_I} \bigcup_{i\in s_I^{(r)}} s_i, \ \ \ \ \text{with} \ \ s_i \in Q^i \notag \\
+    &=\left\{ \bigcup_{i\in s_I^{(r)}} s_i, \ \ \ \ \text{with} \ \ s_i \in Q^i, r=1,\ldots,\#Q_I\right\}
 \end{aligned}
 $$
 
-Donde $s_I^{(r)}$ denota la r-ésima posible muestra en la primera etapa y la cardinalidad de $Q$ está dada por
+where $s_I^{(r)}$ denotes the r-th possible sample in the first stage and the cardinality of $Q$ is given by
 
 $$
 \#Q=\prod_{i\in U_I}\#Q^i
 $$
 
-Y la muestra de elementos - o unidades secundarias de muestreo - viene dada por
+And the sample of elements, or secondary sampling units, is given by
 
 $$
-S=\bigcup_{i\in S_I}S_i,\ \text{con} \ \ S_i\in Q^i
+S=\bigcup_{i\in S_I}S_i,\ \text{with} \ \ S_i\in Q^i
 $$
 
-con tamaño de la muestra aleatorio dado por
+with random sample size given by
 
 $$
 n(S)=\sum_{i\in S_I}n_i
 $$
 
-La definición de los soportes en cada etapa y, en general, nos permiten proclamar que el diseño de muestreo bietápico es un auténtico diseño de muestreo.
+The definition of the supports at each stage and in general allows us to state that the two-stage sampling design is a genuine sampling design.
 
-::: {.callout-tip title="Resultado"}
-El diseño de muestreo bietápico cumple que
-- $p(s)\geq0$ para todo $s\in Q$
+::: {.callout-tip title="Result"}
+The two-stage sampling design satisfies
+- $p(s)\geq0$ for every $s\in Q$
 - $\sum_{s\in Q}p(s)=1$
 
-**Prueba.**
+**Proof.**
 
-En primer lugar, se tiene que
+First, we have
 
 $$
 \begin{aligned}
 p(s)&={Pr(
-    \text{Seleccionar } s_I \text{ en la etapa uno y seleccionar } \bigcup_{i\in s_I} s_i\ \text{ en etapa dos})}\\
-    &=p_I(s_I)\underbrace{Pr\left(\bigcup_{i\in s_I}s_i|s_I\right)}_{Independencia}\\
-    &=p_I(s_I)\prod_{i\in s_I}\underbrace{Pr(s_i|s_I)}_{Invarianza}\\
+    \text{Select } s_I \text{ in stage one and select } \bigcup_{i\in s_I} s_i\ \text{ in stage two})}\\
+    &=p_I(s_I)\underbrace{Pr\left(\bigcup_{i\in s_I}s_i|s_I\right)}_{Independence}\\
+    &=p_I(s_I)\prod_{i\in s_I}\underbrace{Pr(s_i|s_I)}_{Invariance}\\
     &=p_I(s_I)\prod_{i\in s_I}p_i(s_i)
 \end{aligned}
 $$
 
-y es claro que $p(s)\geq0$. Ahora, para demostrar la segunda propiedad, se tiene que
+and it is clear that $p(s)\geq0$. Now, to prove the second property, we have
 
 $$
 \begin{aligned}
@@ -138,58 +138,58 @@ $$
 \end{aligned}
 $$
 
-En donde la equivalencia a uno del segundo sumando en la tercera igualdad se obtiene haciendo el símil con la demostración del resultado 5.1.1., en donde el diseño estratificado se definió como una productoria.
+where the equivalence to one of the second summation in the third equality is obtained by analogy with the proof of Result 5.1.1, where the stratified design was defined as a product.
 
 :::
 
-Para ilustrar el anterior resultado, junto con la compenetración de los conceptos de soportes en cada una de las etapas, se diseñó el siguiente ejemplo que utiliza un diseño de muestreo sin reemplazo en dos etapas.
+To illustrate the preceding result, together with the integration of the concepts of supports in each of the stages, the following example was designed using a two-stage sampling design without replacement.
 
-::: {.callout-note title="Ejemplo"}
-Nuestra población ejemplo $U_I$ dada por
+::: {.callout-note title="Example"}
+Our example population $U_I$, given by
 
 $U_I$=\{U_1, U_2, U_3\}
 
-Suponga que se selecciona una muestra $s_I$ de unidades primarias de muestreo de tamaño $n_I=2$ mediante un diseño de muestreo sin reemplazo tal que
+Suppose that a sample $s_I$ of primary sampling units of size $n_I=2$ is selected using a sampling design without replacement such that
 
 $$
 p_I(s_I)=\begin{cases}
-            0.5, & \text{si } s_I=\{U_1, U_2\},\\
-            0.4, & \text{si } s_I=\{U_1, U_3\},\\
-            0.1, & \text{si } s_I=\{U_2, U_3\}
+            0.5, & \text{if } s_I=\{U_1, U_2\},\\
+            0.4, & \text{if } s_I=\{U_1, U_3\},\\
+            0.1, & \text{if } s_I=\{U_2, U_3\}
             \end{cases}
 $$
 
-Ahora, suponga que dentro de cada unidad primaria seleccionada se selecciona un solo elemento de acuerdo a los siguientes diseños de muestreo
+Now, suppose that within each selected primary unit, a single element is selected according to the following sampling designs
 
 $$
 \begin{aligned}
 p_1(S_1\left|\right. S_I)&=\begin{cases}
-            0.5, & \text{si } s_1=\{\text{Yves}\},\\
-            0.5, & \text{si } s_1=\{\text{Ken}\}
+            0.5, & \text{if } s_1=\{\text{Yves}\},\\
+            0.5, & \text{if } s_1=\{\text{Ken}\}
             \end{cases}\\\\
  p_2(S_2\left|\right. S_I)&=\begin{cases}
-            0.9, & \text{si } s_2=\{\text{Erik}\},\\
-            0.1, & \text{si } s_2=\{\text{Sharon}\}
+            0.9, & \text{if } s_2=\{\text{Erik}\},\\
+            0.1, & \text{if } s_2=\{\text{Sharon}\}
             \end{cases}\\\\
  p_3(S_3\left|\right. S_I)&=\begin{cases}
-            1.0, & \text{si } s_3=\{\text{Leslie}\}
+            1.0, & \text{if } s_3=\{\text{Leslie}\}
             \end{cases}
 \end{aligned}
 $$
 
-Es decir, el tamaño de la muestra final es $n=2$. Y el soporte de la primera etapa está dado por
+That is, the final sample size is $n=2$. And the support of the first stage is given by
 
 $$
 Q_I=\left\{\{U_1,U_2\},\{U_1,U_3\},\{U_2,U_3\}\right\},
 $$
 
-y los soportes de la segunda etapa están dados por $Q^1=\{\{\text{Yves}\},\{\text{Ken}\}\}$, $Q^2=\{\{\text{Erick}\},\{\text{Sharon}\}\}$ y $Q^3=\{\{\text{Leslie}\}\}$. Dado lo anterior, el soporte $Q$ está dada por
+and the supports of the second stage are given by $Q^1=\{\{\text{Yves}\},\{\text{Ken}\}\}$, $Q^2=\{\{\text{Erick}\},\{\text{Sharon}\}\}$, and $Q^3=\{\{\text{Leslie}\}\}$. Given the above, the support $Q$ is given by
 
 $$
 Q=\left\{\bigcup_{i\in s_I^{(1)}}s_i,\bigcup_{i\in s_I^{(2)}}s_i,\bigcup_{i\in s_I^{(3)}}s_i\right\},
 $$
 
-donde
+where
 
 $$
 \bigcup_{i\in s_I^{(1)}}s_i=\left\{\{\text{Yves}, \text{Erick}\},\{\text{Yves},\text{Sharon}\},\{\text{Ken},\text{Erick}\},\{\text{Ken},\text{Sharon}\}\right\},
@@ -205,7 +205,7 @@ $$
 \bigcup_{i\in s_I^{(3)}}s_i=\left\{\{\text{Yves}, \text{Leslie}\},\{\text{Ken},\text{Leslie}\}\right\}.
 $$
 
-Las probabilidades $\prod_{i\in s_I}p_i(s_i)$ y $p_I(s_I)$ para todas las posibles muestras son como sigue a continuación:
+The probabilities $\prod_{i\in s_I}p_i(s_i)$ and $p_I(s_I)$ for all possible samples are as follows:
 ```
                 p(s_1) X p(s_2)        p(s_I)           p(s)
 Yves    Erick        0.5 X 0.9            0.5          0.225
@@ -219,86 +219,85 @@ Ken     Leslie       0.5 X 1.0            0.4          0.200
 
 Total                                                  1.000
 ```
-Se observa que $p(s)$ es un auténtico diseño de muestreo. Nótese que dentro de cada posible muestra de la primera etapa, la suma de probabilidades es igual a uno. Por ejemplo, para $S_I=\{U_1,U_2\}$, las posibles muestras en la segunda etapa corresponden a $\{\text{Yves, Erick}\}$, $\{\text{Yves, Sharon}\}$, $\{\text{Ken, Erick}\}$ y $\{\text{Ken, Sharon}\}$ con probabilidades 0.45, 0.05, 0.45 y 0.05, respectivamente, y la suma de estas probabilidades es igual a uno.
+It is observed that $p(s)$ is a genuine sampling design. Note that within each possible first-stage sample, the sum of probabilities is equal to one. For example, for $S_I=\{U_1,U_2\}$, the possible samples in the second stage correspond to $\{\text{Yves, Erick}\}$, $\{\text{Yves, Sharon}\}$, $\{\text{Ken, Erick}\}$, and $\{\text{Ken, Sharon}\}$ with probabilities 0.45, 0.05, 0.45, and 0.05, respectively, and the sum of these probabilities is equal to one.
 
 :::
 
-Los parámetros poblacionales de interés pueden escribirse como:
-- El total poblacional,
+The population parameters of interest can be written as:
+- The population total,
 
 $$
 t_y=\sum_{k \in U}y_k=\sum_{i=1}^{N_I}\sum_{k\in U_i}y_k=\sum_{i=1}^{N_I}t_{yi}
 $$
 
-donde $t_{yi}=\sum_{k\in U_i}y_k$ es el total de la $i$-ésima unidad primaria de muestreo $i=1,\dots,N_I$.
-- La media poblacional,
+where $t_{yi}=\sum_{k\in U_i}y_k$ is the total of the $i$-th primary sampling unit $i=1,\dots,N_I$.
+- The population mean,
 
 $$
 \bar{y}_U=\frac{\sum_{k \in U}y_k}{N}=\frac{1}{N}\sum_{i=1}^{N_I}\sum_{k\in U_i}y_k=\frac{1}{N}\sum_{i=1}^{N_I}N_i\bar{y}_i
 $$
 
-donde $\bar{y}_i=\dfrac{1}{N_i}\sum_{k\in U_i}y_k$ es la media de la $i$-ésima unidad primaria de muestreo $i=1,\dots,N_I$.
+where $\bar{y}_i=\dfrac{1}{N_i}\sum_{k\in U_i}y_k$ is the mean of the $i$-th primary sampling unit $i=1,\dots,N_I$.
 
-::: {.callout-note title="Ejemplo"}
-Nuestra población ejemplo $U_I$ dada por
+::: {.callout-note title="Example"}
+Our example population $U_I$, given by
 
 $U_I=\{U_1, U_2, U_3\}$
 
-Suponga que se selecciona una muestra $s_I$ de unidades primarias de muestreos de tamaño $n_I=2$. El sub-muestreo en la segunda etapa es tal que en cada unidad primaria de muestreo seleccionada en la primera etapa se selecciona un sólo elemento, de tal forma que el tamaño de la muestra de elementos es de dos. Defina el soporte $Q$ de elementos si la selección de la muestra es con reemplazo.
+Suppose that a sample $s_I$ of primary sampling units of size $n_I=2$ is selected. The subsampling in the second stage is such that in each primary sampling unit selected in the first stage, only one element is selected, so that the sample size of elements is two. Define the support $Q$ of elements if the sample selection is with replacement.
 
 :::
 
-### El estimador de Horvitz-Thompson
+### The Horvitz-Thompson estimator
 
-En la primera etapa las probabilidades de inclusión de primer y segundo orden, de las unidades primarias de muestreo, inducidas por el diseño de muestreo $p_I(s_I)$ están dadas por $\pi_{Ii}$ y $\pi_{Iij}$ respectivamente con $i,j\in U_I$. Por tanto se tiene que
+In the first stage, the first- and second-order inclusion probabilities of the primary sampling units induced by the sampling design $p_I(s_I)$ are given by $\pi_{Ii}$ and $\pi_{Iij}$, respectively, with $i,j\in U_I$. Therefore, we have
 
 $$
 \Delta_{Iij}=\begin{cases}
-            \pi_{Iij}-\pi_{Ii}\pi_{Ij}, & \text{si } i,j \in U_I,\\
-            \pi_{Ii}(1-\pi_{Ii}), & \text{si } i=j \in U_I.
+            \pi_{Iij}-\pi_{Ii}\pi_{Ij}, & \text{if } i,j \in U_I,\\
+            \pi_{Ii}(1-\pi_{Ii}), & \text{if } i=j \in U_I.
             \end{cases}
 $$
 
-En la segunda etapa las probabilidades de inclusión de primer y segundo orden, de los elementos en la $i$-ésima $i\in S_I$ unidad primaria de muestreo, inducidas por el diseño de muestreo $p_i(s_i)$ y condicionadas a que $U_i$ fue seleccionada en la muestra de la primera etapa están dadas por $\pi_{k|i}$ y $\pi_{kl|i}$ respectivamente para $k,l\in U_i$ con $\pi_{k|i}=Pr(k\in S_i|U_i\in S_I)$ y $\pi_{kl|i}=Pr(k\in S_i,l\in S_i|U_i\in S_I)$. Por tanto se tiene que
+In the second stage, the first- and second-order inclusion probabilities of the elements in the $i$-th primary sampling unit, $i\in S_I$, induced by the sampling design $p_i(s_i)$ and conditional on $U_i$ being selected in the first-stage sample, are given by $\pi_{k|i}$ and $\pi_{kl|i}$, respectively, for $k,l\in U_i$, with $\pi_{k|i}=Pr(k\in S_i|U_i\in S_I)$ and $\pi_{kl|i}=Pr(k\in S_i,l\in S_i|U_i\in S_I)$. Therefore, we have
 
 $$
 \Delta_{kl|i}=\begin{cases}
-            \pi_{kl|i}-\pi_{k|i}\pi_{l|i}, & \text{si } k\neq l,\\
-            \pi_{k|i}(1-\pi_{k|i}), & \text{si } k=l.
+            \pi_{kl|i}-\pi_{k|i}\pi_{l|i}, & \text{if } k\neq l,\\
+            \pi_{k|i}(1-\pi_{k|i}), & \text{if } k=l.
             \end{cases}
 $$
 
-En general, de la definición de probabilidad de inclusión se tiene el siguiente resultado.
+In general, from the definition of inclusion probability, we have the following result.
 
-::: {.callout-tip title="Resultado"}
-La probabilidad de inclusión de primer orden del $k$-ésimo elemento de $U$ está dada por
+::: {.callout-tip title="Result"}
+The first-order inclusion probability of the $k$-th element of $U$ is given by
 
 $$
 \begin{aligned}
-\pi_{k}=Pr(k\in S)&=Pr(k\in S_i\ \text{y}\ i\in S_I)\notag\\
+\pi_{k}=Pr(k\in S)&=Pr(k\in S_i\ \text{and}\ i\in S_I)\notag\\
 &=Pr(k\in S_i|i\in S_I)Pr(i\in S_I)=\pi_{k|i}\pi_{Ii}
 \end{aligned}
 $$
 
-La probabilidad de inclusión de segundo orden está dada por
+The second-order inclusion probability is given by
 
 $$
 \pi_{kl}=\begin{cases}
-            \pi_{Ii}\pi_{k|i}, & \text{si } k=l\in U_i,\\
-            \pi_{Ii}\pi_{k|i}, & \text{si } k\neq l\in U_i,\\
-            \pi_{Iij}\pi_{k|i}\pi_{l|j}, & \text{si } k\in U,l\in U_j (i\neq l).
+            \pi_{Ii}\pi_{k|i}, & \text{if } k=l\in U_i,\\
+            \pi_{Ii}\pi_{k|i}, & \text{if } k\neq l\in U_i,\\
+            \pi_{Iij}\pi_{k|i}\pi_{l|j}, & \text{if } k\in U,l\in U_j (i\neq l).
             \end{cases}
 $$
 
 :::
 
-Con el anterior resultado podemos utilizar la forma general del estimador de Horvitz-Thompson para hallar su expresión particular y su varianza bajo un diseño de muestreo bietápico [@Sar]. Sin embargo, para hallar una forma más rápida de calcular la varianza del estimador necesitamos recurrir a algunos resultados muy conocidos de la teoría de probabilidad. Éstos han sido utilizados ampliamente en el campo del muestreo, pero no fue sino
-hasta que @Han publicaron dichos resultados aplicados al muestreo. En general, se trata de expresar:
-- La esperanza de una variable aleatoria como el valor esperado de esperanzas condicionales.
-- La varianza de una variable aleatoria como la suma de la varianza de esperanzas condicionales y la esperanza de varianzas condicionales.
+With the preceding result, we can use the general form of the Horvitz-Thompson estimator to find its particular expression and its variance under a two-stage sampling design [@Sar]. However, to find a faster way to calculate the variance of the estimator, we need to use some well-known results from probability theory. These have been widely used in the field of sampling, but only later did @Han publish these results applied to sampling. In general, the goal is to express:
+- The expectation of a random variable as the expected value of conditional expectations.
+- The variance of a random variable as the sum of the variance of conditional expectations and the expectation of conditional variances.
 
-::: {.callout-tip title="Resultado"}
-Sean $U$ y $H$ variables aleatorias, entonces:
+::: {.callout-tip title="Result"}
+Let $U$ and $H$ be random variables, then:
 
 $$
 E_1(U)=E_2(E_1(U|H))
@@ -310,12 +309,12 @@ $$
 Var_1(U)=E_2(Var_1(U|H))+Var_2(E_1(U|H))
 $$
 
-En donde el subíndice 1, denota la esperanza o varianza inducida por la función de distribución de la variable aleatoria $U$, y el subíndice 2 denota la esperanza o varianza inducida por la función de distribución de la variable aleatoria $H$.
+where subscript 1 denotes the expectation or variance induced by the distribution function of the random variable $U$, and subscript 2 denotes the expectation or variance induced by the distribution function of the random variable $H$.
 
-**Prueba.**
+**Proof.**
 
-Es necesario recordar que $Pr(U=U_i|H_j)=Pr(U=U_i,H=H_j)/Pr(H_j)$ y además que $Pr(U=U_i)=\sum_j (U=U_i, H=H_j)$, por consiguiente.
-- Esperanza:
+It is necessary to recall that $Pr(U=U_i|H_j)=Pr(U=U_i,H=H_j)/Pr(H_j)$ and also that $Pr(U=U_i)=\sum_j (U=U_i, H=H_j)$; consequently.
+- Expectation:
 
 $$
 \begin{aligned}
@@ -327,7 +326,7 @@ E_1(U)&=\sum_i U_iPr(U=U_i)\\
 &=E_2(E_1(U|H))
 \end{aligned}
 $$
-- Covarianza: sea W, una variable aleatoria y tomemos a $x=E_2(U)$ y $y=E_2(W)$
+- Covariance: let W be a random variable and take $x=E_2(U)$ and $y=E_2(W)$
 
 $$
 \begin{aligned}
@@ -339,7 +338,7 @@ Cov(U,W)&=E(UW)-E(U)E(W)\\
 &=E_1\left[Cov_2(U,W)\right]+Cov_1\left[E_2(U),E_2(W)\right]
 \end{aligned}
 $$
-- Varianza: dado que la varianza es un caso particular de la covarianza, entonces:
+- Variance: since variance is a particular case of covariance, then:
 
 $$
 \begin{aligned}
@@ -350,29 +349,29 @@ $$
 
 :::
 
-Con ayuda del anterior resultado es posible obtener expresiones para el estimador de Horvitz-Thompson que muestren la variación en cada una de las dos etapas de este diseño de muestreo. Es interesante la forma que toma tanto el estimador genérico como su respectiva varianza porque, dado que existen dos etapas de muestreo, en la primera se estiman los totales de los conglomerados y, en la segunda etapa se estima el gran total utilizando esas estimaciones en las unidades primarias seleccionadas. Como el proceso de estimación se lleva a cabo en dos etapas, es de esperarse que existan dos fuentes de variación: la primera debido a la estimación de los totales de las unidades primarias de muestreo y la segunda debido a la estimación del gran total. Suponiendo que fueron seleccionadas cuatro unidades primarias de muestreo, existirán entonces cuatro estimaciones cuya varianza estará sintetizada en una sola expresión, mientras que, por otro lado, existirá otra fuente de variación cuando se quiera estimar el gran total.
+With the help of the preceding result, it is possible to obtain expressions for the Horvitz-Thompson estimator that show the variation in each of the two stages of this sampling design. The form taken by both the generic estimator and its corresponding variance is interesting because, since there are two sampling stages, the totals of the clusters are estimated in the first, and in the second stage the grand total is estimated using those estimates in the selected primary units. Since the estimation process is carried out in two stages, it is expected that there will be two sources of variation: the first due to estimating the totals of the primary sampling units and the second due to estimating the grand total. Assuming that four primary sampling units were selected, there would then be four estimates whose variance would be summarized in a single expression, while, on the other hand, there would be another source of variation when estimating the grand total.
 
-::: {.callout-tip title="Resultado"}
-Bajo muestreo en dos etapas el estimador de Horvitz-Thompson es insesgado para el total poblacional y toma la forma
+::: {.callout-tip title="Result"}
+Under two-stage sampling, the Horvitz-Thompson estimator is unbiased for the population total and takes the form
 
 $$
 \hat{t}_{y,\pi}=\sum_{i\in S_I}\sum_{k\in S_i}\frac{y_k}{\pi_{Ii}\pi_{k|i}}=\sum_{i\in S_I}\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}
 $$
 
-con varianza dada por
+with variance given by
 
 $$
-Var_{BI}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{U_I}\Delta_{Iij}\frac{t_i}{\pi_{Ii}}\frac{t_j}{\pi_{Ij}}}_{Var(UPM)}+\underbrace{\sum_{i\in U_I}\frac{Var_{p_i}(\hat{t_i})}{\pi_{Ii}}}_{Var(USM)}
+Var_{TS}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{U_I}\Delta_{Iij}\frac{t_i}{\pi_{Ii}}\frac{t_j}{\pi_{Ij}}}_{Var(PSU)}+\underbrace{\sum_{i\in U_I}\frac{Var_{p_i}(\hat{t_i})}{\pi_{Ii}}}_{Var(SSU)}
 $$
 
-cuya estimación insesgada es
+whose unbiased estimate is
 
 $$
-\widehat{Var}_{BI}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{S_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}\frac{\hat{t}_{yj,\pi}}{\pi_{Ij}}}_{\widehat{Var}(UPM)}
-+\underbrace{\sum_{i\in S_I}\frac{\widehat{Var}(\hat{t}_{yi,\pi})}{\pi_{Ii}}}_{\widehat{Var}(USM)}
+\widehat{Var}_{TS}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{S_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}\frac{\hat{t}_{yj,\pi}}{\pi_{Ij}}}_{\widehat{Var}(PSU)}
++\underbrace{\sum_{i\in S_I}\frac{\widehat{Var}(\hat{t}_{yi,\pi})}{\pi_{Ii}}}_{\widehat{Var}(SSU)}
 $$
 
-donde
+where
 
 $$
 Var(\hat{t_i})=\sum\sum_{U_i}\Delta_{kl|i}\frac{y_k}{\pi_{k|i}}\frac{y_l}{\pi_{l|i}}
@@ -382,19 +381,19 @@ $$
 \hat{t}_{yi,\pi}=\sum_{k\in S_i}\frac{y_k}{\pi_{k|i}}
 $$
 
-representando la estimación del total de la característica de interés en la $i$-ésima unidad primaria de muestreo y
+representing the estimate of the total of the characteristic of interest in the $i$-th primary sampling unit, and
 
 $$
 \widehat{Var}(\hat{t_i})=\sum\sum_{S_i}\frac{\Delta_{kl|i}}{\pi_{kl|i}}\frac{y_k}{\pi_{k|i}}\frac{y_l}{\pi_{l|i}}
 $$
 
-Nótese que la variación del estimador se descompone en las dos etapas propias de este diseño. Además es importante tener en cuenta que $\widehat{Var}(UPM)$ y $\widehat{Var}(USM)$ no son estimadores insesgados para $Var(UPM)$ y $Var(USM)$ respectivamente. Sin embargo, toda la expresión $\widehat{Var}_{BI}(\hat{t}_{y,\pi})$ sí lo es para $Var_{BI}(\hat{t}_{y,\pi})$.
+Note that the variation of the estimator is decomposed into the two stages specific to this design. It is also important to keep in mind that $\widehat{Var}(PSU)$ and $\widehat{Var}(SSU)$ are not unbiased estimators for $Var(PSU)$ and $Var(SSU)$, respectively. However, the entire expression $\widehat{Var}_{TS}(\hat{t}_{y,\pi})$ is unbiased for $Var_{TS}(\hat{t}_{y,\pi})$.
 
-**Prueba.**
+**Proof.**
 
-Para desarrollar el anterior resultado es necesario manejar los dos conceptos inherentes al muestreo en dos o más etapas. **a)La invarianza:** para seleccionar las unidades primarias de muestreo se debe utilizar un mismo diseño y **b)La independencia:** cualquiera que fuere el diseño escogido para seleccionar los elementos dentro de una unidad primaria de muestreo, éste no debe afectar el sub-muestreo en cualquier otra unidad primaria de muestreo; por tanto, cualquier covarianza existente en esta etapa será nula.
+To develop the preceding result, it is necessary to handle the two concepts inherent to sampling in two or more stages. **a) Invariance:** to select the primary sampling units, the same design must be used, and **b) Independence:** whatever design is chosen to select the elements within a primary sampling unit, it must not affect subsampling in any other primary sampling unit; therefore, any covariance existing at this stage will be null.
 
-En primer lugar, se tiene la siguiente forma para el estimador de Horvitz-Thompson:
+First, the Horvitz-Thompson estimator has the following form:
 
 $$
 \begin{aligned}
@@ -404,39 +403,39 @@ $$
 &=\sum_{i\in S_I}\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}
 \end{aligned}
 $$
-- Insesgamiento del estimador:
+- Unbiasedness of the estimator:
 
 $$
 \begin{aligned}
 E_p(\hat{t}_{y,\pi})&=E_{p_I}\left(E_p\left[\sum_{i\in S_I}\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}\left|\right. S_I\right]\right)\\
-&=E_{p_I}\left(\sum_{i\in S_I}\underbrace{E_p\left[\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}\left|\right. S_I\right]}_{\text{invarianza}}\right)\\
+&=E_{p_I}\left(\sum_{i\in S_I}\underbrace{E_p\left[\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}\left|\right. S_I\right]}_{\text{invariance}}\right)\\
 &=E_{p_I}\left(\sum_{i\in S_I}\frac{E_{p_i}(\hat{t}_{yi,\pi})}{\pi_{Ii}}\right)\\
 &=E_{p_I}\left(\sum_{i\in S_I}\frac{t_{yi,\pi}}{\pi_{Ii}}\right)\\
 &=\sum_{i\in U_I}\frac{t_{yi,\pi}}{\pi_{Ii}}E_{P_I}(I_{Ii}(S_I))=t_y
 \end{aligned}
 $$
-- Varianza:
+- Variance:
 
 $$
 \begin{aligned}
-Var_p(\hat{t}_{y,\pi})=\underbrace{Var_{p_I}\left(E_p\left[\hat{t}_{y,\pi}\left|\right. S_I\right]\right)}_{Var(UPM)}+
-\underbrace{E_{p_I}\left(Var_p\left[\hat{t}_{y,\pi}\left|\right. S_I\right]\right)}_{Var(USM)}
+Var_p(\hat{t}_{y,\pi})=\underbrace{Var_{p_I}\left(E_p\left[\hat{t}_{y,\pi}\left|\right. S_I\right]\right)}_{Var(PSU)}+
+\underbrace{E_{p_I}\left(Var_p\left[\hat{t}_{y,\pi}\left|\right. S_I\right]\right)}_{Var(SSU)}
 \end{aligned}
 $$
 
-El primer sumando es equivalente a
+The first summand is equivalent to
 
 $$
 \begin{aligned}
 Var_{p_I}\left(E_p\left[\hat{t}_{y,\pi}\left|\right. S_I\right]\right)&=Var_{p_I}\left(E_p\left[\sum_{i\in S_I}\frac{\hat{t}_{yi,\pi}}{\pi_{Ii}}\left|\right. S_I\right]\right)\\
-&=Var_{p_I}\left(\sum_{i\in S_I}\underbrace{\frac{E_p(\hat{t}_{y,\pi}\left|\right. S_I)}{\pi_{Ii}}}_{Invarianza}\right)\\
+&=Var_{p_I}\left(\sum_{i\in S_I}\underbrace{\frac{E_p(\hat{t}_{y,\pi}\left|\right. S_I)}{\pi_{Ii}}}_{Invariance}\right)\\
 &=Var_{p_I}\left(\sum_{i\in S_I}\frac{E_p(\hat{t}_{y,\pi})}{\pi_{Ii}}\right)\\
 &=Var_{p_I}\left(\sum_{i\in S_I}\frac{t_{yi,\pi}}{\pi_{Ii}}\right)\\
 &=\sum\sum_{U_I}\Delta_{Iij}\frac{t_{yi,\pi}}{\pi_{Ii}}\frac{t_{yj,\pi}}{\pi_{Ij}}
 \end{aligned}
 $$
 
-El segundo sumando toma la siguiente forma
+The second summand takes the following form
 
 $$
 \begin{aligned}
@@ -449,24 +448,24 @@ E_{p_I}\left(Var_p\left[\hat{t}_{y,\pi}\left|\right. S_I\right]\right)
 \end{aligned}
 $$
 
-Luego, la varianza del estimador está dada por la expresión (7.1.15).
-- Varianza Estimada: para verificar que $\widehat{Var}_{BI}(\hat{t}_{y,\pi})$ es un estimador insesgado de la varianza del estimador de Horvitz-Thompson, se debe tener en cuenta que
+Then, the variance of the estimator is given by expression (7.1.15).
+- Estimated variance: to verify that $\widehat{Var}_{TS}(\hat{t}_{y,\pi})$ is an unbiased estimator of the variance of the Horvitz-Thompson estimator, it must be kept in mind that
 
 $$
 \begin{aligned}
 E\left(\hat{t}_{yi,\pi}\hat{t}_{yj,\pi}\left|\right. S_I\right)&=
         \begin{cases}
-        Var_{p_i}(\hat{y}_{yi,\pi})+(E_{p_i}(\hat{y}_{yi,\pi}))^2, & \text{si } i=j,\\
-        E_{p_i}(\hat{y}_{yi,\pi})E_{p_j}(\hat{y}_{yj,\pi}), & \text{si } i\neq j
+        Var_{p_i}(\hat{y}_{yi,\pi})+(E_{p_i}(\hat{y}_{yi,\pi}))^2, & \text{if } i=j,\\
+        E_{p_i}(\hat{y}_{yi,\pi})E_{p_j}(\hat{y}_{yj,\pi}), & \text{if } i\neq j
         \end{cases} \notag\\
         &=  \begin{cases}
-            Var(\hat{t}_{yi,\pi})+t_{yi,\pi}^2, & \text{si } i=j,\\
-            (t_{yi,\pi})(t_{yj,\pi}), & \text{si } i\neq j
+            Var(\hat{t}_{yi,\pi})+t_{yi,\pi}^2, & \text{if } i=j,\\
+            (t_{yi,\pi})(t_{yj,\pi}), & \text{if } i\neq j
             \end{cases}
 \end{aligned}
 $$
 
-Para la primera parte de la varianza estimada se tiene que
+For the first part of the estimated variance, we have
 
 $$
 \begin{aligned}
@@ -482,7 +481,7 @@ $$
 \end{aligned}
 $$
 
-Para la segunda parte de la varianza estimada se tiene que
+For the second part of the estimated variance, we have
 
 $$
 \begin{aligned}
@@ -493,41 +492,41 @@ $$
 \end{aligned}
 $$
 
-Sumando estas dos cantidades se llega al resultado. Nótese que por sí solas, estas cantidades no son insesgadas para sus contrapartes poblacionales, sin embargo se tiene que:
+Adding these two quantities gives the result. Note that by themselves these quantities are not unbiased for their population counterparts; however, we have that:
 
 $$
 \begin{aligned}
-E\left[\widehat{Var}(UPM)\right]+E\left[\widehat{Var}(USM)\right]=Var(\hat{t}_{y,\pi})
+E\left[\widehat{Var}(PSU)\right]+E\left[\widehat{Var}(SSU)\right]=Var(\hat{t}_{y,\pi})
 \end{aligned}
 $$
 
 :::
 
-Al respecto de la forma que toma la varianza del estimador de Horvitz-Thompson, @Sar afirman que:
-- Es conveniente estimar los dos componentes de varianza $Var(UPM)$ y $Var(USM)$ separadamente para tener una idea del aporte de variabilidad en cada una de las etapas.
-- Si $\pi_{k|i}=\pi_{kl|i}=1$ para todo $k,l \in U_i$ y para todo $U_i\in S_I$, entonces $Var(USM)=0$ entonces este diseño toma la forma de un diseño de conglomerados.
-- Si $\pi_{Ii}=\pi_{Iij}=1$ para todo $i,j=1,\ldots,N_I$, entonces este diseño se torna en un diseño estratificado.
+Regarding the form taken by the variance of the Horvitz-Thompson estimator, @Sar state that:
+- It is convenient to estimate the two variance components $Var(PSU)$ and $Var(SSU)$ separately to get an idea of the contribution of variability in each stage.
+- If $\pi_{k|i}=\pi_{kl|i}=1$ for every $k,l \in U_i$ and for every $U_i\in S_I$, then $Var(SSU)=0$ and this design takes the form of a cluster design.
+- If $\pi_{Ii}=\pi_{Iij}=1$ for every $i,j=1,\ldots,N_I$, then this design becomes a stratified design.
 
-::: {.callout-note title="Ejemplo"}
-Utilizando la información del ejemplo 7.1.1, compruebe, mediante un ejercicio léxico-gráfico, el insesgamiento del estimador de Horvitz-Thompson.
+::: {.callout-note title="Example"}
+Using the information from Example 7.1.1, verify, through a lexical-graphic exercise, the unbiasedness of the Horvitz-Thompson estimator.
 
 :::
 
-## Diseño de muestreo MAS-MAS
+## SRS-SRS sampling design
 
-<!-- index: Diseño de muestreo MAS-MAS -->En el muestreo aleatorio simple de conglomerados se medían todos y cada una de los elementos pertenecientes a los conglomerados seleccionados en la muestra $s_I$. Sin embargo, dado que, en la mayoría de situaciones, los conglomerados tienden a ser muy similares en el comportamiento estructural de la característica de interés se consideraría un desperdicio de recursos económicos y logísticos la incorporación de elementos que no traen consigo nueva información. Para esto es más económico tomar una muestra más amplia de unidades primarias de muestro y realizar un sub-muestreo dentro de cada una de ellas.
+<!-- index: SRS-SRS sampling design -->In simple random cluster sampling, each and every element belonging to the clusters selected in sample $s_I$ was measured. However, because in most situations clusters tend to be very similar in the structural behavior of the characteristic of interest, incorporating elements that do not bring new information would be considered a waste of economic and logistical resources. For this, it is more economical to take a larger sample of primary sampling units and carry out subsampling within each of them.
 
-Este diseño de muestreo supone que la población está divida en $N_{I}$ unidades primarias de muestreo, de las cuales se selecciona una muestra $s_{I}$ de $n_{I}$ unidades mediante un diseño de muestreo aleatorio simple. El sub-muestreo dentro de cada unidad primaria seleccionada es también aleatorio simple. Es decir, para cada unidad primaria de muestreo seleccionada $i\in s_{Ih}$ de tamaño $N_i$  se selecciona una muestra $s_i$ de elementos de tamaño $n_i$.
+This sampling design assumes that the population is divided into $N_{I}$ primary sampling units, from which a sample $s_{I}$ of $n_{I}$ units is selected using a simple random sampling design. The subsampling within each selected primary unit is also simple random. That is, for each selected primary sampling unit $i\in s_{Ih}$ of size $N_i$, a sample $s_i$ of elements of size $n_i$ is selected.
 
-### Algoritmos de selección
+### Selection algorithms
 
-<!-- index: Algoritmos de selección -->En la selección de las muestras de unidades primarias y secundarias sin reemplazo se utilizan los algoritmos de muestreo dados en el capítulo 2, de tal forma que los siguientes pasos se deben realizar:
-- Separar la población en $N_I$ unidades primarias de muestreo mediante el marco de muestreo de conglomerados.
-- Realizar una selección de $n_I$ conglomerados mediante cualquiera de los métodos expuestos en la sección 3.2.1; es decir, por el método coordinado negativo o por el método de Fan-Muller-Rezucha.
-- Para cada unidad primaria seleccionada en la muestra de la primera etapa $s_I$, realizar una selección de $n_i$ $i\in S_I$ elementos mediante cualquiera de los métodos expuestos en la sección 3.2.1.
+<!-- index: Selection algorithms -->When selecting samples of primary and secondary units without replacement, the sampling algorithms given in Chapter 2 are used, so the following steps must be carried out:
+- Separate the population into $N_I$ primary sampling units using the cluster sampling frame.
+- Select $n_I$ clusters using any of the methods presented in Section 3.2.1; that is, the negative coordination method or the Fan-Muller-Rezucha method.
+- For each primary unit selected in the first-stage sample $s_I$, select $n_i$ elements, $i\in S_I$, using any of the methods presented in Section 3.2.1.
 
-::: {.callout-tip title="Resultado"}
-Cuando el diseño de muestreo es aleatorio simple en las dos etapas, se tienen las siguientes probabilidades de inclusión de primer y segundo orden
+::: {.callout-tip title="Result"}
+When the sampling design is simple random in both stages, the following first- and second-order inclusion probabilities are obtained
 
 $$
 \begin{aligned}
@@ -536,7 +535,7 @@ $$
 \end{aligned}
 $$
 
-respectivamente. Por otro lado, la probabilidad de inclusión de un elemento o unidad secundaria de muestreo perteneciente a la $i$-ésima unidad primaria de muestreo $i\in U_I$ está dado por
+respectively. On the other hand, the inclusion probability of an element or secondary sampling unit belonging to the $i$-th primary sampling unit $i\in U_I$ is given by
 
 $$
 \begin{aligned}
@@ -546,58 +545,58 @@ $$
 
 :::
 
-Una vez que la muestra de unidades primarias $s_I$ es seleccionada se dispone a realizar una enumeración completa de los elementos pertenecientes a ésta para levantar un marco de muestreo que permita la selección de una sub-muestra para realizar la respectiva medición de todos y cada uno de los elementos pertenecientes a la sub-muestra seleccionada. En el diseño de muestreo aleatorio por conglomerados el estimador del total poblacional $t_y$ estaba dado por $\hat{t}_{y,\pi}=\dfrac{N_i}{n_i}\sum_{i\in S_I}t_{yi}$ porque se conocían los totales exactos de cada conglomerado seleccionado mediante la realización de un censo en los mismos. Por otra parte, en el muestreo en dos etapas MAS-MAS, debido a que no se miden todos los elementos de las unidades primarias seleccionadas, se deben estimar estos totales $t_{yi}$ mediante la siguiente expresión
+Once the sample of primary units $s_I$ is selected, a complete enumeration of the elements belonging to it is carried out to build a sampling frame that allows the selection of a subsample for the corresponding measurement of each and every element belonging to the selected subsample. In the cluster random sampling design, the estimator of the population total $t_y$ was given by $\hat{t}_{y,\pi}=\dfrac{N_i}{n_i}\sum_{i\in S_I}t_{yi}$ because the exact totals of each selected cluster were known through a census conducted within them. On the other hand, in SRS-SRS two-stage sampling, because not all elements of the selected primary units are measured, these totals $t_{yi}$ must be estimated using the following expression
 
 $$
 \hat{t}_{yi,\pi}=\frac{N_i}{n_i}\sum_{k\in S_i}y_k=N_i\bar{y}_{U_i}
 $$
 
-Con el siguiente resultado se llega a una estimación del parámetro de interés
+The following result leads to an estimate of the parameter of interest.
 
-::: {.callout-tip title="Resultado"}
-Bajo muestreo en dos etapas MAS-MAS, el estimador de Horvitz-Thompson es insesgado para el total poblacional y toma la forma
+::: {.callout-tip title="Result"}
+Under SRS-SRS two-stage sampling, the Horvitz-Thompson estimator is unbiased for the population total and takes the form
 
 $$
 \hat{t}_{y,\pi}=\frac{N_{I}}{n_{I}}\sum_{i\in S_{I}}\frac{N_i}{n_i}\sum_{k\in S_i}y_k
 $$
 
-con varianza dada por
+with variance given by
 
 $$
 \begin{aligned}
-Var_{MM}(\hat{t}_{y,\pi})=\frac{N_{I}^2}{n_{I}}\left(1-\frac{n_{I}}{N_{I}}\right)S^2_{t_{y}U_I}+
+Var_{MS}(\hat{t}_{y,\pi})=\frac{N_{I}^2}{n_{I}}\left(1-\frac{n_{I}}{N_{I}}\right)S^2_{t_{y}U_I}+
 \frac{N_{I}}{n_{I}}\sum_{i\in U_{I}}\frac{N_i^2}{n_i}\left(1-\frac{n_i}{N_i}\right)S^2_{y_{U_i}}
 \end{aligned}
 $$
 
-cuya estimación insesgada es
+whose unbiased estimate is
 
 $$
 \begin{aligned}
-\widehat{Var}_{MM}(\hat{t}_{y,\pi})=\frac{N_{I}^2}{n_{I}}\left(1-\frac{n_{I}}{N_{I}}\right)S^2_{\hat{t}_{y}S_I}+
+\widehat{Var}_{MS}(\hat{t}_{y,\pi})=\frac{N_{I}^2}{n_{I}}\left(1-\frac{n_{I}}{N_{I}}\right)S^2_{\hat{t}_{y}S_I}+
 \frac{N_{I}}{n_{I}}\sum_{i\in S_{I}}\frac{N_i^2}{n_i}\left(1-\frac{n_i}{N_i}\right)S^2_{y_{S_i}}
 \end{aligned}
 $$
 
-donde $S^2_{t_{y}U_I}$ es la varianza poblacional de los totales $t_{yi}$ $i\in U_I$ de todas y cada una de las unidades primarias de muestreo y $S^2_{y_{U_i}}$ es la varianza poblacional entre los elementos dentro de cada unidad primaria de muestreo. Similarmente, $S^2_{\hat{t}_{y}s_I}$ y $S^2_{y_{s_i}}$.
+where $S^2_{t_{y}U_I}$ is the population variance of the totals $t_{yi}$, $i\in U_I$, of each and every primary sampling unit, and $S^2_{y_{U_i}}$ is the population variance among the elements within each primary sampling unit. Similarly, $S^2_{\hat{t}_{y}s_I}$ and $S^2_{y_{s_i}}$.
 
 :::
 
-El primer término de (7.2.6) se refiere a la variabilidad debida a la primera etapa del diseño muestral mientras que el segundo sumando se refiere a la varianza adicional debida al sub-muestreo en las unidades primarias de muestreo. @Loh afirma que, de igual manera como en el caso del diseño de muestreo por conglomerados, si las unidades primarias de muestreo presentan distintos tamaños entonces la variabilidad del estimador puede ser muy grande. Si los tamaños $N_i$ de los conglomerados $i\in U_I$ son muy diferentes entre sí, el componente de varianza será grande incluso si el comportamiento estructural de la característica de interés es constante en cada unidad primaria.
+The first term in (7.2.6) refers to the variability due to the first stage of the sampling design, while the second summand refers to the additional variance due to subsampling in the primary sampling units. @Loh states that, as in the case of the cluster sampling design, if the primary sampling units have different sizes, then the variability of the estimator can be very large. If the sizes $N_i$ of the clusters $i\in U_I$ are very different from each other, the variance component will be large even if the structural behavior of the characteristic of interest is constant in each primary unit.
 
-### Tamaño de muestra
+### Sample size
 
-<!-- index: Tamaño de muestra -->Cada vez que avanzamos en el desarrollo programático de este texto nos encontramos, si bien los principios de estimación son los mismos, con que el diseño de la encuesta y la estimación de los parámetros de interés se tornan más complejos. @Loh afirma que la mejor manera de diseñar una encuesta es revisarla después de que esta haya concluido pues, al finalizar la encuesta, es posible evaluar el efecto de las unidades primarias de muestreo sobre la estimación final y, de esta manera, es posible saber en dónde se deberían asignar más recursos logísticos para obtener una mejor información. Pero a pesar de que el conocimiento de la población sea aceptable, siempre surge la pregunta del tamaño de muestra. En particular, ¿cuántas unidades primarias de muestreo se deberían seleccionar en la muestra? y ¿cuántos elementos o unidades secundarias de muestreo deberían ser seleccionados en el sub-muestreo dentro de las unidades primarias de muestreo?
+<!-- index: Sample size -->As we move forward in the programmatic development of this text, we find that although the principles of estimation are the same, survey design and the estimation of the parameters of interest become more complex. @Loh states that the best way to design a survey is to review it after it has concluded because, once the survey has ended, it is possible to evaluate the effect of the primary sampling units on the final estimate and, in this way, know where more logistical resources should be allocated to obtain better information. But even when knowledge of the population is acceptable, the question of sample size always arises. In particular, how many primary sampling units should be selected in the sample? And how many elements or secondary sampling units should be selected in the subsampling within the primary sampling units?
 
-Por ejemplo, en particular en las encuestas de áreas mientras mayor sea el tamaño de la unidad primaria de muestreo, se puede esperar que exista más variabilidad de dentro de la misma. Sin embargo, si el tamaño de unidad primaria es muy grande, se podrían perder los beneficios del ahorro financiero y logístico.
+For example, particularly in area surveys, the larger the size of the primary sampling unit, the more variability can be expected within it. However, if the primary unit is very large, the benefits of financial and logistical savings may be lost.
 
-El objetivo de una buena muestra es recopilar la mayor cantidad de información al menor precio económico y operativo. Suponga que la población está divida en $N_{I}$ unidades primarias de muestreo, de las cuales se selecciona una muestra $s_{I}$ de $n_{I}$ unidades. Cada unidad primaria de muestreo contiene exactamente $N_i=M$ elementos o unidades secundarias de muestreo. El sub-muestreo es tal que se selecciona una muestra de exactamente $n_i=m$ unidades secundarias de muestreo. Por tanto, el tamaño poblacional y muestral estará dado por
+The objective of a good sample is to collect the largest amount of information at the lowest economic and operational cost. Suppose that the population is divided into $N_{I}$ primary sampling units, from which a sample $s_{I}$ of $n_{I}$ units is selected. Each primary sampling unit contains exactly $N_i=M$ elements or secondary sampling units. The subsampling is such that a sample of exactly $n_i=m$ secondary sampling units is selected. Therefore, the population and sample sizes are given by
 
 $$
-N=N_IM \ \ \ \ \ \text{y}\ \ \ \ \ n=n_Im
+N=N_IM \ \ \ \ \ \text{and}\ \ \ \ \ n=n_Im
 $$
 
-respectivamente. De tal forma que el estimador de $t_y$ se puede escribir como
+respectively. Thus, the estimator of $t_y$ can be written as
 
 $$
 \begin{aligned}
@@ -605,44 +604,44 @@ $$
 \end{aligned}
 $$
 
-y su varianza como
+and its variance as
 
 $$
 \begin{aligned}
-Var_{MM}(\hat{t}_{y,\pi})=
+Var_{MS}(\hat{t}_{y,\pi})=
 \frac{N_{I}^2}{n_{I}}\left(1-\frac{n_{I}}{N_{I}}\right)S^2_{t_{y}U_I}+
 \frac{N_{I}^2M^2}{n_{I}m}\left(1-\frac{m}{M}\right)\bar{S}^2_{y_{U_i}}
 \end{aligned}
 $$
 
-donde $\bar{S}^2_{y_{U_i}}=(1/N_I)\sum_{i\in U_I}S^2_{y_{U_i}}$.
+where $\bar{S}^2_{y_{U_i}}=(1/N_I)\sum_{i\in U_I}S^2_{y_{U_i}}$.
 
-::: {.callout-tip title="Resultado"}
-Utilizando los resultados de la descomposición de las sumas de cuadrados, la varianza de la estrategia en dos etapas (2MAS) toma la siguiente forma
-
-$$
-Var_{2MAS}(\hat{t}_{y,\pi})=
-\frac{N_I^2M}{n_I}\left[\frac{1}{N_I-1}(SCT-SCD)+\left(\frac{M}{m}-1\right)\frac{SCD}{N_I(M-1)}\right]
-$$
-
-mientras que la varianza de la estrategia aleatoria simple, con un tamaño poblacional igual a $N=M\times N_I$ elementos y un tamaño de muestra igual a $n=m\times n_I$ elementos, se puede escribir como
+::: {.callout-tip title="Result"}
+Using the results of the decomposition of the sums of squares, the variance of the two-stage strategy (2SRS) takes the following form
 
 $$
-Var_{MAS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SCT}{MN_I-1}
+Var_{2SRS}(\hat{t}_{y,\pi})=
+\frac{N_I^2M}{n_I}\left[\frac{1}{N_I-1}(SST-SSW)+\left(\frac{M}{m}-1\right)\frac{SSW}{N_I(M-1)}\right]
+$$
+
+whereas the variance of the simple random strategy, with population size equal to $N=M\times N_I$ elements and sample size equal to $n=m\times n_I$ elements, can be written as
+
+$$
+Var_{SRS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SST}{MN_I-1}
 $$
 
 :::
 
-Para encontrar los valores óptimos de $n_I$ y $m$ que serán utilizados en la primera y segunda etapa de muestro de tal forma que dada una función de costo se minimice^[Naturalmente estos valores dependerán de la función de costo utilizada.] la varianza del estimador. Por tanto, se tiene el siguiente resultado.
+To find the optimal values of $n_I$ and $m$ that will be used in the first and second sampling stages so that, given a cost function, the variance of the estimator is minimized^[Naturally, these values will depend on the cost function used.], we have the following result.
 
-::: {.callout-tip title="Resultado"}
-Al considerar la siguiente función de costo
+::: {.callout-tip title="Result"}
+Considering the following cost function
 
 $$
 C=c_1n_I+c_2n_Im
 $$
 
-donde $c_1$ es el costo de del levantamiento del marco de muestreo en cada unidad primaria seleccionada en la muestra $s_I$ y $c_2$ es el costo de recolectar la información de la característica de interés para los elementos o unidades secundarias seleccionadas por el sub-muestreo. Los valores óptimos de $n_I$ y $m$ que minimizan la varianza del estimador dada por la expresión (7.2.6) restringido al costo total de la encuesta dado por (7.2.11) son
+where $c_1$ is the cost of building the sampling frame in each primary unit selected in sample $s_I$, and $c_2$ is the cost of collecting information on the characteristic of interest for the elements or secondary units selected by subsampling. The optimal values of $n_I$ and $m$ that minimize the variance of the estimator given by expression (7.2.6), subject to the total survey cost given by (7.2.11), are
 
 $$
 n_I=\frac{C}{c_1+c_2m}
@@ -654,9 +653,9 @@ $$
 m=M\bar{S}^2_{y_{U_i}}\sqrt{\frac{c_1/c_2}{S^2_{t_{y}U_I}-M\bar{S}^2_{y_{U_i}}}}
 $$
 
-**Prueba.**
+**Proof.**
 
-La cantidad a minimizar está dada en la expresión (7.2.10) que está sujeta a la restricción de la función de costo (7.2.11). Utilizando el método de los multiplicadores de Lagrange, se tiene que
+The quantity to minimize is given in expression (7.2.10), which is subject to the constraint of the cost function (7.2.11). Using the method of Lagrange multipliers, we have
 
 $$
 \begin{aligned}
@@ -666,7 +665,7 @@ $$
 \end{aligned}
 $$
 
-Anulando las derivadas parciales se tiene que
+Setting the partial derivatives to zero gives
 
 $$
 \begin{aligned}
@@ -676,7 +675,7 @@ $$
 \end{aligned}
 $$
 
-De (7.2.15) se tiene que
+From (7.2.15), we have
 
 $$
 \begin{aligned}
@@ -684,7 +683,7 @@ n_I^2=-\dfrac{N_{I}^2M^2\left(\dfrac{1}{m}-\dfrac{1}{M}\right)\bar{S}^2_{y_{U_i}
 \end{aligned}
 $$
 
-De (7.2.16) se tiene que
+From (7.2.16), we have
 
 $$
 \begin{aligned}
@@ -692,337 +691,373 @@ n_I^2=-\dfrac{N_{I}^2M^2\bar{S}^2_{y_{U_i}}}{c_2m^2\lambda}
 \end{aligned}
 $$
 
-Igualando las anteriores ecuaciones y despejando $m$ se tiene la demostración del resultado.
+Equating the previous equations and solving for $m$ gives the proof of the result.
 
 :::
 
-Si $\bar{S}^2_{y_{U_i}}$, la variabilidad de la característica de interés dentro de las unidades primarias es grande, entonces $m$ será grande. Se debe resaltar que los resultados son válidos si la función de costo es la correcta.
+If $\bar{S}^2_{y_{U_i}}$, the variability of the characteristic of interest within the primary units, is large, then $m$ will be large. It should be emphasized that the results are valid if the cost function is correct.
 
-### Estimación de la varianza en muestreo de dos etapas
+### Variance estimation in two-stage sampling
 
-<!-- index: Estimación de la varianza -->Cuando la estrategia de muestreo hace uso del estimador de Horvitz-Thompson podemos utilizar su forma general para hallar su varianza bajo cualquier diseño de muestreo. La expresión de la varianza del estimador de Horvitz-Thompson bajo muestreo bietápico está dada por
+<!-- index: Variance estimation -->When the sampling strategy uses the Horvitz-Thompson estimator, we can use its general form to find its variance under any sampling design. The expression for the variance of the Horvitz-Thompson estimator under two-stage sampling is given by
 
 $$
 Var(\hat{t}_{\pi})=\sum\sum_{UI}\Delta_{Iij}\frac{t_j}{\pi_{Ij}}\frac{t_i}{\pi_{Ii}}+\sum_{UI}V_i/\pi_{Ii}
 $$
 
-cuya estimación insesgada es
+whose unbiased estimate is
 
 $$
 \widehat{Var}_1(\hat{t}_{\pi})=\sum\sum_{sI}\frac{\Delta_{Iij}}{\pi_{Ii}}
 \frac{\hat{t}_i}{\pi_{Ii}} \frac{\hat{t}_j}{\pi_{Ij}}+\sum_{sI}\hat{V}_i/\pi_{Ii}
 $$
 
-La expresión anterior involucra el cálculo de las varianzas de las variables dentro de cada conglomerado. Lo anterior en una encuesta a gran escala puede llegar a ser muy tedioso, costoso y además muy demorado. @Sar (p. 139) dan una posible solución al problema, ésta es mantener la primera parte del estimador de la varianza como estimador general de la misma. Así, un estimador sencillo, pero sesgado, es
+The preceding expression involves calculating the variances of the variables within each cluster. In a large-scale survey, this can become very tedious, costly, and also very time-consuming. @Sar (p. 139) give a possible solution to the problem: keeping the first part of the variance estimator as a general estimator of it. Thus, a simple but biased estimator is
 
 $$
 \widehat{Var}_2(\hat{t}_{\pi})=
 \sum\sum_{sI}\frac{\Delta_{Iij}}{\pi_{Ii}}\frac{\hat{t}_i}{\pi_{Ii}}\frac{\hat{t}_j}{\pi_{Ij}}
 $$
 
-El anterior estimador sobre-estima la varianza para las unidades primarias de muestreo, pero a su vez también lo hace con (7.2.19). Otra posible solución para estimar la varianza del estimador de Horvitz-Thompson, es asumir que el muestreo en la primera etapa se llevó a cabo con reemplazo. Así, la estimación (sesgada) de la varianza estaría dada por
+The preceding estimator overestimates the variance for the primary sampling units, but it also does so with (7.2.19). Another possible solution for estimating the variance of the Horvitz-Thompson estimator is to assume that sampling in the first stage was carried out with replacement. Thus, the biased variance estimate would be given by
 
 $$
 \widehat{Var}_3(\hat{t}_{\pi})=\frac{1}{n(n-1)}\sum_{i=1}^{n}\left(\frac{\hat{t}_i}{p_{Ii}}-\hat{t}_{\pi}\right)^2
 $$
 
-Un caso especial del anterior término, se tiene suponiendo que $\pi_k=np_k$, y si el muestreo en la primera etapa fue aleatorio simple, entonces $p_k=\frac{1}{N}$. El estimador de la varianza, bajo la anterior condición es
+A special case of the preceding term is obtained by assuming that $\pi_k=np_k$, and if sampling in the first stage was simple random, then $p_k=\frac{1}{N}$. The variance estimator under the previous condition is
 
 $$
 \widehat{Var}(\hat{t}_{\pi})=\frac{N^2}{n(n-1)}\sum_{i=1}^{n}\left(\hat{t}_i-\frac{\sum_{i=1}^n\hat{t}_i}{n}\right)^2
 =\frac{N^2}{n}S^2_{\hat{t}_i}
 $$
 
-@Sri proponen un método *rápido* para la estimación de la varianza del estimador de Horvitz-Thompson. Éste supone que el método de selección en la segunda etapa es MAS y es invariante en la primera etapa (se puede seleccionar la muestra en la primera etapa mediante cualquier diseño); lo que conlleva a que este estimador de la varianza sea insesgado y está dado por
+@Sri propose a *fast* method for estimating the variance of the Horvitz-Thompson estimator. It assumes that the selection method in the second stage is SRS and is invariant in the first stage (the sample in the first stage can be selected using any design); this implies that this variance estimator is unbiased and is given by
 
 $$
 \widehat{Var}_4(\hat{t}_{\pi})=-\frac{1}{2}\sum\sum_{sI}\frac{\Delta_{Iij}}{\pi_{Ii}}\left(\breve{t'}_i\breve{t'}_j\right)
 $$
 
-donde $\breve{t'}_j=\frac{\hat{t}'_j}{\pi_{Ij}}$ y $\hat{t}'_j=\frac{N_j}{n'_j}\sum_{s'_j} y_k$ donde $s'_j$ denota una muestra de $n'_j$ elementos. La regla para determinar el $n'_j$ y obtener el estimador $\widehat{Var}_4$ es
+where $\breve{t'}_j=\frac{\hat{t}'_j}{\pi_{Ij}}$ and $\hat{t}'_j=\frac{N_j}{n'_j}\sum_{s'_j} y_k$, where $s'_j$ denotes a sample of $n'_j$ elements. The rule for determining $n'_j$ and obtaining the estimator $\widehat{Var}_4$ is
 
 $$
 n'_j=\frac{n_i(1-\pi_{Ii})}{1-\pi_{Ii}(n_i/N_i)}
 $$
 
-**Simulación:** se utilizaron los datos de la encuesta familiar de gastos FAMEX (Canada Family Expenditure, por sus siglas en inglés) del año 1996, que cuenta con un total de 691 individuos y está dividida en cinco conglomerados, se utilizó la variable gasto para estimar el total en una muestra bietápica y los datos de FAMEX 1996, aunque son los datos de una encuesta, se tomaron como los datos de un universo.
+**Simulation:** the data from the 1996 FAMEX household expenditure survey (Canada Family Expenditure) were used. It has a total of 691 individuals and is divided into five clusters. The expenditure variable was used to estimate the total in a two-stage sample, and the FAMEX 1996 data, although they are survey data, were taken as the data of a universe.
 
-El estudio quiere verificar los resultados obtenidos anteriormente. Para el diseño de la muestra se quiso que en la primera etapa se seleccionaran tres conglomerados; para cada conglomerado seleccionado, se extrajo una muestra cuyo tamaño fuera el 40% del mismo. El muestreo y el sub-muestreo fueron aleatorios simples MAS-MAS. El total poblacional para la variable de interés es USD 711623 y la varianza del $\pi$ estimador, bajo las anteriores condiciones, es 6595944566.
+The study aims to verify the results obtained above. For the sample design, three clusters were selected in the first stage; for each selected cluster, a sample whose size was 40% of that cluster was drawn. The sampling and subsampling were simple random SRS-SRS. The population total for the variable of interest is USD 711623, and the variance of the $\pi$ estimator under the preceding conditions is 6595944566.
 
-As'i, se calcularon los siguientes estimadores para la varianza del total estimado $\hat{t}_{\pi}$
-- $\widehat{Var}_1(\hat{t}_{\pi})$: el estimador clásico al utilizar muestreo bietápico.
-- $\widehat{Var}_2(\hat{t}_{\pi})$: correspondiente al primer sumando del anterior estimador.
-- $\widehat{Var}_3(\hat{t}_{\pi})$: el estimador suponiendo muestreo con reemplazo.
-- $\widehat{Var}_4(\hat{t}_{\pi})$: el estimador propuesto por [@Sri] (1.5).
+Thus, the following estimators were calculated for the variance of the estimated total $\hat{t}_{\pi}$:
+- $\widehat{Var}_1(\hat{t}_{\pi})$: the classical estimator when using two-stage sampling.
+- $\widehat{Var}_2(\hat{t}_{\pi})$: corresponding to the first summand of the preceding estimator.
+- $\widehat{Var}_3(\hat{t}_{\pi})$: the estimator assuming sampling with replacement.
+- $\widehat{Var}_4(\hat{t}_{\pi})$: the estimator proposed by [@Sri] (1.5).
 
-El proceso se repitió $B=5000$ veces. La simulación fue programada en el paquete estadístico R. En la simulación. El desempeño de un estimador $\hat{V}$ fue evaluado usando su sesgo relativo, $SR$ y su eficiencia relativa, $ER$, definidas como:
-
-$$
-SR=B^{-1}\sum_{b=1}^{B}\frac{\hat{V}_{b}-V}{V}
-$$
+The process was repeated $B=5000$ times. The simulation was programmed in the R statistical package. In the simulation, the performance of an estimator $\hat{V}$ was evaluated using its relative bias, $RB$, and relative efficiency, $RE$, defined as:
 
 $$
-ER=\frac{ECM(\hat{V}_{\pi})}{ECM(\hat{V})},
+RB=B^{-1}\sum_{b=1}^{B}\frac{\hat{V}_{b}-V}{V}
 $$
 
-donde
-
 $$
-ECM(\hat{V})=B^{-1}\sum_{b=1}^{B}(\hat{V}_{b}-V)^2
+RE=\frac{MSE(\hat{V}_{\pi})}{MSE(\hat{V})},
 $$
 
-y $\hat{V}_{b}$ se calculó en la b-ésima muestra simulada. Como se puede notar el estimador clásico al utilizar muestreo bietápico, $\hat{V}_{\pi}$, fue utilizado como línea base de comparación. Grandes valores para *ER*($>1$) representan alta eficiencia del estimador $\hat{V}$ en comparación al estimador clásico.
+where
+
+$$
+MSE(\hat{V})=B^{-1}\sum_{b=1}^{B}(\hat{V}_{b}-V)^2
+$$
+
+and $\hat{V}_{b}$ was calculated in the b-th simulated sample. As can be seen, the classical estimator used under two-stage sampling, $\hat{V}_{\pi}$, was used as the comparison baseline. Large values of *RE*($>1$) represent high efficiency of the estimator $\hat{V}$ compared with the classical estimator.
 
 | $\widehat{Var}_1(\hat{t}_{\pi})$ | $\widehat{Var}_2(\hat{t}_{\pi})$ | $\widehat{Var}_3(\hat{t}_{\pi})$ | $\widehat{Var}_4(\hat{t}_{\pi})$ |
 |---:|---:|---:|---:|
 | 0.0008138860 | 0.2458789480 | -1.5021980054 | -0.0008792021 |
 
-: Sesgo relativo para cada estimador {#tbl-t7-sesgo-relativo}
+: Relative bias for each estimator {#tbl-t7-sesgo-relativo}
 
-Los resultados empíricos indican que el estimador de la varianza para el estimador de Horvitz-Thompson es insesgado, así como el estimador propuesto por [@Sri]. Pero, los estimadores 2 y 3 tiene un sesgo relativo importante, sobre todo aquel que supone muestreo con reemplazo; también se puede observar que el estimador de la primera parte de (7.2.20), aunque es sesgado, esta magnitud es pequeña. En particular se recomienda seguir trabajando con el estimador clásico pues los avances computacionales así lo permiten. La eficiencia relativa de todos los estimadores resultó despreciable.
+The empirical results indicate that the variance estimator for the Horvitz-Thompson estimator is unbiased, as is the estimator proposed by [@Sri]. However, estimators 2 and 3 have important relative bias, especially the one that assumes sampling with replacement; it can also be observed that the estimator of the first part of (7.2.20), although biased, has small magnitude. In particular, it is recommended to continue working with the classical estimator because computational advances now allow it. The relative efficiency of all estimators turned out to be negligible.
 
-### Marco II y Lucy
+### Marco II and Lucy
 
-<!-- index: Marco y Lucy -->En el capítulo pasado se ejecutó un diseño de muestreo por conglomerados cuya principal característica es que las unidades dentro de cada conglomerado tienen un comportamiento relativamente similar. Esto llevó a que las estimaciones estuvieran muy lejos de la realidad dado que se utilizó un diseño de muestreo que inducía probabilidades de inclusión constante, siendo que el comportamiento de los totales de los conglomerados no era constante para las características de interés.
+<!-- index: Marco and Lucy -->In the previous chapter, a cluster sampling design was carried out whose main characteristic is that the units within each cluster have relatively similar behavior. This led the estimates to be very far from reality because a sampling design that induced constant inclusion probabilities was used, even though the behavior of the cluster totals was not constant for the characteristics of interest.
 
-En esta oportunidad, volvemos a enfrentarnos a la dificultad de obtener una muestra de empresas del sector industrial careciendo de un marco de muestreo que nos permita la inclusión directa de las empresas en la muestra. Sin embargo, es posible utilizar como base el muestreo por áreas que se propuso en el capítulo anterior pero la gran diferencia es que, en lugar de un censo en las áreas geográficas seleccionadas, realizaremos un sub-muestreo. Recordemos que la ciudad está dividida en cinco zonas geográficas rotuladas como **Zona A**, ubicada en el sur, **Zona B**, ubicada en el norte, **Zona C**, ubicada en el oriente, **Zona D**, ubicada en el occidente y  **Zona E**, ubicada en el centro.
+On this occasion, we again face the difficulty of obtaining a sample of firms in the industrial sector without having a sampling frame that allows the direct inclusion of firms in the sample. However, it is possible to use as a base the area sampling proposed in the previous chapter, but the major difference is that, instead of a census in the selected geographic areas, we will carry out subsampling. Recall that the city is divided into five geographic zones labeled **Zone A**, located in the south; **Zone B**, located in the north; **Zone C**, located in the east; **Zone D**, located in the west; and **Zone E**, located in the center.
 
-Suponga que no se tiene información acerca de cuántas empresas pertenecen a cada zona geográfica, por lo que no es posible realizar un diseño auto-ponderado. Para garantizar una buena precisión  se ha decidido seleccionar una muestra aleatoria simple de cuatro zonas geográficas, o unidades primarias de muestreo. Lo anterior se realiza mediante el uso de la función `sample`, aunque también es admisible realizarlo con la función `S.SI`del paquete `TeachingSampling`.
+Suppose that there is no information about how many firms belong to each geographic zone, so it is not possible to carry out a self-weighting design. To guarantee good precision, it has been decided to select a simple random sample of four geographic zones, or primary sampling units. This is done using the `sample` function, although it is also acceptable to do it with the `S.SI` function from the `TeachingSampling` package.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message = FALSE, warning = FALSE}
 data(BigLucy)
 UI <- levels(BigLucy$Zone)
 NI <- length(UI)
 nI <- 20
 
 samI <- S.SI(NI, nI)
-muestraI <- UI[samI]
-muestraI
+selected_zones <- UI[samI]
+selected_zones
 ```
 
-Una vez se realiza el sorteo aleatorio, las zonas geográficas seleccionadas son: **Zona B**, **Zona C**, **Zona D** y **Zona E**. El paso a seguir es el empadronamiento de cada una de las empresas del sector industrial pertenecientes a cada zona incluida en la muestra. Es decir, se debe planear un operativo de campo con el fin de levantar un marco de muestreo para cada unidad primaria. En total se deben conseguir cuatro marcos de muestreo de empresas.
+Once the random draw is carried out, the selected geographic zones are: **Zone B**, **Zone C**, **Zone D**, and **Zone E**. The next step is the enumeration of each firm in the industrial sector belonging to each zone included in the sample. That is, a field operation must be planned in order to build a sampling frame for each primary unit. In total, four sampling frames of firms must be obtained.
 
 ```{r}
-Lucy1 <- BigLucy[which(BigLucy$Zone == muestraI[1]),]
-Lucy2 <- BigLucy[which(BigLucy$Zone == muestraI[2]),]
-Lucy3 <- BigLucy[which(BigLucy$Zone == muestraI[3]),]
-Lucy4 <- BigLucy[which(BigLucy$Zone == muestraI[4]),]
-Lucy5 <- BigLucy[which(BigLucy$Zone == muestraI[5]),]
-Lucy6 <- BigLucy[which(BigLucy$Zone == muestraI[6]),]
-Lucy7 <- BigLucy[which(BigLucy$Zone == muestraI[7]),]
-Lucy8 <- BigLucy[which(BigLucy$Zone == muestraI[8]),]
-Lucy9 <- BigLucy[which(BigLucy$Zone == muestraI[9]),]
-Lucy10 <- BigLucy[which(BigLucy$Zone == muestraI[10]),]
-Lucy11 <- BigLucy[which(BigLucy$Zone == muestraI[11]),]
-Lucy12 <- BigLucy[which(BigLucy$Zone == muestraI[12]),]
-Lucy13 <- BigLucy[which(BigLucy$Zone == muestraI[13]),]
-Lucy14 <- BigLucy[which(BigLucy$Zone == muestraI[14]),]
-Lucy15 <- BigLucy[which(BigLucy$Zone == muestraI[15]),]
-Lucy16 <- BigLucy[which(BigLucy$Zone == muestraI[16]),]
-Lucy17 <- BigLucy[which(BigLucy$Zone == muestraI[17]),]
-Lucy18 <- BigLucy[which(BigLucy$Zone == muestraI[18]),]
-Lucy19 <- BigLucy[which(BigLucy$Zone == muestraI[19]),]
-Lucy20 <- BigLucy[which(BigLucy$Zone == muestraI[20]),]
+Lucy1 <- BigLucy[which(BigLucy$Zone == selected_zones[1]), ]
+Lucy2 <- BigLucy[which(BigLucy$Zone == selected_zones[2]), ]
+Lucy3 <- BigLucy[which(BigLucy$Zone == selected_zones[3]), ]
+Lucy4 <- BigLucy[which(BigLucy$Zone == selected_zones[4]), ]
+Lucy5 <- BigLucy[which(BigLucy$Zone == selected_zones[5]), ]
+Lucy6 <- BigLucy[which(BigLucy$Zone == selected_zones[6]), ]
+Lucy7 <- BigLucy[which(BigLucy$Zone == selected_zones[7]), ]
+Lucy8 <- BigLucy[which(BigLucy$Zone == selected_zones[8]), ]
+Lucy9 <- BigLucy[which(BigLucy$Zone == selected_zones[9]), ]
+Lucy10 <- BigLucy[which(BigLucy$Zone == selected_zones[10]), ]
+Lucy11 <- BigLucy[which(BigLucy$Zone == selected_zones[11]), ]
+Lucy12 <- BigLucy[which(BigLucy$Zone == selected_zones[12]), ]
+Lucy13 <- BigLucy[which(BigLucy$Zone == selected_zones[13]), ]
+Lucy14 <- BigLucy[which(BigLucy$Zone == selected_zones[14]), ]
+Lucy15 <- BigLucy[which(BigLucy$Zone == selected_zones[15]), ]
+Lucy16 <- BigLucy[which(BigLucy$Zone == selected_zones[16]), ]
+Lucy17 <- BigLucy[which(BigLucy$Zone == selected_zones[17]), ]
+Lucy18 <- BigLucy[which(BigLucy$Zone == selected_zones[18]), ]
+Lucy19 <- BigLucy[which(BigLucy$Zone == selected_zones[19]), ]
+Lucy20 <- BigLucy[which(BigLucy$Zone == selected_zones[20]), ]
 
-LucyI <- rbind(Lucy1, Lucy2, Lucy3, Lucy4, Lucy5, Lucy6, Lucy7, Lucy8, Lucy9,
-               Lucy10, Lucy11, Lucy12, Lucy13, Lucy14, Lucy15, Lucy16, Lucy17,
-               Lucy18, Lucy19, Lucy20)
+LucyI <- rbind(
+  Lucy1, Lucy2, Lucy3, Lucy4, Lucy5, Lucy6, Lucy7, Lucy8, Lucy9,
+  Lucy10, Lucy11, Lucy12, Lucy13, Lucy14, Lucy15, Lucy16, Lucy17,
+  Lucy18, Lucy19, Lucy20
+)
 
-N1 <- dim(Lucy1)[1];       N2 <- dim(Lucy2)[1]
-N3 <- dim(Lucy3)[1];       N4 <- dim(Lucy4)[1]
-N5 <- dim(Lucy5)[1];       N6 <- dim(Lucy6)[1]
-N7 <- dim(Lucy7)[1];       N8 <- dim(Lucy8)[1]
-N9 <- dim(Lucy9)[1];       N10 <- dim(Lucy10)[1]
-N11 <- dim(Lucy11)[1];     N12 <- dim(Lucy12)[1]
-N13 <- dim(Lucy13)[1];     N14 <- dim(Lucy14)[1]
-N15 <- dim(Lucy15)[1];     N16 <- dim(Lucy16)[1]
-N17 <- dim(Lucy17)[1];     N18 <- dim(Lucy18)[1]
-N19 <- dim(Lucy19)[1];     N20 <- dim(Lucy20)[1]
+N1 <- dim(Lucy1)[1]
+N2 <- dim(Lucy2)[1]
+N3 <- dim(Lucy3)[1]
+N4 <- dim(Lucy4)[1]
+N5 <- dim(Lucy5)[1]
+N6 <- dim(Lucy6)[1]
+N7 <- dim(Lucy7)[1]
+N8 <- dim(Lucy8)[1]
+N9 <- dim(Lucy9)[1]
+N10 <- dim(Lucy10)[1]
+N11 <- dim(Lucy11)[1]
+N12 <- dim(Lucy12)[1]
+N13 <- dim(Lucy13)[1]
+N14 <- dim(Lucy14)[1]
+N15 <- dim(Lucy15)[1]
+N16 <- dim(Lucy16)[1]
+N17 <- dim(Lucy17)[1]
+N18 <- dim(Lucy18)[1]
+N19 <- dim(Lucy19)[1]
+N20 <- dim(Lucy20)[1]
 
-Ni <- c(N1, N2, N3, N4, N5, N6, N7, N8, N9, N10, N11, N12, N13, N14, N15,
-        N16, N17, N18, N19, N20)
+Ni <- c(
+  N1, N2, N3, N4, N5, N6, N7, N8, N9, N10, N11, N12, N13, N14, N15,
+  N16, N17, N18, N19, N20
+)
 
 ni <- round(Ni * 0.12)
 ni
 sum(ni)
 ```
 
-Cuando la primera etapa de muestreo concluye, se tiene conocimiento de cuántas empresas del sector industrial pertenecen a cada zona geográfica incluida en la muestra. La **Zona B** con 727 empresas, la **Zona C** con 974 empresas, la **Zona D** con 223 empresas y, por último, la **Zona E** tiene un total de 165 empresas. Se ha decido que los tamaños de muestra correspondan a un porcentaje del tamaño de cada unidad primaria de muestreo. El tamaño de la muestra es de 410 empresas.
+When the first sampling stage concludes, it is known how many firms in the industrial sector belong to each geographic zone included in the sample. **Zone B** has 727 firms, **Zone C** has 974 firms, **Zone D** has 223 firms, and finally **Zone E** has a total of 165 firms. It has been decided that the sample sizes will correspond to a percentage of the size of each primary sampling unit. The sample size is 410 firms.
 
-Con ayuda de cada uno de los cuatro marcos de muestreo se realiza una muestra aleatoria simple de empresas de acuerdo a los tamaños establecidos anteriormente. Cuando las muestras hayan sido seleccionadas se unifican mediante el uso de la función `rbind` que lo único que hace es mezclar las bases de datos de las empresas incluidas en la muestra.
+With the help of each of the four sampling frames, a simple random sample of firms is drawn according to the sizes established previously. Once the samples have been selected, they are combined using the `rbind` function, which simply merges the databases of the firms included in the sample.
 
-```{r, warning=FALSE, message=FALSE}
-sam1 <- sample(N1, ni[1]);            sam2 <- sample(N2, ni[2])
-sam3 <- sample(N3, ni[3]);            sam4 <- sample(N4, ni[4])
-sam5 <- sample(N5, ni[5]);            sam6 <- sample(N6, ni[6])
-sam7 <- sample(N7, ni[7]);            sam8 <- sample(N8, ni[8])
-sam9 <- sample(N9, ni[9]);            sam10 <- sample(N10, ni[10])
-sam11 <- sample(N11, ni[11]);         sam12 <- sample(N12, ni[12])
-sam13 <- sample(N13, ni[13]);         sam14 <- sample(N14, ni[14])
-sam15 <- sample(N15, ni[15]);         sam16 <- sample(N16, ni[16])
-sam17 <- sample(N17, ni[17]);         sam18 <- sample(N18, ni[18])
-sam19 <- sample(N19, ni[19]);         sam20 <- sample(N20, ni[20])
+```{r, warning = FALSE, message = FALSE}
+sam1 <- sample(N1, ni[1])
+sam2 <- sample(N2, ni[2])
+sam3 <- sample(N3, ni[3])
+sam4 <- sample(N4, ni[4])
+sam5 <- sample(N5, ni[5])
+sam6 <- sample(N6, ni[6])
+sam7 <- sample(N7, ni[7])
+sam8 <- sample(N8, ni[8])
+sam9 <- sample(N9, ni[9])
+sam10 <- sample(N10, ni[10])
+sam11 <- sample(N11, ni[11])
+sam12 <- sample(N12, ni[12])
+sam13 <- sample(N13, ni[13])
+sam14 <- sample(N14, ni[14])
+sam15 <- sample(N15, ni[15])
+sam16 <- sample(N16, ni[16])
+sam17 <- sample(N17, ni[17])
+sam18 <- sample(N18, ni[18])
+sam19 <- sample(N19, ni[19])
+sam20 <- sample(N20, ni[20])
 
-muestra1 <- Lucy1[sam1, ];             muestra2 <- Lucy2[sam2, ]
-muestra3 <- Lucy3[sam3, ];             muestra4 <- Lucy4[sam4, ]
-muestra5 <- Lucy5[sam5, ];             muestra6 <- Lucy6[sam6, ]
-muestra7 <- Lucy7[sam7, ];             muestra8 <- Lucy8[sam8, ]
-muestra9 <- Lucy9[sam9, ];             muestra10 <- Lucy10[sam10, ]
-muestra11 <- Lucy11[sam11, ];          muestra12 <- Lucy12[sam12, ]
-muestra13 <- Lucy13[sam13, ];          muestra14 <- Lucy14[sam14, ]
-muestra15 <- Lucy15[sam15, ];          muestra16 <- Lucy16[sam16, ]
-muestra17 <- Lucy17[sam17, ];          muestra18 <- Lucy18[sam18, ]
-muestra19 <- Lucy19[sam19, ];          muestra20 <- Lucy20[sam20, ]
+sample_data1 <- Lucy1[sam1, ]
+sample_data2 <- Lucy2[sam2, ]
+sample_data3 <- Lucy3[sam3, ]
+sample_data4 <- Lucy4[sam4, ]
+sample_data5 <- Lucy5[sam5, ]
+sample_data6 <- Lucy6[sam6, ]
+sample_data7 <- Lucy7[sam7, ]
+sample_data8 <- Lucy8[sam8, ]
+sample_data9 <- Lucy9[sam9, ]
+sample_data10 <- Lucy10[sam10, ]
+sample_data11 <- Lucy11[sam11, ]
+sample_data12 <- Lucy12[sam12, ]
+sample_data13 <- Lucy13[sam13, ]
+sample_data14 <- Lucy14[sam14, ]
+sample_data15 <- Lucy15[sam15, ]
+sample_data16 <- Lucy16[sam16, ]
+sample_data17 <- Lucy17[sam17, ]
+sample_data18 <- Lucy18[sam18, ]
+sample_data19 <- Lucy19[sam19, ]
+sample_data20 <- Lucy20[sam20, ]
 
-muestra <- rbind(muestra1, muestra2, muestra3, muestra4, muestra5, muestra6,
-                 muestra7, muestra8, muestra9, muestra10, muestra11, muestra12,
-                 muestra13, muestra14, muestra15, muestra16, muestra17, muestra18,
-                 muestra19, muestra20)
-head(muestra)
-```
-
-Cuando el levantamiento de la información ha concluido, se carga el archivo de datos en el ambiente de R y se construye un `data frame` que contiene los valores de las características de interés en la muestra general. En este caso particular lleva el nombre de `estima`. Es necesario que cada empresa incluída en la muestra lleve consigo el registro que indique a qué zona geográfica pertenece. Para este ejercicio, el vector `Area ` contiene esta información. La estimación en este diseño de muestreo en dos etapas se hace utilizando la función `E.2SI(NI,nI,Ni,ni,y,C)` cuyos argumentos son `NI`, el número de unidades primarias de muestreo que conforman la población. `nI`, el número de unidades primarias incluidas en la muestra $s_I$. `Ni`, un vector de los tamaños de las unidades primarias de muestreo. `ni`, un vector conteniendo los tamaños de muestra en cada unidad primaria de muestreo. `y`, el archivo de datos que contiene la información de las características de interés y, por último, `C`, un vector que contiene la pertenencia de cada unidad secundaria de muestreo a su respectiva unidad primaria.
-
-```{r, results='hide'}
-estima <- data.frame(
-  Income = muestra$Income,
-  Employees = muestra$Employees,
-  Taxes = muestra$Taxes
+sample_data <- rbind(
+  sample_data1, sample_data2, sample_data3, sample_data4, sample_data5, sample_data6,
+  sample_data7, sample_data8, sample_data9, sample_data10, sample_data11, sample_data12,
+  sample_data13, sample_data14, sample_data15, sample_data16, sample_data17, sample_data18,
+  sample_data19, sample_data20
 )
-area <- as.factor(as.integer(muestra$Zone))
-E.2SI(NI, nI, Ni, ni, estima, area)
+head(sample_data)
 ```
 
-Los resultados de la estimación se muestran en la siguiente tabla. Nótese que con un tamaño de muestra similar, la eficiencia de esta estrategia de muestreo es mucho mayor que la de una estrategia que utiliza un diseño de muestreo por conglomerados y es equivalente a la de una estrategia que utilice un diseño de muestreo aleatorio simple.
+When information collection has concluded, the data file is loaded into the R environment and a `data frame` containing the values of the characteristics of interest in the general sample is constructed. In this particular case, it is called `target_variables`. Each firm included in the sample must carry the record indicating the geographic zone to which it belongs. For this exercise, the vector `Area` contains this information. Estimation in this two-stage sampling design is carried out using the `E.2SI(NI,nI,Ni,ni,y,C)` function, whose arguments are `NI`, the number of primary sampling units that make up the population; `nI`, the number of primary units included in sample $s_I$; `Ni`, a vector of the sizes of the primary sampling units; `ni`, a vector containing the sample sizes in each primary sampling unit; `y`, the data file containing the information on the characteristics of interest; and finally `C`, a vector containing the membership of each secondary sampling unit in its corresponding primary unit.
 
-```{r, echo=FALSE, results = 'asis'}
+```{r, results = 'hide'}
+target_variables <- data.frame(
+  Income = sample_data$Income,
+  Employees = sample_data$Employees,
+  Taxes = sample_data$Taxes
+)
+area <- as.factor(as.integer(sample_data$Zone))
+E.2SI(NI, nI, Ni, ni, target_variables, area)
+```
+
+The estimation results are shown in the following table. Note that with a similar sample size, the efficiency of this sampling strategy is much greater than that of a strategy using a cluster sampling design and is equivalent to that of a strategy using a simple random sampling design.
+
+```{r, echo = FALSE, results = 'asis'}
 #| label: tbl-t7-1
-#| tbl-cap: 'Estimaciones para el diseño de muestreo aleatorio simple en dos etapas.'
-Estimaciones = E.2SI(NI, nI, Ni, ni, estima, area)
-knitr::kable(Estimaciones)
+#| tbl-cap: 'Estimates for the simple random two-stage sampling design.'
+estimates <- E.2SI(NI, nI, Ni, ni, target_variables, area)
+knitr::kable(estimates)
 ```
 
-La ganancia en eficiencia se debe a la propiedad del diseño en dos etapas en donde dado un $n$, es posible incluir más unidades primarias en la primera etapa de muestreo. En este caso, el número de conglomerados incluidos en la muestra $s_I$ es el doble, lo que decrece el componente de la varianza en la primera etapa. El componente de variabilidad que domina la varianza en esta estimación es la dispersión dentro de las unidades primarias y se debe a la heterogeneidad de los conglomerados.
+The gain in efficiency is due to the property of the two-stage design whereby, given an $n$, it is possible to include more primary units in the first sampling stage. In this case, the number of clusters included in sample $s_I$ is doubled, which decreases the variance component in the first stage. The variability component that dominates the variance in this estimate is the dispersion within the primary units and is due to the heterogeneity of the clusters.
 
-## Muestreo en dos etapas estratificado
+## Stratified two-stage sampling
 
-<!-- index: Diseño de muestreo en dos etapas estratificado -->La teoría discutida hasta ahora en las secciones anteriores es aplicable cuando las unidades primarias de muestreo  son seleccionadas de un estrato. Como se verá más adelante no hay nuevos principios de estimación o diseño involucrado en el desarrollo de esta estrategia de muestreo cuando lo que se quiere es estimar el total de la característica de interés $t_y$ de una población dividida en $H$ estratos.
+<!-- index: Stratified two-stage sampling design -->The theory discussed so far in the previous sections is applicable when the primary sampling units are selected from a stratum. As will be seen later, there are no new estimation or design principles involved in the development of this sampling strategy when the goal is to estimate the total of the characteristic of interest $t_y$ for a population divided into $H$ strata.
 
-Se supone que el muestreo en cada estrato respeta el principio de la independencia. Las estimaciones del total, así como el cálculo y estimación de la varianza son simplemente resultado de añadir o sumar para cada estrato la respectiva cantidad.
+It is assumed that sampling in each stratum respects the principle of independence. The estimates of the total, as well as the calculation and estimation of the variance, are simply the result of adding or summing the respective quantity for each stratum.
 
-Por ejemplo, suponga que dentro de cada estrato $U_h$ $h=1,\ldots, H$ existen $N_{Ih}$ unidades primarias de muestreo, de las cuales se selecciona una muestra $s_{Ih}$ de $n_{Ih}$ unidades mediante un diseño de muestreo aleatorio simple. Suponga, además que el sub-muestreo dentro de cada unidad primaria seleccionada es también aleatorio simple. Es decir, para cada unidad primaria de muestreo seleccionada $i\in s_{Ih}$ de tamaño $N_i$  se selecciona una muestra $s_i$ de elementos de tamaño $n_i$. Cuando las unidades secundarias de muestreo o elementos son seleccionadas, se realiza el proceso de medición y el proceso de estimación para lo cual se tiene que el estimador del total está dado por el siguiente resultado.
+For example, suppose that within each stratum $U_h$, $h=1,\ldots, H$, there are $N_{Ih}$ primary sampling units, from which a sample $s_{Ih}$ of $n_{Ih}$ units is selected using a simple random sampling design. Suppose also that the subsampling within each selected primary unit is also simple random. That is, for each selected primary sampling unit $i\in s_{Ih}$ of size $N_i$, a sample $s_i$ of elements of size $n_i$ is selected. When the secondary sampling units or elements are selected, the measurement process and the estimation process are carried out, for which the estimator of the total is given by the following result.
 
-::: {.callout-tip title="Resultado"}
-Bajo muestreo en dos etapas estratificado MAS-MAS, el estimador de Horvitz-Thompson es insesgado para el total poblacional y toma la forma
+::: {.callout-tip title="Result"}
+Under stratified SRS-SRS two-stage sampling, the Horvitz-Thompson estimator is unbiased for the population total and takes the form
 
 $$
 \hat{t}_{y,\pi}=\sum_{h=1}^H\hat{t}_{yh,\pi}=\sum_{h=1}^H\left[\frac{N_{Ih}}{n_{Ih}}\sum_{i\in S_{Ih}}\frac{N_i}{n_i}\sum_{k\in S_i}y_k\right]
 $$
 
-con varianza dada por
+with variance given by
 
 $$
 \begin{aligned}
-Var_{EMM}(\hat{t}_{y,\pi})&=\sum_{h=1}^HVar(\hat{t}_{yh,\pi})\\
+Var_{STMS}(\hat{t}_{y,\pi})&=\sum_{h=1}^HVar(\hat{t}_{yh,\pi})\\
 &=\sum_{h=1}^H\left[\frac{N_{Ih}^2}{n_{Ih}}\left(1-\frac{n_{Ih}}{N_{Ih}}\right)S^2_{t_{yh}U_I}+
 \frac{N_{Ih}}{n_{Ih}}\sum_{i\in S_{Ih}}\frac{N_i^2}{n_i}\left(1-\frac{n_i}{N_i}\right)S^2_{y_{U_i}}\right]
 \end{aligned}
 $$
 
-cuya estimación insesgada es
+whose unbiased estimate is
 
 $$
 \begin{aligned}
-\widehat{Var}_{EMM}(\hat{t}_{y,\pi})&=\sum_{h=1}^H\widehat{Var}(\hat{t}_{yh,\pi})\\
+\widehat{Var}_{STMS}(\hat{t}_{y,\pi})&=\sum_{h=1}^H\widehat{Var}(\hat{t}_{yh,\pi})\\
 &=\sum_{h=1}^H\left[\frac{N_{Ih}^2}{n_{Ih}}\left(1-\frac{n_{Ih}}{N_{Ih}}\right)S^2_{\hat{t}_{yh}S_I}+
 \frac{N_{Ih}}{n_{Ih}}\sum_{i\in S_{Ih}}\frac{N_i^2}{n_i}\left(1-\frac{n_i}{N_i}\right)S^2_{y_{S_i}}\right]
 \end{aligned}
 $$
 
-donde $S^2_{t_{yh}U_I}$ es la varianza poblacional de los totales $t_{yi}$ $i\in U_I$ de todas y cada una de las unidades primarias de muestreo dentro del estrato $h$ y $S^2_{y_{U_i}}$ es la varianza poblacional entre los elementos dentro de cada unidad primaria de muestreo en el estrato $h$. Similarmente, $S^2_{\hat{t}_{yh}s_I}$ y $S^2_{y_{s_i}}$.
+where $S^2_{t_{yh}U_I}$ is the population variance of the totals $t_{yi}$, $i\in U_I$, of each and every primary sampling unit within stratum $h$, and $S^2_{y_{U_i}}$ is the population variance among the elements within each primary sampling unit in stratum $h$. Similarly, $S^2_{\hat{t}_{yh}s_I}$ and $S^2_{y_{s_i}}$.
 
 :::
 
-Este diseño de muestreo es usado para mejorar la eficiencia de la estrategia MAS-MAS. @Sar plantean que es posible estratificar la población de acuerdo a una medida de tamaño, de tal forma que se agrupen las unidades de muestreo con un comportamiento similar en un mismo estrato. Es de gran interés notar que una escogencia particular dentro del sub-muestreo de las unidades primarias haría al estimador de Horvitz-Thompson muy conveniente de calcular. De hecho, si para cada unidad primaria $i\in S_{I_h}$ seleccionada en la muestra de cada estrato $h$, $h=1,\ldots,H$ se tiene que
+This sampling design is used to improve the efficiency of the SRS-SRS strategy. @Sar state that it is possible to stratify the population according to a size measure, so that sampling units with similar behavior are grouped in the same stratum. It is very interesting to note that a particular choice within the subsampling of the primary units would make the Horvitz-Thompson estimator very convenient to calculate. In fact, if for each primary unit $i\in S_{I_h}$ selected in the sample of each stratum $h$, $h=1,\ldots,H$, we have
 
 $$
 c=\frac{n_i}{N_i}\frac{n_{Ih}}{N_{Ih}}
 $$
 
-Entonces, el estimador toma la siguiente forma
+then the estimator takes the following form
 
 $$
 \hat{t}_{y,\pi}=\frac{1}{c}\sum_{h=1}^H\sum_{i\in S_{Ih}}\sum_{k\in S_i}y_{hik}
 $$
 
-Lo que significa que, en el cálculo computacional de la estimación, los valores de la característica de interés simplemente se suman sin importar la unidad primaria o el estrato al que pertenezcan. Esta clase de estimadores se conocen con el nombre de **estimadores auto-ponderados**. La cantidad $c$ admite una interpretación muy simple y es la fracción de muestreo esperada para los elementos. De esta forma, si se desea seleccionar una muestra con un promedio de 1% de unidades secundarias de muestreo o elementos seleccionados en cada estrato, entonces $k=\dfrac{1}{100}$.
+This means that, in the computational calculation of the estimate, the values of the characteristic of interest are simply summed regardless of the primary unit or stratum to which they belong. This class of estimators is known as **self-weighting estimators**. The quantity $c$ has a very simple interpretation: it is the expected sampling fraction for the elements. Thus, if the goal is to select a sample with an average of 1% of secondary sampling units or elements selected in each stratum, then $k=\dfrac{1}{100}$.
 
-### Diseños auto-ponderados
+### Self-weighting designs
 
-<!-- index: Diseños auto-ponderados -->En muchas encuestas de dos etapas es común encontrar **diseños auto-ponderados**. Esta clase de diseños asume que en la primera etapa de muestreo se selecciona una muestra $S_I$ de unidades primarias de muestreo cuyas probabilidades de inclusión son proporcionales al tamaño de las mimas, de tal forma que si $N$ es el tamaño de la población $U$ de unidades secundarias de muestreo o elementos y $n$ el tamaño de la muestra resultante, entonces
+<!-- index: Self-weighting designs -->In many two-stage surveys, **self-weighting designs** are commonly found. This class of designs assumes that in the first sampling stage a sample $S_I$ of primary sampling units is selected whose inclusion probabilities are proportional to their size, so that if $N$ is the size of population $U$ of secondary sampling units or elements and $n$ is the resulting sample size, then
 
 $$
 \pi_{Ii}=\frac{N_i}{N}n_I \ \ \ \ \ i\in U_I
 $$
 
-Más adelante, en la segunda etapa de muestreo, se seleccionan muestras $s_i$ $i\in S_I$ de unidades secundarias o elementos de tamaño constante $n_i=n_0$ para cada unidad primaria incluida en la muestra. Por lo tanto, la probabilidad de inclusión de las unidades secundarias será
+Later, in the second sampling stage, samples $s_i$, $i\in S_I$, of secondary units or elements of constant size $n_i=n_0$ are selected for each primary unit included in the sample. Therefore, the inclusion probability of the secondary units will be
 
 $$
 \pi_{k|i}=\frac{n_0}{N_i} \ \ \ \ \ i\in S_I
 $$
 
-De tal forma que la probabilidad de inclusión general del $k$-ésimo elemento es constante y está dada por
+Thus, the overall inclusion probability of the $k$-th element is constant and is given by
 
 $$
 \pi_k=\pi_{Ii}\pi_{k|i}=n_I\frac{N_i}{N}\frac{n_0}{N_i}=n_I\frac{n_0}{N}=\frac{n}{N}=c \ \ \ \ \ k\in U_i
 $$
 
-y el estimador de Horvitz-Thompson toma la siguiente forma
+and the Horvitz-Thompson estimator takes the following form
 
 $$
 \hat{t}_{y,\pi}=\sum_{k\in S}\frac{y_k}{\pi_k}=\frac{1}{c}\sum_{i\in S_I}\sum_{k\in S_i}y_k=\frac{N}{n}\sum_{k\in S}y_k
 $$
 
-Nótese la facilidad de cálculo del estimador. Esta clase de diseños auto-ponderados se utilizan cuando se desea controlar el trabajo de campo, por lo que el número de entrevistas en cada unidad primaria incluida en la muestra será constante.
+Note the ease of calculating the estimator. This class of self-weighting designs is used when fieldwork needs to be controlled, so the number of interviews in each primary unit included in the sample will be constant.
 
-## Diseños en $r$ etapas
+## Designs in $r$ stages
 
-<!-- index: Diseño en $r$ etapas -->@Sar afirman que a pesar de su complejidad, los diseños con tres o más etapas son ampliamente usados en las grandes encuestas. El muestreo en dos etapas puede ser generalizado mediante el siguiente resultado en donde se supone que existen $r$ etapas de muestreo. De esta manera, la población se divide en $N_{I}$ unidades primarias de muestreo, de las cuales se selecciona una muestra $s_{I}$ de $n_{I}$ unidades mediante un diseño de muestreo $p_I(S_I)$. Se asume que es posible construir un estimador^[Este estimador no necesariamente debe ser el estimador de Horvitz-Thompson pero sí debe ser insesgado.] $\hat{t}_{yi}$ para cada total $t_{yi}$ $i\in S_I$ de las unidades primarias seleccionadas y que este estimador es insesgado para las restantes $r-1$ etapas del diseño muestral. Por tanto
+<!-- index: Design in $r$ stages -->@Sar state that despite their complexity, designs with three or more stages are widely used in large surveys. Two-stage sampling can be generalized through the following result, where it is assumed that there are $r$ sampling stages. In this way, the population is divided into $N_{I}$ primary sampling units, from which a sample $s_{I}$ of $n_{I}$ units is selected using a sampling design $p_I(S_I)$. It is assumed that it is possible to construct an estimator^[This estimator does not necessarily have to be the Horvitz-Thompson estimator, but it must be unbiased.] $\hat{t}_{yi}$ for each total $t_{yi}$, $i\in S_I$, of the selected primary units and that this estimator is unbiased for the remaining $r-1$ stages of the sampling design. Therefore
 
 $$
 E(\hat{t}_{yi}\left|\right. S_I)=t_{yi}
 $$
 
-Nótese que las últimas unidades de muestreo no deben ser necesariamente elementos, pueden ser también conglomerados. Los principios de independencia e invarianza se siguen manteniendo en todas las etapas del diseño muestral. De tal manera que el fundamento de este diseño de muestreo es la acumulación de las estimaciones desde la última etapa hasta la primera. Esto se sintetiza en los siguientes resultado de la próxima sección.
+Note that the final sampling units do not necessarily have to be elements; they may also be clusters. The principles of independence and invariance continue to hold in all stages of the sampling design. Thus, the foundation of this sampling design is the accumulation of estimates from the last stage up to the first. This is summarized in the following results in the next section.
 
-### El estimador de Horvitz-Thompson
+### The Horvitz-Thompson estimator
 
-::: {.callout-tip title="Resultado"}
-Bajo muestreo en $r$ etapas el estimador de Horvitz-Thompson es insesgado para el total poblacional y toma la forma
+::: {.callout-tip title="Result"}
+Under $r$-stage sampling, the Horvitz-Thompson estimator is unbiased for the population total and takes the form
 
 $$
 \hat{t}_{y,\pi}=\sum_{i\in S_I}\frac{\hat{t}_{yi}}{\pi_{Ii}}
 $$
 
-con varianza dada por
+with variance given by
 
 $$
-Var_{BI}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{U_I}\Delta_{Iij}\frac{t_i}{\pi_{Ii}}\frac{t_j}{\pi_{Ij}}}_{Var(UPM)}
-+\underbrace{\sum_{i\in U_I}\frac{V_i}{\pi_{Ii}}}_{Var(Resto)}
+Var_{TS}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{U_I}\Delta_{Iij}\frac{t_i}{\pi_{Ii}}\frac{t_j}{\pi_{Ij}}}_{Var(PSU)}
++\underbrace{\sum_{i\in U_I}\frac{V_i}{\pi_{Ii}}}_{Var(Rest)}
 $$
 
-cuya estimación insesgada es
+whose unbiased estimate is
 
 $$
-\widehat{Var}_{BI}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{S_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\frac{\hat{t}_{yi}}{\pi_{Ii}}\frac{\hat{t}_{yj}}{\pi_{Ij}}}
-_{\widehat{Var}(UPM)}+\underbrace{\sum_{i\in S_I}\frac{\hat{V}_i}{\pi_{Ii}}}_{\widehat{Var}(Resto)}
+\widehat{Var}_{TS}(\hat{t}_{y,\pi})=\underbrace{\sum\sum_{S_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\frac{\hat{t}_{yi}}{\pi_{Ii}}\frac{\hat{t}_{yj}}{\pi_{Ij}}}
+_{\widehat{Var}(PSU)}+\underbrace{\sum_{i\in S_I}\frac{\hat{V}_i}{\pi_{Ii}}}_{\widehat{Var}(Rest)}
 $$
 
-donde $V_i=Var(\hat{t}_{yi}\left|\right. S_I)$ y $\hat{V}_i$ es un estimador insesgado de $V_i$ tal que $E(\hat{V}_i\left|\right. S_I)=V_i$ para todo $i\in U_I$.
+where $V_i=Var(\hat{t}_{yi}\left|\right. S_I)$ and $\hat{V}_i$ is an unbiased estimator of $V_i$ such that $E(\hat{V}_i\left|\right. S_I)=V_i$ for every $i\in U_I$.
 
-**Prueba.**
+**Proof.**
 
-Esta demostración se realiza de manera recursiva escribiendo el estimador y la varianza como una función de los estimadores insesgados de las etapas subsecuentes en los niveles inferiores. Se debe tener en cuenta que el resultado 7.2.2. se extiende naturalmente. Por ejemplo para el diseño de tres etapas, se tiene que
+This proof is carried out recursively by writing the estimator and the variance as a function of the unbiased estimators of the subsequent stages at lower levels. It must be kept in mind that Result 7.2.2 extends naturally. For example, for the three-stage design, we have
 
 $$
 Var(U)=V_1[E_2(E_3(U))]+E_1[V_2(E_3(U))]+E_1[E_2(V_3(U))]
@@ -1030,15 +1065,15 @@ $$
 
 :::
 
-### El estimador de Hansen-Hurwitz
+### The Hansen-Hurwitz estimator
 
-Un esquema utilizado en la práctica por la sencillez en el proceso de estimación consiste en seleccionar una muestra de $m_I$ unidades primarias de muestreo mediante un diseño de muestreo con reemplazo que induce probabilidades de selección $p_{Ii}$ con $i\in U_I$ tales que $\sum_{i=1}^{N_i}p_{Ii}=1$. Dentro de cada unidad primaria de muestreo seleccionada en el sorteo aleatorio con reemplazo se toma una sub-muestra (con o sin reemplazo). Aunque existe una pérdida de eficiencia cuando el muestreo es con reemplazo, ésta se compensa con una ganancia logística en el proceso de estimación de las varianzas requeridas para cada característica de interés. El proceso general de muestreo con reemplazo según @Sar es el siguiente:
-- En la primera etapa se selecciona una muestra aleatoria de acuerdo a un diseño de muestreo con reemplazo tal que $p_{Ii}$ con $i\in U_I$ es la probabilidad de selección de la $i$-ésima unidad primaria de muestreo.
-- En las siguientes etapas^[Este proceso es válido para diseños de muestreo con más de dos etapas.], se mantienen las propiedades de independencia e invarianza sin importar si el diseño dentro de las unidades primarias seleccionadas sea con o sin reemplazo.
-- Si una unidad de muestreo es seleccionada en más de una ocasión, se debe realizar tantos sub-muestreos como veces haya sido seleccionada en la primera etapa.
+A scheme used in practice because of the simplicity of the estimation process consists of selecting a sample of $m_I$ primary sampling units using a sampling design with replacement that induces selection probabilities $p_{Ii}$ with $i\in U_I$ such that $\sum_{i=1}^{N_i}p_{Ii}=1$. Within each primary sampling unit selected in the random draw with replacement, a subsample is taken (with or without replacement). Although there is a loss of efficiency when sampling is with replacement, it is offset by a logistical gain in the process of estimating the variances required for each characteristic of interest. According to @Sar, the general process of sampling with replacement is as follows:
+- In the first stage, a random sample is selected according to a sampling design with replacement such that $p_{Ii}$ with $i\in U_I$ is the selection probability of the $i$-th primary sampling unit.
+- In the following stages^[This process is valid for sampling designs with more than two stages.], the properties of independence and invariance are maintained regardless of whether the design within the selected primary units is with or without replacement.
+- If a sampling unit is selected more than once, as many subsamples must be carried out as times it was selected in the first stage.
 
-::: {.callout-tip title="Resultado"}
-Bajo un diseño de muestreo en varias etapas, el estimador de Hansen-Hurwitz para el total $t_{y}$, su varianza y su varianza estimada están dados por
+::: {.callout-tip title="Result"}
+Under a multistage sampling design, the Hansen-Hurwitz estimator for the total $t_{y}$, its variance, and its estimated variance are given by
 
 $$
 \hat{t}_{y,p}=\frac{1}{m_I}\sum_{v=1}^{m_I}\frac{\hat{t}_{{yi}_v}}{p_{Ii_v}}
@@ -1052,11 +1087,11 @@ $$
 \widehat{Var}(\hat{t}_{y,p})=\frac{1}{m_I(m_I-1)}\sum_{v=1}^{m_I}\left(\frac{\hat{t}_{yi_v}}{p_{Ii_v}}-\hat{t}_{y,p}\right)^2
 $$
 
-respectivamente. Donde $\hat{t}_{yi}$ es un estimador insesgado del total de la característica de interés $y$ en la unidad primaria $U_i$ $i\in S_I$, $V_i=Var(\hat{t}_{yi}\left|\right. S_I)$ la varianza de $\hat{t}_{yi}$ en la segunda etapa.  Nótese que $\hat{t}_{y,p}$ es insesgado para $t_y$ y que $\widehat{Var}(\hat{t}_{y,p})$ es insesgado para $Var(\hat{t}_{y,p})$.
+respectively. Here $\hat{t}_{yi}$ is an unbiased estimator of the total of the characteristic of interest $y$ in primary unit $U_i$, $i\in S_I$, and $V_i=Var(\hat{t}_{yi}\left|\right. S_I)$ is the variance of $\hat{t}_{yi}$ in the second stage. Note that $\hat{t}_{y,p}$ is unbiased for $t_y$ and that $\widehat{Var}(\hat{t}_{y,p})$ is unbiased for $Var(\hat{t}_{y,p})$.
 
-**Prueba.**
+**Proof.**
 
-La demostración empieza definiendo las variables aleatorias
+The proof begins by defining the random variables
 
 $$
 Z_v=t_{yi}/p_{Ii} \ \ \ \ \ \ i\in U_I \ \ \ v=1,\ldots,m_I
@@ -1068,7 +1103,7 @@ $$
 \hat{Z}_v=\hat{t}_{yi}/p_{Ii} \ \ \ \ \ \ i\in U_I \ \ \ v=1,\ldots,m_I
 $$
 
-Tanto $Z_v$ como $\hat{Z}_v$ son sucesiones de variables aleatorias independientes e idénticamente distribuidas. Sin embargo, respetando los principios de independencia e invarianza, se tiene que la esperanza está dada por
+Both $Z_v$ and $\hat{Z}_v$ are sequences of independent and identically distributed random variables. However, respecting the principles of independence and invariance, the expectation is given by
 
 $$
 \begin{aligned}
@@ -1076,7 +1111,7 @@ E(\hat{Z}_v)=E(E(\hat{Z}_v\left|\right. S_I))=E(Z_v)=t_y
 \end{aligned}
 $$
 
-y la varianza es
+and the variance is
 
 $$
 \begin{aligned}
@@ -1087,27 +1122,27 @@ Var(\hat{Z}_v)&=Var(E(\hat{Z}_v\left|\right. S_I))+E(Var(\hat{Z}_v\left|\right. 
 \end{aligned}
 $$
 
-Ahora, dado que $\hat{t}_{y,p}=\overline{\hat{Z}}$ y utilizando el resultado 2.2.11, se tiene que el estimador insesgado de la varianza corresponde a la expresión dada en (7.4.8).
+Now, since $\hat{t}_{y,p}=\overline{\hat{Z}}$ and using Result 2.2.11, the unbiased estimator of the variance corresponds to the expression given in (7.4.8).
 
 :::
 
-Dada la simplificación en el cálculo de la varianza, @Baut propone utilizarla incluso cuando el diseño de muestreo sea sin reemplazo. Sin embargo, advierte que este estimador generalmente sobre-estima la varianza, lo que conduce a intervalos de confianza más conservadores y coeficientes de variación un poco más altos.
+Given the simplification in calculating the variance, @Baut proposes using it even when the sampling design is without replacement. However, he warns that this estimator generally overestimates the variance, which leads to more conservative confidence intervals and slightly higher coefficients of variation.
 
-## Ejercicios
-- Argumente si las siguientes afirmaciones son falsas o verderas. Sustente su respuesta detallamente.
-- En la estimación de totales poblaciones, se nota que, casi siempre, $Var_{MAS^2}(t_{y,\pi})$ es mayor a $Var_{MAS}(t_{y,\pi})$.
-- En la estimación de la varianza para totales en diseños bietápicos, $\hat{Var}(UPM)$ es insesgada para $\hat{Var}(UPM)$.
-- En la estimación de la varianza para totales en diseños bietápicos, $\hat{Var}(USM)$ es insesgada para $\hat{Var}(USM)$.
-- Al planear un diseño de muestreo en varias etapas, se debe tener en cuenta que entre más etapas tenga el diseño, la varianza del estimador será probablemente más baja.
-- En diseños bietápicos, la varianza total del estimador es dominada por la varianza de la última etapa. Es decir, la varianza en la última etapa es mucho mayor que la varianza de la primera etapa.
-- En un estudio de consumo de licores se proponen dos diseños de muestreo en dos etapas: uno con la selección de 300 manzanas y diez personas por manzana; el otro con la selección de 100 manzanas y 30 personas por manzana. En este caso, el primer diseño de muestreo arroja una varianza menor al del segundo diseño.
-- Para un diseño de muestreo en dos etapas, en donde la primera etapa se lleva a cabo un diseño PPT con reemplazo y en la segunda etapa se realiza un diseño MAS en cada UPM seleccionada, proponga un estimador insesgado para el total poblacional (Ayuda: utilice el estimador de Horvitz-Thompson en la segunda etapa y el estimador de Hansen-Hurwitz en la primera etapa). Demuestre que este estimador es insesgado para el total poblacional $t_y$ (Ayuda: utilice las propiedades de la esperanza condicional) y defina la varianza para este estimador (Ayuda: utilice las propiedades de la varianza condicional).
-- Escriba las fórmulas del estimador del total y del estimador de la varianza del total para los siguientes diseños de muestreo. Defina estrictamente cada término y notación que utilice en las fórmulas.
-- Diseño en tres etapas: MAS en cada una de las etapas.
-- Diseño estratificado con tres estratos: uno de inclusión forzosa, otro con diseño PPT y otro con diseño MAS.
-- (Tillé, 2006. Ej 5.5) Suponga que un estadístico desea estimar el ingreso total de las personas en un país. Para esto, él lleva a cabo un diseño de muestreo en dos etapas, en donde la primera etapa se seleccionan municipios con un diseño PPT con probabilidad de selección proporcional al número de habitantes del municipio y en la segunda etapa se realiza un diseño MAS en cada municipio. En la primera etapa, se seleccionaron $m_I=4$ municipios entre los $N_I=30$ municipios en el país y en la segunda etapa, se incluyeron $n_i$ personas de los $N_i$ habitantes del municipio $i$-ésimo ($i=1,2,3,4$). Suponga que por fuentes oficiales, se conoce que el número total de personas en el país es de $N=10000$. Los datos obtenidos se muestran en la @tbl-tab7-3.
+## Exercises
+- Argue whether the following statements are false or true. Support your answer in detail.
+- In estimating population totals, it is observed that, almost always, $Var_{2SRS}(t_{y,\pi})$ is greater than $Var_{SRS}(t_{y,\pi})$.
+- In variance estimation for totals in two-stage designs, $\hat{Var}(PSU)$ is unbiased for $\hat{Var}(PSU)$.
+- In variance estimation for totals in two-stage designs, $\hat{Var}(SSU)$ is unbiased for $\hat{Var}(SSU)$.
+- When planning a multistage sampling design, it must be kept in mind that the more stages the design has, the variance of the estimator will probably be lower.
+- In two-stage designs, the total variance of the estimator is dominated by the variance of the last stage. That is, the variance in the last stage is much greater than the variance of the first stage.
+- In a study of alcohol consumption, two two-stage sampling designs are proposed: one with the selection of 300 blocks and ten people per block; the other with the selection of 100 blocks and 30 people per block. In this case, the first sampling design yields a smaller variance than the second design.
+- For a two-stage sampling design in which the first stage uses a PPS design with replacement and the second stage uses an SRS design in each selected PSU, propose an unbiased estimator for the population total (Hint: use the Horvitz-Thompson estimator in the second stage and the Hansen-Hurwitz estimator in the first stage). Prove that this estimator is unbiased for the population total $t_y$ (Hint: use the properties of conditional expectation) and define the variance for this estimator (Hint: use the properties of conditional variance).
+- Write the formulas for the total estimator and the variance estimator of the total for the following sampling designs. Strictly define each term and notation used in the formulas.
+- Three-stage design: SRS in each stage.
+- Stratified design with three strata: one certainty inclusion stratum, one with a PPS design, and one with an SRS design.
+- (Tillé, 2006. Ex. 5.5) Suppose that a statistician wants to estimate the total income of people in a country. To do this, he carries out a two-stage sampling design, where in the first stage municipalities are selected with a PPS design with selection probability proportional to the number of inhabitants of the municipality, and in the second stage an SRS design is carried out in each municipality. In the first stage, $m_I=4$ municipalities were selected among the $N_I=30$ municipalities in the country, and in the second stage, $n_i$ people were included from the $N_i$ inhabitants of the $i$-th municipality ($i=1,2,3,4$). Suppose that, according to official sources, the total number of people in the country is known to be $N=10000$. The data obtained are shown in @tbl-tab7-3.
 
-| Municipio | $N_i$ | $n_i$ | $y_k$ |
+| Municipality | $N_i$ | $n_i$ | $y_k$ |
 |---:|---:|---:|---:|
 | 1 | 20 | 4 | 105 |
 | 1 | 20 | 4 | 118 |
@@ -1129,14 +1164,14 @@ Dada la simplificación en el cálculo de la varianza, @Baut propone utilizarla 
 | 4 | 28 | 6 | 104 |
 | 4 | 28 | 6 | 110 |
 
-: Ingreso de cada persona para el ejercicio 7.3 {#tbl-tab7-3}
+: Income of each person for Exercise 7.3 {#tbl-tab7-3}
 
-- Estime el ingreso total en el pais. Reporte el coeficiente de variación estimado.
-- Estime el ingreso medio en el pais y reporte el coeficiente de variación estimado.
-- Suponga que por alguna circunstancia, un extraterrestre desea estimar el número promedio de patas que tiene un perro en una ciudad. La ciudad está dividida en dos áreas geográficas, la zona norte y la zona sur. Para llevar a cabo la estimación, él planea un diseño de muestreo en dos etapas así: De las $N_I = 2$ zonas geográficas de la ciudad, va a seleccionar una muestra aleatoria simple de $n_I = 1$ unidades primarias de muestreo. Se sabe que en el norte hay $N_1 = 30$ perros y en el sur hay $N_2 = 10$ perros. Sea cual sea la unidad primaria seleccionada, se seleccionará una sub-muestra aleatoria simple de $n_i = 2$ perros ($i = 1, 2$) y se realizará la medición del total de patas en cada perro incluido en la muestra.
-- Si se seleccionó la zona norte, reporte la estimación del total de patas en la ciudad $t_{y,\pi}$ y la estimación del promedio de patas en la ciudad $\bar{y}_S=t_{y,\pi}/N$.
-- Si se seleccionó la zona sur, reporte la estimación del total de patas en la ciudad $t_{y,\pi}$ y la estimación del promedio de patas en la ciudad $\bar{y}_S=t_{y,\pi}/N$.
-- Para este diseño diseño de muestreo, reporte la varianza teórica del estimador $\bar{y}_S$.
-- ¿Es una buena estrategia escoger al estimador $\bar{y}_S$ para inferir acerca del promedio de patas de los perros en la ciudad?
+- Estimate the total income in the country. Report the estimated coefficient of variation.
+- Estimate the mean income in the country and report the estimated coefficient of variation.
+- Suppose that, for some reason, an extraterrestrial wants to estimate the average number of legs a dog has in a city. The city is divided into two geographic areas, the north zone and the south zone. To carry out the estimation, he plans a two-stage sampling design as follows: from the $N_I = 2$ geographic zones of the city, he will select a simple random sample of $n_I = 1$ primary sampling units. It is known that there are $N_1 = 30$ dogs in the north and $N_2 = 10$ dogs in the south. Whichever primary unit is selected, a simple random subsample of $n_i = 2$ dogs ($i = 1, 2$) will be selected and the total number of legs will be measured for each dog included in the sample.
+- If the north zone was selected, report the estimate of the total number of legs in the city $t_{y,\pi}$ and the estimate of the average number of legs in the city $\bar{y}_S=t_{y,\pi}/N$.
+- If the south zone was selected, report the estimate of the total number of legs in the city $t_{y,\pi}$ and the estimate of the average number of legs in the city $\bar{y}_S=t_{y,\pi}/N$.
+- For this sampling design, report the theoretical variance of the estimator $\bar{y}_S$.
+- Is it a good strategy to choose the estimator $\bar{y}_S$ to infer the average number of dog legs in the city?
 
 % --------------------------------------------------------------------------------

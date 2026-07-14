@@ -1,4 +1,4 @@
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(TeachingSampling)
 data(BigLucy)
 library(ggplot2)
@@ -10,136 +10,136 @@ opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
 
-# Muestreo de conglomerados
+# Cluster sampling
 
 ::: {.blockquote}
-En encuestas complejas, los grupos poblacionales de elementos que se forman naturalmente como barrios, municipios o escuelas pueden ser tratados como unidades de muestreo. Este tipo de esquemas de muestreo ayudan a aumentar el tamaño de muestra manteniendo el costo de la encuesta.
+In complex surveys, population groups of elements that form naturally, such as neighborhoods, municipalities, or schools, can be treated as sampling units. These types of sampling schemes help increase sample size while keeping survey costs under control.
 
 @Leh
 
 :::
 
-Las estrategias de muestreo para elementos tienen un común denominador: el marco de muestreo y su prolija identificación y ubicación de los elementos poblacionales, de todos y cada uno de ellos. Cabe resaltar que en la práctica no es muy común el uso de diseños de muestreo que seleccionen muestras de elementos directamente. Lo anterior se debe más a cuestiones financieras y logísticas que a problemas de eficiencia estadística. Piense en lo siguiente: cada investigación requiere un marco de muestreo. Son miles de millares las investigaciones realizadas al año y deberían existir tantos marcos de muestreo como investigaciones realizadas. Por cuestiones de tipo logístico la consecución de un marco de muestreo de elementos es muy costosa porque implicaría realizar un censo, enumerando, identificando y ubicando a cada elemento de la población y esto es, por supuesto, algo utópico.
+Sampling strategies for elements have a common denominator: the sampling frame and its thorough identification and location of all population elements, each and every one of them. It is worth noting that, in practice, sampling designs that select samples of elements directly are not very common. This is due more to financial and logistical issues than to problems of statistical efficiency. Consider the following: every study requires a sampling frame. Thousands upon thousands of studies are conducted each year, and there should be as many sampling frames as studies conducted. For logistical reasons, obtaining a sampling frame of elements is very costly because it would imply carrying out a census, enumerating, identifying, and locating each population element; this is, of course, utopian.
 
-Pensando en el más sencillo de los diseños de muestreo, el costo financiero de realizar un estudio mediante un diseño de muestreo aleatorio simple es muy elevado. Por ejemplo suponga que se desea realizar un estudio para evaluar la calidad de vida de las personas en un determinado país. Si llegara a existir un marco de muestreo de elementos, realizar (o seleccionar) una muestra aleatoria simple demandaría la contratación de un encuestador por cada persona encuestada, puesto que la dispersión geográfica natural de los elementos seleccionados en la muestra aleatoria simple sería demasiado alta.
+Thinking of the simplest sampling design, the financial cost of carrying out a study through a simple random sampling design is very high. For example, suppose the goal is to carry out a study to evaluate the quality of life of people in a certain country. If a sampling frame of elements existed, drawing a simple random sample would require hiring one interviewer for each surveyed person, because the natural geographic dispersion of the elements selected in the simple random sample would be too high.
 
-En el caso anterior, aunque se tuviera un marco de muestreo de elementos, el costo financiero de realizar una muestra aleatoria sería demasiado alto. Una forma de realizar muestras probabilísticas a falta de un marco de muestreo de elementos es seleccionar conglomerados^[Agrupación natural de objetos] de elementos y realizar el proceso de medición en cada conglomerado. @Coc plantea que, por cuestiones logísticas, es más eficiente seleccionar una muestra de 20 bloques de hogares, cada bloque con 30 hogares, que seleccionar una muestra aleatoria de 600 hogares. En el primer caso sólo se necesitaría la presencia de un encuestador por bloque, mientras que en el segundo, posiblemente, se necesite la presencia de muchos más encuestadores.
+In the previous case, even if a sampling frame of elements were available, the financial cost of drawing a random sample would be too high. One way to draw probability samples when a sampling frame of elements is not available is to select clusters^[A natural grouping of objects] of elements and carry out the measurement process in each cluster. @Coc argues that, for logistical reasons, it is more efficient to select a sample of 20 household blocks, each block with 30 households, than to select a random sample of 600 households. In the first case, only one interviewer would be needed per block, whereas in the second, many more interviewers would possibly be needed.
 
-Siempre que se desee seleccionar una muestra probabilística se debe tener un marco de muestreo de manera obligatoria, en los casos en donde se carece de marco muestral es necesario construir uno. Sin embargo, el costo financiero y logístico de levantar un marco de muestreo para elementos es muy alto, en la mayoría de ocasiones. Una forma de construir marcos de muestreo de bajo costo es mediante la aplicación de un diseño de muestreo por conglomerados. Estos conglomerados tienen la ventaja de ser agrupaciones de elementos que se forman de manera natural y además existen entidades gubernamentales que se ocupan de registrar y actualizar la lista de conglomerados existentes en cada sector. Por ejemplo, existe una entidad encargada de la actualización de los sectores cartográficos de una ciudad, existe una entidad encargada de la actualización de los negocios en un sector, existe una entidad que recopila la información concerniente a la ubicación de las escuelas, etc. Para cada entidad existe también un registro de estas aglomeraciones y este será el marco de muestreo que se utilizará en la etapa de diseño.
+Whenever one wants to select a probability sample, a sampling frame is mandatory; in cases where there is no sampling frame, it is necessary to build one. However, the financial and logistical cost of building a sampling frame for elements is very high in most cases. One way to build low-cost sampling frames is through the application of a cluster sampling design. These clusters have the advantage of being groupings of elements that form naturally, and there are also government entities responsible for recording and updating the list of existing clusters in each sector. For example, one entity is responsible for updating a city's cartographic sectors, another for updating businesses in a sector, another compiles information on the location of schools, and so on. For each entity there is also a register of these groupings, and this will be the sampling frame used in the design stage.
 
-Por lo tanto, el marco de muestreo contendrá la ubicación e identificación de cada uno de los conglomerados de elementos existentes en la población. Con este marco de conglomerados, se aplica un diseño de muestreo y una muestra es seleccionada. Cada conglomerado seleccionado en la muestra es visitado y el proceso de medición se realiza para todos los elementos pertenecientes al mismo. Entonces, si el conglomerado seleccionado es una sección cartográfica de la ciudad, se aplicará la encuesta a todos y cada uno de los elementos que conforman la sección. Si el conglomerado seleccionado es una escuela, se aplicará el instrumento de medición a todos y cada uno de los alumnos de la escuela. En otras palabras, se realiza un censo en cada conglomerado que haya sido seleccionado en la muestra.
+Therefore, the sampling frame will contain the location and identification of each cluster of elements existing in the population. With this cluster frame, a sampling design is applied and a sample is selected. Each cluster selected in the sample is visited, and the measurement process is carried out for all elements belonging to it. Thus, if the selected cluster is a cartographic section of the city, the survey will be applied to each and every element that makes up the section. If the selected cluster is a school, the measurement instrument will be applied to each and every student in the school. In other words, a census is carried out in each cluster selected in the sample.
 
-Por supuesto, existe una ganancia significativa en términos operativos, logísticos y financieros. Sin embargo, esta ganancia tiene un precio... el precio a pagar está dado en términos de eficiencia estadística de la estrategia de muestreo. Revisando un poco el proceso de aglomeración, hay que tener en cuenta que los conglomerados de elementos tienden, en la mayoría de los casos, a ser homogéneos con respecto a los valores de la característica de interés $y$. Lo anterior se da porque la agrupación se realiza de forma natural, es decir lo hogares, las secciones cartográficas, las villas, las escuelas, las prisiones, etc. tienden a formarse de manera natural y homogénea. Así que la pérdida de eficiencia estadística es causada por el efecto de conglomerado que conlleva la selección de unidades homogéneas que no contienen información nueva sino, de alguna manera, repetida. ¿Qué nueva información se obtiene, acerca de la población, al añadir un nuevo elemento del mismo conglomerado en la muestra?
+Of course, there is a significant gain in operational, logistical, and financial terms. However, this gain has a price... the price to pay is expressed in terms of the statistical efficiency of the sampling strategy. Reviewing the clustering process a little, it must be kept in mind that clusters of elements tend, in most cases, to be homogeneous with respect to the values of the characteristic of interest $y$. This occurs because the grouping happens naturally; that is, households, cartographic sections, villages, schools, prisons, and so on tend to form naturally and homogeneously. Thus, the loss of statistical efficiency is caused by the cluster effect that comes with selecting homogeneous units that do not contain new information but, in a sense, repeated information. What new information about the population is obtained by adding a new element from the same cluster to the sample?
 
-Entre más grande sea el tamaño de la sub-muestra en los conglomerados, entonces más grande será el efecto de diseño. Si dentro de cada conglomerado, el comportamiento de la característica de interés $y$ reflejará el comportamiento estructural de la misma en la población, entonces la eficiencia de una estrategia de muestreo por conglomerados sería similar a la de una muestra aleatoria simple. Pero, en la práctica, la homogeneidad interna de los conglomerados aumenta el error de muestreo. Un error, por desgracia demasiado frecuente, entre los investigadores neófitos es analizar una muestra por conglomerados como una muestra aleatoria simple^[No es prudente, ni correcto analizar una muestra por conglomerados como si fuera una muestra aleatoria simple porque los errores estándar serán mayores y la interpretación de los resultados será errónea.].
+The larger the subsample size within the clusters, the larger the design effect will be. If, within each cluster, the behavior of the characteristic of interest $y$ reflected its structural behavior in the population, then the efficiency of a cluster sampling strategy would be similar to that of a simple random sample. But in practice, the internal homogeneity of clusters increases sampling error. An unfortunately frequent error among novice researchers is to analyze a cluster sample as if it were a simple random sample^[It is neither prudent nor correct to analyze a cluster sample as if it were a simple random sample, because the standard errors will be larger and the interpretation of the results will be incorrect.].
 
-En general se tienen lo siguientes comentarios acerca del muestreo por conglomerados:
-- Utilizamos muestreo por conglomerados sí:
-- La construcción de un marco de muestreo de elementos es muy difícil, muy costosa o imposible de conseguir. Enumerar abejas, enumerar clientes, enlistar árboles en un sector, enlistar hogares en los barrios conglomerados (dispersión geográfica, reducción de costos).
-- La población objetivo se encuentra muy dispersa (geográficamente) o aparece en agrupaciones naturales: familias, escuelas, etc.
-- Los elementos individuales de una población sólo participan en la muestra si pertenecen a un conglomerado incluido en la muestra.
-- El muestreo estratificado aumenta la precisión de las estimaciones, mientras que el muestreo por conglomerados tiende a disminuirla. Es un precio que se paga al no poseer un marco de muestreo definido para los elementos de la población objetivo.
-- Al obtener una muestra de elementos que pertenecen a un conglomerado repetimos la información del conglomerado (dada la agrupación natural). Lo ideal es conseguir información nueva en cada individuo, por lo anterior se pierde precisión en las estimaciones.
+In general, the following comments apply to cluster sampling:
+- We use cluster sampling if:
+- Building a sampling frame of elements is very difficult, very costly, or impossible. Enumerating bees, enumerating clients, listing trees in a sector, listing households in clustered neighborhoods (geographic dispersion, cost reduction).
+- The target population is very dispersed geographically or appears in natural groupings: families, schools, and so on.
+- The individual elements of a population participate in the sample only if they belong to a cluster included in the sample.
+- Stratified sampling increases the precision of estimates, while cluster sampling tends to decrease it. This is a price paid for not having a defined sampling frame for the elements of the target population.
+- When obtaining a sample of elements that belong to a cluster, we repeat the cluster's information (given the natural grouping). Ideally, new information should be obtained from each individual; for this reason, precision is lost in the estimates.
 
-## Fundamentos teóricos y notación
+## Theoretical foundations and notation
 
-<!-- index: Diseño de muestreo de conglomerados -->Suponga que la población de elementos
+<!-- index: Cluster sampling design -->Suppose that the population of elements
 
 $$
 U=\{1,...,k,...,N\}.
 $$
 
-se divide en $N_I$ sub-grupos poblacionales, llamados conglomerados y denotados como $U_I=\{U_1,\ldots,U_{N_I}\}$.
+is divided into $N_I$ population subgroups, called clusters and denoted as $U_I=\{U_1,\ldots,U_{N_I}\}$.
 
-La población de conglomerados estará dada, sin pérdida de generalidad, por
+The population of clusters will be given, without loss of generality, by
 
 $$
 U_I=\{1,\dots,N_I\}.
 $$
 
-Estos definen una partición de la población en tal forma que
+These define a partition of the population in such a way that
 - $U=\bigcup_{i=1}^{N_I}U_i$
 - $U_i \bigcap U_j = \emptyset$ para todo $i\neq j$
 
-El número de unidades $N_i$ en el conglomerado $i$-ésimo se llama **tamaño del conglomerado** tal que
+The number of units $N_i$ in the $i$-th cluster is called the **cluster size**, such that
 
 $$
 N=\sum_{i=1}^{N_I}N_i,
 $$
 
-donde $N$ es el tamaño de la población $U$. Con la población dividida en $N_I$ conglomerados, los parámetros poblacionales de interés pueden escribirse como:
-- El total poblacional,
+where $N$ is the size of population $U$. With the population divided into $N_I$ clusters, the population parameters of interest can be written as:
+- The population total,
 
 $$
 t_y=\sum_{k \in U}y_k=\sum_{i=1}^{N_I}\sum_{k\in U_i}y_k=\sum_{i=1}^{N_I}t_{yi}
 $$
 
-donde $t_{yi}=\sum_{k\in U_i}y_k$ es el total del $i$-ésimo conglomerado.
-- La media poblacional,
+where $t_{yi}=\sum_{k\in U_i}y_k$ is the total of the $i$-th cluster.
+- The population mean,
 
 $$
 \bar{y}_U=\frac{\sum_{k \in U}y_k}{N}=\frac{1}{N}\sum_{i=1}^{N_I}\sum_{k\in U_i}y_k=\frac{1}{N}\sum_{i=1}^{N_I}N_i\bar{y}_i
 $$
 
-donde $\bar{y}_i=\dfrac{1}{N_i}\sum_{k\in U_i}y_k$ es la media del $i$-ésimo conglomerado.
+where $\bar{y}_i=\dfrac{1}{N_i}\sum_{k\in U_i}y_k$ is the mean of the $i$-th cluster.
 
-El esquema general del diseño de muestreo por conglomerados está definido de la siguiente forma
-- Seleccionar una muestra probabilística $s_I$^[Nótese que si $s_I$ representa la muestra realizada de conglomerados, entonces $S_I$ representa la muestra aleatoria la cual es una variable aleatoria.] de conglomerados de la población $U_I$ mediante un diseño de muestreo tal que
+The general scheme of the cluster sampling design is defined as follows
+- Select a probability sample $s_I$^[Note that if $s_I$ represents the realized sample of clusters, then $S_I$ represents the random sample, which is a random variable.] of clusters from population $U_I$ using a sampling design such that
 
 $$
-Pr(S_I=s_I)=p_I(s_I) \ \ \ \ \ \ \ \ \ \ \ \ \text{para todo } s_I\in Q_I  .
+Pr(S_I=s_I)=p_I(s_I) \ \ \ \ \ \ \ \ \ \ \ \ \text{for all } s_I\in Q_I  .
 $$
 
-      donde $Q_I$ es el soporte conteniendo todas las posibles muestras de conglomerados.
-- Todos y cada uno de los elementos pertenecientes a los conglomerados seleccionados son observados y medidos.
+      where $Q_I$ is the support containing all possible samples of clusters.
+- Each and every element belonging to the selected clusters is observed and measured.
 
-El tamaño de la muestra aleatoria de conglomerados está dado por
-- $n(S_I)=n_I$ si la muestra es de tamaño fijo, $n(S_I)$ si la muestra es de tamaño variable
-- $n(S_I)=m_I$ si la muestra es seleccionada con reemplazo
+The size of the random sample of clusters is given by
+- $n(S_I)=n_I$ if the sample is fixed-size, and $n(S_I)$ if the sample is variable-size.
+- $n(S_I)=m_I$ if the sample is selected with replacement.
 
-La muestra aleatoria de elementos viene caracterizada por
+The random sample of elements is characterized by
 
 $$
 S=\bigcup_{i\in S_I}U_i
 $$
 
-y el tamaño de la muestra^[Dado que, por lo general, el tamaño de los conglomerados varía, se tiene que $n(S)$ es generalmente aleatorio incluso si $n(S_I)$ es de tamaño fijo.] de elementos por
+and the sample size^[Because cluster sizes generally vary, $n(S)$ is generally random even if $n(S_I)$ is fixed-size.] of elements by
 
 $$
 n(S)=\sum_{i\in S_I}N_i
 $$
 
-Si es posible construir o definir un soporte $Q_I$, también será posible definir (al menos teóricamente) un soporte general $Q$ de elementos conteniendo las posibles muestras de elementos pertenecientes a los conglomerados seleccionados.
+If it is possible to construct or define a support $Q_I$, it will also be possible to define, at least theoretically, a general support $Q$ of elements containing the possible samples of elements belonging to the selected clusters.
 
-::: {.callout-note title="Ejemplo"}
-Nuestra población ejemplo $U$ dada por
+::: {.callout-note title="Example"}
+Our example population $U$, given by
 
 $U=\{Yves, Ken, Erik, Sharon, Leslie\}$
 
-se divide en tres conglomerados de la siguiente forma
+is divided into three clusters as follows
 
 $U_1=\{Yves, Ken\}$
 
-el segundo conformado por
+the second composed of
 
 $U_2=\{Erik,Sharon\}$
 
-y el último conglomerado dado por
+and the last cluster given by
 
 $U_3=\{Leslie\}$
 
-Es claro que, en este caso particular, se tienen $N_I=3$ conglomerados de tamaño diferentes. De esta manera, la población de conglomerados queda definida por
+It is clear that, in this particular case, there are $N_I=3$ clusters of different sizes. In this way, the population of clusters is defined by
 
 $U_I=\{U_1, U_2, U_3\}$
 
-Suponga que se selecciona una muestra $s_I$ de conglomerados de tamaño $n_I=2$. La definición del soporte $Q_I$ en R se hace mediante el uso de la función `Support` del paquete `TeachingSampling` aplicada a la información a nivel de los conglomerados de la siguiente manera.
+Suppose that a sample $s_I$ of clusters of size $n_I=2$ is selected. The definition of the support $Q_I$ in R is made by using the `Support` function from the `TeachingSampling` package, applied to cluster-level information as follows.
 
-```{r, warning=FALSE}
+```{r, warning = FALSE}
 U <- c("Yves", "Ken", "Erik", "Sharon", "Leslie")
 U1 <- c("Yves", "Ken")
 U2 <- c("Erik", "Sharon")
 U3 <- c("Leslie")
-UI <- c("U1","U2","U3")
+UI <- c("U1", "U2", "U3")
 
 N1 <- length(U1)
 N2 <- length(U2)
@@ -155,62 +155,62 @@ ty <- sum(ty1, ty2, ty3)
 NI <- 3
 nI <- 2
 
-QI  <-  Support(NI, nI, UI)
+QI <- Support(NI, nI, UI)
 QI
 ```
 
 :::
 
-### El estimador de Horvitz-Thompson
+### The Horvitz-Thompson estimator
 
-Nótese que en el esquema general del muestreo por conglomerados, se utiliza un diseño de muestreo para la selección de los conglomerados en la muestra. Este diseño de muestreo $p_I(s_I)$ puede ser cualquiera de los diseños vistos en los capítulos anteriores, aplicados a la selección, esta vez no de elementos, sino de conglomerados. En general, dado el soporte $Q_I$, $p_I(s_I)$ puede ser:
-- **Sin reemplazo:** si todas las posibles muestras en $Q_I$ son sin reemplazo. Muestreo aleatorio simple, Bernoulli, Sistemático, Poisson, $\pi$PT o estratificado simple.
-- **Con reemplazo:** si todas las posibles muestras en $Q_I$ son con reemplazo. Muestreo aleatorio simple con reemplazo o muestreo PPT.
-- **De tamaño fijo:** si todas las posibles muestras en $Q$ tienen el mismo tamaño de muestra $n(S_I)=n_I$.
+Note that in the general cluster sampling scheme, a sampling design is used to select the clusters in the sample. This sampling design $p_I(s_I)$ can be any of the designs seen in previous chapters, applied this time not to the selection of elements, but to the selection of clusters. In general, given the support $Q_I$, $p_I(s_I)$ can be:
+- **Without replacement:** if all possible samples in $Q_I$ are without replacement. Simple random sampling, Bernoulli, systematic, Poisson, $\pi$PS, or simple stratified sampling.
+- **With replacement:** if all possible samples in $Q_I$ are with replacement. Simple random sampling with replacement or PPS sampling.
+- **Fixed-size:** if all possible samples in $Q$ have the same sample size $n(S_I)=n_I$.
 
-Nótese que el diseño de muestreo $p_I(s_I)$ induce probabilidades de inclusión sobre los conglomerados las cuales están definidas como sigue a continuación.
+Note that the sampling design $p_I(s_I)$ induces inclusion probabilities over the clusters, which are defined as follows.
 
-::: {.callout-important title="Definici?n"}
-<!-- index: Probabilidad de inclusión -->La probabilidad de inclusión del conglomerado $i$-ésimo está dada por
+::: {.callout-important title="Definition"}
+<!-- index: Inclusion probability -->The inclusion probability of the $i$-th cluster is given by
 
 $$
 \pi_{Ii}=Pr(i \in S_I)=\sum_{s_I \ni i} p_I(s_I).
 $$
 
-mientras que la probabilidad de inclusión de los conglomerados $i$-ésimo y $j$-ésimo están dadas por
+whereas the inclusion probability of the $i$-th and $j$-th clusters is given by
 
 $$
-\pi_{Iij}=Pr(i\in S_I\text{ y }j\in S_I)=\sum_{s_I \ni \text{ $i$ y $j$}} p_I(s_I).
+\pi_{Iij}=Pr(i\in S_I\text{ and }j\in S_I)=\sum_{s_I \ni \text{ $i$ and $j$}} p_I(s_I).
 $$
 
-respectivamente. Por supuesto, $\pi_{Iii}=\pi_{Ii}$.
+respectively. Of course, $\pi_{Iii}=\pi_{Ii}$.
 
 :::
 
-Asimismo, debido a la naturaleza jerárquica de la agrupación de elementos en los conglomerados, el siguiente resultado muestra las probabilidades de inclusión al nivel de los elementos de la población.
+Likewise, because of the hierarchical nature of the grouping of elements in clusters, the following result shows the inclusion probabilities at the level of the population elements.
 
-::: {.callout-tip title="Resultado"}
-La probabilidad de que el $k$-ésimo elemento, sea incluido en la muestra $S$ está dada por
+::: {.callout-tip title="Result"}
+The probability that the $k$-th element is included in sample $S$ is given by
 
 $$
-\pi_{k}=\pi_{Ii} \ \ \ \text{si $k\in U_i$}
+\pi_{k}=\pi_{Ii} \ \ \ \text{if $k\in U_i$}
 $$
 
-Por otro lado, la probabilidad de inclusión de los elementos $k$-ésimo y $l$-ésimo está dada por
+On the other hand, the inclusion probability of the $k$-th and $l$-th elements is given by
 
 $$
 \pi_{kl}=\begin{cases}
-            \pi_{Ii}, & \text{si $k,l \in U_i$},\\\\
-            \pi_{Iij}, & \text{si $k\in U_i, l\in U_j, i\neq j$}.
+            \pi_{Ii}, & \text{if $k,l \in U_i$},\\\\
+            \pi_{Iij}, & \text{if $k\in U_i, l\in U_j, i\neq j$}.
             \end{cases}
 $$
 
 :::
 
-Una vez definidas las probabilidades de inclusión se define la estrategia de muestreo con el uso del estimador de Horvitz-Thompson, dado por el siguiente resultado
+Once the inclusion probabilities are defined, the sampling strategy is defined through the use of the Horvitz-Thompson estimator, given by the following result.
 
-::: {.callout-tip title="Resultado"}
-Bajo un diseño de muestreo por conglomerados, el estimador de Horvitz-Thompson para el total $t_{y}$, su varianza y su varianza estimada están dados por
+::: {.callout-tip title="Result"}
+Under a cluster sampling design, the Horvitz-Thompson estimator for the total $t_{y}$, its variance, and its estimated variance are given by
 
 $$
 \hat{t}_{y,\pi}=\sum_{i\in S_I}\frac{t_{yi}}{\pi_{Ii}}
@@ -224,11 +224,11 @@ $$
 \widehat{Var}_1(\hat{t}_{y,\pi})=\sum\sum_{S_I} \dfrac{\Delta_{Iij}}{\pi_{Iij}}\frac{t_{yi}}{\pi_{Ii}}\frac{t_{yj}}{\pi_{Ij}}
 $$
 
-respectivamente, con $\Delta_{Iij}=\pi_{Iij}-\pi_{Ii}\pi_{Ij}$ y $t_{yi}$ el total del $i$-ésimo conglomerado seleccionado. Nótese que $\hat{t}_{y,\pi}$ es insesgado para $t_y$ y que $\widehat{Var}_1(\hat{t}_{y,\pi})$ es insesgado para $Var_1(\hat{t}_{y,\pi})$.
+respectively, with $\Delta_{Iij}=\pi_{Iij}-\pi_{Ii}\pi_{Ij}$ and $t_{yi}$ the total of the selected $i$-th cluster. Note that $\hat{t}_{y,\pi}$ is unbiased for $t_y$ and that $\widehat{Var}_1(\hat{t}_{y,\pi})$ is unbiased for $Var_1(\hat{t}_{y,\pi})$.
 
-**Prueba.**
+**Proof.**
 
-Para el estimador, se tiene que
+For the estimator, we have
 
 $$
 \begin{aligned}
@@ -239,7 +239,7 @@ $$
 \end{aligned}
 $$
 
-Para el cálculo de la varianza es necesario verificar que
+For the calculation of the variance, it is necessary to verify that
 
 $$
 \Delta_{kl}=
@@ -252,7 +252,7 @@ $$
 \right.
 $$
 
-Entonces se tiene que
+Then we have
 
 $$
 \begin{aligned}
@@ -263,12 +263,12 @@ Var_1(\hat{t}_{y,\pi})&=\sum_{k\in U}\sum_{l\in U}\Delta_{kl}\frac{y_k}{\pi_k}\f
 \end{aligned}
 $$
 
-Se procede análogamente para la estimación de la varianza.
+The variance estimation proceeds analogously.
 
 :::
 
-::: {.callout-tip title="Resultado"}
-Si el diseño de muestreo $p_I(s_I)$ es de tamaño fijo, la varianza del estimador de Horvitz-Thompson y su varianza estimada toman la siguiente forma
+::: {.callout-tip title="Result"}
+If the sampling design $p_I(s_I)$ is fixed-size, the variance of the Horvitz-Thompson estimator and its estimated variance take the following form
 
 $$
 \begin{aligned}
@@ -279,19 +279,19 @@ Var_2(\hat{t}_{y,\pi})
 \end{aligned}
 $$
 
-Nótese que $\widehat{Var}_2(\hat{t}_{y,\pi})$ es insesgado para $Var_2(\hat{t}_{y,\pi})$.
+Note that $\widehat{Var}_2(\hat{t}_{y,\pi})$ is unbiased for $Var_2(\hat{t}_{y,\pi})$.
 
-**Prueba.**
+**Proof.**
 
-La demostración de los anteriores resultados es inmediata siguiendo los lineamentos de la sección del estimador de Horvitz-Thompson del segundo capítulo y notando que $t_y=\sum_{U_I}t_{yi}$.
+The proof of the preceding results is immediate by following the lines of the section on the Horvitz-Thompson estimator in Chapter 2 and noting that $t_y=\sum_{U_I}t_{yi}$.
 
 :::
 
-Al respecto de la construcción del estimador de Horvitz-Thompson bajo muestreo en conglomerados, @Baut deduce que
-- La eficiencia de la estrategia de muestreo toma su máximo valor cuando los valores $\dfrac{t_{yi}}{\pi_{Ii}}$ son constantes para todo $i=1,\ldots,N_I$.
-- Cuando el diseño por conglomerados es tal que asigna probabilidades de inclusión idénticas a cada conglomerado, la estrategia pierde eficiencia, a menos que el comportamiento de los totales de cada conglomerado sea similar.
+Regarding the construction of the Horvitz-Thompson estimator under cluster sampling, @Baut deduces that
+- The efficiency of the sampling strategy takes its maximum value when the values $\dfrac{t_{yi}}{\pi_{Ii}}$ are constant for every $i=1,\ldots,N_I$.
+- When the cluster design assigns identical inclusion probabilities to each cluster, the strategy loses efficiency unless the behavior of the totals of each cluster is similar.
 
-Los anteriores comentarios nos llevan a preferir diseños de muestreo que asignen probabilidades de inclusión proporcionales al tamaño del conglomerado. Para esto se debería disponer de información auxiliar continua disponible para toda la población $U_I$ que estuviera bien correlacionada con los totales de la característica de interés en cada conglomerado $t_{yi}$. En otras palabras, nuestro marco de muestreo es de conglomerados; por tanto, si $x$ representa la información auxiliar continua y $t_{xi}$ el total de la información auxiliar en el $i$-ésimo conglomerado, la correlación entre $t_{xi}$ y $t_{yi}$ debería ser bastante fuerte y las probabilidades de inclusión de los conglomerados deberían corresponder a
+The preceding comments lead us to prefer sampling designs that assign inclusion probabilities proportional to cluster size. For this, continuous auxiliary information should be available for the entire population $U_I$ and should be well correlated with the totals of the characteristic of interest in each cluster $t_{yi}$. In other words, our sampling frame is a cluster frame; therefore, if $x$ represents the continuous auxiliary information and $t_{xi}$ the total of the auxiliary information in the $i$-th cluster, the correlation between $t_{xi}$ and $t_{yi}$ should be quite strong, and the inclusion probabilities of the clusters should correspond to
 
 $$
 \begin{aligned}
@@ -299,22 +299,22 @@ $$
 \end{aligned}
 $$
 
-::: {.callout-note title="Ejemplo"}
-Nuestra población ejemplo $U_I$ dada por
+::: {.callout-note title="Example"}
+Our example population $U_I$, given by
 
 $U_I$=\{U_1, U_2, U_3\}
 
-Suponga que se selecciona una muestra $s_I$ de conglomerados de tamaño $n_I=2$ mediante un diseño de muestreo sin reemplazo tal que
+Suppose that a sample $s_I$ of clusters of size $n_I=2$ is selected using a sampling design without replacement such that
 
 $$
 p_I(s_I)=\begin{cases}
-            0.5, & \text{si $s_I$=\{U_1, U_2\}},\\
-            0.4, & \text{si $s_I$=\{U_1, U_3\}},\\
-            0.1, & \text{si $s_I$=\{U_2, U_3\}}
+            0.5, & \text{if $s_I$=\{U_1, U_2\}},\\
+            0.4, & \text{if $s_I$=\{U_1, U_3\}},\\
+            0.1, & \text{if $s_I$=\{U_2, U_3\}}
             \end{cases}
 $$
 
-Mediante el siguiente ejercicio léxico-gráfico se comprueba el insesgamiento del estimador de Horvitz-Thompson en R. Para esto utilizamos las funciones `Ik` y `Pik` del paquete `TeachingSampling` a nivel de los conglomerados.
+Through the following lexical-graphic exercise, the unbiasedness of the Horvitz-Thompson estimator is verified in R. For this, we use the `Ik` and `Pik` functions from the `TeachingSampling` package at the cluster level.
 
 ```{r}
 p <- c(0.5, 0.4, 0.1)
@@ -324,15 +324,15 @@ pikI <- Pik(p, Ind)
 pikI
 ```
 
-De esta manera, la probabilidad de inclusión más alta la tiene el conglomerado $U_1$ y la más baja corresponde al conglomerado $U_3$. Con esto podemos calcular la estimación mediante el uso de la función `HT` del paquete `TeachingSampling`.
+In this way, the highest inclusion probability belongs to cluster $U_1$, and the lowest corresponds to cluster $U_3$. With this, we can calculate the estimate using the `HT` function from the `TeachingSampling` package.
 
-```{r, warning=FALSE}
+```{r, warning = FALSE}
 all.pikI <- Support(NI, nI, pikI)
 all.tyI <- Support(NI, nI, tyI)
 all.HT <- rep(NA, 3)
 
-for(k in 1:3){
-  all.HT[k] <- HT(all.tyI[k,], all.pikI[k,])
+for (k in 1:3) {
+  all.HT[k] <- HT(all.tyI[k, ], all.pikI[k, ])
 }
 
 all.HT
@@ -340,23 +340,23 @@ sum(p * all.HT)
 All.samples <- data.frame(QI, p, all.pikI, all.tyI, all.HT)
 ```
 
-```{r, echo=FALSE, results = 'asis'}
+```{r, echo = FALSE, results = 'asis'}
 #| label: tbl-t6-1
-#| tbl-cap: 'Estimaciones para todas las posibles muestras del ejemplo.'
+#| tbl-cap: 'Estimates for all possible samples in the example.'
 All.samples <- data.frame(QI, p, all.pikI, all.tyI, all.HT)
 knitr::kable(All.samples)
 ```
 
-Una vez más, nótese que en la estimación intervienen las cantidades de los conglomerados seleccionados en la muestra realizada.
+Once again, note that the estimation involves the quantities of the clusters selected in the realized sample.
 
 :::
 
-#### Estimación de otros parámetros
+#### Estimation of other parameters
 
-<!-- index: Parámetros diferentes al total -->Si el tamaño poblacional $N$ es conocido, la media poblacional definida en (@eq-media) puede ser estimada con el estimador de Horvitz-Thompson.
+<!-- index: Parameters other than the total -->If the population size $N$ is known, the population mean defined in (@eq-media) can be estimated with the Horvitz-Thompson estimator.
 
-::: {.callout-tip title="Resultado"}
-En muestreo por conglomerado la media poblacional es estimada insesgadamente mediante el uso del estimador de Horvitz-Thompson
+::: {.callout-tip title="Result"}
+In cluster sampling, the population mean is estimated unbiasedly using the Horvitz-Thompson estimator
 
 $$
 \begin{aligned}
@@ -367,16 +367,16 @@ $$
 
 :::
 
-Una de las razones por las que se utiliza el muestreo por conglomerados es la falta de un marco de muestreo para elementos. En este caso el desconocimiento del tamaño poblacional es muy típico. Sin embargo, utilizando los principios del estimador de Horvitz-Thompson, es posible estimar el tamaño de la población escribiéndolo como
+One of the reasons cluster sampling is used is the lack of a sampling frame for elements. In this case, not knowing the population size is very typical. However, using the principles of the Horvitz-Thompson estimator, it is possible to estimate the population size by writing it as
 
 $$
 N=\sum_{i\in U_I} N_i,
 $$
 
-Luego, tenemos el siguiente resultado.
+Then, we have the following result.
 
-::: {.callout-tip title="Resultado"}
-En muestreo por conglomerados el tamaño poblacional es estimado insesgadamente mediante el uso de la siguiente expresión
+::: {.callout-tip title="Result"}
+In cluster sampling, the population size is estimated unbiasedly using the following expression
 
 $$
 \hat{N}_{\pi}=\sum_{i\in S_I}\frac{N_i}{\pi_{Ii}}
@@ -384,7 +384,7 @@ $$
 
 :::
 
-Una vez el tamaño de la población es estimado, es posible utilizar la razón de Hájek [@Hajek71] para estimar la media poblacional de la siguiente manera.
+Once the population size has been estimated, it is possible to use the Hájek ratio [@Hajek71] to estimate the population mean as follows.
 
 $$
 \begin{aligned}
@@ -393,37 +393,37 @@ $$
 \end{aligned}
 $$
 
-De hecho, en algunas ocasiones, cuando el diseño de muestreo utilizado induce probabilidades de inclusión desiguales, es  mejor utilizar este estimador aun conociendo el tamaño poblacional.
+In fact, on some occasions, when the sampling design used induces unequal inclusion probabilities, it is better to use this estimator even when the population size is known.
 
-### El estimador de Hansen-Hurwitz
+### The Hansen-Hurwitz estimator
 
-Si la selección de los conglomerados se hace con reemplazo, ya sea utilizando un diseño de muestreo aleatorio simple con reemplazo o, en el caso de tener información auxiliar continua a nivel de los conglomerados, haciendo uso de un diseño de muestreo PPT, es posible utilizar los principios del estimador de Hansen-Hurwitz para completar la estrategia de muestreo.
+If the selection of clusters is carried out with replacement, either using a simple random sampling design with replacement or, when continuous auxiliary information is available at the cluster level, using a PPS sampling design, it is possible to use the principles of the Hansen-Hurwitz estimator to complete the sampling strategy.
 
-En caso de tener acceso a información auxiliar continua, las probabilidad de selección del $i$-ésimo conglomerado estaría dada por
+If continuous auxiliary information is available, the selection probability of the $i$-th cluster would be given by
 
 $$
 p_{Ii}=\frac{t_{xi}}{t_x}
 $$
 
-@Sam afirma que en caso de conocerse los tamaños $N_i$ de cada cluster $i=1,\ldots,N_I$, estos mismos pueden ser utilizados como medidas de tamaño para desarrollar un plan de muestreo con probabilidades proporcionales. El esquema general del muestreo con reemplazo toma la siguiente forma:
-- Para cada conglomerado de la población $U_I$, existen números positivos $p_{I1},\ldots,p_{IN_I}$ tales que
+@Sam states that if the sizes $N_i$ of each cluster $i=1,\ldots,N_I$ are known, these can be used as size measures to develop a sampling plan with proportional probabilities. The general scheme of sampling with replacement takes the following form:
+- For each cluster in population $U_I$, there are positive numbers $p_{I1},\ldots,p_{IN_I}$ such that
 
 $$
 \sum_{U_I}p_{Ii}=1.
 $$
 
-Estas probabilidades no son necesariamente iguales.
-- Para seleccionar el primer elemento que pertenecerá a la muestra de tamaño $m_I$, se lleva a cabo un sorteo aleatorio de tal forma que
+These probabilities are not necessarily equal.
+- To select the first element that will belong to the sample of size $m_I$, a random draw is carried out in such a way that
 
 $$
-Pr(\text{Seleccionar el conglomerado }i)=p_{Ii},\text{   $i \in U_I$}.
+Pr(\text{Select cluster }i)=p_{Ii},\text{   $i \in U_I$}.
 $$
-- El conglomerado seleccionado es reemplazado en la población y vuelve a ser parte del próximo sorteo aleatorio con la misma probabilidad de selección. En total se realizan $m_I$ sorteos aleatorios independientes.
+- The selected cluster is replaced in the population and again becomes part of the next random draw with the same selection probability. In total, $m_I$ independent random draws are carried out.
 
-Nótese que el sorteo aleatorio se realiza entre los conglomerados, y no entre los elementos; por lo tanto, bajo muestreo en conglomerados no tiene sentido hablar de la probabilidad de selección de un elemento. Una vez que las probabilidades de selección de los conglomerados están definidas, utilizamos el estimador de Hansen-Hurwitz para estimar los parámetros de interés.
+Note that the random draw is carried out among clusters, not among elements; therefore, under cluster sampling it does not make sense to speak of the selection probability of an element. Once the selection probabilities of the clusters are defined, we use the Hansen-Hurwitz estimator to estimate the parameters of interest.
 
-::: {.callout-tip title="Resultado"}
-Bajo un diseño de muestreo por conglomerados, el estimador de Hansen-Hurwitz para el total $t_{y}$, su varianza y su varianza estimada están dados por
+::: {.callout-tip title="Result"}
+Under a cluster sampling design, the Hansen-Hurwitz estimator for the total $t_{y}$, its variance, and its estimated variance are given by
 
 $$
 \hat{t}_{y,p}=\frac{1}{m_I}\sum_{v=1}^{m_I}\frac{t_{{yi}_v}}{p_{Ii_v}}
@@ -437,17 +437,17 @@ $$
 \widehat{Var}(\hat{t}_{y,p})=\frac{1}{m_I(m_I-1)}\sum_{v=1}^{m_I}\left(\frac{t_{yi_v}}{p_{Ii_v}}-\hat{t}_{y,p}\right)^2
 $$
 
-respectivamente. Nótese que $\hat{t}_{y,p}$ es insesgado para $t_y$ y que $\widehat{Var}(\hat{t}_{y,p})$ es insesgado para $Var(\hat{t}_{y,p})$.
+respectively. Note that $\hat{t}_{y,p}$ is unbiased for $t_y$ and that $\widehat{Var}(\hat{t}_{y,p})$ is unbiased for $Var(\hat{t}_{y,p})$.
 
-**Prueba.**
+**Proof.**
 
-La demostración del resultado sigue los mismos argumentos de la sección del estimador de Hansen-Hurwitz del segundo capítulo y del resultado 2.2.11, definiendo la variable aleatoria $Z_v$ como
+The proof of the result follows the same arguments as the section on the Hansen-Hurwitz estimator in Chapter 2 and Result 2.2.11, defining the random variable $Z_v$ as
 
 $$
 Z_v=t_{yi}/p_{Ii} \ \ \ \ \ \ i\in U_I \ \ \ v=1,\ldots,m_I
 $$
 
-y notando que
+and noting that
 
 $$
 Pr\left(Z_v=t_{yi}/p_{Ii}\right)=p_{Ii}
@@ -455,53 +455,53 @@ $$
 
 :::
 
-@Coc afirma que el método de selección de muestras con reemplazo es equivalente al problema estándar de probabilidad en el cual $m_I$ bolas son depositadas en $N_I$ cajas, la probabilidad de que una bola sea depositada en la $i$-ésima caja está dada por $Z_v$ en cada oportunidad. De esta manera, la distribución conjunta de $n_{Ii}(s_I)$\footnote{$n_{Ii}(s_I)$ se define como el número de veces que el conglomerado $i$-ésimo es seleccionado en una muestra probabilística de tamaño $m_I$. Note que $n_{Ii}(s_I)$ toma valores $0,1,2,\ldots,m_I$.} está dada por una expresión multinomial.
+@Coc states that the method of selecting samples with replacement is equivalent to the standard probability problem in which $m_I$ balls are placed into $N_I$ boxes; the probability that a ball is placed in the $i$-th box is given by $Z_v$ on each occasion. In this way, the joint distribution of $n_{Ii}(s_I)$\footnote{$n_{Ii}(s_I)$ is defined as the number of times the $i$-th cluster is selected in a probability sample of size $m_I$. Note that $n_{Ii}(s_I)$ takes values $0,1,2,\ldots,m_I$.} is given by a multinomial expression.
 
-::: {.callout-important title="Definici?n"}
-<!-- index: Diseño de muestreo con reemplazo -->De manera general, un diseño de muestreo con reemplazo de conglomerados se define como
+::: {.callout-important title="Definition"}
+<!-- index: Sampling design with replacement -->In general, a sampling design with replacement of clusters is defined as
 
 $$
-p_I(s_I)= \begin{cases} \frac{m_I!}{n_{I1}(s_I)!\ldots n_{IN_I}(s_I)!}\prod_{U_I}(p_{Ii})^{n_{Ii}(s_I)}, &\text{si $\sum_{U_I}n_{Ii}(s_I)=m_I$}\\
-0,  &\text{en otro caso}
+p_I(s_I)= \begin{cases} \frac{m_I!}{n_{I1}(s_I)!\ldots n_{IN_I}(s_I)!}\prod_{U_I}(p_{Ii})^{n_{Ii}(s_I)}, &\text{if $\sum_{U_I}n_{Ii}(s_I)=m_I$}\\
+0,  &\text{otherwise}
       \end{cases}
 $$
 
 :::
 
-::: {.callout-note title="Ejemplo"}
-Nuestra población ejemplo $U_I$ dada por
+::: {.callout-note title="Example"}
+Our example population $U_I$, given by
 
 $U_I=$\{U_1, U_2, U_3\}
 
-Suponga que se selecciona una muestra $s_I$ con reemplazo de conglomerados de tamaño $m_I=2$ mediante un diseño de muestreo que asigna las siguientes probabilidades de selección a cada conglomerado.
+Suppose that a sample $s_I$ of clusters with replacement of size $m_I=2$ is selected using a sampling design that assigns the following selection probabilities to each cluster.
 
 $$
 p_{Ii}=\begin{cases}
-            0.80, & \text{si $i=1$},\\
-            0.15, & \text{si $i=2$},\\
-            0.05, & \text{si $i=3$}.
+            0.80, & \text{if $i=1$},\\
+            0.15, & \text{if $i=2$},\\
+            0.05, & \text{if $i=3$}.
             \end{cases}
 $$
 
-Para seleccionar una muestra con reemplazo de la población $U_I$ de tamaño $mI=2$ conglomerados se utiliza la función `sample` cuyo argumento `replace` debe aparecer igual a `TRUE`. Para esto definimos las probabilidades de selección de cada conglomerado.
+To select a sample with replacement from population $U_I$ of size $mI=2$ clusters, the `sample` function is used, whose `replace` argument must be equal to `TRUE`. For this, we define the selection probabilities of each cluster.
 
 ```{r}
 UI <- c("U1", "U2", "U3")
 NI <- 3
 mI <- 2
 
-pIi  <- c(0.8, 0.15, 0.05)
-samI  <-  sample(NI, mI, replace=TRUE, prob=pIi)
-mI   <-  UI[samI]
+pIi <- c(0.8, 0.15, 0.05)
+samI <- sample(NI, mI, replace = TRUE, prob = pIi)
+mI <- UI[samI]
 mI
 ```
 
-En este caso particular la  muestra con reemplazo está compuesta por $U_3$ y, como era de esperarse, por tener la más alta probabilidad de selección, por $U_1$. Para estimar el total poblacional, utilizamos la función `HH` del paquete `TeachingSampling` con los totales de los conglomerados seleccionados y sus respectivas probabilidades de selección.
+In this particular case, the sample with replacement is composed of $U_3$ and, as expected because it has the highest selection probability, $U_1$. To estimate the population total, we use the `HH` function from the `TeachingSampling` package with the totals of the selected clusters and their respective selection probabilities.
 
 ```{r}
-tyIm  <-  tyI[samI]
+tyIm <- tyI[samI]
 tyIm
-pIim  <-  pIi[samI]
+pIim <- pIi[samI]
 data.frame(mI, pIim, tyIm)
 
 HH(tyIm, pIim)[1]
@@ -509,37 +509,37 @@ HH(tyIm, pIim)[1]
 
 :::
 
-## Muestreo aleatorio simple de conglomerados
+## Simple random sampling of clusters
 
-<!-- index: Diseño de muestreo aleatorio de conglomerados -->En esta sección se introducen los principios del diseño de muestreo por conglomerados bajo el plan de muestreo más sencillo. La muestra $s_I$ de $n_I$ conglomerados  es seleccionada mediante un diseño de muestreo aleatorio simple sin reemplazo. Como se verá a lo largo de la sección, no hay nuevos principios (ni en el diseño de muestreo ni en el desarrollo del estimador) involucrados en la construcción de la estrategia de muestreo, la demostración de los resultados se hace siguiendo las pautas expuestas en el capítulo 2.
+<!-- index: Cluster random sampling design -->This section introduces the principles of the cluster sampling design under the simplest sampling plan. The sample $s_I$ of $n_I$ clusters is selected using a simple random sampling design without replacement. As will be seen throughout the section, there are no new principles, either in the sampling design or in the development of the estimator, involved in constructing the sampling strategy; the proof of the results follows the guidelines presented in Chapter 2.
 
-Este diseño de muestreo asume que el comportamiento del total de la característica de interés es constante en cada uno de los conglomerados. En la práctica esta situación se presenta en muy pocas ocasiones, es por esto que este diseño pierde precisión, en la mayoría de ocasiones, ante el muestreo aleatorio simple. Para que este diseño de muestreo sea más eficiente el valor promedio de la característica de interés en cada cluster $\bar{y}_{U_i}$ debería ser proporcional a $\frac{c}{N_i}$. Se asume que la población $U_I$ está dividida en $N_I$ conglomerados (no necesariamente del mismo tamaño). La muestra sin reemplazo es seleccionada de acuerdo al diseño de muestreo dada en la siguiente definición.
+This sampling design assumes that the behavior of the total of the characteristic of interest is constant in each cluster. In practice, this situation occurs very rarely, which is why this design loses precision, in most cases, compared with simple random sampling. For this sampling design to be more efficient, the average value of the characteristic of interest in each cluster $\bar{y}_{U_i}$ should be proportional to $\frac{c}{N_i}$. It is assumed that population $U_I$ is divided into $N_I$ clusters, not necessarily of the same size. The sample without replacement is selected according to the sampling design given in the following definition.
 
-::: {.callout-important title="Definici?n"}
-<!-- index: Diseño de muestreo aleatorio de conglomerados -->Un diseño de muestreo se dice aleatorio simple para conglomerados si todas las posibles muestras de tamaño $n_I$ tienen la misma probabilidad de ser seleccionadas. Así,
+::: {.callout-important title="Definition"}
+<!-- index: Cluster random sampling design -->A sampling design is said to be simple random for clusters if all possible samples of size $n_I$ have the same probability of being selected. Thus,
 
 $$
-p_I(s_I)= \begin{cases} \frac{1}{\binom{N_I}{n_I}} &\text{si $\#s_I=n_I$}\\
-0  &\text{en otro caso}
+p_I(s_I)= \begin{cases} \frac{1}{\binom{N_I}{n_I}} &\text{if $\#s_I=n_I$}\\
+0  &\text{otherwise}
       \end{cases}
 $$
 
 :::
 
-Una vez que la muestra de conglomerados $s_I$ es seleccionada se dispone a realizar una enumeración completa y la respectiva medición y observación de todos y cada uno de los elementos pertenecientes a cada conglomerado seleccionado.
+Once the cluster sample $s_I$ is selected, a complete enumeration and the corresponding measurement and observation of each and every element belonging to each selected cluster are carried out.
 
-### Algoritmos de selección
+### Selection algorithms
 
-<!-- index: Algoritmos de selección -->En la selección de las muestras de conglomerados sin reemplazo es posible utilizar los algoritmos de muestreo dados en el capítulo 2, de tal forma que los siguientes pasos se deben realizar:
-- Separar la población en $N_I$ conglomerados mediante el marco de muestreo de conglomerados.
-- Realizar una selección de $n_I$ conglomerados mediante cualquiera de los métodos expuestos en la sección 3.2.1; es decir, por el método coordinado negativo o por el método de Fan-Muller-Rezucha.
+<!-- index: Selection algorithms -->When selecting samples of clusters without replacement, it is possible to use the sampling algorithms given in Chapter 2, so the following steps must be carried out:
+- Separate the population into $N_I$ clusters using the cluster sampling frame.
+- Select $n_I$ clusters using any of the methods presented in Section 3.2.1; that is, the negative coordination method or the Fan-Muller-Rezucha method.
 
-### El estimador de Horvitz-Thompson
+### The Horvitz-Thompson estimator
 
-Siguiendo el resultado 6.1.1. las probabilidades de inclusión están dadas por el siguiente resultado.
+Following Result 6.1.1, the inclusion probabilities are given by the following result.
 
-::: {.callout-tip title="Resultado"}
-Para un diseño de muestreo aleatorio de conglomerados, las probabilidades de inclusión de primer y segundo orden de los conglomerados están dadas por
+::: {.callout-tip title="Result"}
+For a cluster random sampling design, the first- and second-order inclusion probabilities of the clusters are given by
 
 $$
 \begin{aligned}
@@ -548,20 +548,20 @@ $$
 \end{aligned}
 $$
 
-respectivamente.
+respectively.
 
 :::
 
-::: {.callout-tip title="Resultado"}
-El tamaño de la muestra de elemento $s$ es aleatorio y su esperanza está dada por
+::: {.callout-tip title="Result"}
+The size of the sample of elements $s$ is random and its expectation is given by
 
 $$
 E(n(S))=N\frac{n_I}{N_I}
 $$
 
-**Prueba.**
+**Proof.**
 
-De la definición de tamaño de muestra esperado, se tiene que
+From the definition of expected sample size, we have
 
 $$
 E(n(S))=E\left(\sum_{i\in S_I}N_i\right)=\sum_{i\in U_I}N_i\frac{n_I}{N_I}=N\frac{n_I}{N_I}
@@ -569,43 +569,43 @@ $$
 
 :::
 
-Se sigue del resultado 6.1.2 que la estrategia de muestreo se construye mediante el uso del estimador de Horvitz-Thompson que bajo este diseño de muestreo particular toma la forma del siguiente resultado.
+It follows from Result 6.1.2 that the sampling strategy is constructed using the Horvitz-Thompson estimator, which under this particular sampling design takes the form of the following result.
 
-::: {.callout-tip title="Resultado"}
-Para un diseño de muestreo aleatorio de conglomerados, el estimador de Horvitz-Thompson del total poblacional $t_y$, su varianza y su varianza estimada están dados por
+::: {.callout-tip title="Result"}
+For a cluster random sampling design, the Horvitz-Thompson estimator of the population total $t_y$, its variance, and its estimated variance are given by
 
 $$
 \hat{t}_{y,\pi}=\frac{N_I}{n_I}\sum_{S_I}t_{yi}
 $$
 
 $$
-Var_{MAC}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{yU_I}}
+Var_{CS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{yU_I}}
 $$
 
 $$
-\widehat{Var}_{MAC}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{ys_I}}
+\widehat{Var}_{CS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{ys_I}}
 $$
 
-respectivamente, con $S^2_{t_{yU_I}}$ y $S^2_{t_{ys_I}}$ el estimador de la varianza de los totales de los conglomerados para la característica de interés en el universo $U_I$ y en la muestra $s_I$. Esto es
+respectively, with $S^2_{t_{yU_I}}$ and $S^2_{t_{ys_I}}$ the variance estimator of the cluster totals for the characteristic of interest in universe $U_I$ and in sample $s_I$. That is,
 
 $$
 S^2_{t_{yU_I}}=\frac{1}{N_I-1}\sum_{i\in U_I}(t_{yi}-\bar{t}_{U_I})^2,
 $$
 
-donde $\bar{t}_{U_I}=\sum_{i=1}^{N_I}t_{yi}/N_I$, y $S^2_{t_{yS_I}}$ se define de manera análoga. Nótese que $\hat{t}_{y,\pi}$ es insesgado para el total poblacional $t_y$ de la característica de interés $y$, y que $\widehat{Var}_{MAC}(\hat{t}_{y,\pi})$ es insesgado para $Var_{MAC}(\hat{t}_{y,\pi})$.
+where $\bar{t}_{U_I}=\sum_{i=1}^{N_I}t_{yi}/N_I$, and $S^2_{t_{yS_I}}$ is defined analogously. Note that $\hat{t}_{y,\pi}$ is unbiased for the population total $t_y$ of the characteristic of interest $y$, and that $\widehat{Var}_{CS}(\hat{t}_{y,\pi})$ is unbiased for $Var_{CS}(\hat{t}_{y,\pi})$.
 
 :::
 
-Nótese que el diseño de muestreo sistemático en un caso especial del muestreo aleatorio de conglomerados cuando se selecciona una muestra $s_I$ de tamaño igual a $n_I=1$. Al igual que en muestreo sistemático no se tiene un estimador de la varianza cuando se selecciona sólo un conglomerado.
+Note that the systematic sampling design is a special case of cluster random sampling when a sample $s_I$ of size equal to $n_I=1$ is selected. As in systematic sampling, there is no variance estimator when only one cluster is selected.
 
-::: {.callout-note title="Ejemplo"}
-Siguiendo con nuestra población ejemplo $U_I$, existen $\binom{N_I}{m_I}=\binom{3}{2}=3$ posibles muestras de tamaño $m_I=2$. Realice el cálculo léxico-gráfico del estimador de Horvitz-Thompson y compruebe el insesgamiento y la varianza mediante este diseño de muestreo.
+::: {.callout-note title="Example"}
+Continuing with our example population $U_I$, there are $\binom{N_I}{m_I}=\binom{3}{2}=3$ possible samples of size $m_I=2$. Carry out the lexical-graphic calculation of the Horvitz-Thompson estimator and verify unbiasedness and the variance using this sampling design.
 
 :::
 
-#### Tamaño de muestra
+#### Sample size
 
-<!-- index: Tamaño de muestra -->Bajo muestreo aleatorio de conglomerados se utilizan los mismos principios de la estimación del tamaño de muestra en muestreo aleatorio simple reemplazando las cantidades correspondientes de la población de elementos por la población de conglomerados $U_I$. De tal forma que si requiere estimar el tamaño de muestra dada una precisión absoluta $c$ se tiene:
+<!-- index: Sample size -->Under cluster random sampling, the same principles of sample size estimation used in simple random sampling are applied, replacing the corresponding quantities from the population of elements with those from the population of clusters $U_I$. Thus, if the sample size must be estimated for a given absolute precision $c$, we have:
 
 $$
 \begin{aligned}
@@ -613,7 +613,7 @@ n_I\geq\frac{n_{I0}}{1+\frac{n_{I0}}{N_I}}
 \end{aligned}
 $$
 
-con $n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}S^2_{t_{yU_I}}}{c^2}$. En algunas ocasiones se quiere lograr una precisión relativa $k$, por tanto:
+with $n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}S^2_{t_{yU_I}}}{c^2}$. On some occasions, the goal is to achieve a relative precision $k$; therefore:
 
 $$
 \begin{aligned}
@@ -621,55 +621,55 @@ n_I\geq\frac{n_{I0}}{1+\frac{n_{I0}}{N_I}}
 \end{aligned}
 $$
 
-con $n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}CV^2}{k^2}$. Nótese que dado que la población de conglomerados es pequeña, en la mayoría de los casos, es preferible suponer que el estimador sigue una distribución t-student con $N_I-1$ grados de libertad.
+with $n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}CV^2}{k^2}$. Note that because the population of clusters is small, in most cases it is preferable to assume that the estimator follows a Student's t distribution with $N_I-1$ degrees of freedom.
 
-### Eficiencia de la estrategia
+### Efficiency of the strategy
 
-<!-- index: Eficiencia de la estrategia -->A lo largo del capítulo se ha mencionado que la eficiencia de esta estrategia de muestreo es menor que la del muestreo aleatorio simple sin reemplazo. Intuitivamente se sospecha que, dado que la formación de grupos se presenta en forma natural en la mayoría de los casos, la información de los conglomerados, con respecto al comportamiento estructural de la característica de interés, es homogénea dentro de cada uno de ellos.
+<!-- index: Efficiency of the strategy -->Throughout the chapter, it has been mentioned that the efficiency of this sampling strategy is lower than that of simple random sampling without replacement. Intuitively, it is suspected that, because group formation occurs naturally in most cases, the information in the clusters, with respect to the structural behavior of the characteristic of interest, is homogeneous within each of them.
 
-Para corroborar las anteriores afirmaciones vamos a medir la eficiencia de la estrategia utilizando el efecto de diseño. Sin embargo, para unificar el tamaño de la muestra en esta estrategia se supondrá que:
-- La población $U_I$ está conformada por $N_I$ conglomerados.
-- Cada conglomerado es de tamaño $M$. Luego $\#U_i=M \ \ \ i=1,\ldots,N_I$, además la población de elementos $U$ es de tamaño $N=M\times N_I$.
-- Se selecciona una muestra $s_I$ de tamaño igual a $n_I$ conglomerados. De esta forma se han seleccionado en la muestra $M\times n_I$ elementos.
+To corroborate the preceding statements, we will measure the efficiency of the strategy using the design effect. However, to unify the sample size in this strategy, assume that:
+- Population $U_I$ consists of $N_I$ clusters.
+- Each cluster has size $M$. Thus, $\#U_i=M \ \ \ i=1,\ldots,N_I$, and the population of elements $U$ has size $N=M\times N_I$.
+- A sample $s_I$ of size equal to $n_I$ clusters is selected. In this way, $M\times n_I$ elements have been selected in the sample.
 
-| Fuente | gl | Suma de cuadrados | Cuadrado medio |
+| Source | df | Sum of squares | Mean square |
 |---|---|---|---|
-| Entre | $N_I-1$ | $SCE=\sum_{i=1}^{N_I}M\left(\bar{y}_{U_i}-\bar{y}_U\right)^2$ | $\dfrac{SCE}{N_I-1}$ |
-| Dentro | $N_IM-N_I$ | $SCD=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_{U_i}\right)^2$ | $\dfrac{SCD}{N_IM-N_I}$ |
-| Total | $N_IM-1$ | $SCT=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_U\right)^2$ | $s^2_{y_U}$ |
+| Between | $N_I-1$ | $SSB=\sum_{i=1}^{N_I}M\left(\bar{y}_{U_i}-\bar{y}_U\right)^2$ | $\dfrac{SSB}{N_I-1}$ |
+| Within | $N_IM-N_I$ | $SSW=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_{U_i}\right)^2$ | $\dfrac{SSW}{N_IM-N_I}$ |
+| Total | $N_IM-1$ | $SST=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_U\right)^2$ | $s^2_{y_U}$ |
 
-: Tabla de ANOVA inducida por el muestreo aleatorio de conglomerados. {#tbl-t6-anova}
+: ANOVA table induced by cluster random sampling. {#tbl-t6-anova}
 
-Los resultados podrán ser comparables si se supone que una muestra de $n_I$ conglomerados es seleccionada de acuerdo a un diseño aleatorio simple de conglomerados. Por otro lado, se supone que se selecciona una muestra de $M\times n_I$ elementos directamente de la población $U$. Cada vez que la población es dividida en sub-grupos poblacionales es muy útil recurrir a la tabla de análisis de varianza que esta vez toma la forma dada en la @tbl-t6-anova.
+The results can be made comparable by assuming that a sample of $n_I$ clusters is selected according to a simple random cluster design. On the other hand, suppose that a sample of $M\times n_I$ elements is selected directly from population $U$. Whenever the population is divided into population subgroups, it is very useful to use the analysis of variance table, which this time takes the form given in @tbl-t6-anova.
 
-::: {.callout-tip title="Resultado"}
-Utilizando los resultados de la descomposición de las sumas de cuadrados, la varianza de la estrategia por conglomerados toma la siguiente forma
-
-$$
-Var_{MAC}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SCE}{N_I-1}
-$$
-
-mientras que la varianza de la estrategia aleatoria simple, con un tamaño poblacional igual a $N=M\times N_I$ elementos y un tamaño de muestra igual a $n=M\times n_I$ elementos, se puede escribir como
+::: {.callout-tip title="Result"}
+Using the results of the decomposition of the sums of squares, the variance of the cluster strategy takes the following form
 
 $$
-Var_{MAS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SCT}{MN_I-1}
+Var_{CS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SSB}{N_I-1}
 $$
 
-**Prueba.**
+whereas the variance of the simple random strategy, with population size equal to $N=M\times N_I$ elements and sample size equal to $n=M\times n_I$ elements, can be written as
 
-Para la varianza de la estrategia por conglomerados se tiene
+$$
+Var_{SRS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SST}{MN_I-1}
+$$
+
+**Proof.**
+
+For the variance of the cluster strategy, we have
 
 $$
 \begin{aligned}
-M\frac{SCE}{N_I-1}&=\frac{\sum_{i=1}^{N_I}M^2\left(\bar{y}_{U_i}-\bar{y}_U\right)^2}{N_I-1}\\
+M\frac{SSB}{N_I-1}&=\frac{\sum_{i=1}^{N_I}M^2\left(\bar{y}_{U_i}-\bar{y}_U\right)^2}{N_I-1}\\
 &=\frac{\sum_{i=1}^{N_I}\left(t_{yi}-\bar{t}_{yU_I}\right)^2}{N_I-1}\\
 &=S^2_{t_{yU_I}}
 \end{aligned}
 $$
 
-donde $\bar{y}_{U_i}$ y $t_{yi}$ es el promedio y el total del $i$-ésimo conglomerado, respectivamente y $\bar{t}_{yU_I}=\frac{\sum_{i=1}^{N_I}t_{yi}}{N_I}$ es el promedio de los totales de los conglomerados.
+where $\bar{y}_{U_i}$ and $t_{yi}$ are the mean and total of the $i$-th cluster, respectively, and $\bar{t}_{yU_I}=\frac{\sum_{i=1}^{N_I}t_{yi}}{N_I}$ is the average of the cluster totals.
 
-Para la varianza de la estrategia aleatoria simple sólo hay que notar que
+For the variance of the simple random strategy, it is enough to note that
 
 $$
 \begin{aligned}
@@ -680,70 +680,70 @@ $$
 
 :::
 
-Note que si $SCE$ es alta, entonces la estrategia será menos eficiente. En la práctica es esto lo que ocurre exactamente pues dada la agrupación natural de elementos, el comportamiento de la característica de interés será similar dentro de cada conglomerado. Por tanto, $SCE$ será elevada pues en forma general los conglomerados presentarán un comportamiento heterogéneo. Para verlo con más claridad, se define el coeficiente de correlación intra-clase como
+Note that if $SSB$ is high, then the strategy will be less efficient. In practice, this is exactly what occurs because, given the natural grouping of elements, the behavior of the characteristic of interest will be similar within each cluster. Therefore, $SSB$ will be high because clusters will generally exhibit heterogeneous behavior. To see this more clearly, the intraclass correlation coefficient is defined as
 
 $$
-\rho=1-\frac{M}{M-1}\frac{SCD}{SCT}
+\rho=1-\frac{M}{M-1}\frac{SSW}{SST}
 $$
 
-Esta medida toma valores positivos si los elementos dentro de los conglomerados tienen un comportamiento similar y negativo cuando el comportamiento de los elementos dentro de los conglomerados es muy disperso. Además, el coeficiente informa qué tan similares son los elementos dentro de los conglomerados y proporciona una medida de homogeneidad dentro de los conglomerados y nos da una realidad más detallada en cuanto al efecto de diseño y pérdida de eficiencia en el muestreo aleatorio de conglomerados como lo afirma el siguiente resultado.
+This measure takes positive values if the elements within the clusters have similar behavior, and negative values when the behavior of the elements within the clusters is highly dispersed. In addition, the coefficient indicates how similar the elements within the clusters are and provides a measure of homogeneity within clusters, giving us a more detailed view of the design effect and efficiency loss in cluster random sampling, as stated in the following result.
 
-::: {.callout-tip title="Resultado"}
-El efecto de diseño en muestreo aleatorio de conglomerados está dado por
+::: {.callout-tip title="Result"}
+The design effect in cluster random sampling is given by
 
 $$
-Deff=\frac{Var_{MAC}\hat{t}_{\pi}}{Var_{MAS}\hat{t}_{\pi}}\cong1+(M-1)\rho
+Deff=\frac{Var_{CS}\hat{t}_{\pi}}{Var_{SRS}\hat{t}_{\pi}}\cong1+(M-1)\rho
 $$ {#eq-defcon}
 
-**Prueba.**
+**Proof.**
 
-La aproximación se tiene si se supone que $N_I$, el número total de conglomerados, es grande tal que
+The approximation holds if $N_I$, the total number of clusters, is assumed to be large such that
 
 $$
 M(N_I-1)\cong MN_I-1
 $$
 
-La demostración se completa notando que al realizar el cociente de varianzas, al igual que en la sección del muestreo sistemático, se tiene que
+The proof is completed by noting that, when taking the ratio of variances, as in the section on systematic sampling, we have
 
 $$
-\frac{SCE}{SCT}=\frac{1+(M-1)\rho}{M}
+\frac{SSB}{SST}=\frac{1+(M-1)\rho}{M}
 $$
 
 :::
 
-Dado que $\rho$ es generalmente positivo^[Esto se da porque los conglomerados se forman física y geográficamente como agrupaciones contiguas de elementos que comparten un ambiente natural, entonces el comportamiento de los elementos internamente será similar.] podemos inferir de (@eq-defcon) que el muestreo por conglomerados tendrá una mayor varianza que el muestreo aleatorio simple de elementos directamente de la población $U$. Sin embargo, es plausible sacrificar la eficiencia estadística por el ahorro financiero y logístico característico de las estrategias por conglomerados. Ahora, si $\rho$ es negativo, esta estrategia gana en eficiencia y también en costos operativos.
+Because $\rho$ is generally positive^[This occurs because clusters are formed physically and geographically as contiguous groupings of elements that share a natural environment, so the behavior of the elements internally will be similar.], we can infer from (@eq-defcon) that cluster sampling will have a larger variance than simple random sampling of elements directly from population $U$. However, it is plausible to sacrifice statistical efficiency for the financial and logistical savings characteristic of cluster strategies. Now, if $\rho$ is negative, this strategy gains in efficiency and also in operating costs.
 
-@Loh afirma que en el caso, muy común en la práctica, en que los conglomerados no sean del mismo tamaño, una medida alternativa a $\rho$ es el coeficiente de determinación $R^2$ definido como
+@Loh states that in the very common practical case where clusters are not of the same size, an alternative measure to $\rho$ is the coefficient of determination $R^2$, defined as
 
 $$
-R^2=1-\frac{CMD}{s^2_{y_U}}
+R^2=1-\frac{MSW}{s^2_{y_U}}
 $$
 
-donde $CMD=\frac{SCD}{N-N_I}$; con $N$ el número total de elementos en la población $U$. Ésta es una medida muy conocida y utilizada en el análisis de regresión lineal, y es interpretada como la cantidad de variabilidad explicada por los promedios de cada conglomerado. Si el comportamiento de la característica de interés es homogéneo dentro de los conglomerados, entonces los promedios entre los conglomerados tendrán una muy alta dispersión con respecto a la variación dentro de los conglomerados y $R^2$ tomará valores grandes.
+where $MSW=\frac{SSW}{N-N_I}$, with $N$ the total number of elements in population $U$. This is a well-known measure used in linear regression analysis and is interpreted as the amount of variability explained by the means of each cluster. If the behavior of the characteristic of interest is homogeneous within clusters, then the means among clusters will have very high dispersion relative to the variation within clusters, and $R^2$ will take large values.
 
-### Marco I y Lucy
+### Marco I and Lucy
 
-<!-- index: Marco y Lucy -->El común denominador de las aplicaciones prácticas con Marco y Lucy en los capítulos anteriores ha sido la identificación y ubicación, a priori, de cada una de las empresas en el sector industrial. Esto ha sido posible gracias a que un marco de muestreo de elementos estuvo disponible. En algunas ocasiones, el marco de muestreo disponible mostró bondades que permitieron la incorporación de información auxiliar, ya sea de tipo continuo o categórico, para mejorar la eficiencia de la estrategia de muestreo utilizada en cada caso.
+<!-- index: Marco and Lucy -->The common denominator of the practical applications with Marco and Lucy in the previous chapters has been the a priori identification and location of each firm in the industrial sector. This has been possible because a sampling frame of elements was available. On some occasions, the available sampling frame had advantages that allowed the incorporation of auxiliary information, whether continuous or categorical, to improve the efficiency of the sampling strategy used in each case.
 
-En cualquier caso, el gobierno desea obtener estimaciones precisas que le permitan fortalecer sus políticas de apoyo y financiamiento de las empresas en el sector industrial. Sin embargo, el gobierno no está en disposición de entregar una lista de todas las empresas del sector industrial con su respectiva identificación y ubicación debido a políticas de confidencialidad que no le permiten brindar este tipo de información. Por tanto, en esta ocasión no hay tal marco generoso de elementos en la población y el estudio se deberá llevar a cabo con esta restricción de tipo logístico.
+In any case, the government wants to obtain precise estimates that allow it to strengthen its support and financing policies for firms in the industrial sector. However, the government is not in a position to provide a list of all firms in the industrial sector with their respective identification and location because confidentiality policies do not allow it to provide this type of information. Therefore, on this occasion there is no such generous frame of elements in the population, and the study must be carried out under this logistical restriction.
 
-En cualquier estudio por muestreo, siempre debe existir, si no físicamente al menos de forma implícita, un marco de muestreo de la población que permita llegar a la medición de la unidad objetivo de muestreo. Dado que el gobierno no permite la utilización de un marco de muestreo de empresas en el sector industrial, se debe realizar el levantamiento de un marco de muestreo de conglomerados que agrupen estas empresas. Una solución, que es muy utilizada en la práctica, es realizar un muestreo de áreas geográficas. Las empresas, las viviendas, los domicilios, los negocios, etc. están ubicadas en algún lugar del mapa y es poco factible que se muevan de donde han estado instaladas. Por tanto, un marco de muestreo por áreas es una buena solución de tipo logístico para enfrentar la etapa de diseño de este estudio.
+In any sampling study, there must always be, if not physically then at least implicitly, a sampling frame of the population that allows the target sampling unit to be measured. Since the government does not allow the use of a sampling frame of firms in the industrial sector, a cluster sampling frame that groups these firms must be constructed. One solution, widely used in practice, is geographic area sampling. Firms, dwellings, residences, businesses, and so on are located somewhere on the map, and it is not very feasible for them to move from where they have been established. Therefore, an area sampling frame is a good logistical solution for addressing the design stage of this study.
 
-Un inconveniente que se presenta a la hora de realizar un muestreo de conglomerados con un marco discriminado en áreas geográficas es la imposibilidad de conocer cuántas empresas estarán ubicadas en cada zona geográfica. Sin embargo, sí es posible asignar subdivisiones de cada zona geográfica seleccionada a un grupo de encuestadores para que recorran la zona y apliquen el cuestionario a cada una de las empresas del sector. De esta forma, es posible tener una estimación del presupuesto que se requiere. La población $U_I$ de conglomerados, es decir la ciudad, se divide en cinco zonas geográficas, a saber: **Zona A**, ubicada en el sur, **Zona B**, ubicada en el norte, **Zona C**, ubicada en el oriente, **Zona D**, ubicada en el occidente y  **Zona E**, ubicada en el centro.
+One difficulty that arises when conducting cluster sampling with a frame disaggregated into geographic areas is the impossibility of knowing how many firms will be located in each geographic zone. However, it is possible to assign subdivisions of each selected geographic zone to a group of interviewers so that they can travel through the zone and apply the questionnaire to each firm in the sector. In this way, it is possible to obtain an estimate of the required budget. The cluster population $U_I$, that is, the city, is divided into five geographic zones, namely: **Zone A**, located in the south; **Zone B**, located in the north; **Zone C**, located in the east; **Zone D**, located in the west; and **Zone E**, located in the center.
 
-Recordando los objetivos del estudio, el gobierno quiere medir el crecimiento del sector industrial en la ciudad, mediante tres características importantes: el ingreso y los impuestos declarados en el último año fiscal y la generación de empleos mediante la cantidad de trabajadores que laboran en cada empresa. Seguramente, ni el ingreso, ni los impuestos, ni la cantidad de empleados están correlacionados con la zona geográfica. Podemos afirmar esto porque la ubicación de las empresas es realizada por el gobierno siguiendo diversos criterios.
+Recalling the objectives of the study, the government wants to measure the growth of the industrial sector in the city through three important characteristics: income and taxes declared in the last fiscal year, and job creation through the number of workers employed in each firm. Surely neither income, taxes, nor the number of employees is correlated with geographic zone. We can state this because the location of firms is carried out by the government following various criteria.
 
-```{r, message=FALSE, fig.height=5}
+```{r, message = FALSE, fig.height = 5}
 #| label: fig-f6-2
-#| fig-cap: 'Boxplot de la característica de interés `Employees` para cada una de las zonas.'
-qplot(Zone, Employees, data=BigLucy, geom=c("boxplot"))
+#| fig-cap: 'Boxplot of the characteristic of interest `Employees` for each zone.'
+qplot(Zone, Employees, data = BigLucy, geom = c("boxplot"))
 ```
 
-Es así como en una misma zona geográfica, es posible encontrar una empresa grande rodeada de empresas pequeñas o medianas. Este es un muy buen indicio en la etapa del diseño de muestreo pues quiere decir que el comportamiento de las características de interés dentro de cada área geográfica es muy disperso. La @fig-f6-2 presenta el comportamiento de las características de interés en cada una de las cinco zonas geográficas de la ciudad. Nótese que no es posible identificar un comportamiento estructural significativamente diferente en cada zona, sino que por el contrario, el comportamiento es heterogéneo dentro de cada zona y homogéneo entre las zonas.
+Thus, within the same geographic zone, it is possible to find a large firm surrounded by small or medium firms. This is a very good sign in the sampling design stage because it means that the behavior of the characteristics of interest within each geographic area is highly dispersed. @fig-f6-2 presents the behavior of the characteristics of interest in each of the five geographic zones of the city. Note that it is not possible to identify significantly different structural behavior in each zone; on the contrary, the behavior is heterogeneous within each zone and homogeneous across zones.
 
-Aunque no se conoce el número de empresas en el sector industrial, el gobierno ha estimado según datos de años anteriores la existencia de 85000 empresas para el último año fiscal. Con esta información se ha decidido seleccionar una muestra aleatoria simple de conglomerados de tamaño $n_I=10$. Por tanto, el tamaño muestral de empresas esperado corresponde a $85000\dfrac{10}{100}=8500$. De la población de $N_I=100$ conglomerados de áreas se selecciona una muestra aleatoria simple de $n_I=10$ utilizando la función `S.SI` del paquete `TeachingSampling`. En este caso particular, los conglomerados incluidos en la muestra sin reemplazo corresponde a la **Zona A** y a la **Zona E**.
+Although the number of firms in the industrial sector is not known, the government has estimated, based on data from previous years, the existence of 85000 firms for the last fiscal year. With this information, it has been decided to select a simple random sample of clusters of size $n_I=10$. Therefore, the expected sample size of firms corresponds to $85000\dfrac{10}{100}=8500$. From the population of $N_I=100$ area clusters, a simple random sample of $n_I=10$ is selected using the `S.SI` function from the `TeachingSampling` package. In this particular case, the clusters included in the sample without replacement correspond to **Zone A** and **Zone E**.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message = FALSE, warning = FALSE}
 data(BigLucy)
 
 UI <- levels(BigLucy$Zone)
@@ -751,80 +751,80 @@ NI <- length(UI)
 nI <- 10
 
 samI <- S.SI(NI, nI)
-muestra <- UI[samI]
-muestra
+sample_data <- UI[samI]
+sample_data
 ```
 
-Un equipo de encuestadores se dispone a recolectar la información de cada una de las empresas pertenecientes a los conglomerados seleccionados, el plan operativo es más eficiente entre más entrevistadores sean contratados por cada conglomerado seleccionado. Cuando el proceso de medición termina se tienen dos conjuntos de datos, cada una conteniendo el valor de las características de interés para cada una de las empresas del área, correspondientes a **Zona A** y **Zona E**.
+An interviewer team proceeds to collect information from each firm belonging to the selected clusters; the operating plan is more efficient the more interviewers are hired for each selected cluster. When the measurement process ends, there are two data sets, each containing the value of the characteristics of interest for each firm in the area, corresponding to **Zone A** and **Zone E**.
 
-Con la función `rbind` es posible unir la información de las zonas geográficas seleccionadas en la muestra. Con ayuda de la función `T.SIC(y,C)`, del paquete `TeachingSampling`, es posible obtener los totales de las características de interés en cada conglomerado. Los argumentos de esta función son `y`, el conjunto de datos (una sola variable o un conjunto de variables) del censo en cada conglomerado y `C`, una variable que indica la pertenencia del elemento, en este caso de las empresas, al conglomerado. El resultado de la función es el total de elementos en cada conglomerado, así como el total de las características de interés en cada uno de los conglomerados. En este caso particular, el tamaño de la muestra de empresas es $307 + 165=  472$. Nótese que, como en los casos de estimación de los capítulos anteriores, se crea un conjunto de datos de las características de interés definido por `estima <- data.frame(Income, Employees, Taxes)`.
+With the `rbind` function, it is possible to join the information from the geographic zones selected in the sample. With the help of the `T.SIC(y,C)` function from the `TeachingSampling` package, it is possible to obtain the totals of the characteristics of interest in each cluster. The arguments of this function are `y`, the data set (a single variable or a set of variables) from the census in each cluster, and `C`, a variable indicating the membership of the element, in this case the firms, in the cluster. The result of the function is the total number of elements in each cluster, as well as the total of the characteristics of interest in each cluster. In this particular case, the sample size of firms is $307 + 165=  472$. Note that, as in the estimation cases of previous chapters, a data set of the characteristics of interest is created, defined by `target_variables <- data.frame(Income, Employees, Taxes)`.
 
-```{r, message=FALSE}
-Lucy1 <- BigLucy[which(BigLucy$Zone == muestra[1]),]
-Lucy2 <- BigLucy[which(BigLucy$Zone == muestra[2]),]
-Lucy3 <- BigLucy[which(BigLucy$Zone == muestra[3]),]
-Lucy4 <- BigLucy[which(BigLucy$Zone == muestra[4]),]
-Lucy5 <- BigLucy[which(BigLucy$Zone == muestra[5]),]
-Lucy6 <- BigLucy[which(BigLucy$Zone == muestra[6]),]
-Lucy7 <- BigLucy[which(BigLucy$Zone == muestra[7]),]
-Lucy8 <- BigLucy[which(BigLucy$Zone == muestra[8]),]
-Lucy9 <- BigLucy[which(BigLucy$Zone == muestra[9]),]
-Lucy10 <- BigLucy[which(BigLucy$Zone == muestra[10]),]
+```{r, message = FALSE}
+Lucy1 <- BigLucy[which(BigLucy$Zone == sample_data[1]), ]
+Lucy2 <- BigLucy[which(BigLucy$Zone == sample_data[2]), ]
+Lucy3 <- BigLucy[which(BigLucy$Zone == sample_data[3]), ]
+Lucy4 <- BigLucy[which(BigLucy$Zone == sample_data[4]), ]
+Lucy5 <- BigLucy[which(BigLucy$Zone == sample_data[5]), ]
+Lucy6 <- BigLucy[which(BigLucy$Zone == sample_data[6]), ]
+Lucy7 <- BigLucy[which(BigLucy$Zone == sample_data[7]), ]
+Lucy8 <- BigLucy[which(BigLucy$Zone == sample_data[8]), ]
+Lucy9 <- BigLucy[which(BigLucy$Zone == sample_data[9]), ]
+Lucy10 <- BigLucy[which(BigLucy$Zone == sample_data[10]), ]
 
 LucyI <- rbind(Lucy1, Lucy2, Lucy3, Lucy4, Lucy5, Lucy6, Lucy7, Lucy8, Lucy9, Lucy10)
 
 Area <- as.factor(as.integer(LucyI$Zone))
-estima <- data.frame(
+target_variables <- data.frame(
   Income = LucyI$Income,
   Employees = LucyI$Employees,
   Taxes = LucyI$Taxes
 )
-estimaI <- as.data.frame(T.SIC(estima,Area))
-estimaI
+cluster_estimate_variables <- as.data.frame(T.SIC(target_variables, Area))
+cluster_estimate_variables
 ```
 
-El tamaño de muestra efectivo fue `r sum(estimaI[,1])`. Una vez que se tienen los totales de cada zona geográfica, se utiliza la función `E.SI(NI,nI,y)` del paquete `TeachingSampling`, definida en el capítulo dos, para obtener las estimaciones de los parámetros de interés.
+The effective sample size was `r sum(cluster_estimate_variables[,1])`. Once the totals for each geographic zone are available, the `E.SI(NI,nI,y)` function from the `TeachingSampling` package, defined in Chapter 2, is used to obtain the estimates of the parameters of interest.
 
-```{r, results='hide'}
-E.SI(NI, nI, estimaI)
+```{r, results = 'hide'}
+E.SI(NI, nI, cluster_estimate_variables)
 ```
 
-Los resultados de la estimación se muestran en la siguiente tabla. Es de considerar que la eficiencia de esta estrategia de muestreo es mucho menor que la de una estrategia que utilice un diseño de muestreo aleatorio simple. Nótese que la desviación relativa es mucho mayor.
+The estimation results are shown in the following table. It should be noted that the efficiency of this sampling strategy is much lower than that of a strategy using a simple random sampling design. Note that the relative deviation is much larger.
 
-```{r, echo=FALSE, results = 'asis'}
+```{r, echo = FALSE, results = 'asis'}
 #| label: tbl-t6-2
-#| tbl-cap: 'Estimaciones para el diseño de muestreo aleatorio simple de conglomerados.'
-Estimaciones = E.SI(NI, nI, estimaI)
-knitr::kable(Estimaciones)
+#| tbl-cap: 'Estimates for the simple random cluster sampling design.'
+estimates <- E.SI(NI, nI, cluster_estimate_variables)
+knitr::kable(estimates)
 ```
 
-Es claro que los resultados de esta estrategia de muestreo no son satisfactorios, por lo menos para la estimación de los parámetros de interés de Ingreso e Impuestos. La explicación de la deficiencia de esta estrategia es inmediata al analizar el siguiente gráfico que muestra el comportamiento estructural de los totales en los conglomerados.
+It is clear that the results of this sampling strategy are not satisfactory, at least for estimating the parameters of interest Income and Taxes. The explanation for the deficiency of this strategy is immediate when analyzing the following graph, which shows the structural behavior of the totals in the clusters.
 
-```{r, fig.height=5}
+```{r, fig.height = 5}
 #| label: fig-f6-3
-#| fig-cap: 'Boxplot de las características de interés en cada nivel industrial.'
-par(mfrow = c(2,2))
-barplot(estimaI$Income, main = "Totales de Income")
-barplot(estimaI$Employees, main = "Totales de Employees")
-barplot(estimaI$Taxes, main = "Totales de Taxes")
-barplot(estimaI$Ni, main = "Tamaños de los conglomerados")
+#| fig-cap: 'Boxplot of the characteristics of interest at each industrial level.'
+par(mfrow = c(2, 2))
+barplot(cluster_estimate_variables$Income, main = "Income totals")
+barplot(cluster_estimate_variables$Employees, main = "Employees totals")
+barplot(cluster_estimate_variables$Taxes, main = "Taxes totals")
+barplot(cluster_estimate_variables$Ni, main = "Cluster sizes")
 ```
 
-Es notable como el comportamiento de los totales es tan diferente en cada conglomerado en las características Ingreso y Empleados. Sin embargo, el comportamiento es similar en cuanto a la característica Impuestos. Es interesante observar que entre más disimilitud existe entre los totales de los conglomerados, más desviación relativa existe en la estimación. Como se dijo en la introducción de este capítulo, esta estrategia de muestreo es ineficiente en aquellos casos en que los totales de cada conglomerado no están correlacionados con las probabilidades de inclusión a nivel de conglomerados. Observando el gráfico, se establece que Impuestos es la única característica que presenta un comportamiento estable en relación a los conglomerados.
+It is notable how different the behavior of the totals is in each cluster for the Income and Employees characteristics. However, the behavior is similar for the Taxes characteristic. It is interesting to observe that the greater the dissimilarity among cluster totals, the greater the relative deviation in the estimate. As stated in the introduction to this chapter, this sampling strategy is inefficient in cases where the totals of each cluster are not correlated with the inclusion probabilities at the cluster level. Observing the graph, it is established that Taxes is the only characteristic that presents stable behavior in relation to the clusters.
 
-La regla de oro se mantiene, una estrategia de muestreo es eficiente si las probabilidades de inclusión están correlacionadas con los valores de la característica de interés, en este caso con los totales de cada conglomerados.
+The golden rule remains: a sampling strategy is efficient if the inclusion probabilities are correlated with the values of the characteristic of interest, in this case with the totals of each cluster.
 
-## Ejercicios
-- Argumente si las siguientes afirmaciones son falsas o verderas. Sustente su respuesta detallamente.
-- En un diseño de muestreo de conglomerados, siempre se tiene un marco de muestreo de elementos de la población.
-- En un diseño de muestreo de conglomerados, para la estimación de un total, se obtiene mayor precision si las probabilidades de selección o inclusión son proporcionales a los totales de la característica de interés en los conglomerados.
-- En un diseño de muestreo de conglomerados, para la estimación de un total, se obtiene mayor precision si las probabilidades de selección o inclusión son proporcionales a la característica de interés de los elementos en los conglomerados.
-- En la estimación de totales poblaciones, se nota que, casi siempre, $Var_{MASC}(t_{y,\pi})$ es mayor a $Var_{MAS}(t_{y,\pi})$.
-- En un diseño de muestreo aleatorio simple de conglomerados de tamaño desigual, hay un aumento significativo de la varianza, respecto a un diseño de muestreo aleatorio simple de conglomerados de igual tamaño.
-- En un diseño de muestreo PPT de conglomerados de tamaño desigual (con probabilidad proporcional al tamaño del conglomerado), hay una disminución significativa de la varianza, respecto a un diseño de muestreo aleatorio simple de conglomerados de tamaño desigual.
-- Suponga que el objetivo de una encuesta es estimar el ingreso medio en un barrio de la ciudad. Asuma que en ese barrio existen $N_I=60$ manzanas. Se realiza un diseño de muestreo aleatorio simple de conglomerados y se seleccionan $n_I=5$ manzanas, en las cuales se entrevistan a todos los hogares. Los resultados de la encuesta se dan en la @tbl-tab6-2
+## Exercises
+- Argue whether the following statements are false or true. Support your answer in detail.
+- In a cluster sampling design, there is always a sampling frame of population elements.
+- In a cluster sampling design, when estimating a total, greater precision is obtained if the selection or inclusion probabilities are proportional to the totals of the characteristic of interest in the clusters.
+- In a cluster sampling design, when estimating a total, greater precision is obtained if the selection or inclusion probabilities are proportional to the characteristic of interest of the elements in the clusters.
+- In estimating population totals, it is observed that, almost always, $Var_{SRSCS}(t_{y,\pi})$ is greater than $Var_{SRS}(t_{y,\pi})$.
+- In a simple random cluster sampling design with unequal sizes, there is a significant increase in the variance compared with a simple random cluster sampling design with equal sizes.
+- In a PPS sampling design of clusters with unequal sizes (with probability proportional to cluster size), there is a significant decrease in the variance compared with a simple random cluster sampling design with unequal sizes.
+- Suppose that the objective of a survey is to estimate mean income in a neighborhood of the city. Assume that in that neighborhood there are $N_I=60$ blocks. A simple random cluster sampling design is carried out and $n_I=5$ blocks are selected, in which all households are interviewed. The survey results are given in @tbl-tab6-2
 
-| ID Manzana | Hogares en la manzana | Ingreso total en la manzana |
+| Block ID | Households in the block | Total income in the block |
 |---|---:|---:|
 | AW45 | 120 | 25000 |
 | AW02 | 100 | 24000 |
@@ -832,9 +832,9 @@ La regla de oro se mantiene, una estrategia de muestreo es eficiente si las prob
 | AW28 | 95 | 20100 |
 | AW44 | 80 | 18000 |
 
-: Tabla de las cinco manzanas seleccionadas: ejercicio 6.2 {#tbl-tab6-2}
+: Table of the five selected blocks: exercise 6.2 {#tbl-tab6-2}
 
-- Estime el ingreso total de los hogares en el barrio. Reporte el coeficiente de variación estimado.
-- Estime el número de hogares en el barrio. Reporte el coeficiente de variación estimado.
-- Asumiendo que en el barrio hay $N=2000$ hogares, estime el ingreso medio de los hogares en el barrio. Reporte el coeficiente de variación estimado.
-- Estime el ingreso medio utilizando el estimador de Hájek. Explique la diferencia con respecto a la estimación del punto anterior.
+- Estimate the total household income in the neighborhood. Report the estimated coefficient of variation.
+- Estimate the number of households in the neighborhood. Report the estimated coefficient of variation.
+- Assuming that there are $N=2000$ households in the neighborhood, estimate the mean household income in the neighborhood. Report the estimated coefficient of variation.
+- Estimate the mean income using the Hájek estimator. Explain the difference with respect to the estimate from the previous item.

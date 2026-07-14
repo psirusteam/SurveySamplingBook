@@ -1,4 +1,4 @@
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(TeachingSampling)
 data(BigLucy)
 library(ggplot2)
@@ -10,32 +10,32 @@ opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
 
-# Muestreo indirecto
+# Indirect Sampling
 
 ::: {.blockquote}
-En algunas situaciones el estadístico no tiene a su disposición nigún marco de muestreo... Esta ausencia implica que no es posible definir la probabilidad de selección de una muestra, haciendo imposible el cálculo del error de muestreo. En otras situaciones, el estadístico sí tiene acceso a marcos de muestreo que no corresponden directamente a las unidades de muestreo de la población objetivo.
+In some situations, the statistician has no sampling frame available... This absence implies that it is not possible to define the selection probability of a sample, making it impossible to calculate the sampling error. In other situations, the statistician does have access to sampling frames that do not correspond directly to the sampling units of the target population.
 @Lav2007
 :::
 
-En la práctica los marcos de muestreo de elementos no están siempre disponibles. Sin embargo, en algunas ocasiones, es posible tener acceso a diferentes marcos de lista de elementos que, si bien no hacen parte de la población objetivo, sí están indirectamente relacionados con ésta. Al proceso de selección de muestras bajo las anteriores condiciones se le llama Muestreo Indirecto que está caracterizado porque la producción de estimaciones de simples totales o medias se puede volver una pesadilla para el estadístico. Para resolver este problema se apela al método de ponderación generalizada, caracterizado por su simplicidad y cuyos estimadores comparten la buena propiedad del insesgamiento, incluso bajo muestreo indirecto.
+In practice, element sampling frames are not always available. However, in some cases it is possible to access different list frames of elements that, while not part of the target population, are indirectly related to it. The process of selecting samples under these conditions is called indirect sampling, and it is characterized by the fact that producing estimates of simple totals or means can become a nightmare for the statistician. To solve this problem, the generalized weighting method is used. It is characterized by its simplicity, and its estimators share the desirable property of unbiasedness, even under indirect sampling.
 
-Para producir estimaciones, en investigaciones de tipo social, económico, etc., generadas mediante una estrategia de muestreo $(p(s),\hat{T}(S))$ es imprescindible el acceso, al menos de manera implícita, a un marco de muestreo de elementos de la población objetivo, denotada como $U_B$. Desafortunadamente, el acceso a tal marco de muestreo es, en la mayoría de ocasiones, difícil de conseguir. Sin embargo, a veces, es posible considerar la disponibilidad de un marco muestral de elementos^[Nótese que este es un caso particular del muestreo de conglomerados si el marco de muestreo de la población $U_A$ fuera de conglomerados] de alguna otra población $U_A$ vinculados con los elementos de la población objetivo.
+To produce estimates in social, economic, and similar research generated through a sampling strategy $(p(s),\hat{T}(S))$, access, at least implicitly, to an element sampling frame of the target population, denoted by $U_B$, is essential. Unfortunately, access to such a sampling frame is often difficult to obtain. However, sometimes it is possible to consider the availability of an element sampling frame^[Note that this is a special case of cluster sampling if the sampling frame of population $U_A$ were a cluster frame.] from some other population $U_A$ linked to the elements of the target population.
 
-Se pretende seleccionar una muestra probabilística $s_A$ de la población $U_A$ para obtener estimaciones para la población $U_B$ usando la correspondencia entre las dos poblaciones. Por ejemplo, asuma que se desean obtener estimaciones de una población de niños con la restricción de que sólo se tiene acceso a una lista de padres conteniendo la respectiva identificación y ubicación de cada uno de ellos. La población objetivo son los niños, pero es necesario seleccionar una muestra de padres para poder entrevistar a los niños.
+The goal is to select a probability sample $s_A$ from population $U_A$ to obtain estimates for population $U_B$ using the correspondence between the two populations. For example, assume that estimates are desired for a population of children, with the restriction that only a list of parents, containing the identification and location of each one, is available. The target population is the children, but it is necessary to select a sample of parents in order to interview the children.
 
-## Notación
+## Notation
 
-<!-- index: Muestreo indirecto -->La población $U_A$ contiene $N_A$ unidades. Cada unidad perteneciente a la población de $U_A$ será rotulada con la letra $j$. Cada unidad perteneciente a la población objetivo $U_B$ de tamaño $N_B$ será rotulada con la letra $i$. La correspondencia entre las dos poblaciones $U_A$ y $U_B$ pueden ser representadas por una matriz de vínculos, denotada por $\Theta_{AB}=[\theta_{ij}^{AB}]$ de tamaño $N_A\times N_B$. Los posibles valores de la matriz están dados de la siguiente manera
+<!-- index: Indirect sampling -->Population $U_A$ contains $N_A$ units. Each unit belonging to population $U_A$ will be labeled with the letter $j$. Each unit belonging to the target population $U_B$ of size $N_B$ will be labeled with the letter $i$. The correspondence between the two populations $U_A$ and $U_B$ can be represented by a link matrix, denoted by $\Theta_{AB}=[\theta_{ij}^{AB}]$, of size $N_A\times N_B$. The possible values of the matrix are given as follows:
 $$
     \theta_{ij}^{AB}\left\{
                       \begin{array}{ll}
-                        >0, & \hbox{si $j$ está relacionado con $i$;} \\
-                        =0, & \hbox{en otro caso.}
+                        >0, & \hbox{if $j$ is related to $i$;} \\
+                        =0, & \hbox{otherwise.}
                       \end{array}
                     \right.
 $$ {#eq-matrizab}
 
-En el ejemplo de los padres, si la matriz de vínculos está dada por
+In the parents example, if the link matrix is given by
 $$
 \Theta_{AB}=
 \left(
@@ -48,26 +48,26 @@ $$
 \right)
 $$
 
-entonces los vínculos existentes entre las dos poblaciones serían los siguientes
+then the existing links between the two populations would be the following:
 
-- La primera pareja, dada por los elementos 1 y 2 de la población $U_A$ tiene un hijo notado como el segundo elemento de la población $U_B$.
-- Sin embargo, el elemento 1 de la población $U_A$ tiene otro hijo por fuera del matrimonio y es notado como el primer elemento de la población $B$.
-- La segunda pareja, dada por los elementos 3 y 4 de la población $U_A$, tiene sólo un hijo notado como el tercer y último elemento de la población $U_B$
+- The first couple, given by elements 1 and 2 of population $U_A$, has one child, recorded as the second element of population $U_B$.
+- However, element 1 of population $U_A$ has another child outside the marriage, recorded as the first element of population $B$.
+- The second couple, given by elements 3 and 4 of population $U_A$, has only one child, recorded as the third and last element of population $U_B$.
 
-Usualmente, cuando existe un vínculo entre el elemento $j$-ésimo de la población $U_A$ y el $i$-ésimo elemento de la población $U_B$, $\theta_{ij}^{AB}$ toma el valor uno. Aunque el vínculo puede ser distinto de uno como es discutido en [@Lav2007].
+Usually, when there is a link between the $j$-th element of population $U_A$ and the $i$-th element of population $U_B$, $\theta_{ij}^{AB}$ takes the value one. However, the link can be different from one, as discussed in [@Lav2007].
 
-Usando muestreo indirecto, una muestra $s_A$ de tamaño $n_A$ es seleccionada (realizada) mediante el uso de un diseño muestral $p_A(s_A)$. Sean $\pi^A_j>0$ $\forall j \in U_A$la probabilidad de inclusión del $j$-ésimo elemento. Para cada elemento en la muestra $s_A$ se identifican las unidades en $U_B$ cuya correspondencia con los elementos de la población $U_A$ es no nula, es decir tales que $\theta_{ij}^{AB}>0$. Sea $s_B$ el conjunto de $n_B$ unidades de la población objetivo que se lograron identificar con ayuda de los elemento pertenecientes a la población $U_A$. Por tanto\footnote{Nótese que el conjunto $s_B$, aunque constituye una muestra al azar, no constituye una muestra aleatoria o probabilística puesto que su probabilidad de selección es desconocida. Se debe tener en cuenta que a pesar de que existe un diseño de muestreo $p_A(\cdot)$ que gobierna la selección aleatoria de la muestra $s_A$, éste no es el mismo que gobierna la selección del conjunto $s_B$, puesto que para dos muestras distintas, digamos $s_{A1}$ y $s_{A2}$, el conjunto de unidades finales en la población $U_B$ puede resultar el mismo. Sin embargo, de aquí en adelante llamaremos, abusando del lenguaje, al conjunto $s_B$ como la muestra de la población $U_B$.}
+Using indirect sampling, a sample $s_A$ of size $n_A$ is selected through a sampling design $p_A(s_A)$. Let $\pi^A_j>0$ $\forall j \in U_A$ be the inclusion probability of the $j$-th element. For each element in the sample $s_A$, the units in $U_B$ whose correspondence with the elements of population $U_A$ is nonzero are identified, that is, those such that $\theta_{ij}^{AB}>0$. Let $s_B$ be the set of $n_B$ target population units that could be identified with the help of the elements belonging to population $U_A$. Therefore\footnote{Note that the set $s_B$, although it constitutes a random sample, does not constitute a random or probability sample because its selection probability is unknown. It should be kept in mind that even though there is a sampling design $p_A(\cdot)$ governing the random selection of sample $s_A$, this is not the same design that governs the selection of the set $s_B$, because for two different samples, say $s_{A1}$ and $s_{A2}$, the set of final units in population $U_B$ may be the same. However, from here onward, loosely speaking, we will call the set $s_B$ the sample from population $U_B$.}
 
 $$
-s_B=\{i\in B \mid \exists j\in s_A\text{ y }\theta_{ij}^{AB}> 0 \}
+s_B=\{i\in B \mid \exists j\in s_A\text{ and }\theta_{ij}^{AB}> 0 \}
 $$
 
-Para cada elemento identificado en la población objetivo se realiza el proceso de medición de la característica de interés $y$. Sin embargo, el número de elementos de la población objetivo identificadas por el proceso de muestreo indirecto es generalmente aleatorio porque no sólo depende de la muestra seleccionada $s_A$ sino que también de la matriz de vínculo $\Theta_{AB}$. Así que se torna muy complicado establecer un presupuesto para la etapa de recolección de la información; afortunadamente, en algunas poblaciones (como la de los padres e hijos) es posible predecir el número de vínculos entre las poblaciones (por ejemplo, un padre tiene uno, dos o incluso tres hijos).
+For each identified element in the target population, the characteristic of interest $y$ is measured. However, the number of target population elements identified by the indirect sampling process is generally random because it depends not only on the selected sample $s_A$, but also on the link matrix $\Theta_{AB}$. Therefore, it becomes very complicated to establish a budget for the information collection stage. Fortunately, in some populations, such as parents and children, it is possible to predict the number of links between the populations; for example, a parent has one, two, or even three children.
 
-Un requisito importante, a la hora de aplicar el muestreo indirecto, es que para todas las unidades seleccionadas en al muestra $s_A$ se puede obtener la correspondencia a la población objetivo y viceversa. Este es un supuesto muy fuerte, aunque necesario. Por ejemplo, es fácil que un padre pueda identificar a todos sus hijos, por otro lado no es tan sencillo que un niño muy joven pueda identificar a sus padres divorciados. Sin embargo, este problema operativo se considera despreciable en términos del desarrollo teórico. De tal forma que es posible conocer los valores de la matriz $\Theta_{AB}$ para las filas $j\in s_A$ así como también para las columnas $i\in s_B$.
+An important requirement when applying indirect sampling is that, for all units selected in the sample $s_A$, the correspondence to the target population can be obtained, and vice versa. This is a very strong, though necessary, assumption. For example, it is easy for a parent to identify all their children; on the other hand, it is not so easy for a very young child to identify divorced parents. However, this operational problem is considered negligible in terms of the theoretical development. Thus, it is possible to know the values of the matrix $\Theta_{AB}$ for the rows $j\in s_A$ as well as for the columns $i\in s_B$.
 
-## Estimación del total
-<!-- index: Estimación del total en muestreo indirecto -->El objetivo es estimar el total de $y$ en la población objetivo
+## Estimation of the Total
+<!-- index: Estimation of the total in indirect sampling -->The objective is to estimate the total of $y$ in the target population:
 $$
 \begin{aligned}
 t_y&=\sum_{i\in U_B}y_i\\
@@ -75,37 +75,37 @@ t_y&=\sum_{i\in U_B}y_i\\
 \end{aligned}
 $$
 
-donde $\mathbf{1}_B$ es el vector de unos de tamaño $N_B$ y $\mathbf{y}=(y_1,\ldots,y_{N_B})'$. Ahora, se tiene la siguiente definición que coadyuvará en la estimación del total poblacional.
+where $\mathbf{1}_B$ is the vector of ones of size $N_B$ and $\mathbf{y}=(y_1,\ldots,y_{N_B})'$. Now, the following definition will assist in estimating the population total.
 
-::: {.callout-important title="Definición"}
-<!-- index: Matriz de vínculo -->La matriz de vínculo estándar se define como
+::: {.callout-important title="Definition"}
+<!-- index: Link matrix -->The standard link matrix is defined as
 $$
 \begin{aligned}
 \tilde{\Theta}_{AB}=\Theta_{AB}[\textrm{diag}(\mathbf{1}_A\Theta_{AB})]^{-1}
 \end{aligned}
 $$
-Con base en lo anterior, nótese que
+Based on the above, note that
 $$
 \begin{aligned}
 \mathbf{1}_A'\Theta_{AB}=(\theta_{+1}^{AB},\theta_{+2}^{AB},\ldots,\theta_{+N_B}^{AB})
 \end{aligned}
 $$
 
-donde $\theta_{+i}^{AB}=\sum_{j\in U_A}\theta_{ji}^{AB}$ debe ser no nula^[Esta restricción indica que todos los miembros de la población $U_A$ deben tener al menos un vínculo con algún individuo de la población objetivo. Aún más, con esta restricción, si existe algún miembro de la población $U_A$ que no tenga vínculo con algún miembro de la población $U_B$ no debe ser considerado.] para todo $i\in U_B$. Con esto (14.2.3) está bien definida y por lo tanto $\tilde{\Theta}_{ji}^{AB}=\dfrac{\theta_{ji}^{AB}}{\theta_{+i}^{AB}}$.
+where $\theta_{+i}^{AB}=\sum_{j\in U_A}\theta_{ji}^{AB}$ must be nonzero^[This restriction indicates that all members of population $U_A$ must have at least one link with some individual in the target population. Moreover, under this restriction, if there is some member of population $U_A$ that has no link with any member of population $U_B$, that member should not be considered.] for all $i\in U_B$. With this, (14.2.3) is well defined and therefore $\tilde{\Theta}_{ji}^{AB}=\dfrac{\theta_{ji}^{AB}}{\theta_{+i}^{AB}}$.
 :::
 
-En la población de ejemplo, significaría que todo hijo debe estar vinculado al menos a un padre, lo cual es lógico en este contexto específico. Sin embargo esta lógica no siempre se cumple y en algunas ocasiones la definición propia de la población $U_A$ es compleja.
+In the example population, this would mean that every child must be linked to at least one parent, which is logical in this specific context. However, this logic does not always hold, and in some cases the definition of population $U_A$ itself is complex.
 
-::: {.callout-tip title="Resultado"}
-Si $\tilde{\Theta}_{AB}$ es una matriz de vínculo estándar, entonces
+::: {.callout-tip title="Result"}
+If $\tilde{\Theta}_{AB}$ is a standard link matrix, then
 $$
 \begin{aligned}
 \tilde{\Theta}_{AB}'\mathbf{1}_A=\mathbf{1}_B
 \end{aligned}
 $$
 
-**Prueba.**
-Desarrollando algebraicamente, se tiene la demostración directamente al aplicar la anterior definición, de la siguiente manera:
+**Proof.**
+Expanding algebraically, the proof follows directly by applying the previous definition as follows:
 $$
 \begin{aligned}
 \tilde{\Theta}_{AB}'\mathbf{1}_A&=\left(\left[\textrm{diag}(\mathbf{1}_A\Theta_{AB})\right]^{-1}\right)'\Theta_{AB}'\mathbf{1}_A\\
@@ -130,16 +130,16 @@ $$
 
 :::
 
-::: {.callout-tip title="Resultado"}
-El total poblacional de la característica de interés puede ser reescrito de la siguiente manera
+::: {.callout-tip title="Result"}
+The population total of the characteristic of interest can be rewritten as follows:
 $$
 \begin{aligned}
 t_y=\sum_{j \in U_A}\sum_{i \in U_B}\dfrac{\theta_{ji}^{AB}}{\theta_{+i}^{AB}}y_i
 \end{aligned}
 $$
 
-**Prueba.**
-Directamente de la definición de la matriz de vínculo estándar, se tiene que
+**Proof.**
+Directly from the definition of the standard link matrix, we have
 $$
 \begin{aligned}
 t_y&=\mathbf{1}_B'\mathbf{y}\\
@@ -149,7 +149,7 @@ $$
 
 :::
 
-A continuación se define el vector columna $\mathbf{z}=\tilde{\Theta}_{AB}\mathbf{y}$ de tamaño $N_A$ cuyo $j$-ésimo elemento es $z_j=\sum_{i \in U_B}\tilde{\theta}_{ji}^{AB}y_i$ establecido para la población $U_A$ y medido en la muestra $s_A$. Para estimar $t_y$, se debe recurrir a la utilización de los valores de $y_i$ medidos en la muestra  $s_B$, de tal forma que es posible construir el siguiente estimador
+Next, define the column vector $\mathbf{z}=\tilde{\Theta}_{AB}\mathbf{y}$ of size $N_A$, whose $j$-th element is $z_j=\sum_{i \in U_B}\tilde{\theta}_{ji}^{AB}y_i$, established for population $U_A$ and measured in the sample $s_A$. To estimate $t_y$, the values of $y_i$ measured in the sample $s_B$ must be used, so that the following estimator can be constructed:
 $$
 \begin{aligned}
 \hat{t}_y&=\sum_{i\in U_B}w_iy_i\\
@@ -157,20 +157,20 @@ $$
 \end{aligned}
 $$
 
-donde $\mathbf{w}=(w_1,\ldots,w_{N_B})$, $w_i$ es la ponderación estimada del $i$-ésimo elemento de $s_B$. Por supuesto, $w_i=0$ si $i\notin s_B$. Para que $\hat{t}_y$ sea insesgado es usual definir $w_i=(\pi_i^B)^{-1}$. Sin embargo, esta escogencia, aunque posible en la teoría, es muy difícil de hallar en muestreo indirecto puesto que se debe tener conocimiento de todos los posibles vínculos generados por todas las posibles muestras $a_A$.
+where $\mathbf{w}=(w_1,\ldots,w_{N_B})$, and $w_i$ is the estimated weight of the $i$-th element of $s_B$. Of course, $w_i=0$ if $i\notin s_B$. For $\hat{t}_y$ to be unbiased, it is usual to define $w_i=(\pi_i^B)^{-1}$. However, this choice, although possible in theory, is very difficult to find in indirect sampling because all possible links generated by all possible samples $a_A$ must be known.
 
-## Método de ponderación generalizada
+## Generalized Weighting Method
 
-<!-- index: Ponderación generalizada -->La muestra $s_A$ fue seleccionada de acuerdo a un diseño de muestreo $p_A(s_A)$. Este diseño de muestreo induce un vector de probabilidades de inclusión para todos los elementos de $U_A$. Sea $\mathbf{\boldsymbol{\Pi}}_A=diag(\pi^A_1,\ldots,\pi^A_{N_A})$ una matriz diagonal de tamaño $N_A\times N_A$ conteniendo las probabilidades de inclusión para $j\in U_A$ en su diagonal. De igual manera, se define la matriz de inclusión de los elementos en la muestra dada por $\mathbf{I_A}=diag(I_1^A,\ldots,I_{N_A}^A)$ con
+<!-- index: Generalized weighting -->The sample $s_A$ was selected according to a sampling design $p_A(s_A)$. This sampling design induces a vector of inclusion probabilities for all elements of $U_A$. Let $\mathbf{\boldsymbol{\Pi}}_A=diag(\pi^A_1,\ldots,\pi^A_{N_A})$ be a diagonal matrix of size $N_A\times N_A$ containing the inclusion probabilities for $j\in U_A$ on its diagonal. Similarly, define the inclusion matrix of the elements in the sample, given by $\mathbf{I_A}=diag(I_1^A,\ldots,I_{N_A}^A)$, with
 $$
 I_j^A(S_A)=
 \begin{cases}
-1 & \text{si $i \in S_A$}\\
-0 & \text{si $i \notin S_A$}.
+1 & \text{if $i \in S_A$}\\
+0 & \text{if $i \notin S_A$}.
 \end{cases}
 $$
 
-Partiendo de que el total poblacional toma la siguiente forma
+Starting from the fact that the population total takes the following form,
 $$
 \begin{aligned}
 t_y&=\mathbf{1}_A'\tilde{\Theta}_{AB}\mathbf{y}\\
@@ -178,7 +178,7 @@ t_y&=\mathbf{1}_A'\tilde{\Theta}_{AB}\mathbf{y}\\
 \end{aligned}
 $$
 
-entonces, es posible construir una expresión que respete los principios del estimador de Horvitz-Thompson en términos del vector $\mathbf{Z}$. Por lo tanto
+it is possible to construct an expression that respects the principles of the Horvitz-Thompson estimator in terms of the vector $\mathbf{Z}$. Therefore,
 $$
 \begin{aligned}
 \hat{t}_y=\hat{t}_{z,\pi}&=\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\mathbf{z}\\
@@ -186,40 +186,40 @@ $$
 \end{aligned}
 $$
 
-Por ello, se define el vector de ponderaciones para la población objetivo $U_B$ como
+Thus, the vector of weights for the target population $U_B$ is defined as
 $$
 \begin{aligned}
 \mathbf{w}=\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\tilde{\Theta}_{AB}
 \end{aligned}
 $$
 
-donde cada elemento de $\mathbf{w}$, el cual es un vector de tamaño $N_B$, está definido por la siguiente expresión
+where each element of $\mathbf{w}$, which is a vector of size $N_B$, is defined by the following expression:
 $$
 \begin{aligned}
 w_i=
 \begin{cases}
-\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{ji}^{AB}}{\pi_j^A}, & \text{para todo $i\in s_B$}\\
-0, & \text{para todo $i\notin s_B$}
+\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{ji}^{AB}}{\pi_j^A}, & \text{for all $i\in s_B$}\\
+0, & \text{for all $i\notin s_B$}
 \end{cases}
 \end{aligned}
 $$
 
-De esta forma, se dice que los pesos $w_i$ han sido obtenidos mediante el método de ponderación generalizada tal como se describe en [@Lav2007]. En este orden de ideas, y retomando nuestro ejemplo de la población de padres e hijos, si la muestra realizada de padres estuviera dada por
+In this way, the weights $w_i$ are said to have been obtained through the generalized weighting method, as described in [@Lav2007]. Along these lines, returning to our example of the population of parents and children, if the realized sample of parents were given by
 
 \begin{center}
-$s_A$=**Padre 2, Padre 3.**
+$s_A$=**Parent 2, Parent 3.**
 \end{center}
 
-entonces el conjunto de niños identificados por los padres seleccionados estaría dado por
+then the set of children identified by the selected parents would be given by
 
 \begin{center}
-$s_B$=**Niño 2, Niño 3.**
+$s_B$=**Child 2, Child 3.**
 \end{center}
 
-y las ponderaciones resultantes serían
+and the resulting weights would be
 
-- $w_1=0$ pues el **Niño 1** no fue identificado por ningún padre
-- Para el **Niño 2** se tiene que
+- $w_1=0$ because **Child 1** was not identified by any parent.
+- For **Child 2**, we have
 $$
 \begin{aligned}
 w_2&=\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{j2}^{AB}}{\pi_1^A}\\
@@ -228,7 +228,7 @@ w_2&=\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{j2}^{AB}}{\pi_1^A}\\
 &=\dfrac{\Theta_{22}^{AB}}{\Theta_{+2}^{AB}}\dfrac{1}{\pi_2^A}+\dfrac{\Theta_{23}^{AB}}{\Theta_{+2}^{AB}}\dfrac{1}{\pi_3^A}
 \end{aligned}
 $$
-- Para el **Niño 3** se tiene que
+- For **Child 3**, we have
 $$
 \begin{aligned}
 w_3&=\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{j3}^{AB}}{\pi_1^A}\\
@@ -238,15 +238,15 @@ w_3&=\sum_{j\in U_A}I_j\dfrac{\tilde{\Theta}_{j3}^{AB}}{\pi_1^A}\\
 \end{aligned}
 $$
 
-### Propiedades
+### Properties
 
-<!-- index: Ponderación generalizada -->Se tienen las siguientes propiedades generadas de los pesos del método de ponderación generalizada
+<!-- index: Generalized weighting -->The following properties are generated by the weights from the generalized weighting method.
 
-::: {.callout-tip title="Resultado"}
-El estimador $t_y$ es insesgado
+::: {.callout-tip title="Result"}
+The estimator $t_y$ is unbiased.
 
-**Prueba.**
-Basta con demostrar que $E(\mathbf{w})=\mathbf{1}_B$. Esto se tiene por construcción, dado que el estimador de  Horvitz-Thompson es insesgado puesto que la esperanza de las variables indicadoras $I_j$ es igual a la probabilidad de inclusión $\pi_j^A$. De esta manera, se tiene que
+**Proof.**
+It is enough to show that $E(\mathbf{w})=\mathbf{1}_B$. This holds by construction, since the Horvitz-Thompson estimator is unbiased because the expectation of the indicator variables $I_j$ is equal to the inclusion probability $\pi_j^A$. Thus, we have
 $$
 \begin{aligned}
 E(\hat{t}_y)&=E(\mathbf{w})y\\
@@ -260,28 +260,28 @@ $$
 
 :::
 
-::: {.callout-tip title="Resultado"}
-El vector $\mathbf{w}$ provee estimaciones insesgadas si y sólo si la matriz $\tilde{\Theta}_{AB}$ es una matriz de vínculo estándar
+::: {.callout-tip title="Result"}
+The vector $\mathbf{w}$ provides unbiased estimates if and only if the matrix $\tilde{\Theta}_{AB}$ is a standard link matrix.
 
-**Prueba.**
-Se tiene que $E(\mathbf{w})=\tilde{\Theta}_{AB}'\mathbf{1}_A$; sin embargo asumiendo, por el resultado anterior, que el vector de pesos induce estimaciones insesgadas tenemos que $E(\mathbf{w})=\mathbf{1}_B$. Por tanto $\tilde{\Theta}_{AB}'\mathbf{1}_A=\mathbf{1}_B$ y, con base en este razonamiento, se tiene la demostración del resultado.
+**Proof.**
+We have $E(\mathbf{w})=\tilde{\Theta}_{AB}'\mathbf{1}_A$; however, assuming from the previous result that the weight vector induces unbiased estimates, we have $E(\mathbf{w})=\mathbf{1}_B$. Therefore, $\tilde{\Theta}_{AB}'\mathbf{1}_A=\mathbf{1}_B$, and this reasoning proves the result.
 :::
 
-::: {.callout-tip title="Resultado"}
-La varianza de $\hat{t}_y$ está dada por
+::: {.callout-tip title="Result"}
+The variance of $\hat{t}_y$ is given by
 $$
 \begin{aligned}
 Var(\hat{t}_y)&=\mathbf{z}'\mathbf{\Delta}_A\mathbf{z}\\
 &=\mathbf{y}'\mathbf{\Delta}_{B}\mathbf{y}
 \end{aligned}
 $$
-donde $\mathbf{\Delta}_{B}=\tilde{\Theta}_{AB}'\mathbf{\Delta}_{A}\tilde{\Theta}_{AB}$ y $\mathbf{\Delta}_A$ es la matriz de varianzas y covarianzas de tamaño $N_A\times N_A$ de las variables indicadoras de los elementos de la población $U_A$ doblemente ponderada por probabilidades de inclusion cuyo elemento $jj'$ está dado por
+where $\mathbf{\Delta}_{B}=\tilde{\Theta}_{AB}'\mathbf{\Delta}_{A}\tilde{\Theta}_{AB}$, and $\mathbf{\Delta}_A$ is the variance-covariance matrix of size $N_A\times N_A$ of the indicator variables of the elements of population $U_A$, doubly weighted by inclusion probabilities, whose $jj'$ element is given by
 $$
 [\mathbf{\Delta}_A]_{jj'}=\frac{\Delta_{jj'}^A}{\pi_j^A\pi_{j'}^A}=\frac{\pi_{jj'}^A-\pi_{j}^A\pi_{j'}^A}{\pi_j^A\pi_{j'}^A}
 $$
 
-**Prueba.**
-Siguiendo los principios del estimador de Horvitz-Thompson se tiene la demostración de manera inmediata, puesto que
+**Proof.**
+Following the principles of the Horvitz-Thompson estimator, the proof is immediate, since
 
 \clearpage
 
@@ -307,16 +307,16 @@ z_{N_A} \\
 &=\sum_{j\in U_A}\sum_{j'\in U_A}\Delta_{jj'}\frac{z_j}{\pi_j^A}\frac{z_{j'}}{\pi_{j'}^A}=Var(\hat{t}_{z,\pi})
 \end{aligned}
 $$
-y reemplazando convenientemente se obtiene la demostración.
+and replacing conveniently gives the proof.
 :::
 
-### Algunas matrices especiales
+### Some Special Matrices
 
-<!-- index: Matriz de vínculo -->En general, el muestreo indirecto produce estimaciones insesgadas si se utiliza el método de ponderación generalizada. Sin embargo, vale la pena presentar casos especiales de matrices de vínculo que ilustren el comportamiento del estimador de Horvitz-Thompson. En este apartado, se presentan algunas de estas matrices que corresponden a casos extremos, que aunque posiblemente no sean plausibles en la práctica, sirven para ilustrar el efecto de la matriz de vínculo sobre el estimador del total poblacional de la característica de interés.
+<!-- index: Link matrix -->In general, indirect sampling produces unbiased estimates if the generalized weighting method is used. However, it is worth presenting special cases of link matrices that illustrate the behavior of the Horvitz-Thompson estimator. This subsection presents some of these matrices, which correspond to extreme cases. Although they may not be plausible in practice, they serve to illustrate the effect of the link matrix on the estimator of the population total of the characteristic of interest.
 
-#### Matriz identidad
+#### Identity Matrix
 
-<!-- index: Matriz de vínculo -->Al asumir que la matriz de vínculo es una matriz identidad, se tiene que la población $U_A$ y la población $U_B$ tienen una correspondencia uno a uno. Esto implica que el tamaño de las dos poblaciones es el mismo, así $N_A=N_B=N$ y que la matriz de vínculo está dada por
+<!-- index: Link matrix -->Assuming that the link matrix is an identity matrix, population $U_A$ and population $U_B$ have a one-to-one correspondence. This implies that the size of the two populations is the same, so $N_A=N_B=N$, and that the link matrix is given by
 $$
 \begin{aligned}
 \Theta_{AB}=\mathbf{I}_{N\times N}=
@@ -331,21 +331,21 @@ $$
 \end{aligned}
 $$
 
-Con lo que el vector de pesos es
+Thus, the vector of weights is
 $$
 \mathbf{w}=\left(\frac{I^A_1}{\pi_1^A},\cdots,\frac{I^A_{N_A}}{\pi_{N_A}^A}\right)'
 $$
 
-y por tanto $\mathbf{Z=y}$. Luego, el estimador $\hat{t}_y$ tomará la forma del estimador de Narain-Horvitz-Thompson así
+and therefore $\mathbf{Z=y}$. Thus, the estimator $\hat{t}_y$ takes the form of the Narain-Horvitz-Thompson estimator as follows:
 $$
 \begin{aligned}
 \hat{t}_y=\hat{t}_{y,N\pi}&=\mathbf{1}_A'\mathbf{I_A}\mathbf{\boldsymbol{\Pi}}_A^{-1}\mathbf{y}
 \end{aligned}
 $$
 
-#### Uno para todos
+#### One to All
 
-<!-- index: Matriz de vínculo -->Considere el caso en que la población objetivo se encuentra particionada en $N_I^B$ conglomerados, cada uno de tamaño $N_i^B$ $i=1,\ldots,N_I^B$. Cada conglomerados de $U_I^B$ está asociado exactamente con un elemento $j$ de $U_A$. Nótese que $N_I^B=N^A$. Por tanto, la matriz de vínculo está dada por
+<!-- index: Link matrix -->Consider the case in which the target population is partitioned into $N_I^B$ clusters, each of size $N_i^B$, $i=1,\ldots,N_I^B$. Each cluster of $U_I^B$ is associated with exactly one element $j$ of $U_A$. Note that $N_I^B=N^A$. Therefore, the link matrix is given by
 $$
 \begin{aligned}
 \Theta_{AB}=
@@ -360,7 +360,7 @@ $$
 \end{aligned}
 $$
 
-donde $\mathbf{1}_{Bi}$ el vector de unos de tamaño $N_i^B$ $i=1,\ldots,N_I$. La matriz de vínculo también puede ser escrita como $\Theta_{AB}=\textrm{diag}(\mathbf{1}'_{B1},\ldots,\mathbf{1}'_{BN_I^B}$ por tanto la matriz de vínculo estandarizada toma la siguiente forma
+where $\mathbf{1}_{Bi}$ is the vector of ones of size $N_i^B$, $i=1,\ldots,N_I$. The link matrix can also be written as $\Theta_{AB}=\textrm{diag}(\mathbf{1}'_{B1},\ldots,\mathbf{1}'_{BN_I^B}$; therefore, the standardized link matrix takes the following form:
 $$
 \begin{aligned}
 \tilde{\Theta}_{AB}&=\Theta_{AB}[\textrm{diag}(\mathbf{1}_A\Theta_{AB})]^{-1}\\
@@ -371,25 +371,25 @@ $$
 \end{aligned}
 $$
 
-Se tiene entonces que el vector de pesos $\mathbf{w}$ está definido como
+It follows that the vector of weights $\mathbf{w}$ is defined as
 $$
 \begin{aligned}
 \mathbf{w}=\left(\dfrac{I_1^A}{\pi_1^A}\mathbf{1}_{B1},\ldots,\dfrac{I_{N_I^A}^A}{\pi_1^A}\mathbf{1}_{BN_I^B}\right)'
 \end{aligned}
 $$
 
-y el estimador se puede escribir como
+and the estimator can be written as
 $$
 \begin{aligned}
 \hat{t}_y&=\sum_{i=1}^{N_I^B}\dfrac{I_i^A}{\pi_i^A}t_{y,U_i}
 \end{aligned}
 $$
 
-donde $t_{y,U_i}=\sum_{k\in U_i^B}y_k$ es el total de $i$-ésimo conglomerado de la población $U_I^B$
+where $t_{y,U_i}=\sum_{k\in U_i^B}y_k$ is the total of the $i$-th cluster of population $U_I^B$.
 
-#### Todos para uno
+#### All to One
 
-<!-- index: Matriz de vínculo -->En este caso se considera que la población $U^A$ está particionada en $N_I^A$ conglomerados, cada uno de tamaño $N_j^A$ $j=1,\ldots,N_I^A$. Cada conglomerado de $U_I^A$ está asociado exactamente con un elemento $i$ de $U_B$. Nótese que $N_I^A=N^B$. Por tanto, la matriz de vínculo está dada por
+<!-- index: Link matrix -->In this case, population $U^A$ is considered partitioned into $N_I^A$ clusters, each of size $N_j^A$, $j=1,\ldots,N_I^A$. Each cluster of $U_I^A$ is associated with exactly one element $i$ of $U_B$. Note that $N_I^A=N^B$. Therefore, the link matrix is given by
 $$
 \begin{aligned}
 \Theta_{AB}=
@@ -404,7 +404,7 @@ $$
 \end{aligned}
 $$
 
-donde $\mathbf{1}_{Aj}$ el vector de unos de tamaño $N_i^A$ $j=1,\ldots,N_I^A$. En este caso particular, la matriz de vínculo estandarizada está dada por la siguiente expresión
+where $\mathbf{1}_{Aj}$ is the vector of ones of size $N_i^A$, $j=1,\ldots,N_I^A$. In this particular case, the standardized link matrix is given by the following expression:
 $$
 \begin{aligned}
 \tilde{\Theta}_{AB}&=\Theta_{AB}[\textrm{diag}(\mathbf{1}_A\Theta_{AB})]^{-1}\\
@@ -412,23 +412,23 @@ $$
 \end{aligned}
 $$
 
-Se tiene entonces que el vector de pesos $\mathbf{w}$ está definido como
+It follows that the vector of weights $\mathbf{w}$ is defined as
 $$
 \begin{aligned}
 \mathbf{w}=\left(\dfrac{1}{N_1^A}\sum_{j\in U_I^A}\dfrac{I_j^A}{\pi_j^A},\ldots,\dfrac{1}{N_{N_I^A}^A}\sum_{j\in U_{N_I^A}^A}\dfrac{I_j^A}{\pi_j^A}\right)'
 \end{aligned}
 $$
 
-y el estimador resultante toma la siguiente forma
+and the resulting estimator takes the following form:
 $$
 \begin{aligned}
 \hat{t}_y&=\sum_{i=1}^{N_I^A}\dfrac{y_i}{N_i^A}\sum_{j\in U_{i}^A}\dfrac{I_j^A}{\pi_j^A}
 \end{aligned}
 $$
 
-## Ejemplo léxico-gráfico
+## Lexical-Graphic Example
 
-<!-- index: Muestreo indirecto -->Suponga que en el ejemplo de la población de Padres e Hijos, cuya matriz de vínculos está dada por la expresión (14.1.2), y se plantea una investigación acerca de la estimación del total de los Hijos. Para tales efectos, se supone que la matriz de vínculos, siguiendo el consejo de @Lav2007 está dada por
+<!-- index: Indirect sampling -->Suppose that, in the example of the population of Parents and Children, whose link matrix is given by expression (14.1.2), a study is proposed to estimate the total for the Children. For this purpose, following the advice of @Lav2007, assume that the link matrix is given by
 $$
 \Theta_{AB}=
 \left(
@@ -441,14 +441,14 @@ $$
 \right)
 $$
 
-En resumen, la población de los Padres $U_A$ está compuesta por $N_A=4$ individuos. Se desea seleccionar una muestra $S_A$ de $n_A=2$ individuos mediante un diseño de muestreo aleatorio simple. Bajo esta configuración existen $\binom{4}{2}=6$ posibles muestras. Por otro lado, la población objetivo $U_B$ está compuesta por $N_B=3$ Hijos cuyas edades son 2 años, 3 años y 3 años, en estricto orden; es decir, el total poblacional de la característica de interés es $2+3+3=8$ años. Repasemos cada una de las posible muestras y veamos que, efectivamente, el estimador resultante es insesgado para el total poblacional.
+In summary, the population of Parents $U_A$ is composed of $N_A=4$ individuals. The goal is to select a sample $S_A$ of $n_A=2$ individuals through a simple random sampling design. Under this configuration, there are $\binom{4}{2}=6$ possible samples. On the other hand, the target population $U_B$ is composed of $N_B=3$ Children whose ages are 2 years, 3 years, and 3 years, in that exact order. Thus, the population total of the characteristic of interest is $2+3+3=8$ years. Let us review each of the possible samples and see that, indeed, the resulting estimator is unbiased for the population total.
 
-Con esta configuración, es necesario hallar la matriz de vínculo estándar poblacional. De esta manera de la definición 14.2.1, se tiene que
+With this configuration, it is necessary to find the population standard link matrix. Thus, from Definition 14.2.1, we have
 $$
 \theta_{+1}^{AB}=1, \ \ \ \ \theta_{+2}^{AB}=2, \ \ \ \ \theta_{+3}^{AB}=2
 $$
 
-Por lo tanto, la matriz de vínculo estándar está dada por
+Therefore, the standard link matrix is given by
 $$
 \tilde{\Theta}_{AB}=
 \left(
@@ -461,85 +461,85 @@ $$
 \right)
 $$
 
-- **Primera muestra**: $s_A=\{Padre1, Padre2\}$. El Padre1 vincula al Hijo1 y al Hijo2, mientras que el Padre2 solamente vincula al Hijo2. De esta manera queda definida la muestra de la población objetivo como $s_B=\{Hijo1, Hijo2\}$. Las ponderaciones están dadas a continuación.
+- **First sample**: $s_A=\{Parent1, Parent2\}$. Parent1 links to Child1 and Child2, while Parent2 links only to Child2. In this way, the sample of the target population is defined as $s_B=\{Child1, Child2\}$. The weights are given below.
 1. $w_1=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j1}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j1}=2(1+0)=2$
 1. $w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+1/2)=2$
-1. $w_3=0$ puesto que ningún Padre lo vinculó.
-Después de recolectadas las observaciones, el vector de valores  para la característica de interés es $y_s=(2,3)$  se tiene que la estimación es $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(2\times 3)=10$
-- **Segunda muestra**: $s_A=\{Padre1, Padre3\}$. El Padre1 vincula al Hijo1 y al Hijo2, mientras que el Padre3 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como $s_B=\{Hijo1, Hijo2, Hijo3\}$. Las ponderaciones están dadas a continuación.
+1. $w_3=0$ because no Parent linked to this child.
+After the observations are collected, the vector of values for the characteristic of interest is $y_s=(2,3)$, and the estimate is $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(2\times 3)=10$.
+- **Second sample**: $s_A=\{Parent1, Parent3\}$. Parent1 links to Child1 and Child2, while Parent3 links only to Child3. In this way, the sample of the target population is defined as $s_B=\{Child1, Child2, Child3\}$. The weights are given below.
 1. $w_1=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j1}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j1}=2(1+0)=2$
 1. $w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1$
 1. $w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1$
-Después de recolectadas las observaciones, el vector de valores  para la característica de interés es $y_s=(2,3,3)$  se tiene que la estimación es $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(1\times 3)+(1\times 3)=10$
-- **Tercera muestra**: $s_A=\{Padre1, Padre4\}$. El Padre1 vincula al Hijo1 y al Hijo2, mientras que el Padre4 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como $s_B=\{Hijo1, Hijo2, Hijo3\}$. Las ponderaciones están dadas a continuación.
+After the observations are collected, the vector of values for the characteristic of interest is $y_s=(2,3,3)$, and the estimate is $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(1\times 3)+(1\times 3)=10$.
+- **Third sample**: $s_A=\{Parent1, Parent4\}$. Parent1 links to Child1 and Child2, while Parent4 links only to Child3. In this way, the sample of the target population is defined as $s_B=\{Child1, Child2, Child3\}$. The weights are given below.
 1. $w_1=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j1}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j1}=2(1+0)=2$
 1. $w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1$
 1. $w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1$
-Después de recolectadas las observaciones, el vector de valores  para la característica de interés es $y_s=(2,3,3)$  se tiene que la estimación es $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(1\times 3)+(1\times 3)=10$
-- **Cuarta muestra**: $s_A=\{Padre2, Padre3\}$. El Padre2 vincula solamente al Hijo2, mientras que el Padre4 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como $s_B=\{Hijo2, Hijo3\}$. Las ponderaciones están dadas a continuación.
-1. $w_1=0$ puesto que ningún Padre lo vinculó.
+After the observations are collected, the vector of values for the characteristic of interest is $y_s=(2,3,3)$, and the estimate is $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 2)+(1\times 3)+(1\times 3)=10$.
+- **Fourth sample**: $s_A=\{Parent2, Parent3\}$. Parent2 links only to Child2, while Parent4 links only to Child3. In this way, the sample of the target population is defined as $s_B=\{Child2, Child3\}$. The weights are given below.
+1. $w_1=0$ because no Parent linked to this child.
 1. $w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1$
 1. $w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1$
-Después de recolectadas las observaciones, el vector de valores  para la característica de interés es $y_s=(3,3)$  se tiene que la estimación es $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(1\times 3)+(1\times 3)=6$
-- **Quinta muestra**: $s_A=\{Padre2, Padre4\}$. El Padre2 vincula solamente al Hijo2, mientras que el Padre4 solamente vincula al Hijo3. De esta manera queda definida la muestra de la población objetivo como $s_B=\{Hijo2, Hijo3\}$. Las ponderaciones están dadas a continuación.
-1. $w_1=0$ puesto que ningún Padre lo vinculó.
+After the observations are collected, the vector of values for the characteristic of interest is $y_s=(3,3)$, and the estimate is $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(1\times 3)+(1\times 3)=6$.
+- **Fifth sample**: $s_A=\{Parent2, Parent4\}$. Parent2 links only to Child2, while Parent4 links only to Child3. In this way, the sample of the target population is defined as $s_B=\{Child2, Child3\}$. The weights are given below.
+1. $w_1=0$ because no Parent linked to this child.
 1. $w_2=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j2}}{\pi_j^A}=(4/2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j2}=2(1/2+0)=1$
 1. $w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(0+1/2)=1$
-Después de recolectadas las observaciones, el vector de valores  para la característica de interés es $y_s=(3,3)$  se tiene que la estimación es $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(1\times 3)+(1\times 3)=6$
-- **Sexta muestra**: $s_A=\{Padre3, Padre4\}$. El Padre3 vincula solamente al Hijo3, al igual que el Padre4. De esta manera queda definida la muestra de la población objetivo como $s_B=\{Hijo3\}$. Las ponderaciones están dadas a continuación.
-1. $w_1=0$ puesto que ningún Padre lo vinculó.
-1. $w_2=0$ puesto que ningún Padre lo vinculó.
+After the observations are collected, the vector of values for the characteristic of interest is $y_s=(3,3)$, and the estimate is $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(1\times 3)+(1\times 3)=6$.
+- **Sixth sample**: $s_A=\{Parent3, Parent4\}$. Parent3 links only to Child3, as does Parent4. In this way, the sample of the target population is defined as $s_B=\{Child3\}$. The weights are given below.
+1. $w_1=0$ because no Parent linked to this child.
+1. $w_2=0$ because no Parent linked to this child.
 1. $w_3=\sum_{j\in s_A}\frac{\tilde{\theta}^{AB}_{j3}}{\pi_j^A}=(2)\sum_{j\in s_A}\tilde{\theta}^{AB}_{j3}=2(1/2+1/2)=2$
-Después de recolectadas las observaciones, el vector de valores  para la característica de interés es $y_s=3$  se tiene que la estimación es $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 3)=6$
+After the observations are collected, the vector of values for the characteristic of interest is $y_s=3$, and the estimate is $\hat{t}_y=\sum_{i\in s_B}w_iy_i=(2\times 3)=6$.
 
-En resumen, promediando las estimaciones con respecto al diseño de muestreo $p_A$, se encuentra fácilmente que el estimador es insesgado puesto que
+In summary, averaging the estimates with respect to the sampling design $p_A$, it is easy to see that the estimator is unbiased because
 
 $$
 (1/6)\times(10+10+10+6+6+6)=8=t_y
 $$
 
-Por otro lado, nótese que el diseño de muestreo para la población objetivo, el cual es desconocido siempre que se seleccione una sola muestra, está dado a continuación
+On the other hand, note that the sampling design for the target population, which is unknown whenever only a single sample is selected, is given below:
 
 $$
 \begin{aligned}
 p_B(s_B)=
 \begin{cases}
-2/6, & \text{si $s_B=\{Hijo1, Hijo2, Hijo3\}$}\\
-2/6, & \text{si $s_B=\{Hijo2, Hijo3\}$}\\
-1/6, & \text{si $s_B=\{Hijo1, Hijo2\}$}\\
-1/6, & \text{si $s_B=\{Hijo3\}$}
+2/6, & \text{if $s_B=\{Child1, Child2, Child3\}$}\\
+2/6, & \text{if $s_B=\{Child2, Child3\}$}\\
+1/6, & \text{if $s_B=\{Child1, Child2\}$}\\
+1/6, & \text{if $s_B=\{Child3\}$}
 \end{cases}
 \end{aligned}
 $$
 
-Por supuesto, en un ejercicio ilustrativo de este estilo, sería posible calcular las probabilidades de inclusión y utilizar el estimador de Horvitz-Thompson para estimar el total poblacional. Sin embargo, en la vida práctica esta opción se descarta rápidamente a medida que se aumenta la complejidad del diseño de muestreo y el tamaño de muestra.
+Of course, in an illustrative exercise of this kind, it would be possible to calculate the inclusion probabilities and use the Horvitz-Thompson estimator to estimate the population total. However, in practice this option is quickly ruled out as the complexity of the sampling design and the sample size increase.
 
-## Ejercicios
+## Exercises
 
-1. Suponga que se requiere la estimación del total de kilovatios al mes consumidos por los hogares de un municipio. Además, asuma que no existe un marco de muestreo de hogares, aunque sí de individuos, y que para acceder a la información requerida se diseña una muestra de individuos a los que se les pregunta por la información de su hogar.
+1. Suppose that the total number of kilowatts consumed per month by households in a municipality needs to be estimated. Also assume that there is no household sampling frame, although there is a frame of individuals, and that to access the required information a sample of individuals is designed and they are asked about information for their household.
 
-- Argumente por qué este problema puede ser resuelto con un enfoque de muestreo indirecto.
-- Con base en lo anterior, proponga un estimador para el total de kilovatios consumidos en los hogares mediante el método de ponderación generalizada.
-- Si se seleccionó una muestra de $n$ individuos, defina la probabilidad de inclusión de un hogar compuesto por $M<n$ individuos.
-- Con base en lo anterior escriba las expresiones teóricas de los estimadores de Horvitz-Thonmpson y de Hajek para el total de kilovatios consumidos en los hogares.
+- Argue why this problem can be solved with an indirect sampling approach.
+- Based on the above, propose an estimator for the total kilowatts consumed by households using the generalized weighting method.
+- If a sample of $n$ individuals was selected, define the inclusion probability of a household composed of $M<n$ individuals.
+- Based on the above, write the theoretical expressions for the Horvitz-Thompson and Hajek estimators for the total kilowatts consumed by households.
 
-1. Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si la muestra $s_A$ se seleccionó de forma aleatoria simple.
+1. Under indirect sampling, propose an expression for the estimator of the population total if the sample $s_A$ was selected by simple random sampling.
 
-1. Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si la muestra $s_A$ se seleccionó de forma aleatoria estratificada.
+1. Under indirect sampling, propose an expression for the estimator of the population total if the sample $s_A$ was selected by stratified random sampling.
 
-1. Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si la muestra $s_A$ se seleccionó de forma bietápica.
+1. Under indirect sampling, propose an expression for the estimator of the population total if the sample $s_A$ was selected using two-stage sampling.
 
-1. Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si se utiliza un estimador general de regresión con características de información auxiliar de la población $U_A$.
+1. Under indirect sampling, propose an expression for the estimator of the population total if a general regression estimator is used with auxiliary information characteristics from population $U_A$.
 
-1. Bajo muestreo indirecto, proponga una expresión para el estimador del total poblacional, si se utiliza un estimador general de regresión con características de información auxiliar de la población $U_B$.
+1. Under indirect sampling, propose an expression for the estimator of the population total if a general regression estimator is used with auxiliary information characteristics from population $U_B$.
 
-1. ¿Qué formas de ausencia de respuesta se pueden presentar en muestreo indirecto?.
+1. What forms of nonresponse can occur in indirect sampling?
 
-1. Discuta por qué el muestreo de redes se puede ver como un caso particular de muestreo indirecto y proponga un estimador que involucre el método de ponderación generalizada.
+1. Discuss why network sampling can be viewed as a special case of indirect sampling and propose an estimator involving the generalized weighting method.
 
-1. Discuta por qué el muestreo adaptativo se puede ver como un caso particular de muestreo indirecto y proponga un estimador que involucre el método de ponderación generalizada.
+1. Discuss why adaptive sampling can be viewed as a special case of indirect sampling and propose an estimator involving the generalized weighting method.
 
-1. Discuta por qué el muestreo bola de nieve se puede ver como un caso particular de muestreo indirecto y proponga un estimador que involucre el método de ponderación generalizada.
+1. Discuss why snowball sampling can be viewed as a special case of indirect sampling and propose an estimator involving the generalized weighting method.
 
 \clearpage
 \newpage

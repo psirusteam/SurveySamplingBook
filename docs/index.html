@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.36">
@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Andrés Gutiérrez">
+<meta name="dcterms.date" content="2026-07-14">
 
-<title>Estrategias de Muestreo</title>
+<title>Sampling Strategies</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -78,17 +79,17 @@ div.csl-indent {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No se han encontrado resultados",
-    "search-matching-documents-text": "documentos encontrados",
-    "search-copy-link-title": "Copiar el enlace en la búsqueda",
-    "search-hide-matches-text": "Ocultar resultados adicionales",
-    "search-more-match-text": "resultado adicional en este documento",
-    "search-more-matches-text": "resultados adicionales en este documento",
-    "search-clear-button-title": "Borrar",
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancelar",
-    "search-submit-button-title": "Enviar",
-    "search-label": "Buscar"
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -102,13 +103,13 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Prólogo</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Foreword</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -120,12 +121,12 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Estrategias de Muestreo</a> 
+      <a href="./">Sampling Strategies</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Buscar"></div>
+        <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -133,97 +134,97 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Prólogo</span></a>
+ <span class="menu-text">Foreword</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Encuestas y estudios por muestreo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Surveys and Sampling Studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Muestras probabilísticas y estimadores</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability Samples and Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Muestras con probabilidades simples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Samples With Simple Probabilities</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Muestras con probabilidades proporcionales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Samples with probabilities proportional to size</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo estratificado</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Stratified sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Muestreo de conglomerados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cluster sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Muestreo en varias etapas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multistage sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap8.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimación de parámetros diferentes al total</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimation of Parameters Other than the Total</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimación con información auxiliar</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimation with Auxiliary Information</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimadores de calibración</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Calibration Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Muestreo balanceado</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Balanced Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Muestreo en dos fases</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Two-Phase Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap13.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Muestreo indirecto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Indirect Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap14.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Encuestas multi-propósito</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Multipurpose Surveys</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/cap15.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Inferencia basada en modelos poblacionales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Model-Based Inference for Populations</span></span></a>
   </div>
 </li>
     </ul>
@@ -233,11 +234,11 @@ div.csl-indent {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Tabla de contenidos</h2>
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prólogo" id="toc-prólogo" class="nav-link active" data-scroll-target="#prólogo">Prólogo</a></li>
-  <li><a href="#prefacio" id="toc-prefacio" class="nav-link" data-scroll-target="#prefacio">Prefacio</a></li>
+  <li><a href="#foreword" id="toc-foreword" class="nav-link active" data-scroll-target="#foreword">Foreword</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link" data-scroll-target="#preface">Preface</a></li>
   </ul>
 </nav>
     </div>
@@ -246,8 +247,8 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Estrategias de Muestreo</h1>
-<p class="subtitle lead">Diseño de Encuestas y Estimación de Parámetros</p>
+<h1 class="title">Sampling Strategies</h1>
+<p class="subtitle lead">Survey Design and Parameter Estimation</p>
 </div>
 
 
@@ -255,16 +256,16 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
              <p>Andrés Gutiérrez </p>
           </div>
   </div>
     
     <div>
-    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">13 de julio de 2026</p>
+      <p class="date">July 14, 2026</p>
     </div>
   </div>
   
@@ -276,39 +277,39 @@ div.csl-indent {
 </header>
 
 
-<section id="prólogo" class="level1 unnumbered">
-<h1 class="unnumbered">Prólogo</h1>
-<p>El muestreo es tal vez el oficio que caracteriza mejor la disciplina estadística. Se trata nada menos que de la planeación y ejecución de la recolección organizada de información con el fin de conocer o estimar propiedades generales de una población o de un fenómeno natural. Para ello, involucra, no solo la estrategia de selección probabilística de una muestra, sino que también hace explícito el estimador que proveerá el valor del parámetro que, a juicio del investigador, resume la propiedad estudiada.</p>
-<p>Es indudable que los sistemas de cómputo han contribuido enormemente al desarrollo de nuevos métodos y a la práctica de los tradicionales con mayor confianza. Las fórmulas y los algoritmos se programan y se ponen en marcha y todo el trabajo numérico se deja en manos del computador, incluyendo la generación de los números pseudoaleatorios como punto de partida para la selección de las muestras y para la exploración de propiedades de los diseños mediante métodos de simulación. Igualmente, el muestreo se ha beneficiado de desarrollos abundantes y profundos de otros campos de la estadística que lo han enriquecido con nuevos métodos en los años recientes.</p>
-<p>El profesor Andrés Gutiérrez emprende la tarea de entregar al lector un libro conceptualmente sólido, que se caracteriza por el equilibrio en la presentación intuitiva de los conceptos, apoyándose en (1) su estrategia pedagógica de Marco y Lucy, manteniendo una población y un marco de muestreo a lo largo de su texto, lo que le permite ejemplificar y comparar los diseños en lo referente a su eficiencia, (2) el desarrollo matemático riguroso de las propiedades de los diseños y de los estimadores, y (3) la práctica de los algoritmos con el paquete TeachingSampling, elaborado por él mismo para ilustrar los procedimientos propuestos.</p>
-<p>De esta manera, el estudioso del tema encuentra cómo aplicar de manera inmediata los diversos procedimientos sin verse en la necesidad de emprender manualmente la búsqueda de soluciones o, si lo desea, tiene a su alcance los programas que le permiten comparar los resultados obtenidos con los que encuentra por sus propios medios. La primera parte contiene los métodos tradicionales que usualmente se enseñan en un primer curso de muestreo. La segunda está diseñada para un curso más avanzado de pregrado. En la tercera, el autor incluye temas recientes, provenientes de artículos publicados en revistas especializadas y de aparición más escasa en otros textos y que pueden ser parte de cursos de posgrado.</p>
-<p>La lectura del texto es agradable y clara, acompañada de numerosos ejemplos lexicográficos con cantidades pequeñas de datos que ilustran el detalle de las posibilidades. Sin duda, el libro que nos presenta el profesor Andrés Gutiérrez tiene el sello de un trabajo personal serio y novedoso que el lector apreciará.</p>
+<section id="foreword" class="level1 unnumbered">
+<h1 class="unnumbered">Foreword</h1>
+<p>Sampling is perhaps the craft that best characterizes the discipline of statistics. It is nothing less than the planning and execution of an organized collection of information in order to understand or estimate general properties of a population or of a natural phenomenon. To do so, it involves not only the probabilistic selection strategy for a sample, but also the explicit estimator that will provide the value of the parameter which, in the researcher’s judgment, summarizes the property under study.</p>
+<p>There is no doubt that computer systems have contributed enormously to the development of new methods and to the more confident practice of traditional ones. Formulas and algorithms are programmed and put into operation, and all numerical work is left to the computer, including the generation of pseudorandom numbers as the starting point for sample selection and for exploring design properties through simulation methods. Sampling has likewise benefited from abundant and profound developments in other fields of statistics, which have enriched it with new methods in recent years.</p>
+<p>Professor Andrés Gutiérrez undertakes the task of offering readers a conceptually solid book, marked by a balanced intuitive presentation of the concepts and supported by (1) his pedagogical strategy of Marco and Lucy, which keeps one population and one sampling frame throughout the text and allows him to exemplify and compare designs in terms of their efficiency, (2) a rigorous mathematical development of the properties of designs and estimators, and (3) practical work with algorithms using the TeachingSampling package, which he created to illustrate the proposed procedures.</p>
+<p>In this way, students of the subject learn how to apply the different procedures immediately, without needing to search for solutions manually; or, if they wish, they have programs at hand that allow them to compare the results obtained with those they find by their own means. The first part contains the traditional methods usually taught in a first course on sampling. The second is designed for a more advanced undergraduate course. In the third, the author includes recent topics from articles published in specialized journals, topics that appear less often in other texts and that may form part of graduate courses.</p>
+<p>The text is pleasant and clear to read, accompanied by numerous lexicographic examples with small amounts of data that illustrate the details of the possibilities. Without question, the book presented to us by Professor Andrés Gutiérrez bears the mark of serious and innovative personal work that readers will appreciate.</p>
 <div class="text-end">
 <p>Jorge Ortiz Pinilla, PhD.<br>
 Diplôme de docteur de troisième cycle<br>
 Université Henri Poincaré, Nancy 1</p>
 </div>
 </section>
-<section id="prefacio" class="level1 unnumbered">
-<h1 class="unnumbered">Prefacio</h1>
-<p>Aunque muy poderoso, el término estrategia de muestreo no ha tenido la trascendencia pertinente en el mundo del muestreo. Se habla de la eficiencia, precisión e incluso insesgamiento de un estimador sin tener en cuenta que tales propiedades están ligadas al diseño de muestreo que se haya utilizado en la recolección de la información. Para el autor, el aprendizaje de esta materia es más sencillo cuando se valora de igual manera el diseño de muestreo junto con el estimador del parámetro de interés utilizado en la población finita. No se puede desconocer la regla de oro del muestreo que clama: utilizar diseños de muestreo que induzcan probabilidades de inclusión (o selección, según sea el caso) proporcionales al valor de la característica de interés en la población y utilizar estimadores que involucren dichas probabilidades. Por lo anterior, se ha decido titular este texto como <em>Estrategias de muestreo, diseño de encuestas y estimación de parámetros.</em></p>
-<p>En la búsqueda combinada de una mejor estrategia de muestreo se ha querido dividir este texto en tres partes que pueden ser utilizadas en los distintos niveles de pregrado así como en cursos de posgrado, dependiendo de la dificultad del tema. La división del libro corresponde al desarrollo teórico del muestreo a través de su corta historia.</p>
-<p>La primera parte del libro es un recuento de las estrategias de muestreo más comúnmente utilizadas. Con una muy robusta rigurosidad estadística y matemática, el lector será introducido en el ámbito de la inferencia basada en el diseño de muestreo, que considera a los valores de la característica de interés como pseudoparámetros fijos y no como realizaciones de variables aleatorias. Este recorrido se hace más ameno al introducir a Marco y Lucy, compañeros inseparables en cada estrategia planteada, que corresponden a conjuntos de datos que se obtuvieron para la realización de una encuesta. Así, Marco es el pseudonombre del marco de muestreo y Lucy corresponde a una población de empresas en el sector industrial. A diferencia de la mayoría de los libros de muestreo clásicos, se ha querido proponer la revisión de todas las estrategias de muestreo con un sólo «marco» de muestreo, en algunas ocasiones más generoso que en otras, y una sola población, «Lucy», con el fin de plantear al lector un problema que puede ser resuelto desde diversos ángulos y no, como sucede en algunos libros de muestreo, proponer ejemplos resueltos en donde el lector no tiene la oportunidad de cuestionarse acerca del desarrollo de la estrategia. En esta parte se exponen tres conceptos totalmente determinantes al momento de plantear una estrategia de muestreo. El primero, y más importante de ellos, es el soporte que define la realización de una muestra probabilística y por consiguiente la validez en la inferencia. El lector puede darse cuenta de la importancia de este concepto al diferenciarlo de la muestra aleatoria, que no es más que un vector aleatorio. En segundo lugar se hace énfasis en el concepto de diseño de muestreo tratándolo como una distribución de probabilidad multivariante sobre el soporte. En la mayoría de estrategias planteadas en esta primera parte se demuestra que efectivamente el diseño de muestreo propuesto verifica las propiedades de una distribución de probabilidad. Por supuesto, el último concepto es el de estimador cuya definición y uso es más difundido entre los usuarios. Cada capítulo y cada sección adjunta un pequeño ejemplo léxico-gráfico y una aplicación de la estrategia propuesta con Marco y Lucy mediante el desarrollo computacional del paquete TeachingSampling <span class="citation" data-cites="Teaching">(<a href="#ref-Teaching" role="doc-biblioref">Gutierrez 2009</a>)</span>, creado en el ambiente del software de uso libre R de la manera más amigable posible.</p>
-<p>La segunda parte de este texto, corresponde a la utilización y aprovechamiento de la información auxiliar disponible en el marco de muestreo. No sólo se revisan estimadores que mejoran la eficiencia de la estrategia, sino que también se adjunta al proceso de estimación el uso de un modelo que permite <em>describir</em> el comportamiento de la característica de interés en la población dando un paso muy importante en el desarrollo de la inferencia al tratar, aunque de manera aislada, a la característica de interés como una variable aleatoria en el modelo propuesto. En esta parte, se sigue el hermoso enfoque de <span class="citation" data-cites="Beth">Bethelehem y Keller (<a href="#ref-Beth" role="doc-biblioref">1987</a>)</span> en donde no se hacen supuestos acerca de la validez del modelo de superpoblación. En esta línea de pensamiento la única aseveración que se realiza es que los residuales del modelo sí tienen una menor varianza que la característica de interés. Al final de esta parte se presenta una muy breve introducción a la inferencia en poblaciones finitas bajo un enfoque basado en el modelo supuesto. Es interesante observar que, con el pasar de los días, el uso de estas técnicas es más y más común, sobre todo en la estimación de dominios raros más conocidos como áreas pequeñas. Este apartado empieza con la famosa discusión de <span class="citation" data-cites="Basu1971">Basu (<a href="#ref-Basu1971" role="doc-biblioref">1971</a>)</span> que aun hoy sigue siendo la piedra de tropiezo entre las corrientes de la estadística. Este tipo de inferencia no considera el diseño de muestreo ni la forma en la que la información fue recolectada, sino que se basa en el modelo poblacional propuesto para realizar la inferencia. Sin embargo, cuando el modelo poblacional es errado también los serán las estimaciones.</p>
-<p>La tercera parte, apta para un curso de posgrado, intenta acceder a los mayores avances metodológicos que, con el paso del tiempo, dejan de ser innovaciones para convertirse en técnicas obligatorias en la mejora de la eficiencia de la estrategia. Entre otros selectos temas, se consideran los estimadores de calibración, el muestreo balanceado y el muestreo indirecto. Estos contenidos están supeditados a un gran sesgo personal inducido por los años de asistencia al seminario de muestreo de la Universidad Nacional de Colombia.</p>
-<p>Por supuesto, este libro no hubiera podido ser escrito sin la enorme influencia del maestro Leonardo Bautista, quien me enseñó que lo importante no es la memorización de fórmulas sino darles sentido y traerlas a la vida mediante el uso de la mejor estrategia. Lo anterior tiene sentido, no sólo en el desarrollo práctico de la ciencia estadística, sino en el diario vivir.</p>
-<p>Por último, el autor expresa sus agradecimientos a Dios, quien le ha dado todo lo que tiene y le ha seleccionado para pertenecer en la muestra; de no ser así, no se habrían escrito estas líneas. Agradece el infinito apoyo que encontró en su esposa Hanwen Zhang en la corrección de las demostraciones así como en la invaluable motivación que le ha brindado desde el día que la conoció. De la misma manera, agradece enormemente el continuo ánimo de su tío y amigo Oscar Ortega, por sus valiosos consejos desde su juventud y porque gran parte de este material se gestó en su residencia de los Estados Unidos. A su padre por la excelente crianza, a su abuela Lola porque sus oraciones nunca han cesado y a sus tías Martha, Myriam, Pilar y Clara. A su hermanita Tatiana Torres. A sus valiosos amigos.</p>
+<section id="preface" class="level1 unnumbered">
+<h1 class="unnumbered">Preface</h1>
+<p>Although very powerful, the term sampling strategy has not received the appropriate prominence in the world of sampling. People speak of the efficiency, precision, and even unbiasedness of an estimator without taking into account that such properties are linked to the sampling design used to collect the information. For the author, learning this subject is easier when the sampling design and the estimator of the parameter of interest used in the finite population are valued equally. The golden rule of sampling cannot be ignored: use sampling designs that induce inclusion probabilities (or selection probabilities, as the case may be) proportional to the value of the characteristic of interest in the population, and use estimators that incorporate those probabilities. For this reason, this text has been titled <em>Sampling Strategies, Survey Design, and Parameter Estimation.</em></p>
+<p>In the combined search for a better sampling strategy, this text has been divided into three parts that can be used at different undergraduate levels as well as in graduate courses, depending on the difficulty of the topic. The division of the book follows the theoretical development of sampling through its brief history.</p>
+<p>The first part of the book reviews the most commonly used sampling strategies. With strong statistical and mathematical rigor, readers are introduced to the field of design-based inference, which treats the values of the characteristic of interest as fixed pseudoparameters and not as realizations of random variables. This journey is made more engaging by introducing Marco and Lucy, inseparable companions in each strategy presented, which correspond to data sets obtained for conducting a survey. Thus, Marco is the pseudoname of the sampling frame, and Lucy corresponds to a population of firms in the industrial sector. Unlike most classic sampling books, this text reviews all sampling strategies using a single sampling “frame”, sometimes more generous than at other times, and a single population, “Lucy”, in order to pose a problem that the reader can solve from different angles. This differs from some sampling books, which present solved examples without giving the reader the opportunity to question how the strategy was developed. This part presents three concepts that are decisive when proposing a sampling strategy. The first, and most important, is the support that defines the realization of a probability sample and, consequently, the validity of the inference. Readers can appreciate the importance of this concept by distinguishing it from the random sample, which is nothing more than a random vector. Second, emphasis is placed on the concept of sampling design, treating it as a multivariate probability distribution over the support. In most of the strategies presented in this first part, it is shown that the proposed sampling design indeed satisfies the properties of a probability distribution. Of course, the final concept is the estimator, whose definition and use are more widely known among users. Each chapter and each section include a small lexical-graphic example and an application of the proposed strategy with Marco and Lucy through the computational development of the TeachingSampling package <span class="citation" data-cites="Teaching">(<a href="#ref-Teaching" role="doc-biblioref">Gutierrez 2009</a>)</span>, created in the free R software environment in the most user-friendly way possible.</p>
+<p>The second part of this text concerns the use and exploitation of auxiliary information available in the sampling frame. It reviews not only estimators that improve the efficiency of the strategy, but also incorporates into the estimation process the use of a model that makes it possible to <em>describe</em> the behavior of the characteristic of interest in the population. This represents a very important step in the development of inference by treating, although in isolation, the characteristic of interest as a random variable under the proposed model. This part follows the elegant approach of <span class="citation" data-cites="Beth">Bethelehem and Keller (<a href="#ref-Beth" role="doc-biblioref">1987</a>)</span>, in which no assumptions are made about the validity of the superpopulation model. In this line of thought, the only assertion made is that the residuals of the model do have lower variance than the characteristic of interest. At the end of this part, a very brief introduction is given to inference in finite populations under an assumed-model approach. It is interesting to observe that, over time, the use of these techniques has become increasingly common, especially in the estimation of rare domains, better known as small areas. This section begins with the famous discussion by <span class="citation" data-cites="Basu1971">Basu (<a href="#ref-Basu1971" role="doc-biblioref">1971</a>)</span>, which even today remains a stumbling block between currents of statistics. This type of inference does not consider the sampling design or the way in which the information was collected, but is instead based on the proposed population model used to carry out inference. However, when the population model is wrong, the estimates will be wrong as well.</p>
+<p>The third part, suitable for a graduate course, attempts to reach the major methodological advances that, over time, cease to be innovations and become required techniques for improving the efficiency of the strategy. Among other selected topics, it considers calibration estimators, balanced sampling, and indirect sampling. These contents are subject to a strong personal bias induced by years of attending the sampling seminar at the Universidad Nacional de Colombia.</p>
+<p>Of course, this book could not have been written without the enormous influence of my teacher Leonardo Bautista, who taught me that what matters is not memorizing formulas, but giving them meaning and bringing them to life through the use of the best strategy. This applies not only to the practical development of statistical science, but also to everyday life.</p>
+<p>Finally, the author expresses his gratitude to God, who has given him everything he has and selected him to belong to the sample; otherwise, these lines would not have been written. He is grateful for the boundless support he found in his wife Hanwen Zhang in correcting the proofs, as well as for the invaluable motivation she has given him since the day he met her. In the same way, he is deeply grateful for the continuous encouragement of his uncle and friend Oscar Ortega, for his valuable advice since his youth and because much of this material took shape at his residence in the United States. To his father for his excellent upbringing, to his grandmother Lola because her prayers have never ceased, and to his aunts Martha, Myriam, Pilar, and Clara. To his little sister Tatiana Torres. To his dear friends.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Basu1971" class="csl-entry" role="listitem">
-Basu, D. 1971. <span>«An Essay on the Logical Foundations of Survey Sampling»</span>. <em>Holt, Rinehart and Winston. Toronto</em>, 203-42.
+Basu, D. 1971. <span>“An Essay on the Logical Foundations of Survey Sampling.”</span> <em>Holt, Rinehart and Winston. Toronto</em>, 203–42.
 </div>
 <div id="ref-Beth" class="csl-entry" role="listitem">
-Bethelehem, J. C, y W. A. Keller. 1987. <span>«Linear weighting of survey data.»</span> <em>Journal of Official Statistics</em> 3: 141-53.
+Bethelehem, J. C, and W. A. Keller. 1987. <span>“Linear Weighting of Survey Data.”</span> <em>Journal of Official Statistics</em> 3: 141–53.
 </div>
 <div id="ref-Teaching" class="csl-entry" role="listitem">
-Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling designs and parameter estimation in finite population</em>.
+Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling Designs and Parameter Estimation in Finite Population</em>.
 </div>
 </div>
 </section>
@@ -481,12 +482,12 @@ Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling designs and parameter esti
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copiado");
+      button.setAttribute("title", "Copied!");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copiado");
+        button.setAttribute("data-bs-title", "Copied!");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
@@ -860,8 +861,8 @@ Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling designs and parameter esti
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/cap1.html" class="pagination-link" aria-label="Encuestas y estudios por muestreo">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Encuestas y estudios por muestreo</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapters/cap1.html" class="pagination-link" aria-label="Surveys and Sampling Studies">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Surveys and Sampling Studies</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -872,7 +873,7 @@ Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling designs and parameter esti
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Estrategias de muestreo</p>
+<p>Sampling strategies</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

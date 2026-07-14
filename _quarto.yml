@@ -5,8 +5,8 @@ project:
     - .nojekyll
 
 book:
-  title: "Estrategias de Muestreo"
-  subtitle: "Diseño de Encuestas y Estimación de Parámetros"
+  title: "Sampling Strategies"
+  subtitle: "Survey Design and Parameter Estimation"
   author: "Andrés Gutiérrez"
   date: today
   date-format: long
@@ -27,16 +27,16 @@ book:
     - chapters/cap13.qmd
     - chapters/cap14.qmd
     - chapters/cap15.qmd
-  page-footer: "Estrategias de muestreo"
+  page-footer: "Sampling strategies"
 
 bibliography: references.bib
-lang: es
+lang: en
 
 crossref:
   chapters: true
-  eq-prefix: ecuación
-  fig-prefix: figura
-  tbl-prefix: tabla
+  eq-prefix: equation
+  fig-prefix: figure
+  tbl-prefix: table
 
 format:
   html:

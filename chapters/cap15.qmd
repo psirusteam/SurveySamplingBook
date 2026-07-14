@@ -1,4 +1,4 @@
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(TeachingSampling)
 data(BigLucy)
 library(ggplot2)
@@ -9,181 +9,181 @@ library(knitr)
 opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
-# Inferencia basada en modelos poblacionales
+# Model-Based Inference for Populations
 
 ::: {.blockquote}
-Cualquier estimador usado en inferencia de poblaciones finitas debería estar basado en el mejor modelo que pueda ser construido convenientemente y, cuando fuese posible, en la inferencia basada tanto en modelos predictivos como en la inferencia basada en el diseño de muestreo.
+Any estimator used in finite population inference should be based on the best model that can be conveniently constructed and, whenever possible, on inference based on both predictive models and the sampling design.
 @Brew
 :::
 
-Los anteriores capítulos de este texto se enfocan en la búsqueda de una estrategia representativa de muestreo bajo el paradigma de la inferencia basada en el diseño de muestreo. Cabe resaltar que este enfoque, propuesto en @Ney34, es ampliamente utilizado por las agencias gubernamentales en todo el mundo. Sin embargo, ha sido atacado desde hace varias décadas por estadísticos teóricos que muestran su inconformidad con los fundamentos filosóficos de este enfoque. En las últimas décadas se han propuesto otro tipo de enfoques, el más importante de ellos: el enfoque basado en modelos de super-población. Antes de adentrarnos en este tema, es necesario realizar un pequeño repaso a través de la evolución de la inferencia para poblaciones finitas.
+The previous chapters of this text focus on the search for a representative sampling strategy under the paradigm of design-based inference. It is worth noting that this approach, proposed in @Ney34, is widely used by government agencies around the world. However, for several decades it has been challenged by theoretical statisticians who express dissatisfaction with the philosophical foundations of this approach. In recent decades, other types of approaches have been proposed, the most important of them being the superpopulation-model-based approach. Before entering this topic, it is necessary to briefly review the evolution of inference for finite populations.
 
-## Un poco de historia
+## A Little History
 
-<!-- index: Inferencia basada en el modelo -->Según @Rao05, el primer personaje interesado en el método representativo (más adelante conocido como teoría de muestreo) fue el estadístico noruego @Kiaer1901 puesto que demostró empíricamente que seleccionando muestras estratificadas se obtienen mejores resultados en los estimativos de medias y totales. Más adelante, @Bowley1906 utiliza aproximaciones a la distribución normal para la estimación de proporciones y propone la fórmula de la estimación de la varianza para diseños de muestreo estratificados. Para la década de 1920, el método representativo era usado de manera difundida en Estados Unidos y alrededor del mundo. Fue así como en 1924, el ISI (Instituto Internacional de Estadística, por su traducción del inglés al español) crea una comisión de discusión de este método. Los resultados de este comité incluyen el trabajo de @Bowley1926 basado en métodos de selección representativos con probabilidades de inclusión iguales. Con estos avances teóricos y con la publicación de tablas de números aleatorios por @Tippett1927 se facilitó la selección de muestras probabilísticas. En ese mismo año, @Hu1927^[El trabajo inicial de R. A. Fisher fue influenciado por Hubback. Nótese que Fisher justificó el análisis de los datos sin tener en cuenta el método de selección solamente en los casos en que los resultados fueran muy cercanos al considerar la aleatorización de las unidades [@Smith76].] reconoce la necesidad de utilizar este enfoque en los estudios agrícolas puesto que:
+<!-- index: Model-based inference -->According to @Rao05, the first person interested in the representative method, later known as sampling theory, was the Norwegian statistician @Kiaer1901, who empirically demonstrated that selecting stratified samples produces better results in estimates of means and totals. Later, @Bowley1906 used normal-distribution approximations for estimating proportions and proposed the variance estimation formula for stratified sampling designs. By the 1920s, the representative method was widely used in the United States and around the world. Thus, in 1924, the ISI, the International Statistical Institute, created a committee to discuss this method. The results of this committee include the work of @Bowley1926, based on representative selection methods with equal inclusion probabilities. These theoretical advances and the publication of random number tables by @Tippett1927 facilitated the selection of probability samples. In that same year, @Hu1927^[R. A. Fisher's early work was influenced by Hubback. Note that Fisher justified data analysis without considering the selection method only in cases where the results were very close when considering randomization of the units [@Smith76].] recognized the need to use this approach in agricultural studies because it:
 
-1. Evita los posibles sesgos personales.
-1. Es posible determinar un tamaño de muestra tal que satisfaga un margen de error determinado por el investigador.
+1. Avoids possible personal biases.
+1. Makes it possible to determine a sample size that satisfies a margin of error specified by the researcher.
 
-El trabajo de Bowley junto con el reporte del ISI hicieron que Neyman examinara las mismas bases de la inferencia en poblaciones finitas. En particular, el artículo de @Ney34 es considerado como uno de los pilares en donde descansan los fundamentos del muestreo como se conoce hoy en día. Al respecto Leslie Kish, en un comentario al artículo de @Smith76, asegura que Neyman hizo siete grandes contribuciones al muestreo:
+Bowley's work, together with the ISI report, led Neyman to examine the very foundations of inference in finite populations. In particular, the article by @Ney34 is considered one of the pillars on which the foundations of sampling as known today rest. In this regard, Leslie Kish, in a comment on @Smith76's article, states that Neyman made seven major contributions to sampling:
 
-1. Propuso la asignación de Neyman para el tamaño de muestra con diseños estratificados.
-1. Descubrió que el muestreo por conglomerados puede realizarse basado en un esquema probabilístico tal que las varianzas de los estimadores resultantes pudieran ser calculadas o estimadas.
-1. Para que lo anterior se tuviera, se necesita una muestra grande de unidades.
-1. Para seleccionar una muestra grande es crucial definir un marco de selección de números aleatorios.
-1. El conocimiento subjetivo del comportamiento de la población puede usarse para formar subgrupos poblacionales o estratos.
-1. Un esquema de selección probabilístico es mejor que un esquema de selección a conveniencia.
-1. Para convencer a los escépticos acerca de la validez de sus afirmaciones, se dispuso a realizar ejemplos prácticos con encuestas verdaderas a gran escala.
+1. He proposed Neyman allocation for sample size in stratified designs.
+1. He discovered that cluster sampling can be carried out based on a probability scheme such that the variances of the resulting estimators can be calculated or estimated.
+1. For the above to hold, a large sample of units is needed.
+1. To select a large sample, it is crucial to define a random-number selection frame.
+1. Subjective knowledge of population behavior can be used to form population subgroups or strata.
+1. A probability selection scheme is better than a purposive selection scheme.
+1. To convince skeptics of the validity of his claims, he set out to provide practical examples with real large-scale surveys.
 
-La nueva teoría de Neyman revolucionó el mundo del muestreo y lo liberó del paradigma de las probabilidades de inclusión iguales. Él introdujo, en un solo artículo, las ideas de eficiencia, asignación óptima, generalización del teorema de Markov, muestreo por conglomerados y presentó un caso evidente en donde, utilizando el muestreo a conveniencia, se llegaba a conclusiones equivocadas. Más adelante, Neyman propuso el muestreo en dos fases. @Smith76 afirma que el muestreo con probabilidad proporcional y el muestreo en varias etapas son resultado de las ideas de Neyman. Asimismo, propuso realizar la inferencia para muestras grandes basado en la teoría de los intervalos de confianza *?sin tener en cuenta las propiedades de la población finita, fuesen cuales fuesen?*. Cualquier método que satisficiera los anteriores supuestos era llamado representativo.
+Neyman's new theory revolutionized the world of sampling and freed it from the paradigm of equal inclusion probabilities. In a single article, he introduced the ideas of efficiency, optimal allocation, generalization of Markov's theorem, and cluster sampling, and he presented a clear case in which purposive sampling led to incorrect conclusions. Later, Neyman proposed two-phase sampling. @Smith76 states that probability-proportional sampling and multistage sampling are results of Neyman's ideas. He also proposed conducting large-sample inference based on confidence interval theory *"without regard to the properties of the finite population, whatever they might be"*. Any method satisfying the previous assumptions was called representative.
 
-@Cochran1939 hace varios aportes significativos: introduce el uso del ANOVA para estimar la ganancia en eficiencia debida a la estratificación, propone la estimación de la varianza para encuestas en dos etapas y reúne los componentes para realizar estimación por regresión bajo muestreo en dos fases. También introduce el concepto de super-población: *?La población finita podría ser vista como una muestra aleatoria de una población infinita?*. Más adelante, @Cochran1940 introduce el estimador de razón y desarrolla la teoría de la estimación de totales y medias mediante modelos de regresión. Poco tiempo después @MadMad44 introducen la teoría del muestreo sistemático.
+@Cochran1939 made several significant contributions: he introduced the use of ANOVA to estimate the efficiency gain due to stratification, proposed variance estimation for two-stage surveys, and brought together the components needed for regression estimation under two-phase sampling. He also introduced the concept of the superpopulation: *"The finite population could be viewed as a random sample from an infinite population."* Later, @Cochran1940 introduced the ratio estimator and developed the theory of estimating totals and means using regression models. Shortly thereafter, @MadMad44 introduced the theory of systematic sampling.
 
-Mientras tanto en India, Mahalanobis funda el Instituto Indio de Estadística  en donde hace grandes aportes formulando expresiones de la varianza de estimadores en función del costo de una encuesta. Varios textos surgieron después de la década de 1940 en donde se trataba el problema de la selección de muestras y la estimación de parámetros en poblaciones finitas. Uno de los mas grandes desarrollos en términos de la teoría actual lo hicieron @HT quienes propusieron un marco de trabajo para la teoría del muestreo proporcional sin reemplazo y desarrollaron un elegante tratamiento del muestreo, completando así las bases de la inferencia basada en el diseño de muestreo.
+Meanwhile in India, Mahalanobis founded the Indian Statistical Institute, where he made major contributions by formulating expressions for the variance of estimators as a function of survey cost. Several texts appeared after the 1940s addressing the problem of sample selection and parameter estimation in finite populations. One of the greatest developments in terms of current theory was made by @HT, who proposed a framework for the theory of proportional sampling without replacement and developed an elegant treatment of sampling, thereby completing the foundations of design-based inference.
 
-::: {.callout-important title="Definición"}
-<!-- index: Inferencia basada en el diseño -->**La inferencia basada en el diseño (Design-Based)** [@Sar] Este enfoque realiza las estimaciones de los parámetros dependiendo del diseño de muestreo escogido para seleccionar la muestra sin tener en cuenta las propiedades de la población finita. Así por ejemplo el estimador del total poblacional $t_y$ estará dado por:
+::: {.callout-important title="Definition"}
+<!-- index: Design-based inference -->**Design-based inference** [@Sar] This approach estimates the parameters depending on the sampling design chosen to select the sample, without taking into account the properties of the finite population. Thus, for example, the estimator of the population total $t_y$ will be given by:
 
 $$
 \hat{t}_y=\sum_{k\in m} d_ky_k
 $$
 
-en donde $d_k$ es una ponderación inducida por el diseño de muestreo. Bajo esta perspectiva, los valores $y_k$ son tomados como la observación en el individuo $k$ de la característica de interés $y$. Sin embargo, $y$ no se toma como una variable aleatoria, sino como una cantidad fija.
+where $d_k$ is a weight induced by the sampling design. Under this perspective, the values $y_k$ are taken as the observation on individual $k$ of the characteristic of interest $y$. However, $y$ is not taken as a random variable, but as a fixed quantity.
 :::
 
-Desde ese punto hasta nuestros días han aparecido avances y aportes y nuevas teorías de selección de muestras y de estimación de parámetros manteniendo la filosofía de la inferencia basada en el diseño de muestreo. @Rao05 cita algunas de ellas por ejemplo: muestreo en varias ocasiones, muestras tipo panel<!-- index: Panel -->, estimación de funciones de distribución y cuantiles, estimación en dominios pequeños.
+From that point to the present day, advances, contributions, and new theories of sample selection and parameter estimation have appeared while maintaining the philosophy of design-based inference. @Rao05 cites some of them, for example: sampling on several occasions, panel-type samples<!-- index: Panel -->, estimation of distribution functions and quantiles, and small-domain estimation.
 
-Por otro lado, al mismo tiempo @Godambe55 prueba el siguiente teorema que pone en tela de juicio el concepto de eficiencia al que Neyman se refería puesto que prueba que, bajo la inferencia basada en el diseño de muestreo, no existe un estimador insesgado de varianza mínima.
+On the other hand, around the same time @Godambe55 proved the following theorem, which calls into question the concept of efficiency to which Neyman referred, since it proves that, under design-based inference, there is no unbiased minimum-variance estimator.
 
-::: {.callout-tip title="Resultado"}
-Sea un diseño muestral $p(\cdot)$ de tamaño de muestra $n(S)<N$ tal que $\pi_k>0 \ \ \forall k \in U$. Entonces, no existe un estimador insesgado de varianza mínima uniformemente en la clase de todos los estimadores insesgados
+::: {.callout-tip title="Result"}
+Let $p(\cdot)$ be a sampling design with sample size $n(S)<N$ such that $\pi_k>0 \ \ \forall k \in U$. Then there is no uniformly minimum-variance unbiased estimator in the class of all unbiased estimators.
 
-**Prueba.**
-@Basu1971 propone la siguiente demostración: suponga que $\hat{t}$ es un estimador insesgado para el total poblacional $t$. Por tanto, $\hat{t}$ es insesgado para cualquier estructura poblacional $\mathbf{y}=(y_1,\ldots,y_N)$. Nótese que $\mathbf{y} \in \mathcal{Y}$, con $\mathcal{Y}$ el conjunto de todas las posibles poblaciones. En particular, este estimador es insesgado para $\mathbf{y}_0 \in \mathcal{Y}$. Por tanto $\hat{t}_0$ es insesgado para $t_0$. Ahora, nótese que
+**Proof.**
+@Basu1971 proposes the following proof: suppose that $\hat{t}$ is an unbiased estimator for the population total $t$. Therefore, $\hat{t}$ is unbiased for any population structure $\mathbf{y}=(y_1,\ldots,y_N)$. Note that $\mathbf{y} \in \mathcal{Y}$, with $\mathcal{Y}$ the set of all possible populations. In particular, this estimator is unbiased for $\mathbf{y}_0 \in \mathcal{Y}$. Therefore, $\hat{t}_0$ is unbiased for $t_0$. Now note that
 $$
     \hat{t}^*=\hat{t}+t_0-\hat{t}_0
 $$
-es también un estimador insesgado para $t$. Además cuando $\mathbf{y}=\mathbf{y}_0$, se tiene que $\hat{t}^*=t_0$ y por tanto $Var(\hat{t}^*)=0$. En conclusión, para que un estimador insesgado sea de mínima varianza uniformemente para cualquier estructura poblacional $\mathbf{y} \in \mathcal{Y}$ debe tener varianza nula. Lo anterior es imposible puesto que el diseño de muestreo no considera el censo. Por tanto, se tiene la demostración del resultado.
+is also an unbiased estimator for $t$. Moreover, when $\mathbf{y}=\mathbf{y}_0$, we have $\hat{t}^*=t_0$ and therefore $Var(\hat{t}^*)=0$. In conclusion, for an unbiased estimator to be uniformly minimum variance for any population structure $\mathbf{y} \in \mathcal{Y}$, it must have zero variance. This is impossible because the sampling design does not consider the census. Therefore, the result is proved.
 :::
 
-El anterior teorema es resultado de la generalidad del enfoque inferencial de Neyman puesto que las inferencias son realizadas con respecto al diseño de muestreo sin tener en cuenta la estructura poblacional de la población. @Smith76 afirma que este enfoque permite mucha libertad para una teoría inferencial y por ende no es posible encontrar un óptimo para todas las estructuras poblacionales. El anterior argumento sumado a la fábula de los elefantes de Basú [@Basu1971] hicieron que los estadísticos teóricos se replantearan el seguir haciendo inferencias basadas en el diseño de muestreo.
+The previous theorem is a consequence of the generality of Neyman's inferential approach, since inferences are made with respect to the sampling design without taking the population structure into account. @Smith76 states that this approach allows a great deal of freedom for an inferential theory and therefore it is not possible to find an optimum for all population structures. This argument, together with Basu's elephant fable [@Basu1971], led theoretical statisticians to reconsider continuing to make inferences based on the sampling design.
 
-### La fábula de los elefantes de Basú
+### Basu's Elephant Fable
 
-<!-- index: Elefantes de Basú -->Como lo afirma @Brew, la siguiente fábula publicada removió las bases de la inferencia basada en el diseño de muestreo.
+<!-- index: Basu's elephants -->As @Brew states, the following published fable shook the foundations of design-based inference.
 
-El dueño de un circo está planeando transportar sus 50 elefantes adultos, para este propósito él necesita una buena estimación del peso total de los elefantes. Como pesar un elefante es una tarea muy incómoda, el dueño del circo quiere estimar el peso total pesando sólo un elefante. ¿Cuál elefante debería pesar? El dueño del circo decide echar un vistazo a sus registros y descubre una antigua lista de los pesos de los elefantes, elaborada hace tres años. Él encuentra que tres años atrás Sambo, un elefante mediano, era el promedio (en peso) de su manada. El dueño del circo verifica la información con el entrenador quien le asegura que Sambo todavía puede considerarse como el promedio de la manada.
+The owner of a circus is planning to transport 50 adult elephants. For this purpose, he needs a good estimate of the total weight of the elephants. Since weighing an elephant is a very inconvenient task, the circus owner wants to estimate the total weight by weighing only one elephant. Which elephant should he weigh? The circus owner decides to look at his records and discovers an old list of the elephants' weights, prepared three years earlier. He finds that, three years ago, Sambo, a medium-sized elephant, was the average, in weight, of the herd. The circus owner verifies the information with the trainer, who assures him that Sambo can still be considered the average of the herd.
 
-Así, el dueño del circo planea pesar a Sambo y tomar a $50 \times y_{Sambo}$ (donde $y_{Sambo}$ es el peso de Sambo) como una estimación del peso total $t_y=y_1+\ldots+y_{50}$ de la manada. Pero el estadístico del circo se aterra al conocer la estrategia de muestreo del dueño (con un diseño de muestreo no probabilístico).
+Thus, the circus owner plans to weigh Sambo and take $50 \times y_{Sambo}$, where $y_{Sambo}$ is Sambo's weight, as an estimate of the total weight $t_y=y_1+\ldots+y_{50}$ of the herd. But the circus statistician is horrified when he learns the owner's sampling strategy, which uses a nonprobability sampling design.
 
-- ¿Cómo puede obtener una estimación insesgada de $t_y$? - protesta el estadístico.
+- How can you obtain an unbiased estimate of $t_y$? the statistician protests.
 
-Así, ellos trabajan juntos en la elaboración de un diseño de muestreo. Con la ayuda de una tabla de números aleatorios, construyen un plan que asigna una probabilidad de inclusión de 99/100 a Sambo y probabilidades de 1/4900 al resto de la manada. Naturalmente, Sambo es seleccionado y el dueño del circo está feliz.
+Thus, they work together to develop a sampling design. With the help of a random number table, they construct a plan that assigns Sambo an inclusion probability of 99/100 and assigns probabilities of 1/4900 to the rest of the herd. Naturally, Sambo is selected and the circus owner is happy.
 
-- ¿Cómo va a estimar $t_y$? - pregunta el estadístico
-- ¿Por qué? La estimación debería ser $50 \times y_{Sambo}$, por supuesto, responde el dueño.
-- ¡Oh¡ no, eso es incorrecto, responde el estadístico. recientemente, yo leí en un artículo de Annals of Mathematical Statistics, en donde se prueba que el estimador de Horvitz-Thompson es el *único estimador hiper-admisible en la clase de todos los estimadores insesgados polinomiales generalizados*.
-- ¿Cuál sería la estimación de Horvitz-Thompson en este caso?, pregunta el impresionado dueño - Dado que la probabilidad de inclusión de Sambo fue de 99/100, dice el estadístico, el estimador es $\dfrac{100}{99} \times y_{Sambo}$.
+- How are you going to estimate $t_y$? asks the statistician.
+- Why? The estimate should be $50 \times y_{Sambo}$, of course, replies the owner.
+- Oh no, that is incorrect, replies the statistician. Recently, I read in an article in the Annals of Mathematical Statistics that the Horvitz-Thompson estimator is the *only hyper-admissible estimator in the class of all generalized polynomial unbiased estimators*.
+- What would the Horvitz-Thompson estimate be in this case? asks the impressed owner. Since Sambo's inclusion probability was 99/100, says the statistician, the estimator is $\dfrac{100}{99} \times y_{Sambo}$.
 
-- ¿Y cuál sería nuestra estimación si el plan de muestreo hubiese seleccionado a Jumbo?, pregunta el incrédulo dueño.
-- De acuerdo a lo que yo entiendo acerca del estimador de Horvitz-Thompson, dice el infeliz estadístico, el estimador de $t_y$ sería $4900 \times y_{Jumbo}$ donde $y_{Jumbo}$ es el peso de Jumbo.
+- And what would our estimate be if the sampling plan had selected Jumbo? asks the incredulous owner.
+- According to my understanding of the Horvitz-Thompson estimator, says the unhappy statistician, the estimator of $t_y$ would be $4900 \times y_{Jumbo}$, where $y_{Jumbo}$ is Jumbo's weight.
 
-De esta forma, el estadístico perdió su empleo (y quizás se convirtió en profesor).
+In this way, the statistician lost his job, and perhaps became a professor.
 
-@Loh se pregunta si fue justo despedir o no al estadístico. Una de las fallas en la estrategia de muestreo utilizada por el estadístico se presenta en la construcción del diseño de muestreo que induce una probabilidad de selección muy grande a un elefante cuyo valor de la característica de interés, el peso, es promedio con respecto al resto de la manada. Como se vio en capítulos anteriores, una estrategia de muestreo eficiente, que utilice al estimador de Horvitz-Thompson, es aquella cuyo diseño de muestreo induzca probabilidades de inclusión proporcionales al valor que toma la característica de interés.
+@Loh asks whether it was fair to fire the statistician. One of the flaws in the sampling strategy used by the statistician appears in the construction of the sampling design, which induces a very large selection probability for an elephant whose value of the characteristic of interest, weight, is average relative to the rest of the herd. As seen in previous chapters, an efficient sampling strategy using the Horvitz-Thompson estimator is one whose sampling design induces inclusion probabilities proportional to the value taken by the characteristic of interest.
 
-### La fábula de los dos estadísticos
+### The Fable of the Two Statisticians
 
-<!-- index: Fábulas estadísticas -->@Lahiri1968 expresa las dificultades que sobrevienen al tratar de explicarle a un hombre del común el enfoque de la inferencia en poblaciones finitas mediante la siguiente situación
+<!-- index: Statistical fables -->@Lahiri1968 expresses the difficulties that arise when trying to explain the finite population inference approach to an ordinary person through the following situation.
 
-Suponga que dos estadísticos (¿muestristas?) son contratados para seleccionar una muestra de tamaño $n$ de una determinada población finita. Ambos poseen la misma información acerca del comportamiento de la población. Este conocimiento incluye una característica de información auxiliar para cada unidad perteneciente a la población. Uno decide seleccionar una muestra aleatoria simple y el otro decide seleccionar una muestra con probabilidad proporcional al tamaño. Como complemento de la estrategia de muestreo, ambos deciden utilizar el estimador $\bar{y}=\sum_sy_k/n$. De manera increíble, los dos estadísticos seleccionan exactamente las mismas unidades en la muestra de tamaño $n$. Por supuesto, ambos saben que la desviación típica está dada en términos de  $\bar{y}- \bar{Y}$; sin embargo, ambos proponen medidas totalmente diferentes para la precisión de sus estimadores.
+Suppose that two statisticians, or sampling specialists, are hired to select a sample of size $n$ from a given finite population. Both have the same information about the behavior of the population. This knowledge includes an auxiliary information characteristic for each unit belonging to the population. One decides to select a simple random sample and the other decides to select a sample with probability proportional to size. As a complement to the sampling strategy, both decide to use the estimator $\bar{y}=\sum_sy_k/n$. Incredibly, the two statisticians select exactly the same units in the sample of size $n$. Of course, both know that the typical deviation is given in terms of $\bar{y}- \bar{Y}$; however, they propose completely different measures for the precision of their estimators.
 
-¿Cómo explicar esta situación? Este tipo de fábulas hacen un gran aporte al desarrollo de la estadística. De hecho, la narración anterior es un claro ejemplo de como en nuestra ciencia estadística hay una gran cantidad de cosas por hacer. Sin embargo, nótese que el mismo tipo de razonamiento aparece si los mismos estadísticos anteriores se enfrentaran a un problema frecuentista y uno de ellos decide que la verosimilitud de los datos es normal y el otro decide que es una beta. Seguramente llegarían a distintas estimaciones. Quien propone la estrategia de muestreo se ve obligado a tomar las mismas decisiones subjetivas de quien propone una verosimilitud, en el caso frecuentista, o una distribución a priori, en el caso bayesiano. Ahora, es deber de investigador asegurarse que la subjetividad esté enmarcada dentro de ciertos límites.  Por supuesto, si usted va a medir la distancia de la tierra a la luna, seguramente no utilizaría un metro.
+How can this situation be explained? This type of fable contributes greatly to the development of statistics. In fact, the previous story is a clear example of how much remains to be done in our statistical science. However, note that the same type of reasoning appears if the same statisticians face a frequentist problem and one decides that the likelihood of the data is normal while the other decides that it is beta. They would surely arrive at different estimates. Whoever proposes the sampling strategy is forced to make the same subjective decisions as whoever proposes a likelihood, in the frequentist case, or a prior distribution, in the Bayesian case. It is now the researcher's duty to ensure that subjectivity is framed within certain limits. Of course, if you are going to measure the distance from the Earth to the Moon, you surely would not use a meter stick.
 
-Con los anteriores argumentos nació otro tipo de inferencia para poblaciones finitas: el enfoque basado en un modelo de super-población que asume que la estructura de la población obedece a un modelo específico. La distribución inducida por el modelo provee las herramientas para predecir valores particulares específicos para los individuos que no fueron seleccionados en la población.
+With the previous arguments, another type of inference for finite populations was born: the approach based on a superpopulation model, which assumes that the population structure follows a specific model. The distribution induced by the model provides the tools to predict specific values for the individuals in the population that were not selected.
 
-::: {.callout-important title="Definición"}
-<!-- index: Inferencia basada en el modelo -->**La inferencia basada en el modelo (model based)** [@Valliant2000; @Smith76] Este enfoque supone uso de información auxiliar y que relaciona a la característica de interés con la información auxiliar mediante un modelo de superpoblación $\xi$. Bajo esta perspectiva no se requiere que los datos provengan de una muestra probabilística (la forma en la que se escoge la muestra no se tiene en cuenta para la estimación de los parámetros de interés) y la observación de la característica de interés en las unidades poblacionales $y_k$ se define como la realización de una variable aleatoria $Y_k$. Partiendo de que el total poblacional se puede escribir como
+::: {.callout-important title="Definition"}
+<!-- index: Model-based inference -->**Model-based inference** [@Valliant2000; @Smith76] This approach assumes the use of auxiliary information and relates the characteristic of interest to the auxiliary information through a superpopulation model $\xi$. Under this perspective, the data are not required to come from a probability sample, since the way in which the sample is chosen is not taken into account for estimating the parameters of interest, and the observation of the characteristic of interest in the population units $y_k$ is defined as the realization of a random variable $Y_k$. Starting from the fact that the population total can be written as
 
 $$
 T_y=\sum_{k\in s} Y_k+\sum_{k\notin s} Y_k,
 $$
 
-la tarea es estimar por medio del modelo $\xi$, las respectivas observaciones $y_k$ de los elementos que no fueron seleccionados en la muestra. Denotando esta estimación como $E(Y_k)$, un predictor para el total estaría dado por:
+the task is to estimate, through the model $\xi$, the respective observations $y_k$ of the elements that were not selected in the sample. Denoting this estimate as $E(Y_k)$, a predictor for the total would be given by:
 
 $$
 \hat{T}_y=\sum_{k\in s} Y_k+\sum_{k\notin s} E_{\xi}(Y_k)
 $$
 
-y por tanto la realización de $\hat{T}_y$ con los datos específicos de la muestra seleccionada $s$ estaría definida como
+and therefore the realization of $\hat{T}_y$ with the specific data from the selected sample $s$ would be defined as
 
 $$
 \hat{t}_y=\sum_{k\in s} y_k + \sum_{k\notin s} \hat{E}_{\xi}(Y_k)
 $$
 
-donde $\hat{E}_{\xi}(Y_k)$ es una estimación de $E_{\xi}(Y_k)$ realizada con los datos obtenidos de la muestra seleccionada $s$.
+where $\hat{E}_{\xi}(Y_k)$ is an estimate of $E_{\xi}(Y_k)$ made with the data obtained from the selected sample $s$.
 :::
 
-@GodTho77 sugirieron, en el curso de una discusión en el congreso internacional de estadística en Nueva Delhi, que se debía buscar una manera de encontrar estimadores que tuvieran sentido en ambos tipos de inferencia. Más adelante, @SarWri84 y @Brew99 llevaron a cabo la implementación de esta sugerencia.
+@GodTho77 suggested, during a discussion at the international statistical congress in New Delhi, that a way should be sought to find estimators that made sense under both types of inference. Later, @SarWri84 and @Brew99 implemented this suggestion.
 
-Aunque el tipo de inferencia dominante después de la segunda guerra mundial fue la inferencia basada en el diseño de muestreo, a comienzos de los años setenta, Richard Royall, con la ayuda de muchos co-autores, cambiaron rotundamente esa tendencia con gran determinación. Él afirmó que la inferencia basada en el diseño, aunque no hace supuestos acerca de las probabilidades y parece ser no paramétrica y robusta, estaba sujeta a importantes defectos. Algunas de las limitaciones que cita @Royall71 son:
+Although the dominant type of inference after World War II was design-based inference, in the early 1970s Richard Royall, with the help of many coauthors, decisively changed that trend. He stated that design-based inference, although it makes no assumptions about probabilities and appears to be nonparametric and robust, was subject to important defects. Some of the limitations cited by @Royall71 are:
 
-- Las sorprendentes complicaciones encontradas en el estudio y ejecución de los diseños de probabilidad proporcional al tamaño y
-- las torpezas y equivocaciones de casi todos las estimaciones probabilísticas concernientes a la estimación de razones.
+- The surprising complications encountered in the study and execution of probability-proportional-to-size designs, and
+- the awkwardness and mistakes in almost all probability estimates concerning ratio estimation.
 
-La sugerencia de Royall fue aún más radical. Él propuso abandonar la inferencia basada en el diseño de muestreo a favor de estimadores cuyas útiles propiedades (insesgamiento, consistencia, optimalidad, etc.) estuvieran definidas en términos del modelo predictivo apropiado. Esto significa que conceptos como el sesgo y la varianza ya no están definidos como esperanzas a través de todas las posibles muestras, sino como promedios de las realizaciones de las unidades poblacionales (estén en la muestra o no) bajo el modelo predictivo establecido. Desde el punto de vista de Royall, el proceso de aleatorización se convierte en irrelevante y propone que la muestra sea escogida a conveniencia (lo que en la práctica significa escoger las unidades más grandes). Sin embargo, este tipo de inferencia debe ser usado con mucho cuidado pues, como lo afirma @Box79:
+Royall's suggestion was even more radical. He proposed abandoning design-based inference in favor of estimators whose useful properties, such as unbiasedness, consistency, and optimality, were defined in terms of the appropriate predictive model. This means that concepts such as bias and variance are no longer defined as expectations over all possible samples, but as averages of the realizations of the population units, whether in the sample or not, under the established predictive model. From Royall's point of view, the randomization process becomes irrelevant, and he proposes that the sample be chosen purposively, which in practice means choosing the largest units. However, this type of inference must be used very carefully because, as @Box79 states:
 
-Todos los modelos son errados, pero algunos son útiles. El hecho de que todos los modelos están equivocados se hace más y más claro cuando el tamaño de la muestra se incrementa; por eso las estimaciones resultantes de un modelo predictivo errado son deficientes.
+All models are wrong, but some are useful. The fact that all models are wrong becomes clearer and clearer as sample size increases; therefore estimates resulting from an incorrect predictive model are deficient.
 
-De una cosa hay que estar seguros la inferencia basada en modelos predictivos y la inferencia basada en el diseño de muestreo no se deben ver como competencia sino como puntos de vista que pueden llegar a ser complementarios, es así como nace la inferencia basada en el diseño de muestreo, pero asistida por modelos predictivos (model assisted survey sampling, en el inglés original ). Sin embargo, estos dos tipos de inferencia, aunque se pueden combinar, no se pueden conciliar porque su filosofía es literalmente distinta.
+One thing is certain: inference based on predictive models and inference based on the sampling design should not be seen as competitors, but as points of view that can become complementary. This is how design-based inference assisted by predictive models, model-assisted survey sampling, is born. However, although these two types of inference can be combined, they cannot be reconciled because their philosophies are literally different.
 
-La inferencia basada en el diseño de muestreo difiere radicalmente de la inferencia basada en los modelos predictivos y quizás de cualquier otro modelo estadístico, porque está basada exclusivamente en las observaciones muestrales y no hace supuestos a priori, además su dirección de análisis va en contravía con la dirección de la inferencia basada en modelos. @Kyburg87 escribe en su artículo una defensa y vindicación sobre la inferencia basada en modelos y hace un comentario con respecto al tipo de inferencias estadísticas que existen; él afirma que:
+Design-based inference differs radically from inference based on predictive models and perhaps from any other statistical model because it is based exclusively on the sample observations and makes no a priori assumptions. In addition, its direction of analysis runs counter to the direction of model-based inference. @Kyburg87 writes in his article a defense and vindication of model-based inference and comments on the types of statistical inferences that exist; he states that:
 
-La inferencia inversa procede de lo particular a lo general, la inferencia directa de lo general a lo particular.
+Inverse inference proceeds from the particular to the general; direct inference proceeds from the general to the particular.
 
-Desde este punto de vista, la inferencia basada en el diseño de muestreo es inversa y la inferencia basada en modelos predictivos es directa. Nótese que la inferencia bayesiana también pertenece al grupo de las inferencias inversas. @Brew99 argumenta que:
+From this point of view, design-based inference is inverse and inference based on predictive models is direct. Note that Bayesian inference also belongs to the group of inverse inferences. @Brew99 argues that:
 
-En esta época, la tendencia es usar la inferencia basada en el diseño para la estimación en grandes dominios y muestreo sintético (inferencia basada en modelos) para la estimación en dominios pequeños dentro del mismo estudio.
+At present, the tendency is to use design-based inference for estimation in large domains and synthetic sampling, model-based inference, for estimation in small domains within the same study.
 
-También hace alusión al uso de los estimadores de calibración cosméticos que combinan los dos tipos de inferencias simultáneamente. La idea de los estimadores cosméticos nace con @SarWri84 y el argumento para utilizar esa palabra es el hecho de que un estimador pueda ser visto o interpretado como un predictor obtenido de una regresión lo hace muy atractivo.
+He also alludes to the use of cosmetic calibration estimators that combine the two types of inference simultaneously. The idea of cosmetic estimators originated with @SarWri84, and the argument for using that word is the fact that an estimator can be seen or interpreted as a predictor obtained from a regression, which makes it very attractive.
 
-Finalmente, desde la aparición del clásico libro de muestreo de @Sar, la historia de la inferencia en poblaciones finitas ha tomado otro matiz, definiendo no solamente al blanco y el negro sino que también una especie arco iris entre estas dos corrientes del pensamiento inferencial. @IF plantean el problema de tener en cuenta la forma de selección de la muestra y a la vez el modelo de relación $\xi$ entre la característica de interés y la información auxiliar, pero es en @CSW1 que se acuña un término muy polémico, la **inferencia asistida por un modelo y basada en el diseño** (model assisted design based, en el inglés original). Es decir, la base de la inferencia es el diseño de muestreo, pero la estrategia de muestreo es complementada teniendo en cuenta un $\xi$ modelo en la estimación del parámetro de interés.
+Finally, since the appearance of the classic sampling book by @Sar, the history of inference in finite populations has taken on another nuance, defining not only black and white but also a kind of spectrum between these two currents of inferential thought. @IF raise the problem of taking into account both the sample selection method and the relationship model $\xi$ between the characteristic of interest and the auxiliary information, but it is in @CSW1 that a very controversial term is coined: **model-assisted design-based inference**. That is, the basis of inference is the sampling design, but the sampling strategy is complemented by taking a model $\xi$ into account in estimating the parameter of interest.
 
-Para terminar el repaso por la historia, en @Brew se presenta el siguiente diálogo entre dos estadísticos, llamados E y L, que utilizan enfoque de inferencia en poblaciones finitas distintos. Uno utiliza la inferencia basada en modelos predictivos, que utiliza los datos de la muestra para construir un modelo que permita predecir los valores no observados en la muestra y así llegar a una estimación de las cantidades de interés y que no utiliza las probabilidades de inclusión. Y otro que utiliza la inferencia basada en el diseño de muestreo. Cada uno acérrimo defensor de su punto de vista.
+To finish the historical review, @Brew presents the following dialogue between two statisticians, called E and L, who use different approaches to finite population inference. One uses inference based on predictive models, which uses the sample data to build a model that makes it possible to predict the values not observed in the sample and thereby arrive at an estimate of the quantities of interest, without using inclusion probabilities. The other uses design-based inference. Each is a staunch defender of their point of view.
 
-E: Creo que usted sigue viviendo en los ochenta. No tenga la menor duda de que las cosas han cambiado un poco. Muchos estadísticos académicos están a favor de la inferencia basada en modelos predictivos.
+E: I think you are still living in the eighties. Have no doubt that things have changed a bit. Many academic statisticians are in favor of inference based on predictive models.
 
-L: Es cierto, pero ese tipo de inferencias no es usado en la vida práctica profesional. ¡Dígame al menos una entidad estatal que la utilice!
+L: That is true, but that type of inference is not used in professional practice. Name at least one government agency that uses it!
 
-E: Claro que las hay, al tratar de estimar parámetros en dominios pequeños se utilizan estimadores sintéticos. Esos estimadores están basados en modelos predictivos.
+E: Of course there are. When estimating parameters in small domains, synthetic estimators are used. Those estimators are based on predictive models.
 
-L: Ah, pero sólo se utilizan en dominios pequeños. De lo contrario no se utilizan. Bien, si usted está tratando de estimar un parámetro en un dominio pequeño, la inferencia basada en modelos predictivos puede ser particularmente útil.
+L: Ah, but they are only used in small domains. Otherwise they are not used. Fine, if you are trying to estimate a parameter in a small domain, inference based on predictive models can be particularly useful.
 
-E: No, es más que eso, se trata de que la inferencia basada en el diseño muestral es particularmente mala para muestras pequeñas. Fíjese que con una muestra probabilística usted puede seleccionar las unidades más grandes y dejar a las chicas de lado, con la inferencia basada en el diseño tendría unas malas estimaciones. Una manera más segura de evadir esa posibilidad es dividir la población en grupos y hacer una selección de unidades en cada grupo.
+E: No, it is more than that. The point is that design-based inference is particularly poor for small samples. Notice that with a probability sample you can select the largest units and leave the small ones aside; with design-based inference you would get poor estimates. A safer way to avoid that possibility is to divide the population into groups and select units in each group.
 
-L: ¿Cómo una clase de estratificación?
+L: Like a kind of stratification?
 
-E: Hmm estratificación sí, digamos que sí. La estratificación por el tamaño de las unidades es muy útil, pero el punto es que debería conocer muy bien la población.
+E: Hmm, stratification, yes, let us say so. Stratification by unit size is very useful, but the point is that one should know the population very well.
 
-L: Precisamente, y si usted no conoce muy bien la población, podría ajustar un modelo totalmente equivocado y como resultado tendría unas muy malas predicciones.
+L: Precisely, and if you do not know the population very well, you could fit a completely wrong model and end up with very poor predictions.
 
-## Algunos modelos predictivos
+## Some Predictive Models
 
-<!-- index: Modelos predictivos -->@Valliant2000 argumenta que no existe ninguna razón de peso para que los principios de la inferencia en poblaciones finitas estén tan alejados del resto de la teoría estadística. De esta forma, el enfoque de inferencia basado en el diseño de muestreo afirma que la aleatorización de las unidades a la muestra es el único principio válido para realizar inferencias en al población finita. Sin embargo, esta rigidez hace que el estadístico se quede sin bases estadísticas para hacer inferencias si los datos no provienen de algún diseño de muestreo. Por supuesto que es válido pensar que el estadístico tiene muchas herramientas que le permiten hacer inferencia sin importar la naturaleza de los datos. Una de esas herramientas es el principio de verosimilitud que afirma lo siguiente [@Gelman]:
+<!-- index: Predictive models -->@Valliant2000 argues that there is no compelling reason why the principles of inference for finite populations should be so far removed from the rest of statistical theory. In this way, the design-based inference approach states that randomization of units into the sample is the only valid principle for making inferences about the finite population. However, this rigidity leaves the statistician without statistical foundations for making inferences if the data do not come from a sampling design. Of course, it is reasonable to think that statisticians have many tools that allow them to make inferences regardless of the nature of the data. One of these tools is the likelihood principle, which states the following [@Gelman]:
 
-Al momento de realizar inferencias o tomar decisiones sobre un parámetro $\theta$ después de que los datos han sido observados, toda la información relevante se encuentra contenida en la función de verosimilitud para los datos observados.
+When making inferences or decisions about a parameter $\theta$ after the data have been observed, all relevant information is contained in the likelihood function for the observed data.
 
-No es difícil constatar que la función de verosimilitud para cualquier diseño de muestreo es la misma y está dada por una función indicadora. Así que, la conclusión de @Valliant2000 es que, aunque la aleatorización es deseable, no es ni necesaria ni suficiente para realizar inferencia estadística rigurosa. La validez de la inferencia estadística sigue estando en pie con o sin aleatorización. Las siguientes secciones dan cuenta de alguno de los muchos modelos predictivos que se utilizan para situaciones específicas en la inferencia de poblaciones finitas.
+It is not difficult to verify that the likelihood function for any sampling design is the same and is given by an indicator function. Thus, @Valliant2000 concludes that, although randomization is desirable, it is neither necessary nor sufficient for rigorous statistical inference. The validity of statistical inference remains standing with or without randomization. The following sections describe some of the many predictive models used for specific situations in finite population inference.
 
-### Un modelo para el muestreo aleatorio simple
+### A Model for Simple Random Sampling
 
-<!-- index: Modelos predictivos -->Suponga que $Y_1,\ldots,Y_N$ es una población de variables aleatorias independientes en idénticamente distribuidas. El mecanismo probabilístico que rige a la población está dado por un modelo de superpoblación $\xi$ definido como
+<!-- index: Predictive models -->Suppose that $Y_1,\ldots,Y_N$ is a population of independent and identically distributed random variables. The probabilistic mechanism governing the population is given by a superpopulation model $\xi$ defined as
 
 $$
 Y_k=\beta+\varepsilon_k
 $$
 
-Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza constante $\sigma^2$, tales que:
+where each $\varepsilon_k$, $k\in U$, is an independent and identically distributed random variable with zero mean and constant variance $\sigma^2$, such that:
 
 $$
 \begin{aligned}
@@ -192,59 +192,59 @@ Var_{\xi}(Y_k)&=\sigma^2.
 \end{aligned}
 $$
 
-De esta población, se selecciona una muestra $s$ de tamaño $n$. De esta forma se tienen los siguientes resultados.
+From this population, a sample $s$ of size $n$ is selected. This gives the following results.
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.1, el mejor estimador lineal insesgado de $\beta$ está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.1, the best linear unbiased estimator of $\beta$ is given by
 $$
 \hat{\beta}=\bar{Y}_s=\frac{1}{n}\sum_{k\in s}Y_k
 $$
 
-**Prueba.**
-El estimador de $\beta$ está dado por la minimización de la siguiente función de dispersión
+**Proof.**
+The estimator of $\beta$ is obtained by minimizing the following dispersion function:
 $$
 D=\sum_{k\in s} \frac{\left(y_k-\beta \right)^2}{\sigma^2}.
 $$
 
-Luego de derivar e igualar a cero, se encuentra fácilmente que $\hat{\beta}=\bar{Y}_s$. Por otro lado, se tiene que
+After differentiating and setting the result equal to zero, it is easy to find that $\hat{\beta}=\bar{Y}_s$. On the other hand,
 $$
 \begin{aligned}
 E_{\xi}(\hat{\beta})=\frac{1}{n}\sum_{k\in s}E_{\xi}(Y_k)=\beta
 \end{aligned}
 $$
 
-Utilizando el teorema de Gauss-Markov [@Rav, Resultado 4.4.1] se tiene que $\hat{\beta}$ es el mejor estimador puesto que tiene varianza mínima.
+Using the Gauss-Markov theorem [@Rav, Result 4.4.1], $\hat{\beta}$ is the best estimator because it has minimum variance.
 :::
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.1, el mejor predictor lineal insesgado de $T_y$ y su error cuadrático medio\footnote{Como $T_y$ y $\hat{T}_y$ son variables aleatorias se utiliza el ECM como medida de variabilidad.} ($ECM_{\xi}$) están dados por
+::: {.callout-tip title="Result"}
+Under model 11.2.1, the best linear unbiased predictor of $T_y$ and its mean squared error\footnote{Because $T_y$ and $\hat{T}_y$ are random variables, the MSE is used as a measure of variability.} ($MSE_{\xi}$) are given by
 $$
 \hat{T}_{y}=\frac{N}{n}\sum_{k\in s}Y_k
 $$
 $$
-ECM_{\xi}(\hat{T}_{y})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)\sigma^2
+MSE_{\xi}(\hat{T}_{y})=\frac{N^2}{n}\left(1-\frac{n}{N}\right)\sigma^2
 $$
-respectivamente.
+respectively.
 
-**Prueba.**
-En primer lugar nótese que
+**Proof.**
+First note that
 $$
 \begin{aligned}
 \hat{T}_y=\sum_{k\in s} Y_k+\sum_{k\notin s} \hat{\beta}=\sum_{k\in s} Y_k+(N-n) \bar{Y}_s=\frac{N}{n}\sum_{k\in s}Y_k
 \end{aligned}
 $$
 
-$\hat{T}_y$ es insesgado puesto que
+$\hat{T}_y$ is unbiased because
 $$
 \begin{aligned}
 E_{\xi}(\hat{T}_y-T_y)=E_{\xi}\left(\frac{N}{n}\sum_{k\in s}Y_k-\sum_{k\in U}Y_k\right)=\beta-\beta=0
 \end{aligned}
 $$
 
-Por último,
+Finally,
 $$
 \begin{aligned}
-ECM_{\xi}(\hat{T}_y)&=E_{\xi}\left(\hat{T}_y-T_y\right)^2\\
+MSE_{\xi}(\hat{T}_y)&=E_{\xi}\left(\hat{T}_y-T_y\right)^2\\
 &=E_{\xi}\left(\left[\frac{N}{n}-1\right]\sum_{k\in s}Y_k - \sum_{k\notin s}Y_k\right)^2\\
 &=\left[\frac{N}{n}-1\right]^2E_{\xi}\left(\sum_{k\in s}Y_k\right)^2
 -2\left[\frac{N}{n}-1\right]E_{\xi}\left(\sum_{k\in s}Y_k\right)E_{\xi}\left(\sum_{k\notin s}Y_k\right)\\
@@ -257,10 +257,10 @@ ECM_{\xi}(\hat{T}_y)&=E_{\xi}\left(\hat{T}_y-T_y\right)^2\\
 \end{aligned}
 $$
 
-Dado que $E_{\xi}\left(\sum_{k\in s}Y_k-n\beta\right)^2=Var_{\xi}\left(\sum_{k\in s}Y_k\right)$, entonces se tiene que
+Since $E_{\xi}\left(\sum_{k\in s}Y_k-n\beta\right)^2=Var_{\xi}\left(\sum_{k\in s}Y_k\right)$, it follows that
 $$
 \begin{aligned}
-ECM_{\xi}(\hat{T}_y)&=\left[\frac{N}{n}-1\right]^2Var_{\xi}\left(\sum_{k\in s}Y_k\right)
+MSE_{\xi}(\hat{T}_y)&=\left[\frac{N}{n}-1\right]^2Var_{\xi}\left(\sum_{k\in s}Y_k\right)
 +Var_{\xi}\left(\sum_{k\notin s}Y_k\right)\\
 &=\left[\frac{N}{n}-1\right]^2n\sigma^2+(N-n)\sigma^2\\
 &=\frac{N^2}{n}\left(1-\frac{n}{N}\right)\sigma^2
@@ -269,77 +269,77 @@ $$
 
 :::
 
-Nótese que para estimar $\sigma^2$ es posible utilizar a $S^2$. De esta manera, los dos enfoques de inferencia parecen coincidir puesto que la expresiones para el estimador, y su varianza estimada son idénticas, aunque el trasfondo y la interpretación sean distintas. Además, @Loh afirma que los intervalos de confianza construidos a partir de los dos enfoques también coinciden aunque su interpretación no^[Con el enfoque inferencial basado en el diseño de muestreo la interpretación es como sigue: si se consideran todas las posibles muestras de tamaño $n$ del soporte $Q$ inducido por el diseño de muestreo y se construyen intervalos de 95\% de confianza para la media, entonces se espera que el 95\% de esos intervalos contengan al parámetro $\mu$. Por otra parte, el enfoque inferencial basado en modelos predictivos se debe interpretar en términos del modelo 11.2.1. De esta forma, el procedimiento induce dos variables aleatorias LS y LI tales que $Pr(LI \leq \mu \leq LS)=0.95$.]
+Note that $S^2$ can be used to estimate $\sigma^2$. In this way, the two inference approaches appear to coincide because the expressions for the estimator and its estimated variance are identical, although the background and interpretation are different. In addition, @Loh states that the confidence intervals constructed from the two approaches also coincide, although their interpretation does not^[Under the design-based inferential approach, the interpretation is as follows: if all possible samples of size $n$ from the support $Q$ induced by the sampling design are considered and 95\% confidence intervals for the mean are constructed, then 95\% of those intervals are expected to contain the parameter $\mu$. In contrast, the predictive-model-based inferential approach must be interpreted in terms of model 11.2.1. In this way, the procedure induces two random variables LS and LI such that $Pr(LI \leq \mu \leq LS)=0.95$.]
 
-### Un modelo para el muestreo aleatorio estratificado
+### A Model for Stratified Random Sampling
 
-<!-- index: Modelos predictivos -->Suponga que $Y_1,\ldots,Y_N$ es una población de variables aleatorias cuyo comportamiento es distinto en $H$ grupos poblacionales cada uno de tamaño $N_h$ ($h=1,\ldots,H$) que definen una población estratificada $U=\{U_1,\ldots,U_H\}$. Claramente el tamaño de la poblacional general es $N=N_1+\cdots,N_H$. El mecanismo probabilístico que rige a la población está dado por un modelo de superpoblación $\xi$ definido como
+<!-- index: Predictive models -->Suppose that $Y_1,\ldots,Y_N$ is a population of random variables whose behavior differs across $H$ population groups, each of size $N_h$ ($h=1,\ldots,H$), defining a stratified population $U=\{U_1,\ldots,U_H\}$. Clearly, the overall population size is $N=N_1+\cdots,N_H$. The probabilistic mechanism governing the population is given by a superpopulation model $\xi$ defined as
 $$
 Y_{hk}=\beta_h+\varepsilon_{hk}
 $$
 
-Donde el subscrito $hk$ hace referencia a las cantidades asociadas con el $k$-ésimo elemento dentro del $h$-ésimo estrato. Cada uno de los $\varepsilon_{hk}$ son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza constante $\sigma^2_h$ dentro del estrato $h$, no correlacionados entre estratos, tales que:
+where the subscript $hk$ refers to quantities associated with the $k$th element within the $h$th stratum. Each $\varepsilon_{hk}$ is an independent and identically distributed random variable with zero mean and constant variance $\sigma^2_h$ within stratum $h$, uncorrelated across strata, such that:
 $$
 \begin{aligned}
 E_{\xi}(Y_{hk})&=\beta_h \\
 Var_{\xi}(Y_{hk})&=\sigma^2_h\\
-Cov_{\xi}(Y_{hk},Y_{gl})&=0 \ \ \ \ \text{si $h\neq g$}.
+Cov_{\xi}(Y_{hk},Y_{gl})&=0 \ \ \ \ \text{if $h\neq g$}.
 \end{aligned}
 $$
 
-De cada uno de los estratos se extrae una muestra $s_h$ de tamaño $n_h$ ($h=1,\ldots,H$). El tamaño de la muestra general es $n=n_1+\cdots,n_H$.
+From each stratum, a sample $s_h$ of size $n_h$ ($h=1,\ldots,H$) is drawn. The overall sample size is $n=n_1+\cdots,n_H$.
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.6, el mejor estimador lineal insesgado de $\beta_h$ ($h=1,\ldots,H$) está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.6, the best linear unbiased estimator of $\beta_h$ ($h=1,\ldots,H$) is given by
 $$
 \hat{\beta}_h=\bar{Y}_{s_h}=\frac{1}{n_h}\sum_{k\in s_h}Y_{hk}
 $$
 
-**Prueba.**
-El estimador de $\beta_h$ está dado por la minimización de la siguiente función de dispersión
+**Proof.**
+The estimator of $\beta_h$ is obtained by minimizing the following dispersion function:
 $$
 D=\sum_{k\in s_h} \frac{\left(y_{hk}-\beta_h \right)^2}{\sigma^2_h}.
 $$
 
-Luego de derivar e igualar a cero, se encuentra fácilmente que $\hat{\beta}_h=\bar{Y}_{s_h}$. Por otro lado, se tiene que
+After differentiating and setting the result equal to zero, it is easy to find that $\hat{\beta}_h=\bar{Y}_{s_h}$. On the other hand,
 $$
 \begin{aligned}
 E_{\xi}(\hat{\beta}_h)=\frac{1}{n_h}\sum_{k\in s_h}E_{\xi}(Y_{hk})=\beta_h
 \end{aligned}
 $$
 
-Del análisis de varianza a una vía con efectos fijos se tiene que  es el mejor puesto que tiene varianza mínima.
+From one-way analysis of variance with fixed effects, it follows that it is the best estimator because it has minimum variance.
 :::
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.6, el mejor predictor lineal insesgado de $T_y$ y su error cuadrático medio están dados por
+::: {.callout-tip title="Result"}
+Under model 11.2.6, the best linear unbiased predictor of $T_y$ and its mean squared error are given by
 $$
 \hat{T}_{y}=\sum_{h=1}^H\frac{N_h}{n_h}\sum_{k\in s_h}Y_{hk}
 $$
 $$
-ECM_{\xi}(\hat{T}_{y})=\sum_{h=1}^H\frac{N_h^2}{n_h}\left(1-\frac{n_h}{N_h}\right)\sigma^2_h
+MSE_{\xi}(\hat{T}_{y})=\sum_{h=1}^H\frac{N_h^2}{n_h}\left(1-\frac{n_h}{N_h}\right)\sigma^2_h
 $$
-respectivamente.
+respectively.
 
-**Prueba.**
-En primer lugar nótese que la variable aleatoria total $T$ se puede reescribir como
+**Proof.**
+First note that the total random variable $T$ can be rewritten as
 $$
 \begin{aligned}
 T_y=\sum_{h=1}^H\sum_{k\in U_h}Y_{hk}=\sum_{h=1}^HT_{yh}
 \end{aligned}
 $$
 
-con $T_{yh}$ denotando la variable aleatoria total del estrato $h$. Recurriendo al resultado 11.2.2 se tiene que $\hat{T}_{yh}=\frac{N_h}{n_h}\sum_{k\in s_h}Y_{hk}$ es un predictor insesgado para $T_{yh}$. Por tanto
+with $T_{yh}$ denoting the total random variable for stratum $h$. Using Result 11.2.2, $\hat{T}_{yh}=\frac{N_h}{n_h}\sum_{k\in s_h}Y_{hk}$ is an unbiased predictor for $T_{yh}$. Therefore,
 $$
 \begin{aligned}
 E_{\xi}(\hat{T}_y-T_y)=\sum_{h=1}^HE_{\xi}\left(\hat{T}_{yh}-T_{yh}\right)=0
 \end{aligned}
 $$
 
-Por último,
+Finally,
 $$
 \begin{aligned}
-ECM_{\xi}(\hat{T}_y)&=E_{\xi}\left(\sum_{h=1}^H(\hat{T}_{yh}-T_{yh})\right)^2\\
+MSE_{\xi}(\hat{T}_y)&=E_{\xi}\left(\sum_{h=1}^H(\hat{T}_{yh}-T_{yh})\right)^2\\
 &=E_{\xi}\left(\sum_{h=1}^H(\hat{T}_{yh}-T_{yh})^2+
 \sum_{h}\sum_{g\neq h}E_{\xi}(\hat{T}_{yh}-T_{yh})(\hat{T}_{yg}-T_{yg})\right)\\
 &=E_{\xi}\left(\sum_{h=1}^H(\hat{T}_{yh}-T_{yh})^2\right)=\sum_{h=1}^HE_{\xi}(\hat{T}_{yh}-T_{yh})^2\\
@@ -349,107 +349,107 @@ $$
 
 :::
 
-Análogamente con el modelo para muestreo aleatorio simple, es posible estimar $\sigma_h^2$ con $S^2_h$ en cuyo caso se obtendrían las mimas estimaciones en los dos enfoques.
+Analogously to the model for simple random sampling, it is possible to estimate $\sigma_h^2$ with $S^2_h$, in which case the same estimates would be obtained under both approaches.
 
-### Un modelo para el muestreo por conglomerados
+### A Model for Cluster Sampling
 
-<!-- index: Modelos predictivos -->Suponga que $Y_1,\ldots,Y_N$ es una población de variables aleatorias que se encuentran agrupadas en $N_I$ conglomerados que inducen una partición de la población y al mismo tiempo definen una población de conglomerados $U_I=\{U_1,\ldots,U_{N_I}\}$. El tamaño del $i$-ésimo conglomerado es $N_i$ ($i=1,\ldots,N_I$). El tamaño poblacional general es $N=N_1+\cdots,N_{N_I}$. El mecanismo probabilístico que rige a la población está dado por un modelo de superpoblación $\xi$ definido como
+<!-- index: Predictive models -->Suppose that $Y_1,\ldots,Y_N$ is a population of random variables grouped into $N_I$ clusters that induce a partition of the population and at the same time define a population of clusters $U_I=\{U_1,\ldots,U_{N_I}\}$. The size of the $i$th cluster is $N_i$ ($i=1,\ldots,N_I$). The overall population size is $N=N_1+\cdots,N_{N_I}$. The probabilistic mechanism governing the population is given by a superpopulation model $\xi$ defined as
 $$
 Y_{ik}=\beta+\varepsilon_{ik}
 $$
 
-Donde el subscrito $ik$ hace referencia a las cantidades asociadas con el $k$-ésimo elemento dentro del $i$-ésimo conglomerado. Cada uno de los $\varepsilon_{ik}$ son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza constante $\sigma^2_i$ dentro del mismo conglomerado $i$-ésimo ($i=1,\ldots,N_I$), con estructura de auto-correlación $\sigma_i\rho_i$ para los elementos pertenecientes al mismo conglomerado $i$-ésimo y no correlacionados entre conglomerados, tales que
+where the subscript $ik$ refers to quantities associated with the $k$th element within the $i$th cluster. Each $\varepsilon_{ik}$ is an independent and identically distributed random variable with zero mean and constant variance $\sigma^2_i$ within the same $i$th cluster ($i=1,\ldots,N_I$), with autocorrelation structure $\sigma_i\rho_i$ for elements belonging to the same $i$th cluster and uncorrelated across clusters, such that
 $$
 \begin{aligned}
 E_{\xi}(Y_{ik})&=\beta \\
 Var_{\xi}(Y_{ik})&=\sigma^2_i\\
-Cov_{\xi}(Y_{ik},Y_{jl})&=\sigma^2_i\rho_i \ \ \ \ \text{si $i\neq j$ y $k\neq l$}.
+Cov_{\xi}(Y_{ik},Y_{jl})&=\sigma^2_i\rho_i \ \ \ \ \text{if $i\neq j$ and $k\neq l$}.
 \end{aligned}
 $$
 
-El modelo indica que todos los elementos tienen una media común. Dentro de los conglomerados, los elementos tienen una varianza común (que puede ser distinta de un conglomerado a otro) y dentro del mismo conglomerado, los elementos comparten un factor de correlación. De esta forma, se selecciona una muestra de conglomerados $s_I$ de tamaño $n_I$ y se observan todos y cada uno de los elementos pertenecientes al conglomerado.
+The model indicates that all elements have a common mean. Within clusters, the elements have a common variance (which may differ from one cluster to another), and within the same cluster the elements share a correlation factor. Thus, a sample of clusters $s_I$ of size $n_I$ is selected and every element belonging to the selected clusters is observed.
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.11, el mejor estimador lineal insesgado de $\beta$ está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.11, the best linear unbiased estimator of $\beta$ is given by
 $$
 \hat{\beta}=\sum_{i\in s_I}v_i\bar{Y}_{U_i}
 $$
 
-donde
+where
 $$
 v_i=\frac{\left(N_i/\sigma^2_i[1+(N_i-1)\rho_i]\right)}{\sum_{i\in S_I}\left(N_i/\sigma^2_i[1+(N_i-1)\rho_i]\right)}
 $$
 
-**Prueba.**
-Mediante un argumento similar al de los modelos previos y utilizando el análisis de varianza de efectos aleatorios se tiene la demostración del resultado.
+**Proof.**
+Using an argument similar to that used for the previous models and applying random-effects analysis of variance gives the proof of the result.
 :::
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.11, el mejor predictor lineal insesgado de $T_y$ y su error cuadrático medio están dados por
+::: {.callout-tip title="Result"}
+Under model 11.2.11, the best linear unbiased predictor of $T_y$ and its mean squared error are given by
 $$
 \hat{T}_{y}=\sum_{i\in s_I}\sum_{k=1}^{N_i}Y_{ik}+\sum_{i\notin s_I}N_i\hat{\beta}
 $$
 $$
-ECM_{\xi}(\hat{T}_{y})=\sum_{i\notin s_I}N_i\sigma_i^2[1+(N_i-1)\rho_i]+
+MSE_{\xi}(\hat{T}_{y})=\sum_{i\notin s_I}N_i\sigma_i^2[1+(N_i-1)\rho_i]+
 \dfrac{(N_I-n_I)^2}{\sum_{i\in s_I}N_i/\sigma_i^2[1+(N_i-1)\rho_i]}
 $$
-respectivamente.
+respectively.
 
-**Prueba.**
-El lector puede consultar la demostración de este resultado en @Royall1976 y en @ScoSmi notando que el total puede escribirse como
+**Proof.**
+The reader may consult the proof of this result in @Royall1976 and @ScoSmi, noting that the total can be written as
 $$
 T_y=\sum_{i\in s_I}\sum_{k=1}^{N_i}Y_{ik}+\sum_{i\notin s_I}\sum_{k=1}^{N_i}Y_{ik}
 $$
 
 :::
 
-### Un modelo para el muestreo por etapas
+### A Model for Multistage Sampling
 
-<!-- index: Modelos predictivos -->Suponga el mismo modelo 11.2.11 pero en esta ocasión se selecciona una muestra de conglomerados $s_I$ de tamaño $n_I$ y para cada conglomerado $U_i\in s_I$ se selecciona una submuestra<!-- index: Submuestra --> $s_i$ de tamaño $n_i$.
+<!-- index: Predictive models -->Suppose the same model 11.2.11, but this time a sample of clusters $s_I$ of size $n_I$ is selected and, for each cluster $U_i\in s_I$, a subsample<!-- index: Subsample --> $s_i$ of size $n_i$ is selected.
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.11 y mediante una selección en dos etapas, el mejor estimador lineal insesgado de $\beta$ está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.11 and two-stage selection, the best linear unbiased estimator of $\beta$ is given by
 $$
 \hat{\beta}=\sum_{i\in s_I}v_i\bar{Y}_{s_i}
 $$
 
-donde
+where
 $$
 v_i=\frac{\left(n_i/\sigma^2_i[1+(n_i-1)\rho_i]\right)}{\sum_{i\in S_I}\left(n_i/\sigma^2_i[1+(n_i-1)\rho_i]\right)}
 $$
 
-**Prueba.**
-Mediante un argumento similar al de los modelos previos y utilizando el análisis de varianza anidado con efectos aleatorios se tiene la demostración del resultado.
+**Proof.**
+Using an argument similar to that used for the previous models and applying nested random-effects analysis of variance gives the proof of the result.
 :::
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.11 y mediante una selección en dos etapas, el mejor predictor lineal insesgado de $T_y$ está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.11 and two-stage selection, the best linear unbiased predictor of $T_y$ is given by
 $$
 \hat{T}_{y}=\sum_{i\in s_I}\sum_{k\in s_i}Y_{ik}+
 \sum_{i\in s_I}(N_i-n_i)\left[w_i\bar{Y}_{s_i}+(1-w_i)\hat{\beta}\right]+
 \sum_{i\notin s_I}N_i\hat{\beta}
 $$
-con $w_i=n_i\rho_i/[1+(n_i-1)\rho_i]$.
+with $w_i=n_i\rho_i/[1+(n_i-1)\rho_i]$.
 
-**Prueba.**
-El lector puede consultar la demostración de este resultado en @Royall1976 y en @ScoSmi notando que el total puede escribirse como
+**Proof.**
+The reader may consult the proof of this result in @Royall1976 and @ScoSmi, noting that the total can be written as
 $$
 T_y=\sum_{i\in s_I}\sum_{k\in s_i}Y_{ik}+\sum_{i\in s_I}\sum_{k\notin s_i}Y_{ik}+\sum_{i\notin s_I}\sum_{k=1}^{N_i}Y_{ik}
 $$
 
 :::
 
-Nótese que en para el muestreo por conglomerados o por etapas, tanto el predictor como su varianza difieren significativamente del estimador construido mediante el enfoque inferencial basado en el diseño de muestreo.
+Note that for cluster or multistage sampling, both the predictor and its variance differ significantly from the estimator constructed under the design-based inferential approach.
 
-### Un modelo para el estimador de razón
+### A Model for the Ratio Estimator
 
-<!-- index: Modelos predictivos -->Suponga que $Y_1,\ldots,Y_N$ es una población de variables aleatorias independientes en idénticamente distribuidas y que $X_1,\ldots, X_N$ conforman una población de variables auxiliares tales que su realización para cada uno de los elementos de la población $x_1,\ldots,x_N$ es conocida. El mecanismo probabilístico que rige a la población y que define la relación entre $Y_k$ y $X_k$ está dado por un modelo de superpoblación $\xi$ definido como
+<!-- index: Predictive models -->Suppose that $Y_1,\ldots,Y_N$ is a population of independent and identically distributed random variables and that $X_1,\ldots, X_N$ form a population of auxiliary variables whose realization for each population element, $x_1,\ldots,x_N$, is known. The probabilistic mechanism governing the population and defining the relationship between $Y_k$ and $X_k$ is given by a superpopulation model $\xi$ defined as
 
 $$
 Y_k=\beta X_k+\varepsilon_k
 $$
 
-Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza no constante $\sigma^2X_k$, tales que
+where each $\varepsilon_k$, $k\in U$, is an independent and identically distributed random variable with zero mean and nonconstant variance $\sigma^2X_k$, such that
 
 $$
 \begin{aligned}
@@ -458,21 +458,21 @@ Var_{\xi}(Y_k)&=\sigma^2X_k.
 \end{aligned}
 $$
 
-Este modelo sólo es válido si la línea de regresión pasa por el origen y la varianza se incrementa a medida que la variable auxiliar aumenta su magnitud. De esta población, se selecciona una muestra $s$ de tamaño $n$. De esta forma se tienen los siguientes resultados.
+This model is valid only if the regression line passes through the origin and the variance increases as the auxiliary variable increases in magnitude. From this population, a sample $s$ of size $n$ is selected. This gives the following results.
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.18, el mejor estimador lineal insesgado de $\beta$ está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.18, the best linear unbiased estimator of $\beta$ is given by
 $$
 \hat{\beta}=\dfrac{\bar{Y}_s}{\bar{X}_s}=\dfrac{\sum_{k\in s}Y_k}{\sum_{k\in s}X_k}
 $$
 
-**Prueba.**
-El estimador de $\beta$ está dado por la minimización de la siguiente función de dispersión
+**Proof.**
+The estimator of $\beta$ is obtained by minimizing the following dispersion function:
 $$
 D=\sum_{k\in s} \frac{\left(y_k-\beta \right)^2}{\sigma^2X_k}.
 $$
 
-Luego de derivar e igualar a cero, se encuentra fácilmente que $\hat{\beta}=\dfrac{\sum_{k\in s}Y_k}{\sum_{k\in s}X_k}$. Por otro lado, se tiene que
+After differentiating and setting the result equal to zero, it is easy to find that $\hat{\beta}=\dfrac{\sum_{k\in s}Y_k}{\sum_{k\in s}X_k}$. On the other hand,
 $$
 \begin{aligned}
 E_{\xi}(\hat{\beta})=\frac{1}{\sum_{k\in s}X_k}\sum_{k\in s}E_{\xi}(Y_k)=\frac{1}{\sum_{k\in s}X_k}\sum_{k\in s}\beta X_k=\beta
@@ -481,18 +481,18 @@ $$
 
 :::
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.18, el mejor predictor lineal insesgado de $T_y$ y su error cuadrático medio están dados por
+::: {.callout-tip title="Result"}
+Under model 11.2.18, the best linear unbiased predictor of $T_y$ and its mean squared error are given by
 $$
 \hat{T}_{y}=\dfrac{\bar{Y}_s}{\bar{X}_s}T_x
 $$
 $$
-ECM_{\xi}(\hat{T}_{y})=\dfrac{\sum_{k\notin s}X_k}{\sum_{k\in s}X_k}\sigma^2T_x
+MSE_{\xi}(\hat{T}_{y})=\dfrac{\sum_{k\notin s}X_k}{\sum_{k\in s}X_k}\sigma^2T_x
 $$
-respectivamente, con $T_x=\sum_{k\in U}X_k$.
+respectively, with $T_x=\sum_{k\in U}X_k$.
 
-**Prueba.**
-En primer lugar el predictor toma la siguiente forma
+**Proof.**
+First, the predictor takes the following form:
 $$
 \begin{aligned}
 \hat{T}_y=\sum_{k\in s}Y_k+\sum_{k\notin s}\hat{\beta}X_k
@@ -501,17 +501,17 @@ $$
 \end{aligned}
 $$
 
-$\hat{T}_y$ es insesgado puesto que
+$\hat{T}_y$ is unbiased because
 $$
 \begin{aligned}
 E_{\xi}(\hat{T}_y-T_y)=E_{\xi}\left(\dfrac{\bar{Y}_s}{\bar{X}_s}T_x-\sum_{k\in U}Y_k\right)=\beta T_x-\beta T_x=0
 \end{aligned}
 $$
 
-Por último, como el predictor es insesgado, entonces
+Finally, because the predictor is unbiased,
 $$
 \begin{aligned}
-ECM_{\xi}(\hat{T}_y-T_y)&=Var_{\xi}(\hat{T}_y-T_y)\\
+MSE_{\xi}(\hat{T}_y-T_y)&=Var_{\xi}(\hat{T}_y-T_y)\\
 &=Var_{\xi}\left(\sum_{k\in s}Y_k+\sum_{k\notin s}\hat{\beta}X_k-\sum_{k\in U}Y_k\right)\\
 &=Var_{\xi}\left(\sum_{k\notin s}\hat{\beta}X_k-\sum_{k\notin s}Y_k\right)\\
 &=Var_{\xi}\left(\sum_{k\notin s}\hat{\beta}X_k\right)+Var_{\xi}\left(\sum_{k\notin s}Y_k\right)\\
@@ -528,15 +528,15 @@ $$
 
 :::
 
-### Un modelo para el estimador de regresión
+### A Model for the Regression Estimator
 
-<!-- index: Modelos predictivos -->Suponga que $Y_1,\ldots,Y_N$ es una población de variables aleatorias independientes en idénticamente distribuidas y que $X_1,\ldots, X_N$ conforman una población de variables auxiliares tales que su realización para cada uno de los elementos de la población $x_1,\ldots,x_N$ es conocida. El mecanismo probabilístico que rige a la población y que define la relación entre $Y_k$ y $X_k$ está dado por un modelo de superpoblación $\xi$ definido como
+<!-- index: Predictive models -->Suppose that $Y_1,\ldots,Y_N$ is a population of independent and identically distributed random variables and that $X_1,\ldots, X_N$ form a population of auxiliary variables whose realization for each population element, $x_1,\ldots,x_N$, is known. The probabilistic mechanism governing the population and defining the relationship between $Y_k$ and $X_k$ is given by a superpopulation model $\xi$ defined as
 
 $$
 Y_k=\beta_0 +\beta_1 X_k+\varepsilon_k
 $$
 
-Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias independientes e idénticamente distribuidas con media cero y varianza no constante $\sigma^2$, tales que:
+where each $\varepsilon_k$, $k\in U$, is an independent and identically distributed random variable with zero mean and nonconstant variance $\sigma^2$, such that:
 
 $$
 \begin{aligned}
@@ -545,35 +545,35 @@ Var_{\xi}(Y_k)&=\sigma^2.
 \end{aligned}
 $$
 
-Este modelo sólo es válido si la línea de regresión pasa por el origen y la varianza se incrementa a medida que la variable auxiliar<!-- index: Variable auxiliar --> aumenta su magnitud. De esta población, se selecciona una muestra $s$ de tamaño $n$. De esta forma se tienen los siguientes resultados.
+This model is valid only if the regression line passes through the origin and the variance increases as the auxiliary variable<!-- index: Auxiliary variable --> increases in magnitude. From this population, a sample $s$ of size $n$ is selected. This gives the following results.
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.23, el mejor estimador lineal insesgado de $\beta_0$ y $\beta_1$ está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.23, the best linear unbiased estimator of $\beta_0$ and $\beta_1$ is given by
 $$
 \hat{\beta}_1=\dfrac{\sum_{k\in s}(x_k-\bar{X}_s)(y_k-\bar{Y}_s)}{\sum_{k\in s}(x_k-\bar{X}_s)^2}
 $$
-y
+and
 $$
 \hat{\beta}_0=\bar{Y}_s-\hat{\beta}_1\bar{X}_s
 $$
 
-**Prueba.**
-Los estimadores se encuentran minimizando la siguiente función de dispersión
+**Proof.**
+The estimators are found by minimizing the following dispersion function:
 $$
 D=\sum_{k\in s} \frac{\left(y_k-\beta_0-\beta_1X_k  \right)^2}{\sigma^2}.
 $$
 
-Luego de derivar e igualar a cero, se encuentra fácilmente el resultado.
+After differentiating and setting the result equal to zero, the result is easily obtained.
 :::
 
-::: {.callout-tip title="Resultado"}
-Bajo el modelo 11.2.23, el mejor predictor lineal insesgado de $T_y$ está dado por
+::: {.callout-tip title="Result"}
+Under model 11.2.23, the best linear unbiased predictor of $T_y$ is given by
 $$
 \hat{T}_{y}=N\left(\hat{\beta}_0+\hat{\beta}_1\bar{X}_U\right)
 $$
 
-**Prueba.**
-Nótese que el predictor se puede escribir como:
+**Proof.**
+Note that the predictor can be written as:
 $$
 \begin{aligned}
 \hat{T}_y&=\sum_{k\in s}Y_k+\sum_{k\notin s}(\hat{\beta}_0+\hat{\beta}_1X_k)\\
@@ -586,49 +586,49 @@ $$
 
 :::
 
-## El teorema general de predicción
+## The General Prediction Theorem
 
-<!-- index: Teorema general de predicción -->Así como el estimador general de regresión es un caso general de muchos otros estimadores, en el enfoque inferencial basado en los modelos predictivos existe el predictor general de regresión que abarca muchos predictores incluyendo los vistos en la anterior sección. Sin embargo, en esta sección no sólo se estudiarán predicciones de totales poblacionales sino de cualquier función lineal de las variables de interés. El lector notará que el resultado general está basado en la teoría de modelos lineales y en particular el teorema de Gauss-Markov. Aunque en esta sección no hacemos ningún supuesto acerca de distribuciones parametrizadas (como la normal, la gama o la familia exponencial), es posible hacerlo y llegar a resultados óptimos utilizando resultados de inferencia estadística tales como el Lema de Sheffe o el Teorema de Rao-Blackwell [@Shao].
+<!-- index: General prediction theorem -->Just as the general regression estimator is a general case of many other estimators, under the predictive-model-based inferential approach there is a general regression predictor that encompasses many predictors, including those seen in the previous section. However, in this section we will study not only predictions of population totals but also of any linear function of the variables of interest. The reader will note that the general result is based on linear model theory and, in particular, on the Gauss-Markov theorem. Although in this section we make no assumptions about parametrized distributions (such as the normal, gamma, or exponential family), it is possible to do so and obtain optimal results using statistical inference results such as Scheffe's lemma or the Rao-Blackwell theorem [@Shao].
 
-Suponga que la población finita consiste de $N$ unidades. El vector de las variables de interés es $\mathbf{Y}=(Y_1,Y_2,\ldots,Y_N)'$ y para cada elemento de la población la realización de estas variables aleatorias es $\mathbf{y}=(y_1,y_2,\ldots,y_N)'$. Suponga que el objetivo es estimar una combinación lineal\footnote{Si el objetivo es estimar el total poblacional, entonces $\boldsymbol{\gamma}'=(1,1,\ldots,1)$. Si el objetivo es estimar la media poblacional, entonces $\boldsymbol{\gamma}'=(1/N,1/N,\ldots,1/N)$.} $\boldsymbol{\gamma}'\mathbf{y}$. Para tal fin, se selecciona una muestra $s$ de tamaño $n$. Nótese qué tanto $\mathbf{y}$ cómo $\boldsymbol{\gamma}$ se pueden particionar de la siguiente manera: $\mathbf{y}=(\mathbf{y}_s',\mathbf{y}_r')'$ y $\boldsymbol{\gamma}=(\boldsymbol{\gamma}_s', \boldsymbol{\gamma}_r')'$; en donde el subíndice $s$ se refiere a que el vector contiene los $n$ elementos de la muestra seleccionada y el subíndice $r$ se refiere a que el vector contiene los $N-n$ elementos que no fueron seleccionados en la muestra.
+Suppose that the finite population consists of $N$ units. The vector of variables of interest is $\mathbf{Y}=(Y_1,Y_2,\ldots,Y_N)'$, and for each population element the realization of these random variables is $\mathbf{y}=(y_1,y_2,\ldots,y_N)'$. Suppose that the objective is to estimate a linear combination\footnote{If the objective is to estimate the population total, then $\boldsymbol{\gamma}'=(1,1,\ldots,1)$. If the objective is to estimate the population mean, then $\boldsymbol{\gamma}'=(1/N,1/N,\ldots,1/N)$.} $\boldsymbol{\gamma}'\mathbf{y}$. For this purpose, a sample $s$ of size $n$ is selected. Note that both $\mathbf{y}$ and $\boldsymbol{\gamma}$ can be partitioned as follows: $\mathbf{y}=(\mathbf{y}_s',\mathbf{y}_r')'$ and $\boldsymbol{\gamma}=(\boldsymbol{\gamma}_s', \boldsymbol{\gamma}_r')'$; where the subscript $s$ indicates that the vector contains the $n$ elements of the selected sample, and the subscript $r$ indicates that the vector contains the $N-n$ elements that were not selected in the sample.
 
-De la anterior manera, es posible reescribir la combinación lineal que se quiere estimar como $\boldsymbol{\gamma}'\mathbf{y}=\boldsymbol{\gamma}'_s\mathbf{y}+\boldsymbol{\gamma}'_r\mathbf{y}_r$, la cual es una realización de la variable aleatoria $\boldsymbol{\gamma}'\mathbf{Y}=\boldsymbol{\gamma}'_s\mathbf{Y}+\boldsymbol{\gamma}'_r\mathbf{Y}_r$. Es claro que el problema de estimar $\boldsymbol{\gamma}'\mathbf{y}$ se reduce al problema de predecir $\boldsymbol{\gamma}'_r\mathbf{y}_r$.
+In this way, the linear combination to be estimated can be rewritten as $\boldsymbol{\gamma}'\mathbf{y}=\boldsymbol{\gamma}'_s\mathbf{y}+\boldsymbol{\gamma}'_r\mathbf{y}_r$, which is a realization of the random variable $\boldsymbol{\gamma}'\mathbf{Y}=\boldsymbol{\gamma}'_s\mathbf{Y}+\boldsymbol{\gamma}'_r\mathbf{Y}_r$. It is clear that the problem of estimating $\boldsymbol{\gamma}'\mathbf{y}$ reduces to the problem of predicting $\boldsymbol{\gamma}'_r\mathbf{y}_r$.
 
-::: {.callout-important title="Definición"}
-<!-- index: Estimador lineal -->Un estimador lineal de $\theta=\boldsymbol{\gamma}'\mathbf{Y}$ se define como $\hat{\theta}=\mathbf{g}_s'\mathbf{Y}_s$. Donde $\mathbf{g}_s=(g_1,g_2,\ldots,g_n)'$ es un vector de tamaño $n$.
+::: {.callout-important title="Definition"}
+<!-- index: Linear estimator -->A linear estimator of $\theta=\boldsymbol{\gamma}'\mathbf{Y}$ is defined as $\hat{\theta}=\mathbf{g}_s'\mathbf{Y}_s$, where $\mathbf{g}_s=(g_1,g_2,\ldots,g_n)'$ is a vector of size $n$.
 :::
 
-::: {.callout-important title="Definición"}
-<!-- index: Error de estimación -->El error de estimación de un estimador $\hat{\theta}$ está dado por $\hat{\theta}-\theta=\mathbf{g}_s'\mathbf{Y}_s-\boldsymbol{\gamma}'\mathbf{Y}$
-y puede ser reescrito como
+::: {.callout-important title="Definition"}
+<!-- index: Estimation error -->The estimation error of an estimator $\hat{\theta}$ is given by $\hat{\theta}-\theta=\mathbf{g}_s'\mathbf{Y}_s-\boldsymbol{\gamma}'\mathbf{Y}$
+and can be rewritten as
 $$
 \begin{aligned}
 \mathbf{g}_s'\mathbf{Y}_s-\boldsymbol{\gamma}'\mathbf{Y}&=(\mathbf{g}_s'\boldsymbol{\gamma}_s)\mathbf{Y}_s-\boldsymbol{\gamma}_r'\mathbf{Y}_r\\
 &=\mathbf{a}'\mathbf{Y}_s-\boldsymbol{\gamma}_r'\mathbf{Y}_r
 \end{aligned}
 $$
-con $\mathbf{a}=\mathbf{g}_s-\boldsymbol{\gamma}_s$
+with $\mathbf{a}=\mathbf{g}_s-\boldsymbol{\gamma}_s$
 :::
 
-Nótese que utilizar $\mathbf{g}_s'\mathbf{Y}_s$ para estimar a $\theta=\boldsymbol{\gamma}'\mathbf{Y}$ es equivalente a utilizar $\mathbf{a}'\mathbf{Y}_s$ para predecir $\boldsymbol{\gamma}'_r\mathbf{Y}_r$ y consecuentemente, encontrar un vector óptimo $\mathbf{g}_s$ es equivalente a encontrar un vector óptimo $\mathbf{a}$.
+Note that using $\mathbf{g}_s'\mathbf{Y}_s$ to estimate $\theta=\boldsymbol{\gamma}'\mathbf{Y}$ is equivalent to using $\mathbf{a}'\mathbf{Y}_s$ to predict $\boldsymbol{\gamma}'_r\mathbf{Y}_r$ and, consequently, finding an optimal vector $\mathbf{g}_s$ is equivalent to finding an optimal vector $\mathbf{a}$.
 
-El problema que se aborda en esta sección se enmarca dentro del modelo lineal general dado por
+The problem addressed in this section is framed within the general linear model given by
 
 $$
 \mathbf{Y}=\mathbf{X}_k'\boldsymbol{\beta} +\varepsilon_k
 $$
 
-Donde cada uno de los $\varepsilon_k$ $k\in U$ son variables aleatorias idénticamente distribuidas con media nula, varianza $Var_{\xi}(\varepsilon_k)=\sigma^2_k$ y covarianza $Cov_{\xi}(\varepsilon_k,\varepsilon_l)=\rho_{kl}\sigma_k\sigma_l$ con $\rho_{kl}$ un factor de correlación entre los elementos $k$ y $l$ ($k\neq l$) tales que:
+where each $\varepsilon_k$, $k\in U$, is an identically distributed random variable with zero mean, variance $Var_{\xi}(\varepsilon_k)=\sigma^2_k$, and covariance $Cov_{\xi}(\varepsilon_k,\varepsilon_l)=\rho_{kl}\sigma_k\sigma_l$, with $\rho_{kl}$ a correlation factor between elements $k$ and $l$ ($k\neq l$), such that:
 
 $$
 \begin{aligned}
 E_{\xi}(Y_k)&=\mathbf{X}_k'\boldsymbol{\beta} \\
 Var_{\xi}(Y_k)&=\sigma^2_k\\
-Cov_{\xi}(Y_k,Y_l)&=\rho_{kl}\sigma_k\sigma_l \ \ \ \ \ \text{para $k\neq l$}
+Cov_{\xi}(Y_k,Y_l)&=\rho_{kl}\sigma_k\sigma_l \ \ \ \ \ \text{for $k\neq l$}
 \end{aligned}
 $$
 
-De forma matricial, el anterior modelo queda definido como
+In matrix form, the previous model is defined as
 
 $$
 \begin{aligned}
@@ -637,7 +637,7 @@ Var_{\xi}(\mathbf{Y})&=\mathbf{V}
 \end{aligned}
 $$
 
-donde $X$ es una matriz de variables auxiliares\footnote{Se asume que los valores de $\mathbf{X}$ son conocidos para todos los elementos de la población.} de tamaño $N\times p$, $\boldsymbol{\beta}$ es un vector de coeficientes de regresión desconocidos de tamaño $p\times 1$ y $\mathbf{V}$ es una matriz de covarianzas definida positiva. Nótese que al momento de seleccionar la muestra, tanto $\mathbf{X}$ como $\mathbf{V}$ pueden ser reescritos como
+where $X$ is a matrix of auxiliary variables\footnote{The values of $\mathbf{X}$ are assumed to be known for all population elements.} of size $N\times p$, $\boldsymbol{\beta}$ is a vector of unknown regression coefficients of size $p\times 1$, and $\mathbf{V}$ is a positive definite covariance matrix. Note that, when the sample is selected, both $\mathbf{X}$ and $\mathbf{V}$ can be rewritten as
 
 $$
 \mathbf{X}=
@@ -652,39 +652,39 @@ $$
 \end{pmatrix}
 $$
 
-donde $\mathbf{X}_s$ es de tamaño $n\times p$, $\mathbf{X}_r$ es de tamaño $(N-n)\times p$, $\mathbf{V}_{ss}$ es de tamaño $n\times n$, $\mathbf{V}_{rr}$ es de tamaño $(N-n)\times (N-n)$, $\mathbf{V}_{sr}$ es de tamaño $n\times (N-n)$ y $\mathbf{V}_{rs}=\mathbf{V}_{sr}'$, asumiendo que $\mathbf{V}_{ss}$ es una matriz definida positiva.
+where $\mathbf{X}_s$ is of size $n\times p$, $\mathbf{X}_r$ is of size $(N-n)\times p$, $\mathbf{V}_{ss}$ is of size $n\times n$, $\mathbf{V}_{rr}$ is of size $(N-n)\times (N-n)$, $\mathbf{V}_{sr}$ is of size $n\times (N-n)$, and $\mathbf{V}_{rs}=\mathbf{V}_{sr}'$, assuming that $\mathbf{V}_{ss}$ is a positive definite matrix.
 
-::: {.callout-important title="Definición"}
-<!-- index: Estimador insesgado -->Un estimador $\hat{\theta}$ es insesgado si $E_{\xi}(\hat{\theta})=0$
+::: {.callout-important title="Definition"}
+<!-- index: Unbiased estimator -->An estimator $\hat{\theta}$ is unbiased if $E_{\xi}(\hat{\theta})=0$
 :::
 
-::: {.callout-important title="Definición"}
-<!-- index: Error cuadrático medio -->El error cuadrático medio de un estimador $\hat{\theta}$ está dado por $ECM_{\xi}(\hat{\theta})=E_{\xi}(\hat{\theta}-\theta)^2$
+::: {.callout-important title="Definition"}
+<!-- index: Mean squared error -->The mean squared error of an estimator $\hat{\theta}$ is given by $MSE_{\xi}(\hat{\theta})=E_{\xi}(\hat{\theta}-\theta)^2$
 :::
 
 ::: {.callout-tip title="@Royall1976"}
-El mejor estimador lineal insesgado de $\theta$ está dado por
+The best linear unbiased estimator of $\theta$ is given by
 $$
 \hat{\theta}=\boldsymbol{\gamma}_s'\mathbf{Y}_s+
 \boldsymbol{\gamma}_r'\left[\mathbf{X}_r\hat{\boldsymbol{\beta}} + \mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}(\mathbf{Y}_s)\mathbf{X}_s\hat{\boldsymbol{\beta}}\right]
 $$
 
-donde
+where
 $$
 \hat{\boldsymbol{\beta}}=(\mathbf{X}_s'\mathbf{V}_{ss}\mathbf{X}_s)^{-1}\mathbf{X}_s'\mathbf{V}_{ss}\mathbf{Y}_s
 $$
 
-El error cuadrático medio de $\hat{\theta}$ está dado por
+The mean squared error of $\hat{\theta}$ is given by
 
 \begin{multline}
-ECM_{\xi}(\hat{\theta})=\boldsymbol{\gamma}_r'(\mathbf{V}_{rr}-\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr})\boldsymbol{\gamma}_r\\
+MSE_{\xi}(\hat{\theta})=\boldsymbol{\gamma}_r'(\mathbf{V}_{rr}-\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr})\boldsymbol{\gamma}_r\\
 +\boldsymbol{\gamma}_r'(\mathbf{X}_r-\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}\mathbf{X}_s)
 (\mathbf{X}_s'\mathbf{V}_{ss}^{-1}\mathbf{X}_s)^{-1}
 (\mathbf{X}_r-\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}\mathbf{X}_s)'\boldsymbol{\gamma}_r
 \end{multline}
 
-**Prueba.**
-En primer lugar, el error cuadrático medio está dado por la siguiente expresión
+**Proof.**
+First, the mean squared error is given by the following expression:
 $$
 \begin{aligned}
 E_{\xi}(\hat{\theta}-\theta)^2&=E_{\xi}(\mathbf{a}'\mathbf{Y}_s-\boldsymbol{\gamma}_r\mathbf{Y}_r)^2\\
@@ -694,7 +694,7 @@ E_{\xi}(\hat{\theta}-\theta)^2&=E_{\xi}(\mathbf{a}'\mathbf{Y}_s-\boldsymbol{\gam
 \end{aligned}
 $$
 
-Por un lado, se busca un estimador insesgado, entonces el último sumando debe ser nulo. Es decir $\mathbf{a}\mathbf{X}_s=\boldsymbol{\gamma}_r'\mathbf{X}_r$. Por otro lado, se busca el mejor estimador insesgado; es decir, el estimador de mínimo $ECM$; esta minimización se hace mediante la técnica de los multiplicadores de Lagrange. Entonces la función a minimizar, restringida al insesgamiento del estimador, es
+On the one hand, an unbiased estimator is sought, so the last term must be zero. That is, $\mathbf{a}\mathbf{X}_s=\boldsymbol{\gamma}_r'\mathbf{X}_r$. On the other hand, the best unbiased estimator is sought; that is, the estimator with minimum $MSE$. This minimization is performed using the method of Lagrange multipliers. Therefore, the function to minimize, subject to unbiasedness of the estimator, is
 $$
 \begin{aligned}
 \mathcal{L}(\mathbf{a},\boldsymbol{\lambda})=\mathbf{a}'\mathbf{V}_{ss}\mathbf{a}-2\mathbf{a}'\mathbf{V}_{sr}\boldsymbol{\gamma}_r+\boldsymbol{\gamma}_r'\mathbf{V}_{rr}\boldsymbol{\gamma}_r
@@ -702,7 +702,7 @@ $$
 \end{aligned}
 $$
 
-donde $\boldsymbol{\lambda}$ es un vector de multiplicadores de Lagrange. Diferenciando con respecto a $\boldsymbol{\lambda}$, $\mathbf{a}$ e igualando a cero, tenemos que
+where $\boldsymbol{\lambda}$ is a vector of Lagrange multipliers. Differentiating with respect to $\boldsymbol{\lambda}$ and $\mathbf{a}$ and setting the results equal to zero, we obtain
 $$
 \begin{aligned}
 \frac{\partial\mathcal{L}}{\partial\boldsymbol{\lambda}}&=\mathbf{a}'\mathbf{X}_s-\boldsymbol{\gamma}_r\mathbf{X}_r=0\\ \\
@@ -710,28 +710,28 @@ $$
 \end{aligned}
 $$
 
-De la primera ecuación se tiene que
+From the first equation,
 $$
 \begin{aligned}
 \mathbf{a}'\mathbf{X}_s=\boldsymbol{\gamma}_r\mathbf{X}_r
 \end{aligned}
 $$
 
-De la segunda ecuación se tiene que
+From the second equation,
 $$
 \begin{aligned}
 \mathbf{a}&=\mathbf{V}_{ss}^{-1}(\mathbf{V}_{sr}\boldsymbol{\gamma}_r-\mathbf{X}_s\boldsymbol{\lambda})
 \end{aligned}
 $$
 
-y utilizando la restricción (11.3.7), también se tiene que
+and using restriction (11.3.7), we also have
 $$
 \begin{aligned}
 \boldsymbol{\lambda}=\mathbf{A}_s^{-1}(\mathbf{X}_s'\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}-\mathbf{X}_r')\boldsymbol{\gamma}_r
 \end{aligned}
 $$
 
-con $\mathbf{A}_s=\mathbf{X}_s'\mathbf{V}_{ss}^{-1}\mathbf{X}_{s}$. Reemplazando esta última expresión en (11.3.8), se encuentra el valor óptimo de $\mathbf{a}$ dado por
+with $\mathbf{A}_s=\mathbf{X}_s'\mathbf{V}_{ss}^{-1}\mathbf{X}_{s}$. Replacing this last expression in (11.3.8), the optimal value of $\mathbf{a}$ is found to be
 $$
 \begin{aligned}
 \mathbf{a}_{opt}&=\mathbf{V}_{ss}^{-1}(\mathbf{V}_{sr}-\mathbf{X}_s\mathbf{A}_s^{-1}
@@ -739,7 +739,7 @@ $$
 \end{aligned}
 $$
 
-De esta manera, después de un poco de álgebra, se encuentra que el mejor predictor de $\boldsymbol{\gamma}_r\mathbf{Y}_r$ es
+In this way, after some algebra, the best predictor of $\boldsymbol{\gamma}_r\mathbf{Y}_r$ is
 $$
 \begin{aligned}
 \mathbf{a}_{opt}'\mathbf{Y}_s&=\boldsymbol{\gamma}_r'(\mathbf{V}_{rs}-
@@ -750,15 +750,15 @@ $$
 \end{aligned}
 $$
 
-De la definición 11.3.1., $\hat{\theta}=\mathbf{g}_s\mathbf{Y}_s$ y de la definición 11.3.2., $\mathbf{g}_s=\mathbf{a}+\boldsymbol{\gamma}_s$. Luego, $\hat{\theta}=\boldsymbol{\gamma}_s'\mathbf{Y}_s+\mathbf{a}'\mathbf{Y}_s$. Reemplazando convenientemente se encuentra la demostración del resultado. El ECM del estimador insesgado está dado por
+From Definition 11.3.1, $\hat{\theta}=\mathbf{g}_s\mathbf{Y}_s$, and from Definition 11.3.2, $\mathbf{g}_s=\mathbf{a}+\boldsymbol{\gamma}_s$. Thus, $\hat{\theta}=\boldsymbol{\gamma}_s'\mathbf{Y}_s+\mathbf{a}'\mathbf{Y}_s$. Substituting appropriately gives the proof of the result. The $MSE$ of the unbiased estimator is given by
 $$
 \begin{aligned}
-ECM_{\xi}(\hat{\theta})=\underbrace{\mathbf{a}'\mathbf{V}_{ss}\mathbf{a}}_{P1}
+MSE_{\xi}(\hat{\theta})=\underbrace{\mathbf{a}'\mathbf{V}_{ss}\mathbf{a}}_{P1}
 -\underbrace{2\mathbf{a}'\mathbf{V}_{sr}\boldsymbol{\gamma}_r}_{P2}+\boldsymbol{\gamma}_r'\mathbf{V}_{rr}\boldsymbol{\gamma}_r
 \end{aligned}
 $$
 
-Teniendo en cuenta que $\mathbf{A}_s^{-1}\mathbf{X}_s'\mathbf{V}_{ss}^{-1}\mathbf{X}_{s}=\mathbf{I}$, con $\mathbf{I}$ la matriz identidad y después realizar los pasos algebraicos necesarios se encuentra que la primera parte P1 equivale a
+Taking into account that $\mathbf{A}_s^{-1}\mathbf{X}_s'\mathbf{V}_{ss}^{-1}\mathbf{X}_{s}=\mathbf{I}$, with $\mathbf{I}$ the identity matrix, and after carrying out the necessary algebraic steps, the first part P1 is equivalent to
 $$
 \begin{aligned}
 P1&=\boldsymbol{\gamma}_r'\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}\boldsymbol{\gamma}_r\\
@@ -767,7 +767,7 @@ P1&=\boldsymbol{\gamma}_r'\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}\bol
 \end{aligned}
 $$
 
-y la segunda parte P2 equivale a
+and the second part P2 is equivalent to
 $$
 \begin{aligned}
 P2&=2\boldsymbol{\gamma}_r'\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}\boldsymbol{\gamma}_r\\
@@ -775,57 +775,57 @@ P2&=2\boldsymbol{\gamma}_r'\mathbf{V}_{rs}\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}\bo
 &+2\boldsymbol{\gamma}_r'\mathbf{X}_r\mathbf{A}_s^{-1}\mathbf{X}_s'\mathbf{V}_{ss}^{-1}\mathbf{V}_{sr}\boldsymbol{\gamma}_r
 \end{aligned}
 $$
-Como el transpuesto de un número es el mismo número, se tiene que sumando las partes necesarias se llega a la demostración completa del teorema.
+Since the transpose of a number is the same number, adding the necessary parts gives the full proof of the theorem.
 :::
 
-Nótese que todos los estimadores, predictores y modelos de las anteriores secciones son un caso particular de este resultado.
+Note that all estimators, predictors, and models in the previous sections are particular cases of this result.
 
-## Ignorando el diseño de muestreo
+## Ignoring the Sampling Design
 
-<!-- index: Diseño de muestreo -->@Gelman explican que se debe ser un estadístico ingenuo si se afirma que toda inferencia debería ser condicional a los datos, sin importar de dónde o cómo fueron seleccionados. Esta es una concepción errada del principio de verosimilitud. La noción de que el método de selección de la muestra es irrelevante en el análisis inferencial puede ser contradicha con un argumento muy simple: suponga que se tienen a disposición diez datos provenientes del lanzamiento de diez dados; todos ellos correspondieron al número seis. La actitud del estadístico acerca de la naturaleza de los datos sería diferente si (1) sólo se hicieron diez lanzamientos, (2) se hicieron sesenta lanzamientos pero se decidió reportar sólo los que resultaron ser seis, (3) apareció diez veces el seis en quinientos lanzamientos y se decidió reportar honestamente estas realizaciones. En tales situaciones es claro que la distribución de los datos observados sigue un patrón completamente distinto que no debe ser ignorado.
+<!-- index: Sampling design -->@Gelman explain that one would have to be a naive statistician to claim that all inference should be conditional on the data, regardless of where or how they were selected. This is a mistaken conception of the likelihood principle. The notion that the sample selection method is irrelevant in inferential analysis can be contradicted with a very simple argument: suppose that ten data points are available from rolling ten dice, and all of them were sixes. The statistician's attitude about the nature of the data would be different if (1) only ten rolls were made, (2) sixty rolls were made but only those that resulted in six were reported, or (3) six appeared ten times in five hundred rolls and these realizations were reported honestly. In such situations, it is clear that the distribution of the observed data follows a completely different pattern that should not be ignored.
 
-En términos generales, un diseño de muestreo no es sino una distribución de probabilidad multivariante definida sobre un conjunto de muestras que pertenecen a un soporte. Pero, una distribución de probabilidad no es más sino un modelo que se asume; en este caso, es un modelo que permite la selección de muestras probabilísticas. Una muestra $s$ induce un vector de inclusión dado por
+In general terms, a sampling design is nothing more than a multivariate probability distribution defined over a set of samples that belong to a support. But a probability distribution is only an assumed model; in this case, it is a model that enables the selection of probability samples. A sample $s$ induces an inclusion vector given by
 $$
 \mathbf{I}(s)=(I_1(s),\ldots,I_k(s),\ldots,I_N(s))'
 $$
 
-Donde $I_k(s)$ está definida por (2.1.8). Dado el anterior esquema, otra forma de denotar el diseño de muestreo es $f_{\mathbf{I}}(\mathbf{I})$ el cual se conoce para todos los posibles valores de $\mathbf{I}$ en todas las posibles muestras $s$. Por otro lado, si se asume que la medición de la característica de interés $y_k$ en los individuos de la población está sujeta a un error, entonces éstas deben ser vistas como realizaciones de variables aleatorias $Y_k$. De esta forma, es necesario definir un modelo para los valores poblacionales que puede depender de cierto parámetro. En este caso, si $Y=(Y_1,\ldots,Y_k,\ldots,Y_N)'$ es el vector poblacional de la característica de interés, entonces $f_{\mathbf{Y}}(\mathbf{Y};\theta)$ definirá tal modelo.
+where $I_k(s)$ is defined by (2.1.8). Given the previous scheme, another way to denote the sampling design is $f_{\mathbf{I}}(\mathbf{I})$, which is known for all possible values of $\mathbf{I}$ in all possible samples $s$. On the other hand, if it is assumed that measuring the characteristic of interest $y_k$ in population individuals is subject to error, then these measurements should be viewed as realizations of random variables $Y_k$. Thus, it is necessary to define a model for the population values that may depend on a certain parameter. In this case, if $Y=(Y_1,\ldots,Y_k,\ldots,Y_N)'$ is the population vector of the characteristic of interest, then $f_{\mathbf{Y}}(\mathbf{Y};\theta)$ will define such a model.
 
-Para realizar cualquier tipo de inferencias acerca del parámetro $\theta$ es necesario trabajar con una distribución de probabilidad conjunta de ($\mathbf{I},\mathbf{Y}$) que permita unificar todo el esquema anterior en un sólo proceso. La pregunta que atañe al estadístico es la siguiente: ¿cómo se puede expresar esa distribución conjunta en términos de $f_{\mathbf{I}}(\mathbf{I})$ y de $f_{\mathbf{Y}}(\mathbf{I};\theta)$? @CharSki dan la respuesta a esta pregunta motivando la suposición de que $\mathbf{Y}$ sea independiente de $\mathbf{I}$. En algunos caso como en @CharSki el diseño de muestreo depende de los valores de la característica de interés; por ejemplo, en un estudio de casos y controles, la respuesta $y_k$ es de tipo binario, indicando si la $k$-ésima unidad corresponde a un caso o a un control. A su vez, los casos y controles inducen estratos cuyas muestras son seleccionadas independientemente. En este caso, el diseño de muestreo depende directamente de los valores de la característica de interés. Por lo tanto, la relación entre $\mathbf{I},\mathbf{Y}$ debe ser expresada como
+To make any kind of inference about the parameter $\theta$, it is necessary to work with a joint probability distribution of ($\mathbf{I},\mathbf{Y}$) that makes it possible to unify the previous scheme into a single process. The question for the statistician is the following: how can this joint distribution be expressed in terms of $f_{\mathbf{I}}(\mathbf{I})$ and $f_{\mathbf{Y}}(\mathbf{I};\theta)$? @CharSki answer this question by motivating the assumption that $\mathbf{Y}$ is independent of $\mathbf{I}$. In some cases, as in @CharSki, the sampling design depends on the values of the characteristic of interest; for example, in a case-control study, the response $y_k$ is binary, indicating whether the $k$th unit is a case or a control. In turn, cases and controls induce strata whose samples are selected independently. In this case, the sampling design depends directly on the values of the characteristic of interest. Therefore, the relationship between $\mathbf{I},\mathbf{Y}$ must be expressed as
 $$
 f_{\mathbf{I},\mathbf{Y}}(\mathbf{I},\mathbf{Y};\theta)=
 f_{\mathbf{I}|\mathbf{Y}}(\mathbf{I}|\mathbf{Y})f_{\mathbf{Y}}(\mathbf{Y};\theta)
 $$
 
-En este caso, se dice que el diseño de muestreo es *informativo* y no puede ser ignorado en términos de inferencia para $\theta$. Por otro lado, si el diseño de muestreo es *no informativo*, la relación entre $\mathbf{I},\mathbf{Y}$ debe ser expresada como
+In this case, the sampling design is said to be *informative* and cannot be ignored in terms of inference for $\theta$. On the other hand, if the sampling design is *noninformative*, the relationship between $\mathbf{I},\mathbf{Y}$ must be expressed as
 $$
 f_{\mathbf{I},\mathbf{Y}}(\mathbf{I},\mathbf{Y};\theta)=
 f_{\mathbf{I}}(\mathbf{I})f_{\mathbf{Y}}(\mathbf{Y};\theta)
 $$
 
-y claramente, el diseño de muestreo puede ser ignorado. @CharSki afirman que los diseños de muestreo que dependen directamente de la variable de interés no son raros en la práctica. Sin embargo, los diseños de muestreo implementados cuando el marco de muestreo es muy deficiente como el muestreo en dos fases, en donde se selecciona una primera muestra y con base en los resultados de esta se diseña la estrategia para una segunda submuestra, no puede ser catalogado como no informativo y, por tanto, no puede ser ignorado. Por otro lado, es más común encontrar que el diseño de muestreo dependa de otras variables de información auxiliar, como en el diseño estratificado o el diseño proporcional al tamaño. A continuación se presenta el marco general dado por @Valliant2000 para modelar conjuntamente el diseño de muestreo y el mecanismo probabilístico que origina a la variable de interés.
+and clearly, the sampling design can be ignored. @CharSki state that sampling designs that depend directly on the variable of interest are not rare in practice. However, sampling designs implemented when the sampling frame is very poor, such as two-phase sampling, where a first sample is selected and the strategy for a second subsample is designed based on its results, cannot be classified as noninformative and therefore cannot be ignored. On the other hand, it is more common to find that the sampling design depends on other auxiliary information variables, as in stratified designs or probability-proportional-to-size designs. The following presents the general framework given by @Valliant2000 for jointly modeling the sampling design and the probabilistic mechanism that gives rise to the variable of interest.
 
-Suponga que el diseño de muestreo depende de la variable de interés $\mathbf{Y}$, de algunas variables de información auxiliar reunidas en una matriz $\mathbf{X}$ y de algún vector de parámetros $\boldsymbol{\phi}$, entonces se reescribe como:
+Suppose that the sampling design depends on the variable of interest $\mathbf{Y}$, on some auxiliary information variables collected in a matrix $\mathbf{X}$, and on some vector of parameters $\boldsymbol{\phi}$; then it is rewritten as:
 $$
 f_{\mathbf{I}|\mathbf{X},\mathbf{Y}}(\mathbf{I}|\mathbf{X},\mathbf{Y};\boldsymbol{\phi}).
 $$
 
-A su vez, la distribución de probabilidad de $\mathbf{Y}$ depende de $\mathbf{X}$ y su relación está supeditada a un vector de parámetros $\boldsymbol{\beta}$, entonces se reescribe como
+In turn, the probability distribution of $\mathbf{Y}$ depends on $\mathbf{X}$ and its relationship is governed by a vector of parameters $\boldsymbol{\beta}$; then it is rewritten as
 
 $$
 f_{\mathbf{Y}|\mathbf{X}}(\mathbf{Y}|\mathbf{X};\boldsymbol{\beta}).
 $$
 
-::: {.callout-tip title="Resultado"}
-Un modelo para $\mathbf{I},\mathbf{Y}$, está dado por
+::: {.callout-tip title="Result"}
+A model for $\mathbf{I},\mathbf{Y}$ is given by
 $$
 f_{\mathbf{I},\mathbf{Y}|\mathbf{X}}(\mathbf{I},\mathbf{Y}|\mathbf{X};\boldsymbol{\phi},\boldsymbol{\beta})=
 f_{\mathbf{Y}|\mathbf{X}}(\mathbf{Y}|\mathbf{X};\boldsymbol{\beta})
 f_{\mathbf{I}|\mathbf{Y},\mathbf{X}}(\mathbf{I}|\mathbf{Y},\mathbf{X};\boldsymbol{\phi})
 $$
 
-**Prueba.**
-Aplicando la definición de distribución conjunta y condicional se tiene el resultado puesto que
+**Proof.**
+Applying the definition of joint and conditional distributions gives the result because
 $$
 \begin{aligned}
 f_{\mathbf{I},\mathbf{Y}|\mathbf{X}}(\mathbf{I},\mathbf{Y}|\mathbf{X};\boldsymbol{\phi},\boldsymbol{\beta})&=
@@ -841,18 +841,18 @@ $$
 
 :::
 
-Por supuesto, a menos de que se trate de un censo, nunca vamos a observar todos los elementos del vector $\mathbf{Y}$. Es decir, en cierto modo, el modelo (11.4.3) es inútil en términos de inferencia. Cuando se selecciona una muestra $s$, inmediatamente el vector $\mathbf{Y}$ queda particionado en $\mathbf{Y}_s,\mathbf{Y}_r$. De esta manera la relación entre $\mathbf{I},\mathbf{Y}_s$ está dada por el siguiente resultado.
+Of course, unless this is a census, we will never observe all elements of the vector $\mathbf{Y}$. That is, in a sense, model (11.4.3) is useless for inference. When a sample $s$ is selected, the vector $\mathbf{Y}$ is immediately partitioned into $\mathbf{Y}_s,\mathbf{Y}_r$. In this way, the relationship between $\mathbf{I},\mathbf{Y}_s$ is given by the following result.
 
-::: {.callout-tip title="Resultado"}
-La distribución conjunta de $\mathbf{I},\mathbf{Y}_s$ está dada por
+::: {.callout-tip title="Result"}
+The joint distribution of $\mathbf{I},\mathbf{Y}_s$ is given by
 $$
 f_{\mathbf{I},\mathbf{Y}_s|\mathbf{X}}(\mathbf{I},\mathbf{Y}_s|\mathbf{X};\boldsymbol{\phi},\boldsymbol{\beta})=
 \int f_{\mathbf{Y}|\mathbf{X}}(\mathbf{Y}_s,\mathbf{Y}_r|\mathbf{X};\boldsymbol{\beta})
 f_{\mathbf{I}|\mathbf{Y},\mathbf{X}}(\mathbf{I}|\mathbf{Y}_s,\mathbf{Y}_r,\mathbf{X};\boldsymbol{\phi})\ d\mathbf{Y}_r
 $$
 
-**Prueba.**
-Esta demostración está basada en la definición de función de densidad conjunta y marginal [@Mood, p. 141] la cual afirma que si $V$ y $W$ son dos variables aleatorias con densidad conjunta dada por $f_{V,W}(V,W)$ entonces la densidad marginal de $V$ está dada por $\int f_{V,W}(V,W)dW$. En nuestro contexto condicional, nótese que el vector $\mathbf{Y}$ quedó particionado; por lo tanto aplicando el anterior principio y recurriendo al anterior resultado, se tiene que
+**Proof.**
+This proof is based on the definition of joint and marginal density functions [@Mood, p. 141], which states that if $V$ and $W$ are two random variables with joint density given by $f_{V,W}(V,W)$, then the marginal density of $V$ is given by $\int f_{V,W}(V,W)dW$. In our conditional context, note that the vector $\mathbf{Y}$ has been partitioned; therefore, applying the previous principle and using the previous result, we have
 $$
 \begin{aligned}
 f_{\mathbf{I},\mathbf{Y}_s|\mathbf{X}}(\mathbf{I},\mathbf{Y}_s|\mathbf{X};\boldsymbol{\phi},\boldsymbol{\beta})&=
@@ -864,13 +864,13 @@ $$
 
 :::
 
-Nótese que si el diseño de muestreo es ignorable, entonces el mecanismo probabilístico que gobierna la selección de la muestra no depende de la configuración de los valores poblacionales de la variable de interés; esto significaría que
+Note that if the sampling design is ignorable, then the probabilistic mechanism governing sample selection does not depend on the configuration of the population values of the variable of interest; this would mean that
 $$
 f_{\mathbf{I}|\mathbf{Y},\mathbf{X}}(\mathbf{I}|\mathbf{Y},\mathbf{X};\boldsymbol{\phi})=
 f_{\mathbf{I}|\mathbf{X}}(\mathbf{I}|\mathbf{X};\boldsymbol{\phi}).
 $$
 
-Si esto llegase a suceder, entonces (11.4.4) quedaría convertida en
+If this were to happen, then (11.4.4) would become
 
 $$
 \begin{aligned}
@@ -882,9 +882,9 @@ f_{\mathbf{Y}_s|\mathbf{X}}(\mathbf{Y}_s|\mathbf{X};\boldsymbol{\beta})
 \end{aligned}
 $$
 
-En términos de inferencia estadística para el vector de parámetros $\boldsymbol{\beta}$ se tienen los siguientes comentarios:
+In terms of statistical inference for the parameter vector $\boldsymbol{\beta}$, the following comments apply:
 
-1. Nótese que (11.4.7) está compuesta por dos términos que se multiplican así
+1. Note that (11.4.7) is composed of two terms that are multiplied as follows:
 $$
 \begin{aligned}
 f_{\mathbf{I},\mathbf{Y}_s|\mathbf{X}}(\mathbf{I},\mathbf{Y}_s|\mathbf{X};\boldsymbol{\phi},\boldsymbol{\beta})=
@@ -892,8 +892,8 @@ f_{\mathbf{I},\mathbf{Y}_s|\mathbf{X}}(\mathbf{I},\mathbf{Y}_s|\mathbf{X};\bolds
 \underbrace{f_{\mathbf{Y}_s|\mathbf{X}}(\mathbf{Y}_s|\mathbf{X};\boldsymbol{\beta})}_{g(T;\boldsymbol{\beta})}
 \end{aligned}
 $$
-Lo anterior implica que si existiese una estadística suficiente $T$ para $\boldsymbol{\beta}$, entonces apelando al Criterio de Factorización de Neyman [@Mood, p. 306], entonces $T$ estaría contenida en la densidad condicional $f_{\mathbf{Y}_s|\mathbf{X}}(\mathbf{Y}_s|\mathbf{X};\boldsymbol{\beta})$. Razón por la cual, en términos de inferencia estadística para $\boldsymbol{\beta}$, la distribución $f_{\mathbf{I}|\mathbf{X}}(\mathbf{I}|\mathbf{X};\boldsymbol{\phi})$ no contendría ninguna información.
-1. Una medida de qué tan bien los datos soportan un parámetro $\boldsymbol{\beta}_2$ comparado con un parámetro $\boldsymbol{\beta}_1$ es el Criterio de Razón de Verosimilitudes [@Mood, p. 419] que está dado por
+The above implies that if there were a sufficient statistic $T$ for $\boldsymbol{\beta}$, then, by the Neyman Factorization Criterion [@Mood, p. 306], $T$ would be contained in the conditional density $f_{\mathbf{Y}_s|\mathbf{X}}(\mathbf{Y}_s|\mathbf{X};\boldsymbol{\beta})$. For this reason, in terms of statistical inference for $\boldsymbol{\beta}$, the distribution $f_{\mathbf{I}|\mathbf{X}}(\mathbf{I}|\mathbf{X};\boldsymbol{\phi})$ would contain no information.
+1. A measure of how well the data support a parameter $\boldsymbol{\beta}_2$ compared with a parameter $\boldsymbol{\beta}_1$ is the likelihood ratio criterion [@Mood, p. 419], which is given by
 $$
 \begin{aligned}
 \dfrac{f_{\mathbf{I},\mathbf{Y}_s|\mathbf{X}}(\mathbf{I},\mathbf{Y}_s|\mathbf{X};\boldsymbol{\phi},\boldsymbol{\beta}_2)}
@@ -906,9 +906,9 @@ f_{\mathbf{Y}_s|\mathbf{X}}(\mathbf{Y}_s|\mathbf{X};\boldsymbol{\beta}_1)}\\
 {f_{\mathbf{Y}_s|\mathbf{X}}(\mathbf{Y}_s|\mathbf{X};\boldsymbol{\beta}_1)}
 \end{aligned}
 $$
-Una vez más, en términos de inferencia para $\boldsymbol{\beta}$, la distribución $f_{\mathbf{I}|\mathbf{X}}(\mathbf{I}|\mathbf{X};\boldsymbol{\phi})$ no contendría ninguna información.
+Once again, in terms of inference for $\boldsymbol{\beta}$, the distribution $f_{\mathbf{I}|\mathbf{X}}(\mathbf{I}|\mathbf{X};\boldsymbol{\phi})$ would contain no information.
 
-Los anteriores argumentos apuntan a que es posible no tener en cuenta la distribución $f_{\mathbf{I}|\mathbf{X}}(\mathbf{I}|\mathbf{X};\boldsymbol{\phi})$. Si esto llegase a suceder entonces, si un diseño de muestreo es ignorable, se tiene que (11.4.7) quedaría convertida en
+The previous arguments suggest that it is possible not to take the distribution $f_{\mathbf{I}|\mathbf{X}}(\mathbf{I}|\mathbf{X};\boldsymbol{\phi})$ into account. If this were to happen, then, if a sampling design is ignorable, (11.4.7) would become
 $$
 \begin{aligned}
 f_{\mathbf{I},\mathbf{Y}_s|\mathbf{X}}(\mathbf{I},\mathbf{Y}_s|\mathbf{X};\boldsymbol{\phi},\boldsymbol{\beta})
@@ -916,19 +916,19 @@ f_{\mathbf{I},\mathbf{Y}_s|\mathbf{X}}(\mathbf{I},\mathbf{Y}_s|\mathbf{X};\bolds
 \end{aligned}
 $$
 
-con lo cual se concluye que verdaderamente el mecanismo de selección de la muestra puede ser pasado por alto. @Sudgen1984 afirman que diseños de muestreo como el aleatorio simple, aleatorio estratificado, proporcional al tamaño, el muestreo a conveniencia o el muestreo balanceado corresponde a casos en donde es posible ignorar el mecanismo de selección. También concluyen que aunque algunas veces los diseños de muestreo pueden ser ignorados en términos de inferencia para $\boldsymbol{\beta}$, es equivocado pensar que siempre pueden ser ignorados en términos de inferencia predictiva para el total poblacional $T_y$.
+which leads to the conclusion that the sample selection mechanism truly can be disregarded. @Sudgen1984 state that sampling designs such as simple random sampling, stratified random sampling, probability-proportional-to-size sampling, convenience sampling, or balanced sampling correspond to cases in which it is possible to ignore the selection mechanism. They also conclude that although sampling designs can sometimes be ignored in terms of inference for $\boldsymbol{\beta}$, it is wrong to think that they can always be ignored in terms of predictive inference for the population total $T_y$.
 
-Como conclusión, la escogencia del tipo de enfoque (basado en el diseño de muestreo o basado en modelos predictivos) debería estar basada en la adecuación del modelo a la población. Es decir, si el modelo asumido es correcto. Entonces, si se escogió el enfoque basado en modelos predictivos y el modelo no es correcto, entonces las estimaciones estarán sesgadas de la realidad. Por otro lado, las estimaciones que se basan en el diseño de muestreo son robustas e insesgadas a cualquier modelo.
+In conclusion, the choice of approach (design-based or predictive-model-based) should be based on the adequacy of the model for the population; that is, on whether the assumed model is correct. Thus, if the predictive-model-based approach is chosen and the model is not correct, the estimates will be biased away from reality. On the other hand, estimates based on the sampling design are robust and unbiased under any model.
 
-## Ejercicios
+## Exercises
 
-1. Suponga que el siguiente modelo $\xi$ se ajusta a la población:
+1. Suppose that the following model $\xi$ fits the population:
 
 $$
 Y_k=\mu+\sqrt{X_k} \varepsilon_k \ \ \ \ \ \ \ \ k=1,\ldots,N.
 $$
 
-donde $E_{\xi}(\varepsilon_k)=0$, $Var_{\xi}(\varepsilon_k)=\sigma^2$ y los errores se consideran independientes. suponga los siguientes predictores para el total poblacional $T_Y$:
+where $E_{\xi}(\varepsilon_k)=0$, $Var_{\xi}(\varepsilon_k)=\sigma^2$, and the errors are considered independent. Suppose the following predictors for the population total $T_Y$:
 
 $$
 \begin{aligned}
@@ -937,46 +937,46 @@ $$
 \end{aligned}
 $$
 
-1. Demuestre que tanto $\hat{T}_{Y,1}$ como $\hat{T}_{Y,2}$ son insesgados para el modelo predictivo, de tal forma que $E_{\xi}(\hat{T}_{Y}-T_Y)=0$.
-1. Asumiendo que la muestra $s$ fue seleccionada mediante un diseño de muestreo aleatorio simple, muestre que ninguno de los anteriores predictores es insesgado con respecto a este diseño de muestreo.
-1. Suponga que la muestra $s$ fue seleccionada mediante un diseño de muestreo $\pi$PT, con $\pi_k=nX_k/T_X$. Muestre que $\hat{T}_{Y,1}$ es insesgado con respecto a este diseño de muestreo, suponiendo que el tamaño de muestra es grande como para afirmar que la esperanza del cociente es aproximadamente igual al cociente de las esperanzas.
+1. Show that both $\hat{T}_{Y,1}$ and $\hat{T}_{Y,2}$ are unbiased under the predictive model, so that $E_{\xi}(\hat{T}_{Y}-T_Y)=0$.
+1. Assuming that the sample $s$ was selected using a simple random sampling design, show that none of the previous predictors is unbiased with respect to this sampling design.
+1. Suppose that the sample $s$ was selected using a $\pi$PS sampling design, with $\pi_k=nX_k/T_X$. Show that $\hat{T}_{Y,1}$ is unbiased with respect to this sampling design, assuming that the sample size is large enough to state that the expectation of the ratio is approximately equal to the ratio of expectations.
 
-1. Genere una población normal de $N=40$ unidades con media $2 X_k$ y varianza 4, con $X_k$ variando entre 10 y 20. Seleccione 10 muestras aleatorias simples de tamaño $n=5$ de esta población. Calcule $\bar{X}_s$ y $\hat{T}_0=N\bar{Y}_s$ para estas 10 muestras. ¿Existe alguna correspondencia entre $\bar{X}_s-\bar{X}_U$ y $\hat{T}_0-T_Y$?
+1. Generate a normal population of $N=40$ units with mean $2 X_k$ and variance 4, with $X_k$ varying between 10 and 20. Select 10 simple random samples of size $n=5$ from this population. Calculate $\bar{X}_s$ and $\hat{T}_0=N\bar{Y}_s$ for these 10 samples. Is there any correspondence between $\bar{X}_s-\bar{X}_U$ and $\hat{T}_0-T_Y$?
 
-1. Suponga que se seleccionó una muestra de tamaño $n=10$ de una población de $N=393$ hospitales. La característica de interés es el número de pacientes atendidos en un periodo específico de tiempo. Además se tiene conociemiento de una característica de información auxiliar que corresponde al número de camas de los hospitales. En la población de hospitales, el número total de camas asciende a 107956 y el número total de pacientes atendidos es 320159. Asuma que los valores recolectados son los siguientes:
+1. Suppose that a sample of size $n=10$ was selected from a population of $N=393$ hospitals. The characteristic of interest is the number of patients served in a specific period of time. In addition, an auxiliary information characteristic is known, corresponding to the number of hospital beds. In the hospital population, the total number of beds is 107956 and the total number of patients served is 320159. Assume that the collected values are the following:
 
 | $Y$: | 41 | 92 | 297 | 377 | 95 | 231 | 601 | 1063 | 1645 | 1894 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | $X$: | 15 | 25 | 80 | 96 | 111 | 125 | 242 | 275 | 551 | 937 |
 
-1. Realice un diagrama de dispersión de $Y$ contra $X$.
-1. Suponga que se quiere ajustar un modelo de la forma $Y_k=\beta X_k+\varepsilon_k$, con $\varepsilon_k \sim (0, \sigma^2X_k)$. Calcule el mejor estimador para $\beta$ y grafique la línea de regresión estimada sobre el diagrama de dispersión de la parte (a).
-1. Suponga que se quiere ajustar un modelo de la forma $Y_k=\beta_0+\beta_1X_k+\varepsilon_k$, con $\varepsilon_k \sim (0, \sigma^2)$. Calcule el mejor estimador para $\boldsymbol{\beta}=(\beta_0,\beta_1)$ y grafique la línea de regresión estimada sobre el diagrama de dispersión de la parte (a).
-1. Calcule el predictor de expansión $\hat{T}_0=\frac{N}{n}\sum_sY_k$, el predictor de razón $\hat{T}_r=N\bar{Y}_s\frac{\bar{X}_U}{\bar{X}_s}$ y el predictor de regresión lineal $\hat{T}_{lr}=\frac{N}{n}\sum_sY_k+(T_X-\frac{N}{n}\sum_sX_k)\hat{\beta}_1$. Calcule el error de estimación para cada una de las estimaciones. ¿cuál es el efecto de utilizar la característica de información auxiliar?
+1. Make a scatterplot of $Y$ against $X$.
+1. Suppose that a model of the form $Y_k=\beta X_k+\varepsilon_k$, with $\varepsilon_k \sim (0, \sigma^2X_k)$, is to be fitted. Calculate the best estimator for $\beta$ and plot the estimated regression line on the scatterplot from part (a).
+1. Suppose that a model of the form $Y_k=\beta_0+\beta_1X_k+\varepsilon_k$, with $\varepsilon_k \sim (0, \sigma^2)$, is to be fitted. Calculate the best estimator for $\boldsymbol{\beta}=(\beta_0,\beta_1)$ and plot the estimated regression line on the scatterplot from part (a).
+1. Calculate the expansion predictor $\hat{T}_0=\frac{N}{n}\sum_sY_k$, the ratio predictor $\hat{T}_r=N\bar{Y}_s\frac{\bar{X}_U}{\bar{X}_s}$, and the linear regression predictor $\hat{T}_{lr}=\frac{N}{n}\sum_sY_k+(T_X-\frac{N}{n}\sum_sX_k)\hat{\beta}_1$. Calculate the estimation error for each estimate. What is the effect of using the auxiliary information characteristic?
 
-1. Suponga que se seleccionó una muestra de tamaño $n=10$ de una población de $N=393$ hospitales. La característica de interés es el número de pacientes atendidos en un periodo específico de tiempo. Además se tiene conociemiento de una característica de información auxiliar que corresponde al número de camas de los hospitales. En la población de hospitales, el número total de camas asciende a 107956 y el número total de pacientes atendidos es 320159. Asuma que los valores recolectados son los siguientes:
+1. Suppose that a sample of size $n=10$ was selected from a population of $N=393$ hospitals. The characteristic of interest is the number of patients served in a specific period of time. In addition, an auxiliary information characteristic is known, corresponding to the number of hospital beds. In the hospital population, the total number of beds is 107956 and the total number of patients served is 320159. Assume that the collected values are the following:
 
 | $Y$: | 78 | 315 | 594 | 778 | 410 | 754 | 1166 | 1632 | 1547 | 2818 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | $X$: | 38 | 70 | 113 | 156 | 227 | 279 | 347 | 437 | 549 | 860 |
 
-1. Realice un diagrama de dispersión de $Y$ contra $X$.
-1. Suponga que se quiere ajustar un modelo de la forma $Y_k=\beta X_k+\varepsilon_k$, con $\varepsilon_k \sim (0, \sigma^2X_k)$. Calcule el mejor estimador para $\beta$ y grafique la línea de regresión estimada sobre el diagrama de dispersión de la parte (a).
-1. Suponga que se quiere ajustar un modelo de la forma $Y_k=\beta_0+\beta_1X_k+\varepsilon_k$, con $\varepsilon_k \sim (0, \sigma^2)$. Calcule el mejor estimador para $\boldsymbol{\beta}=(\beta_0,\beta_1)$ y grafique la línea de regresión estimada sobre el diagrama de dispersión de la parte (a).
-1. Calcule el predictor de expansión $\hat{T}_0=\frac{N}{n}\sum_sY_k$, el predictor de razón $\hat{T}_r=N\bar{Y}_s\frac{\bar{X}_U}{\bar{X}_s}$ y el predictor de regresión lineal $\hat{T}_{lr}=\frac{N}{n}\sum_sY_k+(T_X-\frac{N}{n}\sum_sX_k)\hat{\beta}_1$. Calcule el error de estimación para cada una de las estimaciones. ¿cuál es el efecto de utilizar la característica de información auxiliar?
+1. Make a scatterplot of $Y$ against $X$.
+1. Suppose that a model of the form $Y_k=\beta X_k+\varepsilon_k$, with $\varepsilon_k \sim (0, \sigma^2X_k)$, is to be fitted. Calculate the best estimator for $\beta$ and plot the estimated regression line on the scatterplot from part (a).
+1. Suppose that a model of the form $Y_k=\beta_0+\beta_1X_k+\varepsilon_k$, with $\varepsilon_k \sim (0, \sigma^2)$, is to be fitted. Calculate the best estimator for $\boldsymbol{\beta}=(\beta_0,\beta_1)$ and plot the estimated regression line on the scatterplot from part (a).
+1. Calculate the expansion predictor $\hat{T}_0=\frac{N}{n}\sum_sY_k$, the ratio predictor $\hat{T}_r=N\bar{Y}_s\frac{\bar{X}_U}{\bar{X}_s}$, and the linear regression predictor $\hat{T}_{lr}=\frac{N}{n}\sum_sY_k+(T_X-\frac{N}{n}\sum_sX_k)\hat{\beta}_1$. Calculate the estimation error for each estimate. What is the effect of using the auxiliary information characteristic?
 
-1. Escriba el siguiente programa de simulación:
-1. Genere una población de tamaño $N=200$ que sigue un modelo $Y_k= X_k+\varepsilon_k\sqrt{X_k}$, con $\varepsilon_k$ independientes con distribución normal estándar y $X_k$ variando entre 10 y 20.
-1. Seleccione 50 muestras aleatorias simples sin reemplazo de tamaño $n=30$, y calcule el predictor de razón para cada muestra.
-1. Calcule el predictor de regresión bajo el modelo $Y_k= X_k+\varepsilon_k$.
-1. Compare, empíricamente, los sesgos y los errores cuadrados medios de los predictor de regresión y de razón.
-1. ¿Cuánta eficiencia se pierde al utilizar especificaciones incorrectas de la varianza?
+1. Write the following simulation program:
+1. Generate a population of size $N=200$ following the model $Y_k= X_k+\varepsilon_k\sqrt{X_k}$, with independent $\varepsilon_k$ following a standard normal distribution and $X_k$ varying between 10 and 20.
+1. Select 50 simple random samples without replacement of size $n=30$, and calculate the ratio predictor for each sample.
+1. Calculate the regression predictor under the model $Y_k= X_k+\varepsilon_k$.
+1. Compare, empirically, the biases and mean squared errors of the regression and ratio predictors.
+1. How much efficiency is lost by using incorrect variance specifications?
 
-1. Considere las siguientes situaciones hipotéticas para algunos estudios:
-1. Se selecciona una muestra aleatoria estratificada de hospitales mediante el uso de la estratificación de la población por tipos de servicio que provee cada hospital. Se necesita realizar estimaciones acerca del tiempo promedio de permanencia por paciente, clasificado por tipo de enfermedad para un trimestre particular. Dado que los hospitales más grandes de la región no tienden a responder, entonces aún si son seleccionados aleatoriamente, éstos no se tendrán en cuenta.
-1. Suponga que en la parte (a), se intenta entrevistar a todos los hospitales seleccionados (tanto los grandes como los demás), pero la mitad de los hospitales seleccionados se rehúsan a responder la entrevista.
-1. Suponga que en la parte (a), todos los hospitales seleccionados aceptan responder la entrevista, pero los hospitales grandes sólo proveen información durante la tercera semana de cada mes.
+1. Consider the following hypothetical situations for some studies:
+1. A stratified random sample of hospitals is selected using population stratification by the types of service provided by each hospital. Estimates are needed for average length of stay per patient, classified by disease type for a particular quarter. Since the largest hospitals in the region tend not to respond, even if they are selected randomly, they will not be taken into account.
+1. Suppose that in part (a), all selected hospitals (both large hospitals and the others) are contacted for an interview, but half of the selected hospitals refuse to respond.
+1. Suppose that in part (a), all selected hospitals agree to respond to the interview, but large hospitals provide information only during the third week of each month.
 
-Discuta si los anteriores mecanismos de muestreo son ignorables o no.
+Discuss whether the previous sampling mechanisms are ignorable or not.
 
-1. Demuestre que el predictor general de regresión $\hat{T}_{Y, greg}=\hat{T}_{Y,\pi}+(\mathbf{T_X}-\mathbf{\hat{T}_{X,\pi}})'\hat{\boldsymbol{\beta}}$ es insesgado bajo el modelo $Y_k= \mathbf{X}'_k\boldsymbol{\beta}+\varepsilon_k$. Suponga que los errores tienen media cero y varianza constante.
+1. Show that the general regression predictor $\hat{T}_{Y, greg}=\hat{T}_{Y,\pi}+(\mathbf{T_X}-\mathbf{\hat{T}_{X,\pi}})'\hat{\boldsymbol{\beta}}$ is unbiased under the model $Y_k= \mathbf{X}'_k\boldsymbol{\beta}+\varepsilon_k$. Suppose that the errors have zero mean and constant variance.

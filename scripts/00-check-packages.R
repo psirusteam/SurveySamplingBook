@@ -13,20 +13,19 @@ missing_packages <- required_packages[
 ]
 
 if (length(missing_packages) > 0) {
-  message("Faltan paquetes R: ", paste(missing_packages, collapse = ", "))
-  message("Instalando desde CRAN...")
+  message("Missing R packages: ", paste(missing_packages, collapse = ", "))
+  message("Installing from CRAN...")
   install.packages(missing_packages)
 } else {
-  message("Todos los paquetes R requeridos estan disponibles.")
+  message("All required R packages are available.")
 }
 
 if (requireNamespace("quarto", quietly = TRUE)) {
   quarto_bin <- tryCatch(quarto::quarto_path(), error = function(e) "")
   if (!nzchar(quarto_bin)) {
-    message("El paquete R 'quarto' esta instalado, pero no encontro el binario de Quarto.")
-    message("Instala Quarto Desktop o revisa que RStudio lo detecte.")
+    message("The R package 'quarto' is installed, but the Quarto binary was not found.")
+    message("Install Quarto Desktop or check that RStudio detects it.")
   } else {
-    message("Quarto detectado en: ", quarto_bin)
+    message("Quarto detected at: ", quarto_bin)
   }
 }
-

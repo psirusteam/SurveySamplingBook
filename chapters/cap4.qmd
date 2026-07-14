@@ -1,4 +1,4 @@
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(TeachingSampling)
 data(BigLucy)
 library(ggplot2)
@@ -9,45 +9,45 @@ library(knitr)
 opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
-# Muestras con probabilidades proporcionales
+# Samples with probabilities proportional to size
 
 ::: {.blockquote}
-Es bien sabido que la estrategia de muestreo que utiliza un diseño de muestreo aleatorio simple con el estimador de Horvitz-Thompson, es una estrategia de muestreo óptima, bajo ciertas formulaciones, si se tiene un conocimiento a priori de que el comportamiento de la población es simétrico con respecto a los rótulos. En tales casos, la incorporación de información auxiliar no mejora la anterior estrategia.
+It is well known that the sampling strategy that uses a simple random sampling design with the Horvitz-Thompson estimator is an optimal sampling strategy, under certain formulations, when there is prior knowledge that the population behavior is symmetric with respect to the labels. In such cases, incorporating auxiliary information does not improve that strategy.
 
 @CSW1
 
 :::
 
-Las estrategias de muestreo implementadas en el capítulo anterior, utilizaban métodos de selección tales que la probabilidad de inclusión o probabilidad de selección es idéntica para todos los elementos de la población y se estimaban los parámetros de interés utilizando el estimador de Hansen-Hurwitz, para diseños de muestreo con reemplazo y el estimador de Horvitz-Thompson, para diseños de muestreo sin reemplazo. Las anteriores estrategias no tienen en cuenta la variación innata de las características de interés a través de las unidades poblacionales. Por lo tanto, los anteriores estimadores, dada su construcción genérica y el principio de representatividad, tenderán a poseer una gran variación.
+The sampling strategies implemented in the previous chapter used selection methods in which the inclusion probability or selection probability is identical for all population elements, and the parameters of interest were estimated using the Hansen-Hurwitz estimator for sampling designs with replacement and the Horvitz-Thompson estimator for sampling designs without replacement. Those strategies do not take into account the innate variation of the characteristics of interest across population units. Therefore, because of their generic construction and the principle of representativeness, those estimators will tend to have high variation.
 
-@Raj afirma que, en cuestión de precisión, se puede tener una mayor ganancia cuando se utilizan diseños de muestreo con probabilidades desiguales. En la mayoría de los casos prácticos, la característica de interés no presenta un comportamiento uniforme con respecto a los rótulos de la población. Sin embargo, cuando el marco de muestreo disponible para la selección de la muestra contiene además de la identificación y la ubicación de los elementos en la población, una característica auxiliar continua disponible para todos los elementos de la población $x_k \ \ \ \forall k \in U$, es posible utilizar diseños de muestreo que implementen métodos de selección cuyas probabilidades de selección o inclusión, dependiendo del caso, sean proporcionales al total de la característica auxiliar, $t_x$.
+@Raj states that, in terms of precision, greater gains can be obtained when sampling designs with unequal probabilities are used. In most practical cases, the characteristic of interest does not behave uniformly with respect to the population labels. However, when the sampling frame available for sample selection contains, in addition to the identification and location of the population elements, a continuous auxiliary characteristic available for every element in the population $x_k \ \ \ \forall k \in U$, it is possible to use sampling designs that implement selection methods whose selection or inclusion probabilities, depending on the case, are proportional to the total of the auxiliary characteristic, $t_x$.
 
-## Diseño de muestreo de Poisson
+## Poisson sampling design
 
-<!-- index: Diseño de muestreo de Poisson -->Este diseño de muestreo es una generalización del diseño de muestreo Bernoulli, en donde las probabilidades de inclusión están dadas a priori de manera independiente para cada individuo. @Brew indica que este diseño de muestreo no tuvo originalmente ninguna implicación práctica, porque el tamaño de muestra no es fijo, sino que fue utilizado de manera teórica para describir las propiedades de otros estimadores. El primer caso práctico se dio en la selección de muestras de árboles en unidades forestales; más adelante se aplicó en el censo anual manufacturero en Estados Unidos. Aunque este diseño de muestreo no utiliza información auxiliar para la selección de la muestra, sirve como punto de partida para examinar diseños de muestreo más complejos que sí lo utilizan.
+<!-- index: Poisson sampling design -->This sampling design is a generalization of the Bernoulli sampling design, in which the inclusion probabilities are specified a priori and independently for each individual. @Brew indicates that this sampling design originally had no practical implication, because the sample size is not fixed; instead, it was used theoretically to describe the properties of other estimators. The first practical case appeared in the selection of samples of trees in forest units; later it was applied in the annual manufacturing census in the United States. Although this sampling design does not use auxiliary information for sample selection, it serves as a starting point for examining more complex sampling designs that do use it.
 
-::: {.callout-important title="Definición"}
-<!-- index: Diseño de muestreo de Poisson -->Siendo $\pi_k$ un número positivo, tal que $0< \pi_k \leq 1$, que representa la probabilidad de inclusión del $k$-ésimo elemento, el diseño de muestreo Poisson se define de la siguiente manera
+::: {.callout-important title="Definition"}
+<!-- index: Poisson sampling design -->Let $\pi_k$ be a positive number, such that $0< \pi_k \leq 1$, representing the inclusion probability of the $k$-th element. The Poisson sampling design is defined as follows
 $$
-p(s)= \prod_{k\in s}\pi_k\prod_{k\notin s}(1-\pi_k) \ \ \ \ \text{para todo $s \in Q$}
+p(s)= \prod_{k\in s}\pi_k\prod_{k\notin s}(1-\pi_k) \ \ \ \ \text{for all $s \in Q$}
 $$ {#eq-poisson}
-con $Q$, el soporte que contiene a todas las posibles muestras sin reemplazo.
+where $Q$ is the support containing all possible samples without replacement.
 :::
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Para este diseño de muestreo, el soporte $Q$ tiene cardinalidad igual a
+For this sampling design, the support $Q$ has cardinality equal to
 $$
 \#(Q)=2^N
 $$
 
 :::
 
-::: {.callout-note title="Ejemplo"}
-En nuestra población ejemplo
+::: {.callout-note title="Example"}
+In our example population
 $$U=\{\text{Yves},\text{Ken},\text{Erik},\text{Sharon},\text{Leslie}\}$$
-Las probabilidades de inclusión $\pi_k$ son 0.2, 0.5, 0.7, 0.5 y 0.9, respectivamente. Las posibles muestra pueden ser de tamaño 0, 1, 2, 3, 4 ó 5. La probabilidad de la muestra de tamaño 0 es $$(1-0.2)\times(1-0.5)\times(1-0.7)\times(1-0.5)\times(1-0.9)=0.006$$
-Siguiendo esta misma analogía, a continuación se presenta el cálculo léxico-gráfico para las probabilidades de selección de todas las posible muestras en el soporte de este diseño de muestreo. Para las posibles muestras de tamaño 1, 4 se tiene que sus respectivas probabilidades son:
+The inclusion probabilities $\pi_k$ are 0.2, 0.5, 0.7, 0.5, and 0.9, respectively. The possible samples may have size 0, 1, 2, 3, 4, or 5. The probability of the sample of size 0 is $$(1-0.2)\times(1-0.5)\times(1-0.7)\times(1-0.5)\times(1-0.9)=0.006$$
+Following the same analogy, the lexical-graphic calculation for the selection probabilities of all possible samples in the support of this sampling design is presented below. For the possible samples of sizes 1 and 4, their respective probabilities are:
 
 ```
     s       p(s)     |            s                      p(s)
@@ -59,7 +59,7 @@ Siguiendo esta misma analogía, a continuación se presenta el cálculo léxico-
   Total     0.0815   |           Total                   0.206
 ```
 
-Las posibles muestras de tamaño 2, 3 y sus respectivas probabilidades son:
+The possible samples of sizes 2 and 3 and their respective probabilities are:
 
 ```
     s           p(s)     |          s                 p(s)
@@ -76,52 +76,52 @@ Sharon, Leslie  0.054    |   Erik, Sharon, Leslie    0.126
     Total       0.288    |           Total           0.387
 ```
 
-Finalmente, la muestra de tamaño 5, $\{\text{Yves},\text{Ken},\text{Erik},\text{Sharon},\text{Leslie}\}$, tiene probabilidad 0.0315. Nótese que la suma de todas las posibles muestras es $\sum p(s)=1$.
+Finally, the sample of size 5, $\{\text{Yves},\text{Ken},\text{Erik},\text{Sharon},\text{Leslie}\}$, has probability 0.0315. Note that the sum over all possible samples is $\sum p(s)=1$.
 :::
 
-### Algoritmo de selección
+### Selection algorithm
 
-<!-- index: Algoritmos de selección -->@Baut afirma que el conocimiento a priori de las probabilidades de inclusión de los elementos es tal que, en algunas ocasiones, existen elementos de la población que deben ser observados obligatoriamente en la muestra, en estos casos el valor de la probabilidad de inclusión de estos elementos es igual a uno ($\pi_k=1$). Al subgrupo poblacional cuyos elementos tienen probabilidad de inclusión igual a uno, se le conoce como subgrupo de **inclusión forzosa**. Nótese que el algoritmo de selección de muestra utilizado debe contemplar la inclusión en todas las posibles muestras realizadas de todos los elementos del subgrupo de inclusión forzosa.
+<!-- index: Selection algorithms -->@Baut states that prior knowledge of the elements' inclusion probabilities is such that, on some occasions, there are population elements that must necessarily be observed in the sample; in these cases, the inclusion probability of those elements is equal to one ($\pi_k=1$). The population subgroup whose elements have inclusion probability equal to one is known as the **certainty inclusion** subgroup. Note that the sample selection algorithm used must account for the inclusion, in all possible selected samples, of all elements in the certainty inclusion subgroup.
 
-La selección de una muestra con diseño de muestreo Poisson se realiza mediante un algoritmo secuencial definido de manera similar que el algoritmo utilizado en la selección de muestras con diseño de muestreo Bernoulli.
-- Fijar para cada $k \in U$ el valor de la probabilidad de inclusión $\pi_k$ tal que $0<\pi_k\leq1$.
-- Obtener $\varepsilon_k$ para $k\in U$ como $N$ realizaciones independientes de una variable aleatoria con distribución uniforme en el intervalo $[0,1]$.
-- El elemento $k$-ésimo pertenece a la muestra con probabilidad $\pi_k$. Es decir, si $\varepsilon_k < \pi$ el individuo $k$-ésimo es seleccionado.
+The selection of a sample under a Poisson sampling design is carried out through a sequential algorithm defined similarly to the algorithm used to select samples under a Bernoulli sampling design.
+- Set, for each $k \in U$, the value of the inclusion probability $\pi_k$ such that $0<\pi_k\leq1$.
+- Obtain $\varepsilon_k$ for $k\in U$ as $N$ independent realizations of a random variable with uniform distribution on the interval $[0,1]$.
+- The $k$-th element belongs to the sample with probability $\pi_k$. That is, if $\varepsilon_k < \pi$ the $k$-th individual is selected.
 
 
-Dado que $\varepsilon_k\sim Unif[0,1]$, se tiene que $Pr(\varepsilon_k < \pi_k)=\pi_k$ para $k\in U$. Por tanto, la inclusión de los individuos $k$-ésimo y $l$-ésimo, para $k\neq l$, es independiente; sin embargo, la distribución de $I_k(S)$ no es de tipo Binomial puesto que las variables aleatorias $I_k(S)$ no son idénticamente distribuidas.
+Since $\varepsilon_k\sim Unif[0,1]$, we have $Pr(\varepsilon_k < \pi_k)=\pi_k$ for $k\in U$. Therefore, the inclusion of the $k$-th and $l$-th individuals, for $k\neq l$, is independent; however, the distribution of $I_k(S)$ is not Binomial because the random variables $I_k(S)$ are not identically distributed.
 
-::: {.callout-tip title="Resultado"}
-Bajo muestreo Poisson, el tamaño de muestra $n(S)$ es una variable aleatoria, tal que
+::: {.callout-tip title="Result"}
+Under Poisson sampling, the sample size $n(S)$ is a random variable such that
 $$
 E(n(S))=\sum_U \pi_k \ \ \ \ \ \ \ \ \ Var(n(S))=\sum_U\pi_k(1-\pi_k)
 $$
 
-**Prueba.**
+**Proof.**
 
-Utilizando el resultado 2.1.4 y las propiedades de una suma de cuadrados es suficiente probar que $\pi_{kl}=Pr(k\in S, l \in S )=\pi_k\pi_l$ para $k\neq l$, lo cual se tiene de inmediato dado que las variables aleatorias $I_k(S)$ e $I_l(S)$ son independientes.
+Using Result 2.1.4 and the properties of a sum of squares, it is enough to prove that $\pi_{kl}=Pr(k\in S, l \in S )=\pi_k\pi_l$ for $k\neq l$, which follows immediately because the random variables $I_k(S)$ and $I_l(S)$ are independent.
 
 :::
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Para el diseño de muestreo Poisson, las probabilidades de inclusión de primer y segundo orden están dadas por:
+For the Poisson sampling design, the first- and second-order inclusion probabilities are given by:
 $$
 \begin{align}
 \pi_k&=\pi_k\\
 \pi_{kl}&= \begin{cases}
-\pi_k &\text{para $k=l$}\\
-\pi_k\pi_l  &\text{en otro caso}
+\pi_k &\text{for $k=l$}\\
+\pi_k\pi_l  &\text{otherwise}
 \end{cases}
 \end{align}
 $$
-respectivamente.
+respectively.
 :::
 
-### El estimador de Horvitz-Thompson
+### The Horvitz-Thompson estimator
 
-::: {.callout-tip title="Resultado"}
-Para el diseño de muestreo Poisson, el estimador de Horvitz-Thompson, su varianza y su varianza estimada están dados por:
+::: {.callout-tip title="Result"}
+For the Poisson sampling design, the Horvitz-Thompson estimator, its variance, and its estimated variance are given by:
 $$
 \hat{t}_{y,\pi}=\sum_S\frac{y_k}{\pi_k}
 $$
@@ -131,61 +131,61 @@ $$
 $$
 \widehat{Var}_{PO}(\hat{t}_{y,\pi})=\sum_S (1-\pi_k)\left(\frac{y_k}{\pi_k}\right)^2
 $$
-respectivamente.
+respectively.
 
-**Prueba.**
+**Proof.**
 
-Utilizando el resultado 2.2.2, se sigue que la demostración es inmediata puesto que
+Using Result 2.2.2, the proof follows immediately because
 $$
 \Delta_{kl}=\begin{cases}
-\pi_{kl}-\pi_k\pi_l=\pi_k\pi_l-\pi_k\pi_l=0 & \text{para $k\neq l$}\\
-\pi_{kk}-\pi_k^2=\pi_k(1-\pi_k) & \text{para $k=l$}
+\pi_{kl}-\pi_k\pi_l=\pi_k\pi_l-\pi_k\pi_l=0 & \text{for $k\neq l$}\\
+\pi_{kk}-\pi_k^2=\pi_k(1-\pi_k) & \text{for $k=l$}
 \end{cases}
 $$
-luego la doble suma en la varianza del estimador de Horvitz-Thompson pasa a ser una sola suma. La demostración para el estimador de la varianza se lleva a cabo de manera análoga.
+therefore the double sum in the variance of the Horvitz-Thompson estimator becomes a single sum. The proof for the variance estimator is carried out analogously.
 
 :::
 
-::: {.callout-note title="Ejemplo"}
-Para nuestra población de ejemplo $U$, suponga que el individuo **Erik** debe estar en la muestra seleccionada; es decir, $\pi_{Erik}=1$. Por tanto, existen $\binom{1}{1}2^4=16$ posibles muestras. Si el vector de probabilidades de inclusión para cada elemento de la población está dado por $(0.5, 0.2, 1, 0.9, 0.5)$. Realice el cálculo léxico-gráfico del estimador de Horvitz-Thompson y compruebe el insesgamiento, la varianza y las propiedades del diseño de muestreo.
+::: {.callout-note title="Example"}
+For our example population $U$, suppose that the individual **Erik** must be in the selected sample; that is, $\pi_{Erik}=1$. Therefore, there are $\binom{1}{1}2^4=16$ possible samples. If the vector of inclusion probabilities for each population element is given by $(0.5, 0.2, 1, 0.9, 0.5)$, carry out the lexical-graphic calculation of the Horvitz-Thompson estimator and verify unbiasedness, the variance, and the properties of the sampling design.
 :::
 
-### Optimalidad en la estrategia de muestreo Poisson
+### Optimality in the Poisson sampling strategy
 
-<!-- index: Diseño de muestreo de Poisson -->Como se mencionó en capítulos anteriores, una estrategia de muestreo que utilice el estimador de Horvitz-Thompson, es óptima cuando las probabilidades de inclusión inducidas por el diseño de muestreo utilizado están correlacionadas positivamente con la característica de interés; en otras palabras, cuando $\pi_k \propto y_k$. En este caso utópico, y si se supone que el diseño de muestreo es de tamaño de muestra fijo $(n(S)=n)$, el estimador de Horvitz-Thompson reproduciría el parámetro de interés $t_y$ con varianza nula cuando las probabilidades de inclusión toman la siguiente forma $\pi_k=n\frac{y_k}{t_y}$. De esta forma, la estrategia utilizada sería una estrategia representativa con respecto a la variable de interés, puesto que para cualquier muestra seleccionada, el estimador de Horvitz-Thompson sería igual a $t_y$.
+<!-- index: Poisson sampling design -->As mentioned in previous chapters, a sampling strategy that uses the Horvitz-Thompson estimator is optimal when the inclusion probabilities induced by the sampling design are positively correlated with the characteristic of interest; in other words, when $\pi_k \propto y_k$. In this ideal case, and if the sampling design is assumed to have fixed sample size $(n(S)=n)$, the Horvitz-Thompson estimator would reproduce the parameter of interest $t_y$ with zero variance when the inclusion probabilities take the form $\pi_k=n\frac{y_k}{t_y}$. Thus, the strategy used would be representative with respect to the variable of interest, because for any selected sample, the Horvitz-Thompson estimator would be equal to $t_y$.
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Suponiendo un tamaño de muestra fijo, bajo un diseño de muestreo Poisson, la varianza del estimador de Horvitz-Thompson se minimiza cuando
+Assuming a fixed sample size under a Poisson sampling design, the variance of the Horvitz-Thompson estimator is minimized when
 $$
 \begin{align}
 \pi_k=\frac{ny_k}{\sum_Uy_k}
 \end{align}
 $$ {#eq-prop}
 
-**Prueba.**
+**Proof.**
 
-El objetivo es encontrar valores de $\pi_k$, tales que $0<\pi_k\leq 1$ que minimicen la varianza del estimador de Horvitz-Thompson bajo diseño de muestreo Poisson, lo anterior se tiene cuando se realiza un censo, es decir cuando $\pi_k=1$ para todo $k\in U$. Sin embargo, en la práctica se desea seleccionar una muestra de tamaño menor a N. Por tanto, minimizar $Var_{PO}(\hat{t}_{y,\pi})$ es equivalente a minimizar $\sum_U\frac{y_k^2}{\pi_k}$ sujeto a la restricción de un tamaño de muestra fijo, tal que $\sum_U\pi_k=n$. Luego la cantidad a minimizar está dada por el siguiente producto
+The objective is to find values of $\pi_k$, such that $0<\pi_k\leq 1$, that minimize the variance of the Horvitz-Thompson estimator under the Poisson sampling design. This is achieved when a census is conducted, that is, when $\pi_k=1$ for all $k\in U$. However, in practice one wants to select a sample with size smaller than N. Therefore, minimizing $Var_{PO}(\hat{t}_{y,\pi})$ is equivalent to minimizing $\sum_U\frac{y_k^2}{\pi_k}$ subject to the fixed-sample-size constraint, such that $\sum_U\pi_k=n$. Thus, the quantity to minimize is given by the following product
 $$
 \left(\sum_U \frac{y_k^2}{\pi_k}\right)\left(\sum_U\pi_k\right)
 $$
-Una solución al anterior problema es utilizar la desigualdad de Cauchy-Schwartz, por tanto
+One solution to the previous problem is to use the Cauchy-Schwarz inequality; therefore,
 $$
 \begin{align*}
 \left(\sum_U \frac{y_k^2}{\pi_k}\right)\left(\sum_U\pi_k\right)\geq\left(\sum_Uy_k\right)^2
 \end{align*}
 $$
-Con igualdad cuando  $\dfrac{y_k}{\pi_k}=c$, con $c$ una constante. Ahora, se tiene que
+with equality when $\dfrac{y_k}{\pi_k}=c$, with $c$ a constant. Now, we have
 $$
 \begin{align*}
 n=\sum_U\pi_k=\sum_U\frac{y_k}{c}
 \end{align*}
 $$
-Luego,
+Then,
 $$
 c=\sum_U\frac{y_k}{n}
 $$
-Por tanto,
+Therefore,
 $$
 \begin{align*}
 \pi_k=\frac{ny_k}{\sum_Uy_k}
@@ -194,120 +194,128 @@ $$
 
 :::
 
-El anterior resultado es una ambigüedad puesto que con esa escogencia de las probabilidades de inclusión se asume que la característica de interés es conocida para toda la población. Si lo anterior sucede, no existiría la necesidad de estimar $t_y$. Sin embargo, @Sar aseguran que como el diseño de muestreo Poisson es de tamaño de muestra variable es ineficiente y utilizar el anterior razonamiento implicaría que el estimador de Horvitz-Thompson tome la siguiente forma
+The preceding result is ambiguous because this choice of inclusion probabilities assumes that the characteristic of interest is known for the entire population. If that were the case, there would be no need to estimate $t_y$. However, @Sar state that because the Poisson sampling design has variable sample size, it is inefficient; using the previous reasoning would imply that the Horvitz-Thompson estimator takes the following form
 $$
 \hat{t}_{y,\pi}=\sum_S\frac{y_k}{\pi_k}=\frac{t_y}{n}\sum_S1=t_y\frac{n(S)}{n}
 $$
 
-Por tanto, la variación del estimador calculado en cada muestra estaría dada por la variación del tamaño de muestra esperado $n(S)$. El anterior razonamiento nos lleva a pensar que el estimador de Horvitz-Thompson tendría un excelente desempeño bajo diseños de muestreo  tales que $\pi_k \propto y_k$ y que induzcan muestras de tamaño fijo. Por otro lado, si el marco de muestreo tiene la virtud de adjuntar información auxiliar continua, por medio de una característica de interés $x_k$ (en otras palabras, conocer el vector de características auxiliares $x_1,x_2,...,x_N$ antes de realizar el muestreo) que esté muy bien correlacionada con la variable de interés, entonces la varianza de la estrategia de muestreo sería mínima cuando
+Therefore, the variation of the estimator calculated in each sample would be given by the variation of the expected sample size $n(S)$. The previous reasoning leads us to think that the Horvitz-Thompson estimator would perform excellently under sampling designs such that $\pi_k \propto y_k$ and that induce fixed-size samples. On the other hand, if the sampling frame has the virtue of attaching continuous auxiliary information through a characteristic $x_k$ (in other words, knowing the vector of auxiliary characteristics $x_1,x_2,...,x_N$ before sampling) that is very well correlated with the variable of interest, then the variance of the sampling strategy would be minimal when
 $$
 \begin{align}
 \pi_k=n\frac{x_k}{\sum_Ux_k}
 \end{align}
 $$
 
-Por otro lado, y siguiendo el mismo razonamiento que en el diseño de muestreo Bernoulli, como se tiene un marco de muestreo de elementos, entonces se conoce el tamaño poblacional $N$. De esta manera, un estimador para el total poblacional de la característica de interés con menor varianza es el llamado estimador alternativo dado por la expresión (2.2.18), que para el caso particular de muestreo Poisson toma la siguiente forma
+On the other hand, following the same reasoning as in the Bernoulli sampling design, since a sampling frame of elements is available, the population size $N$ is known. Thus, an estimator for the population total of the characteristic of interest with smaller variance is the so-called alternative estimator given by expression (2.2.18), which in the particular case of Poisson sampling takes the following form
 $$
 \hat{t}_{y,alt}=\hat{t}_{y,\pi}\frac{N}{\hat{N}_{\pi}}
 $$
 
-Para estimar la media poblacional, es posible utilizar este mismo razonamiento y junto con la expresión (2.2.15) resulta un estimador menos disperso
+To estimate the population mean, it is possible to use this same reasoning and, together with expression (2.2.15), obtain a less dispersed estimator
 $$
 \tilde{y}_S=\frac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}
 $$
 
-La forma estructural de los anteriores estimadores es una razón, cociente de dos cantidades aleatorias, y así se reduce parte de la variabilidad del estimador de Horvitz-Thompson que viene del hecho de que el tamaño muestral no es fijo para este diseño.
+The structural form of the preceding estimators is a ratio, a quotient of two random quantities, and thus part of the variability of the Horvitz-Thompson estimator that comes from the fact that the sample size is not fixed for this design is reduced.
 
-### Marco y Lucy
+### Marco and Lucy
 
-<!-- index: Marco y Lucy -->Aunque esta estrategia de muestreo no fue utilizada en el sentido práctico y tiene una varianza alta dado que el tamaño de muestra es variable, es posible obtener buenos resultados que incentivar el uso de las estrategias de muestreo con probabilidad proporcional al tamaño. En primer lugar, se debe suponer que el marco de muestreo contiene una característica auxiliar continua que será usada en la etapa de diseño y selección de la muestra.
+<!-- index: Marco and Lucy -->Although this sampling strategy was not used in a practical sense and has high variance because the sample size is variable, it is possible to obtain good results that encourage the use of sampling strategies with probability proportional to size. First, it must be assumed that the sampling frame contains a continuous auxiliary characteristic that will be used in the design and sample selection stage.
 
-@Raj señala que en el caso concreto de una población agrícola, una característica auxiliar puede ser el área cultivada, para el caso de hogares, una característica auxiliar puede ser el número de personas que habitan en el hogar. @Leh dan ejemplos claros acerca de las características auxiliares en encuestas de empresas y afirman que para este caso particular una característica auxiliar comúnmente usada es el número de empleados en la empresa; para el caso de encuestas a escuelas, una característica auxiliar es el número de alumnos. En encuestas a hospitales @Baut afirma que una característica auxiliar es el número de camas por hospital, no así el número de pacientes, pues esta última característica tiene una variación alta y está ligada a la temporada de realización de la encuesta.
+@Raj points out that in the specific case of an agricultural population, an auxiliary characteristic may be the cultivated area; for households, an auxiliary characteristic may be the number of people living in the household. @Leh give clear examples of auxiliary characteristics in business surveys and state that, in this particular case, a commonly used auxiliary characteristic is the number of employees in the firm; for school surveys, an auxiliary characteristic is the number of students. In hospital surveys, @Baut states that an auxiliary characteristic is the number of beds per hospital, not the number of patients, because the latter has high variation and is linked to the season in which the survey is conducted.
 
-Recuérdese que se quieren estimar tres totales de las características de interés Ingreso, Empleados e Impuestos del último periodo fiscal en las empresas del sector industrial. Para efectos prácticos, suponga que el marco de muestreo contiene todos los registros de cada una de las empresas del sector industrial de la característica Ingreso; de esta manera se podrá estimar el total poblacional para las características Empleados e Impuestos. Para efectos académicos, se estimará el total poblacional de la característica Ingreso, resaltando que hacerlo es una ambigüedad porque si se conocen todos los valores poblacionales de la característica de interés no hay necesidad de estimar lo que ya es conocido; sin embargo, como ejercicio académico es completamente admisible.
+Recall that the goal is to estimate three totals for the characteristics of interest Income, Employees, and Taxes from the last fiscal period among firms in the industrial sector. For practical purposes, suppose that the sampling frame contains all records for each firm in the industrial sector for the Income characteristic; in this way, the population totals for Employees and Taxes can be estimated. For academic purposes, the population total of the Income characteristic will also be estimated, emphasizing that doing so is ambiguous because if all population values of the characteristic of interest are known, there is no need to estimate what is already known; however, as an academic exercise it is completely admissible.
 
-Con los supuestos anteriores, el marco de muestreo se carga en el ambiente de programación de R, nótese que el marco de muestreo ahora contiene cinco columnas, cuatro que se refieren a la identificación y/o ubicación geográfica y una columna que contiene los registros para la característica Ingreso.
+With the preceding assumptions, the sampling frame is loaded into the R programming environment. Note that the sampling frame now contains five columns: four referring to identification and/or geographic location, and one column containing the records for the Income characteristic.
 
 ```{r}
 data(BigLucy)
 dim(BigLucy)
 ```
-Las probabilidades de inclusión deben ser creadas y están dadas por (@eq-prop). Nótese que se debe fijar un tamaño esperado de muestra. Para que los resultados sean comparables, se utilizará un tamaño esperado de muestra de $n(S)=400$. Una vez que las probabilidades de inclusión para todas las empresas del sector industrial han sido creadas, se debe verificar que cada una de ellas sea menor a la unidad; para esto, se utiliza la función `which` que R trae implementada en su ambiente básico y cuya salida es un conjunto de índices para los cuales la instrucción dentro del paréntesis es verdadera; cuando no existe ningún índice que cumpla `(pik>1)`, la función arroja la siguiente salida `integer(0)`. Sin embargo, si hubiese existido algún registro para el cual la instrucción `(pik>1)` sea cierta, se deben convertir las respectivas probabilidades de inclusión en la unidad.
+The inclusion probabilities must be created and are given by (@eq-prop). Note that an expected sample size must be set. To make the results comparable, an expected sample size of $n(S)=400$ will be used. Once the inclusion probabilities for all firms in the industrial sector have been created, it must be verified that each one is less than one; for this, the `which` function, implemented in base R, is used, and its output is a set of indices for which the instruction inside the parentheses is true. When no index satisfies `(pik>1)`, the function returns `integer(0)`. However, if there were any record for which `(pik>1)` were true, the respective inclusion probabilities should be converted to one.
 
-```{r, message=FALSE}
-attach(BigLucy)
+```{r, message = FALSE}
 N <- dim(BigLucy)[1]
 n <- 2000
-pik <- n * Income / sum(Income)
-which(pik>1)
+pik <- n * BigLucy$Income / sum(BigLucy$Income)
+which(pik > 1)
 sum(pik)
 ```
-Nótese que la suma de las probabilidades de inclusión es igual al tamaño de muestra esperado. La correlación entre las probabilidades de inclusión inducidas mediante este diseño de muestreo Poisson es buena. Por supuesto, la correlación entre las $\pi_k$ y la variable ingreso es uno pues las primeras son función lineal de Ingreso. Ahora, la cantidad de impuestos que las empresas del sector industrial declaran en un año fiscal, es proporcional al ingreso de las mismas; de hecho, si una empresa tiene ganancias nulas, entonces declarará impuestos nulos. Por otro lado, aunque una empresa tenga ganancias nulas, no necesariamente tendrá cero empleados; de hecho, en el sector industrial existen casos en donde una empresa con pocos empleados, tiene ingresos más altos que una empresa con muchos empleados; sin embargo, esta particularidad no se presenta de manera general, si esto fuera así, la correlación sería negativa y la característica de auxiliar Ingreso no debería ser utilizada en la estimación del total de la característica de interés Empleados. 
+Note that the sum of the inclusion probabilities is equal to the expected sample size. The correlation between the inclusion probabilities induced by this Poisson sampling design is good. Of course, the correlation between the $\pi_k$ and the income variable is one, because the former are a linear function of Income. Now, the amount of taxes that firms in the industrial sector declare in a fiscal year is proportional to their income; in fact, if a firm has zero profits, it will declare zero taxes. On the other hand, although a firm may have zero profits, it will not necessarily have zero employees; in fact, in the industrial sector there are cases in which a firm with few employees has higher income than a firm with many employees. However, this particularity does not occur generally; if it did, the correlation would be negative and the auxiliary characteristic Income should not be used in estimating the total of the characteristic of interest Employees.
 
 ```{r}
-cor(pik, cbind(Income, Employees, Taxes))
+cor(pik, cbind(BigLucy$Income, BigLucy$Employees, BigLucy$Taxes))
 ```
-La @fig-f4-1 muestra el diagrama de dispersión de las tres variables de interés contra el vector de probabilidades de inclusión.
+@fig-f4-1 shows the scatterplot matrix of the three variables of interest against the vector of inclusion probabilities.
 
 ```{r}
-Datos <- data.frame(Income, Employees, Taxes, pik)
+analysis_data <- data.frame(
+  Income = BigLucy$Income,
+  Employees = BigLucy$Employees,
+  Taxes = BigLucy$Taxes,
+  pik = pik
+)
 ```
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 rm(pik)
-Datos <- Datos[sample(nrow(Datos), 1000),]
-attach(Datos)
+analysis_data <- analysis_data[sample(nrow(analysis_data), 1000), ]
+attach(analysis_data)
 ```
-```{r, echo = FALSE, results = 'asis', fig.height=5}
+```{r, echo = FALSE, results = 'asis', fig.height = 5}
 #| label: fig-f4-1
-#| fig-cap: "*Correlación de las probabilidades de inclusión con las características de interés.*"
+#| fig-cap: "*Correlation of the inclusion probabilities with the characteristics of interest.*"
 library(GGally)
-ggpairs(Datos)
+ggpairs(analysis_data)
 ```
 
-Para seleccionar la muestra bajo un diseño de muestreo Poisson, se utiliza la función `S.PO` del paquete `TeachingSampling`. Esta función consta de dos argumentos, `N`, el tamaño poblacional y `pik`, el vector de probabilidades de inclusión para cada elemento de la población. En nuestro caso, `pik` es el vector de probabilidades creado anteriormente; pero, en general, puede ser utilizado cualquier vector de números entre cero y uno. La función `S.PO` devuelve un conjunto de índices que aplicados a la población resulta en los valores de las características de interés para cada miembro de la muestra seleccionada.
+To select the sample under a Poisson sampling design, the `S.PO` function from the `TeachingSampling` package is used. This function has two arguments: `N`, the population size, and `pik`, the vector of inclusion probabilities for each population element. In our case, `pik` is the vector of probabilities created previously; in general, however, any vector of numbers between zero and one may be used. The `S.PO` function returns a set of indices that, when applied to the population, yields the values of the characteristics of interest for each member of the selected sample.
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 data(BigLucy)
-attach(BigLucy)
-pik <- n * Income / sum(Income)
+N <- dim(BigLucy)[1]
+pik <- n * BigLucy$Income / sum(BigLucy$Income)
 ```
-```{r, message=FALSE}
+```{r, message = FALSE}
 sam <- S.PO(N, pik)
-muestra <- BigLucy[sam,]
-attach(muestra)
+sample_data <- BigLucy[sam, ]
+attach(sample_data)
 
 sam <- S.PO(N, pik)
-muestra <- BigLucy[sam,]
-attach(muestra)
-head(muestra)
+sample_data <- BigLucy[sam, ]
+attach(sample_data)
+head(sample_data)
 
-n.s <- dim(muestra)[1]
+n.s <- dim(sample_data)[1]
 n.s
 ```
-En este caso particular, la primera empresa seleccionada es la identificada con el número `r muestra[1,1]`. Nótese que el marco de muestreo incluye la característica auxiliar Ingreso y que el tamaño efectivo de muestra es `r n.s`. Una vez que el trabajo de campo ha concluido, comienza la etapa de estimación, en donde se utilizará la función `E.PO` del paquete `TeachingSampling` que consta de dos argumentos, la matriz o vector de valores de la o las características de interés y `pik.s` los valores del vector de probabilidad de inclusión de cada uno de los elementos seleccionados en la muestra. En este caso particular se crea un conjunto de datos con la información muestral de las características de interés llamado `estima`. Nótese que la longitud del vector `pik.s` es de `r n.s`. La función `E.PO` devuelve las estimaciones del total poblacional, la varianza estimada y el respectivo coeficiente de variación de la(s) característica(s) de interés.
+In this particular case, the first selected firm is the one identified with number `r sample_data[1,1]`. Note that the sampling frame includes the auxiliary characteristic Income and that the effective sample size is `r n.s`. Once fieldwork has concluded, the estimation stage begins, where the `E.PO` function from the `TeachingSampling` package will be used. This function has two arguments: the matrix or vector of values of the characteristic(s) of interest, and `pik.s`, the values of the inclusion probability vector for each element selected in the sample. In this particular case, a data set with the sample information for the characteristics of interest, called `target_variables`, is created. Note that the length of the vector `pik.s` is `r n.s`. The `E.PO` function returns the estimates of the population total, the estimated variance, and the corresponding coefficient of variation of the characteristic(s) of interest.
 
-```{r, results='hide'}
+```{r, results = 'hide'}
 pik.s <- pik[sam]
-estima <- data.frame(Income, Employees, Taxes)
-E.PO(estima, pik.s)
+target_variables <- data.frame(
+  Income = sample_data$Income,
+  Employees = sample_data$Employees,
+  Taxes = sample_data$Taxes
+)
+E.PO(target_variables, pik.s)
 ```
-La @tbl-t4-1 muestra los resultados particulares para esta estrategia de muestreo. Nótese que la característica Impuestos, tiene un menor coeficiente de variación porque está mucho mejor correlacionada con el vector de probabilidades de inclusión, mientras que la característica Empleados presenta un mayor coeficiente de variación. Desde un punto de vista completamente académico, está bien afirmar que la estrategia de muestreo utilizada puede ser optimizada si se utiliza un diseño de muestreo con probabilidades de inclusión proporcionales al tamaño de alguna característica auxiliar, pero que induzca muestras de tamaño fijo. Nótese que, aunque el vector de probabilidades de inclusión tiene una correlación de uno con respecto a la característica Income, el coeficiente de variación estimado para esta es de un `r E.PO(estima, pik.s)[3,2]`%, cifra que no es alta, pero que no paga el precio de utilizar esta información auxiliar en la etapa de diseño. Véase que los coeficientes de variación son un poco más bajos que al utilizar un diseño de muestreo Bernoulli, pero no más bajos que los obtenidos al usar un diseño de muestreo aleatorio simple.
+@tbl-t4-1 shows the particular results for this sampling strategy. Note that the Taxes characteristic has a smaller coefficient of variation because it is much better correlated with the vector of inclusion probabilities, whereas the Employees characteristic has a larger coefficient of variation. From a purely academic point of view, it is reasonable to state that the sampling strategy used can be optimized if a sampling design is used with inclusion probabilities proportional to the size of some auxiliary characteristic, but that induces fixed-size samples. Note that, although the inclusion probability vector has a correlation of one with respect to the Income characteristic, the estimated coefficient of variation for it is `r E.PO(target_variables, pik.s)[3,2]`%, a figure that is not high, but that does not justify the cost of using this auxiliary information in the design stage. Notice that the coefficients of variation are slightly lower than when using a Bernoulli sampling design, but not lower than those obtained when using a simple random sampling design.
 
 ```{r, echo = FALSE}
 #| label: tbl-t4-1
-#| tbl-cap: "Estimaciones para el diseño de muestreo Poisson"
-Estimaciones = E.PO(estima, pik.s)
-knitr::kable(Estimaciones)
+#| tbl-cap: "Estimates for the Poisson sampling design"
+estimates <- E.PO(target_variables, pik.s)
+knitr::kable(estimates)
 ```
-## Diseño de muestreo PPT
+## PPS sampling design
 
-<!-- index: Diseño de muestreo PPT -->Siguiendo con el razonamiento que se introdujo en la sección anterior, @Baut afirma que en un diseño de muestreo con reemplazo, los valores óptimos de las probabilidades de selección para cada elemento de la población tendrían que estar dados por
+<!-- index: PPS sampling design -->Continuing the reasoning introduced in the previous section, @Baut states that in a sampling design with replacement, the optimal values of the selection probabilities for each population element would have to be given by
 
 $$
 p_k=\frac{y_k}{t_y}.
 $$
 
-Por supuesto, con esta escogencia, el estimador de Hansen-Hurwitz estimaría al total poblacional de la característica de interés con varianza nula. De otra forma, el tamaño de muestra necesario para obtener una estimación con sesgo nulo sería de $m=1$. Nótese que por (@eq-hh), el estimador de Hansen-Hurwitz, es un promedio de $m$ estimaciones. Con la escogencia de probabilidades de selección anterior, y con un tamaño de muestra de $m=1$, se tiene que
+Of course, with this choice, the Hansen-Hurwitz estimator would estimate the population total of the characteristic of interest with zero variance. Otherwise, the sample size needed to obtain an estimate with zero bias would be $m=1$. Note that, by (@eq-hh), the Hansen-Hurwitz estimator is an average of $m$ estimates. With the preceding choice of selection probabilities, and with a sample size of $m=1$, we have
 
 $$
 \begin{align*}
@@ -317,145 +325,145 @@ $$
 \end{align*}
 $$
 
-Por supuesto, desde el punto de vista práctico sería una vez más, una ambigüedad la escogencia de las anteriores probabilidades de selección. Sin embargo, si el marco de muestreo es tal que contiene el valor de una característica continua auxiliar $x_k$ bien relacionada con la característica de interés $y_k$ para cada elemento de la población, es posible mediante el estimador de Hansen-Hurwitz, estimar el parámetro de interés con una varianza pequeña. De hecho, entre mejor correlación exista entre $y_k$ y $x_k$ menor varianza tendrá el estimador de Hansen-Hurwitz.
+Of course, from a practical point of view, choosing the preceding selection probabilities would once again be ambiguous. However, if the sampling frame contains the value of a continuous auxiliary characteristic $x_k$ that is well related to the characteristic of interest $y_k$ for each population element, it is possible, through the Hansen-Hurwitz estimator, to estimate the parameter of interest with small variance. In fact, the stronger the correlation between $y_k$ and $x_k$, the smaller the variance of the Hansen-Hurwitz estimator.
 
-::: {.callout-important title="Definición"}
-<!-- index: Diseño de muestreo con probabilidad proporcional -->Sea $x_k$, el valor de una característica auxiliar continua para el elemento $k$-ésimo tal que:
-- $x_k>0$ para todo $k \in U$ y
-- $x_k$ está disponible y es conocida para todos los elementos de la población.
+::: {.callout-important title="Definition"}
+<!-- index: Probability-proportional sampling design -->Let $x_k$ be the value of a continuous auxiliary characteristic for the $k$-th element such that:
+- $x_k>0$ for every $k \in U$ and
+- $x_k$ is available and known for all population elements.
 
-Entonces, se define un diseño de muestreo con probabilidad de selección proporcional al tamaño de la característica auxiliar, de la siguiente manera
+Then, a sampling design with selection probability proportional to the size of the auxiliary characteristic is defined as follows
 $$
-p(s)= \begin{cases} \frac{m!}{n_1(s)!\ldots n_N(s)!}\prod_U\left(\frac{1}{p_k}\right)^{n_k(s)} &\text{si $\sum_Un_k(s)=m$}\\
-0  &\text{en otro caso}
+p(s)= \begin{cases} \frac{m!}{n_1(s)!\ldots n_N(s)!}\prod_U\left(\frac{1}{p_k}\right)^{n_k(s)} &\text{if $\sum_Un_k(s)=m$}\\
+0  &\text{otherwise}
       \end{cases}
 $$
-Donde $n_k(s)$ es el número de veces que el elemento $k$-ésimo es seleccionado en la muestra realizada $s$ y $p_k$ es la probabilidad de selección del elemento $k$-ésimo dada por
+where $n_k(s)$ is the number of times the $k$-th element is selected in the realized sample $s$, and $p_k$ is the selection probability of the $k$-th element, given by
 $$
 p_k=\frac{x_k}{t_x}.
 $$ {#eq-pk}
-con $t_x$ el total poblacional de la característica auxiliar $x$.
+with $t_x$ the population total of the auxiliary characteristic $x$.
 :::
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Para este diseño de muestreo, el soporte $Q$ tiene cardinalidad igual a
+For this sampling design, the support $Q$ has cardinality equal to
 $$
 \#(Q)=\binom{N+m-1}{m}
 $$
 
 :::
 
-::: {.callout-tip title="Resultado"}
-Dado el soporte $Q$, de todas las posibles muestras con reemplazo de tamaño $m$, se verifica que el diseño de muestreo con probabilidad de selección proporcional al tamaño de la característica auxiliar es tal que
+::: {.callout-tip title="Result"}
+Given the support $Q$, of all possible samples with replacement of size $m$, it is verified that the sampling design with selection probability proportional to the size of the auxiliary characteristic is such that
 $$
 \begin{align*}
 \sum_{s\in Q}p(s)=1
 \end{align*}
 $$
 
-**Prueba.**
+**Proof.**
 
-Dado que
+Since
 $$
 \begin{align*}
 \sum_Up_k&=\sum_U\frac{x_k}{t_x}=1\\
 \end{align*}
 $$
-entonces la demostración del resultado es inmediata haciendo uso del teorema multinomial.
+the proof of the result is immediate by using the multinomial theorem.
 
 :::
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Para un diseño de muestreo con reemplazo y con probabilidades de selección proporcionales al tamaño de una característica de información auxiliar, las probabilidades de inclusión de primer y segundo orden están dadas por
+For a sampling design with replacement and with selection probabilities proportional to the size of an auxiliary information characteristic, the first- and second-order inclusion probabilities are given by
 $$
 \begin{eqnarray}
 \pi_k &=& 1-\left(1-p_k\right)^m \\
   \pi_{kl} &=& 1 - (1 - p_k)^m - (1 - p_l)^m + (1 - p_k - p_l)^m
 \end{eqnarray}
 $$
-respectivamente. En donde $p_k=\dfrac{x_k}{t_x}$
+respectively, where $p_k=\dfrac{x_k}{t_x}$.
 
-**Prueba.**
+**Proof.**
 
-Utilizando el resultado 2.2.9 se llega a la demostración inmediata.
+Using Result 2.2.9 gives the proof immediately.
 
 :::
 
-Cuando se tienen las cantidad del resultado 3.3.3, se pueden implementar los principios del estimador de Horvitz-Thompson para estimar el total poblacional $t_y$; sin embargo, el cálculo y estimación de la varianza de esta estrategia de muestreo resulta ser muy compleja computacionalmente.
+When the quantities from Result 3.3.3 are available, the principles of the Horvitz-Thompson estimator can be implemented to estimate the population total $t_y$; however, calculating and estimating the variance of this sampling strategy is computationally very complex.
 
-### Algoritmo de selección
-<!-- index: Algoritmos de selección -->
-#### Método acumulativo total
+### Selection algorithm
+<!-- index: Selection algorithms -->
+#### Total cumulative method
 
-<!-- index: Algoritmo acumulativo total -->@Han plantearon este método de selección para ser utilizado junto con el estimador que lleva su nombre. Este método es conocido con el nombre de **algoritmo acumulativo total** y consiste en $m$ selecciones independientes de tamaño 1, tal que:
-- Sea
+<!-- index: Total cumulative algorithm -->@Han proposed this selection method to be used together with the estimator that bears their name. This method is known as the **total cumulative algorithm** and consists of $m$ independent selections of size 1, such that:
+- Let
 $$
 p_k=\frac{x_k}{t_x}
 $$
-- Sea
+- Let
 $$
 T_k=\sum_{l=1}^kx_l
 $$
-con $T_0=0$
-- Obtener $\varepsilon$ como una realización de una variable aleatoria con distribución uniforme en el intervalo (0,1).
-- Seleccionar el $k$-ésimo elemento si $T_{k-1}<\varepsilon T_N\leq T_k$.
+with $T_0=0$.
+- Obtain $\varepsilon$ as a realization of a random variable with uniform distribution on the interval (0,1).
+- Select the $k$-th element if $T_{k-1}<\varepsilon T_N\leq T_k$.
 
 
-Al repetir $m$ veces el anterior procedimiento, se ha seleccionado una muestra de un diseño con reemplazo con probabilidades de selección son proporcionales al tamaño de la característica de interés. Como este diseño de muestreo es con reemplazo, cuando existan elementos en la población cuyo valor de la característica auxiliar es muy grande, éstos elementos podrán ser seleccionados muchas veces porque sus probabilidades de selección son grandes con respecto a los demás elementos.
+By repeating the preceding procedure $m$ times, a sample has been selected from a design with replacement whose selection probabilities are proportional to the size of the characteristic of interest. Because this sampling design is with replacement, when there are population elements whose auxiliary characteristic value is very large, these elements may be selected many times because their selection probabilities are large relative to the other elements.
 
-#### Método de Lahiri
+#### Lahiri's method
 
-<!-- index: Algoritmo de Lahiri -->En algunas ocasiones, cuando el tamaño poblacional $N$ es muy grande, el anterior método resulta ineficiente. @Lah plantea el siguiente algoritmo de selección: Siendo $M\geq\max(x_1,\ldots,x_N)$, los siguientes dos pasos se ejecutan para seleccionar un elemento.
-- Seleccione un número $l$ de manera aleatoria de una distribución de probabilidad uniforme discreta en el intervalo $[1,N]$.
-- Seleccione un número $\eta$ de manera aleatoria de una distribución de probabilidad uniforme discreta en el intervalo $[1,M]$.
+<!-- index: Lahiri algorithm -->On some occasions, when the population size $N$ is very large, the preceding method is inefficient. @Lah proposes the following selection algorithm: Let $M\geq\max(x_1,\ldots,x_N)$. The following two steps are executed to select one element.
+- Select a number $l$ at random from a discrete uniform probability distribution on the interval $[1,N]$.
+- Select a number $\eta$ at random from a discrete uniform probability distribution on the interval $[1,M]$.
 
 
-Si $\eta \leq x_l$, entonces el elemento $l$-ésimo es seleccionado. Si, por el contrario, $\eta > x_l$ se repite el procedimiento hasta seleccionar una unidad. Si el tamaño de la muestra a seleccionar es $m$, entonces el anterior esquema se realiza $m$ veces.
+If $\eta \leq x_l$, then the $l$-th element is selected. If, on the other hand, $\eta > x_l$, the procedure is repeated until a unit is selected. If the sample size to be selected is $m$, then the preceding scheme is carried out $m$ times.
 
-::: {.callout-note title="Ejemplo"}
-Suponga que para la población de ejemplo $U$ se tiene conocimiento de cada valor de la siguiente característica de información auxiliar correlacionada con la característica de interés.
+::: {.callout-note title="Example"}
+Suppose that for the example population $U$ every value of the following auxiliary information characteristic, correlated with the characteristic of interest, is known.
 
 ```{r}
-U  <-  c("Yves", "Ken", "Erik", "Sharon", "Leslie")
+U <- c("Yves", "Ken", "Erik", "Sharon", "Leslie")
 x <- c(52, 60, 75, 100, 50)
 x
 ```
-Para seleccionar una muestra con probabilidad proporcional a `x`, se crean las probabilidades de selección dadas por
+To select a sample with probability proportional to `x`, the selection probabilities given by the following are created
 
 ```{r}
 pk <- x / sum(x)
 pk
 ```
-Para seleccionar una muestra con reemplazo de la población $U$ mediante el método acumulativo total, el paquete `TeachingSampling` implementa la función `S.PPS` que consta de dos argumentos, `m` el tamaño de muestra y `x` la característica de interés que contiene todos y cada uno de los valores correspondientes a los elementos de la población para la característica auxiliar.
+To select a sample with replacement from population $U$ using the total cumulative method, the `TeachingSampling` package implements the `S.PPS` function, which has two arguments: `m`, the sample size, and `x`, the characteristic of interest containing each and every value corresponding to the population elements for the auxiliary characteristic.
 
 ```{r}
 sam <- S.PPS(3, x)
 U[sam]
 ```
-La salida de la función `S.PPS` es un conjunto de índices (no necesariamente distintos) que aplicados a los rótulos poblacionales proporcionan la muestra seleccionada.
+The output of the `S.PPS` function is a set of indices (not necessarily distinct) that, when applied to the population labels, provide the selected sample.
 :::
 
-### El estimador de Hansen-Hurwitz
+### The Hansen-Hurwitz estimator
 
-@Han43 propusieron el siguiente estimador insesgado para el parámetro de interés $t_y$ con ayuda de información auxiliar continua en la etapa de diseño.
+@Han43 proposed the following unbiased estimator for the parameter of interest $t_y$ with the help of continuous auxiliary information in the design stage.
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Sea $x_k$, el valor de una característica auxiliar continua, para un diseño de muestreo aleatorio proporcional al tamaño con reemplazo, el estimador de Hansen-Hurwitz del total poblacional $t_y$, su varianza y su varianza estimada están dados por:
+Let $x_k$ be the value of a continuous auxiliary characteristic. For a random sampling design proportional to size with replacement, the Hansen-Hurwitz estimator of the population total $t_y$, its variance, and its estimated variance are given by:
 $$
 \hat{t}_{y,p}=\frac{t_x}{m}\sum_{i=1}^m\frac{y_{ki}}{x_{ki}}
 $$
 $$
-Var_{PPT}(\hat{t}_{y,p})=\frac{1}{m}\sum_{k=1}^{N}p_k\left(\frac{y_k}{p_k}-t_y\right)^2
+Var_{PPS}(\hat{t}_{y,p})=\frac{1}{m}\sum_{k=1}^{N}p_k\left(\frac{y_k}{p_k}-t_y\right)^2
 $$
 $$
-\widehat{Var}_{PPT}(\hat{t}_{y,p})=\frac{1}{m(m-1)}\sum_{i=1}^{m}\left(\frac{y_i}{p_i}-\hat{t}_{y,p}\right)^2
+\widehat{Var}_{PPS}(\hat{t}_{y,p})=\frac{1}{m(m-1)}\sum_{i=1}^{m}\left(\frac{y_i}{p_i}-\hat{t}_{y,p}\right)^2
 $$
-respectivamente, con $p_k$ dados por (@eq-pk). Nótese que $\hat{t}_{y,p}$ es insesgado para el total poblacional $t_y$ de la característica de interés $y$, y que $\widehat{Var}_{MRAS}(\hat{t}_{y,p})$ es insesgado para $Var_{MRAS}(\hat{t}_{y,p})$.
+respectively, with $p_k$ given by (@eq-pk). Note that $\hat{t}_{y,p}$ is unbiased for the population total $t_y$ of the characteristic of interest $y$, and that $\widehat{Var}_{SRSWR}(\hat{t}_{y,p})$ is unbiased for $Var_{SRSWR}(\hat{t}_{y,p})$.
 
-**Prueba.**
+**Proof.**
 
 $$
 \begin{align*}
@@ -464,44 +472,44 @@ E\left(\frac{t_x}{m}\sum_{i=1}^m\frac{y_{ki}}{x_{ki}}\right)&=E\left(\frac{t_x}{
 &=\frac{t_x}{m}\sum_{U}m\frac{x_k}{t_x}\frac{y_k}{x_k}=t_y
 \end{align*}
 $$
-dado que $E(n(S))=mp_k$. Utilizando el resultado 2.2.13 y 2.2.14, se llega a la demostración de las varianzas.
+because $E(n(S))=mp_k$. Using Results 2.2.13 and 2.2.14 gives the proof for the variances.
 
 :::
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Para el diseño de muestreo PPT, el estimador de Hansen-Hurwitz del total de la característica de información auxiliar reproduce ese total con varianza nula
+For the PPS sampling design, the Hansen-Hurwitz estimator of the total of the auxiliary information characteristic reproduces that total with zero variance
 
-**Prueba.**
+**Proof.**
 
-De la definición del estimador Hansen-Hurwitz, y de la expresión (4.2.2), se tiene que
+From the definition of the Hansen-Hurwitz estimator and expression (4.2.2), we have
 $$
 \begin{align*}
 \hat{t}_{x,p}=\frac{1}{m}\sum_{k\in S}\frac{x_k}{p_k}=\frac{1}{m}\sum_{k\in S}t_x=t_x
 \end{align*}
 $$
 
-Por otro lado,
+On the other hand,
 $$
 \begin{align}
-Var_{PPT}(\hat{t}_{y,p})&=\frac{1}{m}\sum_{k=1}^{N}p_k\left(\frac{x_k}{p_k}-t_x\right)^2\\
+Var_{PPS}(\hat{t}_{y,p})&=\frac{1}{m}\sum_{k=1}^{N}p_k\left(\frac{x_k}{p_k}-t_x\right)^2\\
 &=\frac{1}{m}\sum_{k=1}^{N}p_k(t_x-t_x)^2=0
 \end{align}
 $$
-con lo cual se concluye la demostración
+which concludes the proof
 
 :::
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-La varianza del estimador de Hansen-Hurwitz también puede ser escrita como
+The variance of the Hansen-Hurwitz estimator can also be written as
 $$
-Var_{PPT}(\hat{t}_{y,p})=\frac{1}{m}\sum_U\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2
+Var_{PPS}(\hat{t}_{y,p})=\frac{1}{m}\sum_U\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2
 $$
 
-**Prueba.**
+**Proof.**
 
-Desarrollando términos, se tiene que
+Expanding terms, we have
 $$
 \begin{align*}
 \frac{1}{m}\sum_U\sum_{k<l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2
@@ -516,38 +524,38 @@ $$
 &=\frac{1}{m}\sum_{k\in U}p_k\left(\frac{y_k}{p_k}-t_y\right)^2
 \end{align*}
 $$
-y esta última expresión coincide con la varianza del estimador de Hansen-Hurwitz en muestreo PPT.
+and this last expression coincides with the variance of the Hansen-Hurwitz estimator under PPS sampling.
 
 :::
 
-@Sar afirman que la primera forma que toma la varianza y su estimación insesgada para el estimador de Hansen-Hurwitz es fácil de calcular computacionalmente. Sin embargo, la expresión alternativa de la varianza se utilizará para desarrollos teóricos posteriores.
+@Sar state that the first form taken by the variance and its unbiased estimate for the Hansen-Hurwitz estimator is easy to compute. However, the alternative expression for the variance will be used for later theoretical developments.
 
-Esta estrategia de muestreo es con reemplazo, y comparada con una estrategia de muestreo que utilice información auxiliar en la etapa de diseño con el estimador de Horvitz-Thompson es un poco menos eficiente. Sin embargo, en la práctica es más utilizada porque los cálculos computacionales son fáciles de realizar y es preferida porque con un número grande de elementos incluidos en la muestra, el cálculo de la varianza estimada del estimador de Horvitz-Thompson se hace inapropiado por la gran cantidad de productos cruzados.
+This sampling strategy is with replacement, and compared with a sampling strategy that uses auxiliary information in the design stage with the Horvitz-Thompson estimator, it is somewhat less efficient. However, in practice it is used more often because the computations are easy to carry out, and it is preferred because with a large number of elements included in the sample, calculating the estimated variance of the Horvitz-Thompson estimator becomes inappropriate due to the large number of cross-products.
 
-Esta estrategia de muestreo es utilizada principalmente en la estimación de totales, como se verá más adelante surgen complicaciones, con respecto a la información auxiliar al usar un diseño de muestreo con reemplazo proporcional al tamaño en la estimación de razones. En encuestas de hogares, no resulta adecuado utilizar este diseño de muestreo, puesto que en una población, existe un número de hogares homogéneos por vivienda. Por otro lado, en encuestas de negocios y empresas es útil utilizar diseños proporcionales porque sí existen diferencias marcadas en los tamaños de las mismas; por ejemplo, en el número de empleados, el número de metros cuadrados en las instalaciones, el ingreso, etc. La función de varianza para esta estrategia de muestreo no es monótona decreciente; por la configuración de la información auxiliar, la varianza puede aumentar cuando aumenta el tamaño de muestra.
+This sampling strategy is used mainly to estimate totals. As will be seen later, complications arise with respect to auxiliary information when using a sampling design with replacement proportional to size to estimate ratios. In household surveys, it is not appropriate to use this sampling design because, in a population, there is a homogeneous number of households per dwelling. On the other hand, in business and enterprise surveys it is useful to use proportional designs because there are indeed marked differences in their sizes; for example, in the number of employees, the number of square meters in the facilities, income, and so on. The variance function for this sampling strategy is not monotonically decreasing; because of the configuration of the auxiliary information, the variance may increase when the sample size increases.
 
-::: {.callout-note title="Ejemplo"}
-Para nuestra población de ejemplo $U$, existen $\binom{N+m-1}{m}=20$ posibles muestras con reemplazo de tamaño $m=2$. Utilizando la característica auxiliar $x$, realice el cálculo léxico-gráfico del estimador de Hansen-Hurwitz, compruebe el insesgamiento, calcule la varianza y el insesgamiento del estimador de la varianza.
+::: {.callout-note title="Example"}
+For our example population $U$, there are $\binom{N+m-1}{m}=20$ possible samples with replacement of size $m=2$. Using the auxiliary characteristic $x$, carry out the lexical-graphic calculation of the Hansen-Hurwitz estimator, verify unbiasedness, calculate the variance, and verify unbiasedness of the variance estimator.
 :::
 
-### Eficiencia de la estrategia
-<!-- index: Eficiencia de la estrategia -->La regla de oro de una buena muestra reza que para que la inferencia basada en el diseño de muestreo arroje estimaciones que sean (abusando del lenguaje) de varianza mínima e insesgadas, las probabilidades de inclusión (o selección, según sea el caso) que arroje el diseño de muestreo utilizado deben ser directamente proporcionales a los valores que toma la característica de interés en la población. @Raj54 demuestra el siguiente resultado que conduce condiciona el comportamiento estructural de la información auxiliar que debe cumplir dos condiciones para que la eficiencia de la estrategia PPT sea mayor que la del diseño aleatorio simple con reemplazo.
+### Efficiency of the strategy
+<!-- index: Efficiency of the strategy -->The golden rule of a good sample says that for inference based on the sampling design to yield estimates that are, loosely speaking, unbiased and of minimum variance, the inclusion probabilities (or selection probabilities, as appropriate) produced by the sampling design used must be directly proportional to the values taken by the characteristic of interest in the population. @Raj54 proves the following result, which constrains the structural behavior of the auxiliary information: two conditions must be satisfied for the efficiency of the PPS strategy to be greater than that of simple random sampling with replacement.
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-La resta de la varianza de la estrategia aleatoria simple con reemplazo con la varianza de la estrategia PPT da como resultado la siguiente expresión:
+Subtracting the variance of the simple random strategy with replacement from the variance of the PPS strategy gives the following expression:
 $$
 \begin{align}
-Var_{MRAS}(\hat{t}_{y,p})-Var_{PPT}(\hat{t}_{y,p})=\frac{N^2}{m}Cov\left(x,\frac{y^2}{x}\right)
+Var_{SRSWR}(\hat{t}_{y,p})-Var_{PPS}(\hat{t}_{y,p})=\frac{N^2}{m}Cov\left(x,\frac{y^2}{x}\right)
 \end{align}
 $$
 
-**Prueba.**
+**Proof.**
 
-Utilizando la expresión general de la varianza (2.2.36) bajo cualquier diseño de muestreo con reemplazo se tiene que
+Using the general expression for the variance (2.2.36) under any sampling design with replacement, we have
 $$
 \begin{align*}
-Var_{MRAS}\left(\hat{t}_{y,p})-Var_{PPT}(\hat{t}_{y,p}\right)
+Var_{SRSWR}\left(\hat{t}_{y,p})-Var_{PPS}(\hat{t}_{y,p}\right)
 &=\frac{1}{m}\left[ N\sum_{k=1}^Ny_k^2-t_y^2-t_x\sum_{k=1}^N\frac{y_k^2}{x_k}+t_y^2\right]\\
 &=\frac{1}{m}\left[ \sum_{k=1}^N\frac{y_k^2}{x_k}(Nx_k-t_x)\right]\\
 &=\frac{N}{m}\left[ \sum_{k=1}^N\frac{y_k^2}{x_k}(x_k-\bar{x})\right]\\
@@ -555,7 +563,7 @@ Var_{MRAS}\left(\hat{t}_{y,p})-Var_{PPT}(\hat{t}_{y,p}\right)
 \end{align*}
 $$
 
-La última igualdad se tiene puesto que
+The last equality holds because
 
 $$
 \begin{align*}
@@ -566,7 +574,7 @@ $$
 
 :::
 
-El anterior resultado indica que para que la estrategia de muestreo PPT sea más eficiente en términos de varianza que la estrategia de muestreo MRAS, además de que $p_k\propto x_k$, es necesario que la correlación entre $\left(x,\dfrac{y^2}{x}\right)$ sea positiva. Nótese que si la razón entre $y$ y $x$ es contante e igual a $C$, se tiene que
+The preceding result indicates that for the PPS sampling strategy to be more efficient in terms of variance than the SRSWR sampling strategy, in addition to having $p_k\propto x_k$, the correlation between $\left(x,\dfrac{y^2}{x}\right)$ must be positive. Note that if the ratio between $y$ and $x$ is constant and equal to $C$, then
 
 $$
 \begin{align*}
@@ -576,9 +584,9 @@ Cor\left(x,\frac{y^2}{x}\right)&=Cor\left(x,y\frac{y}{x}\right)\\
 \end{align*}
 $$
 
-Por tanto, una condición necesaria para que el diseño de muestreo PPT sea más eficiente que el diseño de muestreo MRAS es que exista una correlación positiva entre la característica de interés y la información auxiliar; pero, una condición suficiente para la optimalidad del diseño PPT, es que la razón $\frac{y_k}{x_k}$ permanezca constante para todo $k\in U$.
+Therefore, a necessary condition for the PPS sampling design to be more efficient than the SRSWR sampling design is that there be a positive correlation between the characteristic of interest and the auxiliary information; but a sufficient condition for the optimality of the PPS design is that the ratio $\frac{y_k}{x_k}$ remain constant for every $k\in U$.
 
-Además de la razón constante, @Leh muestran que la eficiencia del diseño de muestreo PPT está directamente relacionada con el siguiente modelo de regresión
+In addition to the constant ratio, @Leh show that the efficiency of the PPS sampling design is directly related to the following regression model
 
 $$
 \begin{align}
@@ -586,153 +594,155 @@ y_k=\beta_0+\beta_1x_k+E_k
 \end{align}
 $$
 
-que relaciona la característica de interés con la información auxiliar. Concluye que para que el diseño de muestreo PPT sea más eficiente que el diseño de muestreo MRAS, la cantidad $\beta_0$ debe ser pequeña. Es decir, que la línea de regresión ajuste cerca del origen. Es más, incluso si la correlación entre la característica de interés y la información auxiliar fuera perfecta e igual a uno, entonces no habría ningún término de error, pero aun así si $\beta_0$ es grande, entonces la estrategia de muestreo PPT podría arrojar una eficiencia menor a la del diseño de muestreo aleatorio simple con reemplazo.
+which relates the characteristic of interest to the auxiliary information. They conclude that for the PPS sampling design to be more efficient than the SRSWR sampling design, the quantity $\beta_0$ must be small. That is, the regression line should fit close to the origin. Moreover, even if the correlation between the characteristic of interest and the auxiliary information were perfect and equal to one, then there would be no error term; nevertheless, if $\beta_0$ is large, the PPS sampling strategy could yield lower efficiency than the simple random sampling design with replacement.
 
-La eficiencia de la estrategia de muestreo, depende de dos aspectos. Primero, el tipo de parámetro que se quiere estimar. @Leh afirman que para la estimación de totales, la estrategia de muestreo PPT, funciona mejor, en términos de eficiencia, que para la estimación de razones o medianas. Segundo, que la razón entre $x_k$ y $y_k$ sea constante para toda la población.
+The efficiency of the sampling strategy depends on two aspects. First, the type of parameter to be estimated. @Leh state that for estimating totals, the PPS sampling strategy works better, in terms of efficiency, than for estimating ratios or medians. Second, the ratio between $x_k$ and $y_k$ should be constant for the entire population.
 
-### Marco y Lucy
+### Marco and Lucy
 
-<!-- index: Marco y Lucy -->Una de las características del diseño de muestreo PPT es el uso de información auxiliar en la etapa de diseño. Obviamente, la información auxiliar debe estar presente en el marco de muestreo. En esta sección, de Marco y Lucy, seguiremos la tendencia que comenzamos en el diseño de muestreo Poisson. Suponga que, para todas las empresas del sector industrial, el valor del ingreso en el último año fiscal está disponible en el marco de muestreo.
+<!-- index: Marco and Lucy -->One of the characteristics of the PPS sampling design is the use of auxiliary information in the design stage. Obviously, the auxiliary information must be present in the sampling frame. In this Marco and Lucy section, we will follow the trend we began in the Poisson sampling design. Suppose that, for all firms in the industrial sector, the value of income in the last fiscal year is available in the sampling frame.
 
-Se quiere estimar, el total poblacional de las características de interés Empleados e Impuestos, para lo cual, se utilizará una estrategia de muestreo que utiliza un diseño de muestreo con reemplazo y probabilidades de selección de las empresas proporcionales al tamaño de la característica auxiliar Ingreso junto con el estimador de Hansen-Hurwitz. Como se vio antes, para que esta estrategia de muestreo sea óptima con respecto a una que utilice un diseño aleatorio simple con reemplazo se deben cumplir ciertas condiciones. Antes de analizarlas, veamos que, para este caso particular y con un tamaño de muestra igual a $m = 2000$, el diseño de muestreo PPT es menos eficiente que el muestreo simple con reemplazo para la estimación del total de empleados, aunque es más eficiente que el muestreo simple con reemplazo para la estimación del total de impuestos declarados. Lo anterior se tiene utilizando la expresión (4.2.13) escrita en código de R.
+The goal is to estimate the population total of the characteristics of interest Employees and Taxes. To do so, a sampling strategy will be used that combines a sampling design with replacement and firm selection probabilities proportional to the size of the auxiliary characteristic Income with the Hansen-Hurwitz estimator. As seen before, for this sampling strategy to be optimal relative to one that uses a simple random design with replacement, certain conditions must be met. Before analyzing them, note that, in this particular case and with a sample size equal to $m = 2000$, the PPS sampling design is less efficient than simple sampling with replacement for estimating the total number of employees, although it is more efficient than simple sampling with replacement for estimating the total declared taxes. This is obtained by using expression (4.2.13) written in R code.
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 data(BigLucy)
-attach(BigLucy)
-
 N <- nrow(BigLucy)
 m <- 2000
 
-(N^2 / m) * cov(Income, (Employees^2 / Income))
-(N^2 / m) * cov(Income, (Taxes^2 / Income))
+(N^2 / m) * cov(BigLucy$Income, (BigLucy$Employees^2 / BigLucy$Income))
+(N^2 / m) * cov(BigLucy$Income, (BigLucy$Taxes^2 / BigLucy$Income))
 ```
-Primero, que la correlación entre `Income` y `y2/Income` sea positiva. Aunque la correlación entre `Income` y `Employees` e, `Income` y `Taxes` sea positiva, se debe verificar que la correlación entre `Income` y la nueva variable `Employees2/Income` sea positiva, como también la correlación entre `Income` y `Taxes2/Income`. Mediante el uso de la función `cor` que R incorpora en su ambiente de trabajo, se tiene que para la característica de interés Empleados, la correlación es negativa, aunque casi nula. Mientras que para la característica de interés Impuestos, la correlación buscada es positiva. Esto indica que para la estimación del total de empleados, el uso de la información auxiliar no conlleva a ganancias significativas en la eficiencia de la estrategia. Por otro lado, para la estimación del total de impuestos declarados, sí se tiene un ganancia significativa.
+First, the correlation between `Income` and `y2/Income` must be positive. Although the correlation between `Income` and `Employees`, and between `Income` and `Taxes`, is positive, it must be verified that the correlation between `Income` and the new variable `Employees2/Income` is positive, as well as the correlation between `Income` and `Taxes2/Income`. Using the `cor` function built into R's working environment, for the characteristic of interest Employees, the correlation is negative, although nearly zero. For the characteristic of interest Taxes, the desired correlation is positive. This indicates that for estimating the total number of employees, the use of auxiliary information does not lead to significant gains in the efficiency of the strategy. On the other hand, for estimating the total declared taxes, there is a significant gain.
 
 ```{r}
-cor(Income, (Employees^2 / Income))
-cor(Income, (Taxes^2/Income))
+cor(BigLucy$Income, (BigLucy$Employees^2 / BigLucy$Income))
+cor(BigLucy$Income, (BigLucy$Taxes^2 / BigLucy$Income))
 ```
-Otra de las condiciones para la optimalidad de la estrategia es que el cociente entre `Income` y las características de interés `Taxes` y `Employees` sea constante para todo elemento de la población. Mediante el uso de la función `plot` es posible tener un acercamiento gráfico al comportamiento de los respectivos cocientes. Nótese que la función `abline` permite trazar una línea sobre el promedio de los cocientes.
+Another condition for the optimality of the strategy is that the quotient between `Income` and the characteristics of interest `Taxes` and `Employees` be constant for every population element. By using the `plot` function, it is possible to obtain a graphical view of the behavior of the respective quotients. Note that the `abline` function allows a line to be drawn over the average of the quotients.
 
-La @fig-f4-2 muestra que la relación existente entre el cociente `Income` y `Employees` es uniforme en casi toda la población. Por supuesto, se observan algunos datos atípicos que están muy lejos de la línea de referencia, pero en general se observa un comportamiento homogéneo. Esto no ocurre con la relación existente entre el cociente `Income` e `Taxes` donde existe un comportamiento más disperso para todos los elementos de la población. A pesar de lo anterior, se puede afirmar que el comportamiento de la razón es constante.
+@fig-f4-2 shows that the relationship between the quotient of `Income` and `Employees` is uniform in almost the entire population. Of course, some outliers are observed far from the reference line, but in general a homogeneous behavior is observed. This does not occur with the relationship between the quotient of `Income` and `Taxes`, where the behavior is more dispersed for all population elements. Despite the above, it can be stated that the behavior of the ratio is constant.
 
-```{r, message=FALSE, warning=FALSE, fig.height=5}
+```{r, message = FALSE, warning = FALSE, fig.height = 5}
 #| label: fig-f4-2
-#| fig-cap: "*Comportamiento del cociente de la información auxiliar con las características de interés.*"
-p1 <- qplot(Employees / Income, data=BigLucy, geom=c("histogram"), binwidth=0.1) +
+#| fig-cap: "*Behavior of the quotient of auxiliary information with the characteristics of interest.*"
+p1 <- qplot(Employees / Income, data = BigLucy, geom = c("histogram"), binwidth = 0.1) +
   geom_density(colour = "blue")
-p2 <- qplot(Taxes / Income, data=BigLucy, geom=c("histogram"), binwidth=0.1) + 
+p2 <- qplot(Taxes / Income, data = BigLucy, geom = c("histogram"), binwidth = 0.1) +
   geom_density(colour = "blue")
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-Un tercer argumento para el uso de la estrategia de muestreo PPT es el examen del ajuste de una línea de regresión entre `Employees` con `Income` y `Taxes` con `Income` respectivamente. Para esto, se ajustan dos modelos. El primero dado por
+A third argument for using the PPS sampling strategy is the examination of the fit of a regression line between `Employees` and `Income`, and between `Taxes` and `Income`, respectively. To do this, two models are fitted. The first is given by
 
 $$
-Impuestos_k=\beta_0+\beta_1Ingreso+E_k
+Taxes_k=\beta_0+\beta_1Income+E_k
 $$
 
-Para la estimación del total de la característica Impuestos y, el segundo dado por
+for estimating the total of the Taxes characteristic, and the second is given by
 
 $$
-Empleados_k=\beta_0+\beta_1Ingreso+E_k
+Employees_k=\beta_0+\beta_1Income+E_k
 $$
 
-Para la estimación del total de la característica Empleados. Para los modelos anteriores, nos interesa conocer el valor que toma el intercepto de cada línea de regresión. Si el intercepto $\beta_0$ es cercano a cero, entonces se ha ganado eficiencia al utilizar un diseño de muestreo PPT. R incorpora la función `lm` para el ajuste de modelos lineales. Las estimaciones de $\beta_0$ y $\beta_1$ se hacen por medio del método de los mínimos cuadrados. Un análisis de regresión de `y` contra `x` es especificado mediante `y ~ x`. La salida de la función `lm` está dada por las estimaciones de los coeficientes de los modelos de regresión. Con ayuda de la función `summary` es posible extraer más información respecto a la inferencia de las estimaciones.
+for estimating the total of the Employees characteristic. For the preceding models, we are interested in the value taken by the intercept of each regression line. If the intercept $\beta_0$ is close to zero, then efficiency has been gained by using a PPS sampling design. R includes the `lm` function for fitting linear models. The estimates of $\beta_0$ and $\beta_1$ are obtained by the method of least squares. A regression analysis of `y` on `x` is specified as `y ~ x`. The output of the `lm` function is given by the estimates of the coefficients of the regression models. With the help of the `summary` function, it is possible to extract more information about inference for the estimates.
 
 ```{r}
-M.I <- lm(Taxes ~ Income)
+M.I <- lm(Taxes ~ Income, data = BigLucy)
 summary(M.I)
 ```
-Para el primer modelo, se nota que la estimación del intercepto está dada por `r M.I$coeff[1]` y, a juzgar por las tres estrellas, es una cantidad significativa. Aunque para nuestro análisis está cerca del origen, por tanto se gana en eficiencia al utilizar esta estrategia de estimación para el total poblacional de la característica de interés Impuestos.
+For the first model, note that the estimate of the intercept is given by `r M.I$coeff[1]` and, judging by the three stars, it is a significant quantity. For our analysis, however, it is close to the origin; therefore, efficiency is gained by using this estimation strategy for the population total of the characteristic of interest Taxes.
 
 ```{r}
-M.E <- lm(Employees ~ Income)
+M.E <- lm(Employees ~ Income, data = BigLucy)
 summary(M.E)
 ```
-El intercepto del segundo modelo ha sido estimado como `r M.E$coeff[1]`, a diferencia del modelo anterior, no se puede decir que está cerca del origen. Además, por la magnitud de la escala de medición de las características, se puede decir que es una cantidad importante y no despreciable.
+The intercept of the second model has been estimated as `r M.E$coeff[1]`; unlike the previous model, it cannot be said to be close to the origin. In addition, because of the magnitude of the measurement scale of the characteristics, it can be said to be an important and non-negligible quantity.
 
-La @fig-f4-2b muestra la línea de regresión ajustada para los dos modelos anteriores; es claro que el intercepto del modelo con impuestos declarados se puede considerar nulo, pero el intercepto del modelo con número de empleados es grande. Los tres anteriores argumentos permiten estar confiados al utilizar la estrategia de muestreo PPT para la estimación del total de impuestos declarados, pero se sabe que para la estimación del total de número de empleados, este diseño muestral no es más eficiente que el diseño simple con reemplazo.
+@fig-f4-2b shows the fitted regression line for the two preceding models; it is clear that the intercept of the model with declared taxes can be considered null, but the intercept of the model with number of employees is large. The three preceding arguments allow us to be confident in using the PPS sampling strategy to estimate the total declared taxes, but it is known that, for estimating the total number of employees, this sampling design is not more efficient than the simple design with replacement.
 
-```{r, echo=FALSE, message=FALSE}
-BigLucy <- BigLucy[sample(2000),]
+```{r, echo = FALSE, message = FALSE}
+BigLucy <- BigLucy[sample(2000), ]
 ```
-```{r, fig.height=5}
+```{r, fig.height = 5}
 #| label: fig-f4-2b
-#| fig-cap: "*Líneas de regresión.*"
-p1 <- ggplot(BigLucy, aes(x=Income, y=Employees)) +
-    geom_point(shape=1) + geom_smooth(method=lm)
-p2 <- ggplot(BigLucy, aes(x=Income, y=Taxes)) +
-    geom_point(shape=1) + geom_smooth(method=lm)
+#| fig-cap: "*Regression lines.*"
+p1 <- ggplot(BigLucy, aes(x = Income, y = Employees)) +
+  geom_point(shape = 1) +
+  geom_smooth(method = lm)
+p2 <- ggplot(BigLucy, aes(x = Income, y = Taxes)) +
+  geom_point(shape = 1) +
+  geom_smooth(method = lm)
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, message = FALSE}
 data(BigLucy)
-attach(BigLucy)
 ```
-Una vez se ha decidido usar la estrategia de muestreo PPT, es necesario seleccionar la muestra. En este caso, se ha querido utilizar el mismo tamaño de muestra, que en las anteriores estrategias de muestreo. En primer lugar, se adjunta el marco de muestreo que no sólo contiene la ubicación e identificación sino además el valor de la información auxiliar Ingreso para cada empresa del sector industrial. La selección de la muestra se hace mediante el uso de la función S.PPS para la cual los argumentos introducido son `m = 2000` junto con la información auxiliar `Income`. Esta función utiliza el algoritmo de selección acumulativo total.
+Once the decision has been made to use the PPS sampling strategy, it is necessary to select the sample. In this case, the same sample size used in the previous sampling strategies is desired. First, the sampling frame is attached; it contains not only location and identification but also the value of the auxiliary information Income for each firm in the industrial sector. The sample selection is carried out using the `S.PPS` function, for which the arguments entered are `m = 2000` together with the auxiliary information `Income`. This function uses the total cumulative selection algorithm.
 
-```{r, message=FALSE}
-pk <- Income / sum(Income)
-sam <- S.PPS(m, Income)
-muestra <- BigLucy[sam,]
-attach(muestra)
+```{r, message = FALSE}
+pk <- BigLucy$Income / sum(BigLucy$Income)
+sam <- S.PPS(m, BigLucy$Income)
+sample_data <- BigLucy[sam, ]
 
-head(muestra)
+head(sample_data)
 ```
-El método acumulativo total no tiene en cuenta ningún ordenamiento. En este caso particular, la última empresa en ser seleccionada fue la empresa con número de identificación `r muestra[1,1]`, aunque esta empresa ya había sido seleccionada en la muestra en dos ocasiones. Es decir, fue seleccionada en tres ocasiones.
+The total cumulative method does not take any ordering into account. In this particular case, the last firm selected was the firm with identification number `r sample_data[1,1]`, although this firm had already been selected in the sample twice. That is, it was selected three times.
 
-Una vez seleccionada la muestra con reemplazo, se utiliza la función `E.PPS` del paquete `TeachingSampling` cuyos argumentos son la(s) característica(s) de interés y un vector de probabilidades de selección `pk`. Por supuesto, el vector de probabilidades de selección en la población está dado por `pk <- Income / sum(Income)`. Sin embargo, en la función `E.PPS`, el vector de probabilidades debe corresponder a las probabilidades de selección de cada uno de los elementos elegidos en la muestra. En este caso la longitud del vector `pk.s` es de `m = 2000`.
+Once the sample with replacement has been selected, the `E.PPS` function from the `TeachingSampling` package is used. Its arguments are the characteristic(s) of interest and a vector of selection probabilities `pk`. Of course, the vector of selection probabilities in the population is given by `pk <- Income / sum(Income)`. However, in the `E.PPS` function, the probability vector must correspond to the selection probabilities of each element chosen in the sample. In this case, the length of the vector `pk.s` is `m = 2000`.
 
-```{r, results='hide'}
+```{r, results = 'hide'}
 pk.s <- pk[sam]
-estima <- data.frame(Income, Employees, Taxes)
-E.PPS(estima, pk.s)
+target_variables <- data.frame(
+  Income = sample_data$Income,
+  Employees = sample_data$Employees,
+  Taxes = sample_data$Taxes
+)
+E.PPS(target_variables, pk.s)
 ```
-Los resultados de aplicar la estrategia de muestreo son muy favorables. Nótese, que a diferencia de la estrategia de muestreo Poisson, el total poblacional de la característica auxiliar ingreso, es estimada exactamente con varianza casi nula. El total poblacional de las características de interés Empleados e Impuestos tienen coeficientes de variación menores a 2%. La @tbl-t4-2 muestra los resultados obtenidos en este ejercicio particular.
+The results of applying the sampling strategy are very favorable. Note that, unlike the Poisson sampling strategy, the population total of the auxiliary characteristic Income is estimated exactly with almost zero variance. The population totals of the characteristics of interest Employees and Taxes have coefficients of variation below 2%. @tbl-t4-2 shows the results obtained in this particular exercise.
 
 ```{r, echo = FALSE}
 #| label: tbl-t4-2
-#| tbl-cap: "Muestreo PPT: estimación de los totales de las características de interés."
-Estimaciones = E.PPS(estima, pk.s)
-knitr::kable(Estimaciones)
+#| tbl-cap: "PPS sampling: estimation of the totals of the characteristics of interest."
+estimates <- E.PPS(target_variables, pk.s)
+knitr::kable(estimates)
 ```
-Asimismo, una estrategia alternativa es utilizar un diseño de muestreo con reemplazo y probabilidad de selección proporcional al tamaño junto con el estimador de Horvitz-Thompson, el cual es también insesgado. @Sar se preguntan cuál es el mejor estimador y llegan a la conclusión que dependiendo de la configuración de los valores de las características de interés y de información auxiliar un estimador tendrá menor varianza que el otro. Por tanto, no es posible generalizar. De lo que sí se puede estar seguro, es de la simplicidad, en materia de cálculos del estimador de Horvitz-Thompson. En la práctica, este es un argumento muy fuerte que incentiva el uso del estimador de Hansen-Hurwitz.
+Likewise, an alternative strategy is to use a sampling design with replacement and selection probability proportional to size together with the Horvitz-Thompson estimator, which is also unbiased. @Sar ask which estimator is better and conclude that, depending on the configuration of the values of the characteristics of interest and the auxiliary information, one estimator will have smaller variance than the other. Therefore, it is not possible to generalize. What can be said with certainty is the simplicity, in terms of calculations, of the Hansen-Hurwitz estimator. In practice, this is a very strong argument encouraging the use of the Hansen-Hurwitz estimator.
 
-Utilizando el resultado 4.2.3., es posible estimar los parámetros de interés mediante el uso del estimador de Horvitz-Thompson. Para esto, se calculan las probabilidades inclusión. Nótese que la suma de éstas es de 358. Se extraen las probabilidades de inclusión de los elementos en la muestra y se utiliza la forma genérica del estimador de Horvitz-Thompson.
+Using Result 4.2.3, it is possible to estimate the parameters of interest by using the Horvitz-Thompson estimator. To do this, the inclusion probabilities are calculated. Note that their sum is 358. The inclusion probabilities of the elements in the sample are extracted and the generic form of the Horvitz-Thompson estimator is used.
 
 ```{r}
 pik <- 1 - (1 - pk)^2000
 sum(pik)
 pik.s <- pik[sam]
 sum(1 / pik.s)
-colSums(estima/pik.s)
+colSums(target_variables / pik.s)
 ```
-Las estimaciones resultantes no son mejores, en el sentido práctico, a las obtenidas mediante el uso del estimador de Hansen-Hurwitz. Ahora, la estimación de la varianza supondría un esfuerzo computacional demasiado grande.
+The resulting estimates are not better, in a practical sense, than those obtained by using the Hansen-Hurwitz estimator. In addition, estimating the variance would require an excessively large computational effort.
 
-## Diseño de muestreo $\pi$PT
+## $\pi$PS sampling design
 
-<!-- index: Diseño de muestreo $\pi$PT -->Como se vio en la sección anterior, utilizar un esquema de muestreo con probabilidades proporcionales a alguna característica de información auxiliar puede resultar en ganancia de precisión. Sin embargo, utilizar una estrategia de muestreo que contemple un diseño de muestreo con reemplazo es menos eficiente que implementar una estrategia de muestreo que contemple un diseño de muestreo sin reemplazo y de tamaño muestral fijo.
+<!-- index: $\pi$PS sampling design -->As seen in the previous section, using a sampling scheme with probabilities proportional to some auxiliary information characteristic can yield gains in precision. However, using a sampling strategy that includes a sampling design with replacement is less efficient than implementing a sampling strategy that includes a sampling design without replacement and with fixed sample size.
 
-En la sección anterior, se utilizó un diseño de muestreo con probabilidades proporcionales, con reemplazo y, sin embargo, arrojó muy buenos resultados en términos de eficiencia comparado con los diseños de muestreo de probabilidades simples. Esta sección se concentra en la implementación de diseños de muestreo con probabilidades de inclusión proporcionales a una característica de interés y cuya estructura general sea sin reemplazo. De esta forma, es posible aumentar dramáticamente la eficiencia de la estrategia que involucra al estimador de Horvitz-Thompson.
+In the previous section, a sampling design with proportional probabilities and with replacement was used, and nevertheless it produced very good results in terms of efficiency compared with equal-probability sampling designs. This section focuses on the implementation of sampling designs with inclusion probabilities proportional to a characteristic of interest and whose general structure is without replacement. In this way, it is possible to dramatically increase the efficiency of the strategy involving the Horvitz-Thompson estimator.
 
-@Loh afirma que el muestreo de probabilidades simples, proporciona esquemas que, frecuentemente, son fáciles de explicar y diseñar. Sin embargo, estos esquemas no siempre pueden ser realizados puesto que las probabilidades simples no siempre reflejan el comportamiento de la característica de interés en la población.
+@Loh states that equal-probability sampling provides schemes that are often easy to explain and design. However, these schemes cannot always be carried out because equal probabilities do not always reflect the behavior of the characteristic of interest in the population.
 
-Este diseño de muestreo induce probabilidades de inclusión proporcionales al tamaño de una característica de información auxiliar^[El requisito indispensable de la información auxiliar es que sea aproximadamente proporcional a la característica de interés.]. De esta manera, se supone que el marco de muestreo tiene la bondad de poseer información auxiliar de tipo continuo y positiva disponible para todo elemento perteneciente a la población finita. Asimismo, el diseño de muestreo $\pi$PT^[Nótese que la sigla $\pi$PT se refiere a los diseños de muestreo que inducen probabilidades de inclusión proporcionales a una característica de información auxiliar.], de tamaño de muestra fijo e igual a $N$, se basa en la construcción de probabilidades de inclusión que obedezcan la siguiente relación:
+This sampling design induces inclusion probabilities proportional to the size of an auxiliary information characteristic^[The essential requirement for the auxiliary information is that it be approximately proportional to the characteristic of interest.]. Thus, the sampling frame is assumed to have the advantage of containing positive continuous auxiliary information available for every element belonging to the finite population. Likewise, the $\pi$PS sampling design^[$\pi$PS refers to sampling designs that induce inclusion probabilities proportional to an auxiliary information characteristic.], with fixed sample size equal to $N$, is based on the construction of inclusion probabilities that obey the following relationship:
 
 $$
 \pi_k=\frac{nx_k}{t_x} \ \ \ \ \ \ \ \ \ 0<\pi_k\leq 1
 $$
 
-Además se busca que:
-- El algoritmo de selección de muestras bajo este diseño sea de fácil implementación computacional.
-- Las probabilidades de inclusión de segundo orden sean positivas, $\pi_{kl}>0$. De lo contrario el estimador de la varianza podría ser sesgado.
-- El cálculo de estas probabilidades de inclusión de segundo orden, $\pi_{kl}$, sea sencillo.
-- $\Delta_{kl}<0 \ \ \forall k\neq l$ para que la estimación de la varianza no sea negativa.
+In addition, the following are sought:
+- The sample selection algorithm under this design should be easy to implement computationally.
+- The second-order inclusion probabilities should be positive, $\pi_{kl}>0$. Otherwise, the variance estimator could be biased.
+- The calculation of these second-order inclusion probabilities, $\pi_{kl}$, should be simple.
+- $\Delta_{kl}<0 \ \ \forall k\neq l$ so that the variance estimate is not negative.
 
 
-Este diseño de muestreo se puede considerar como una generalización de la mayoría de diseños de muestreo sin reemplazo. Por ejemplo: si la característica de información auxiliar es constante e igual a $C$, entonces para un tamaño de muestra fijo, las probabilidades de inclusión de primer orden estarían dadas por:
+This sampling design can be considered a generalization of most sampling designs without replacement. For example, if the auxiliary information characteristic is constant and equal to $C$, then for a fixed sample size, the first-order inclusion probabilities would be given by:
 $$
 \begin{align*}
 \pi_k&=\dfrac{nx_k}{t_x}\\
@@ -740,28 +750,28 @@ $$
 \end{align*}
 $$
 
-Con lo que se tiene un diseño de muestreo caracterizado por probabilidades simples. En ciertas ocasiones, cuando las población tiene un comportamiento muy variable, irregular y sesgado,  algunas de las $\pi_k$ inducidas por la expresión (4.3.1) pueden ser mayores a uno para ciertos elementos. En tal caso, estos elementos son incluidos en todas las posibles muestras y toman el nombre de **elementos de inclusión forzosa**. Sin embargo, para calcular la probabilidad de inclusión de los elementos restantes, se debe excluir estos elementos de inclusión forzosa y volver a calcular las probabilidades de inclusión mediante una reformulación de la expresión (4.3.1) dada por
+Thus, a sampling design characterized by equal probabilities is obtained. On certain occasions, when the population has highly variable, irregular, and skewed behavior, some of the $\pi_k$ induced by expression (4.3.1) may be greater than one for certain elements. In that case, these elements are included in all possible samples and are called **certainty inclusion elements**. However, to calculate the inclusion probability of the remaining elements, these certainty inclusion elements must be excluded and the inclusion probabilities recalculated through a reformulation of expression (4.3.1), given by
 $$
 \pi_k=\frac{(n-n^*)x_k}{\sum_{k\in U^*}x_k} \ \ \ \ \ \ 0<\pi_k\leq 1; \ \ k\in U^*
 $$
 
-donde $n^*$ corresponde al número de elementos de inclusión forzosa y $U^*$ la población finita excluyendo a estos elementos de inclusión forzosa. Al final del proceso, deberían existir dos grupos de elementos:
-- Un grupo de elementos de inclusión forzosa con probabilidades de inclusión iguales a uno.
-- Un grupo de elementos con probabilidades de inclusión $0<\pi_k<1$ y proporcionales a $x_k$.
+where $n^*$ corresponds to the number of certainty inclusion elements and $U^*$ to the finite population excluding these certainty inclusion elements. At the end of the process, there should be two groups of elements:
+- A group of certainty inclusion elements with inclusion probabilities equal to one.
+- A group of elements with inclusion probabilities $0<\pi_k<1$ and proportional to $x_k$.
 
 
-Por tanto, el problema se reduce a la selección de $n$ unidades con probabilidades de inclusión tales que
+Therefore, the problem is reduced to selecting $n$ units with inclusion probabilities such that
 $$
 \begin{align*}
 \sum_{k \in U }\pi_k=n
 \end{align*}
 $$
 
-El siguiente resultado da cuenta de la forma estructural que toma el estimador de Horvitz-Thompson, de su varianza y de su varianza estimada.
+The following result gives the structural form taken by the Horvitz-Thompson estimator, its variance, and its estimated variance.
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Para el diseño de muestreo $\pi$PT, el estimador de Horvitz-Thompson, su varianza y su varianza estimada están dados por:
+For the $\pi$PS sampling design, the Horvitz-Thompson estimator, its variance, and its estimated variance are given by:
 $$
 \hat{t}_{y,\pi}=\sum_S\frac{y_k}{\pi_k}
 $$
@@ -774,32 +784,32 @@ $$
 
 :::
 
-::: {.callout-tip title="Resultado"}
-Para el diseño de muestreo $\pi$PT, el estimador de Horvitz-Thompson del total de la característica de información auxiliar reproduce ese total con varianza nula
+::: {.callout-tip title="Result"}
+For the $\pi$PS sampling design, the Horvitz-Thompson estimator of the total of the auxiliary information characteristic reproduces that total with zero variance
 
-**Prueba.**
+**Proof.**
 
-De la definición del estimador de Horvitz-Thompson, y de la expresión (4.3.1),se tiene que
+From the definition of the Horvitz-Thompson estimator and expression (4.3.1), we have
 $$
 \begin{align*}
 \hat{t}_{x,\pi}=\sum_{k\in S}\frac{x_k}{\pi_k}=\sum_{k\in S}t_x\frac{1}{n}=t_x
 \end{align*}
 $$
 
-Por otro lado,
+On the other hand,
 $$
 \begin{align}
 Var_{\pi PT}(\hat{t}_{x,\pi})&=-\frac{1}{2}\sum\sum_U\Delta_{kl}\left(\frac{x_k}{\pi_k}-\frac{x_l}{\pi_l}\right)^2\\
 &=-\frac{1}{2}\sum\sum_U\Delta_{kl}\left(\frac{t_x}{n}-\frac{t_x}{n}\right)^2=0
 \end{align}
 $$
-con lo cual se concluye la demostración
+which concludes the proof
 
 :::
 
 
-::: {.callout-note title="Ejemplo"}
-Suponga que para la población de ejemplo $U$ se tiene conocimiento de cada valor de la siguiente característica de información auxiliar correlacionada con la característica de interés. Por tanto, un primer paso para el cálculo de las probabilidades de inclusión es aplicar la expresión (4.3.1).
+::: {.callout-note title="Example"}
+Suppose that for the example population $U$ every value of the following auxiliary information characteristic, correlated with the characteristic of interest, is known. Therefore, a first step in calculating the inclusion probabilities is to apply expression (4.3.1).
 
 ```{r}
 n <- 4
@@ -807,7 +817,7 @@ x <- c(52, 60, 75, 100, 50)
 pik <- n * x / sum(x)
 pik
 ```
-Nótese que el cuarto elemento de la población, correspondiente a **Sharon** es un elemento de inclusión forzosa; es decir que está presente en todas las posibles muestras. El siguiente paso es separar a **Sharon** de los restantes elementos y proseguir con el cálculo de las probabilidades de inclusión inducidas por la expresión (4.3.2)
+Note that the fourth population element, corresponding to **Sharon**, is a certainty inclusion element; that is, it is present in all possible samples. The next step is to separate **Sharon** from the remaining elements and proceed with the calculation of the inclusion probabilities induced by expression (4.3.2)
 
 ```{r}
 n <- 3
@@ -815,7 +825,7 @@ x <- c(52, 60, 75, 50)
 pik <- n * x / sum(x)
 pik
 ```
-Por tanto el vector de probabilidades de inclusión para toda la población $U$ está dado por
+Therefore, the vector of inclusion probabilities for the entire population $U$ is given by
 
 $$
 \begin{align*}
@@ -825,20 +835,20 @@ $$
 
 :::
 
-## Selección de muestras $\pi$PT
+## Selection of $\pi$PS samples
 
 
-<!-- index: Algoritmo de selección de $\pi$PT -->Existen varios métodos de selección de muestras $\pi$PT. Sin embargo, todos ellos están basados en una teoría fuerte y complicada y, en algunas ocasiones, son muy difíciles de implementar en la práctica. A continuación, se exponen dos métodos de selección de muestras de tamaño $n=1$ y $n=2$. @Sar comentan que a simple vista parecería irreal considerar tamaños de muestra tan pequeños. Sin embargo, en muestreo estratificado y muestreo para conglomerados (ver siguientes capítulos) tiene sentido seleccionar solamente una o dos unidades primarias de muestreo.
+<!-- index: $\pi$PS sample selection algorithm -->There are several methods for selecting $\pi$PS samples. However, all of them are based on strong and complicated theory and, on some occasions, are very difficult to implement in practice. Two methods for selecting samples of sizes $n=1$ and $n=2$ are presented below. @Sar comment that, at first glance, it may seem unrealistic to consider such small sample sizes. However, in stratified sampling and cluster sampling (see the following chapters), it makes sense to select only one or two primary sampling units.
 
-#### Tamaño de muestra $n=1$
+#### Sample size $n=1$
 
-<!-- index: Tamaño de muestra -->Para $n=1$ se utiliza el método acumulativo total, que consiste en:
-- Definir $T_0=0$ y $T_k=T_{k-1}+x_k$ ($k\in U$).
-- Calcular un número aleatorio $\varepsilon$ con distribución uniforme en el intervalo $[0,1]$.
-- Si $T_{k-1}<\varepsilon T_N<T_k$, el elemento $k$-ésimo se selecciona.
+<!-- index: Sample size -->For $n=1$, the total cumulative method is used, which consists of:
+- Define $T_0=0$ and $T_k=T_{k-1}+x_k$ ($k\in U$).
+- Calculate a random number $\varepsilon$ with uniform distribution on the interval $[0,1]$.
+- If $T_{k-1}<\varepsilon T_N<T_k$, the $k$-th element is selected.
 
 
-Nótese que este algoritmo de selección garantiza que el diseño de muestreo es un autentico $\pi$PT puesto que
+Note that this selection algorithm guarantees that the sampling design is an authentic $\pi$PS design because
 
 $$
 \begin{align*}
@@ -846,11 +856,11 @@ $$
 \end{align*}
 $$
 
-Por supuesto, no es posible obtener un estimador insesgado de la varianza del estimador de Horvitz-Thompson puesto que la muestra sólo considera la inclusión de un elemento de la población finita.
+Of course, it is not possible to obtain an unbiased estimator of the variance of the Horvitz-Thompson estimator because the sample considers the inclusion of only one element from the finite population.
 
-#### Tamaño de muestra $n=2$
+#### Sample size $n=2$
 
-<!-- index: Tamaño de muestra -->En este escenario es preciso garantizar que las probabilidades de inclusión de primer orden estén dadas por
+<!-- index: Sample size -->In this scenario, it is necessary to guarantee that the first-order inclusion probabilities are given by
 
 $$
 \begin{align*}
@@ -858,48 +868,48 @@ $$
 \end{align*}
 $$
 
-para todo elemento de la población finita. En este caso, los dos elementos de la muestra son seleccionados uno por uno. Para tal fin, se debe seguir el siguiente algoritmo [@Brew63a; @Brew75] que utiliza el método acumulativo total en cada una de las dos selecciones, así:
-- En la primera extracción, el elemento $k$-ésimo es seleccionado con probabilidad
+for every element of the finite population. In this case, the two sample elements are selected one by one. To this end, the following algorithm [@Brew63a; @Brew75] should be followed; it uses the total cumulative method in each of the two selections, as follows:
+- In the first draw, the $k$-th element is selected with probability
 
   $$
 p_k=\dfrac{c_k}{\sum_{k\in U}c_k}
 $$
 
-  donde
+  where
 
   $$
 c_k=\dfrac{x_k(T_N-x_k)}{T_N(T_N-2x_k)}
 $$
-- En la segunda extracción, el elemento seleccionado en el paso anterior, digamos el elemento $k^*$, es retirado del sorteo. El segundo elemento es seleccionado con probabilidad
+- In the second draw, the element selected in the previous step, say element $k^*$, is removed from the draw. The second element is selected with probability
 
   $$
 p_{l|k^*}=\dfrac{x_l}{T_N-x_{k^*}}
 $$
 
 
-::: {.callout-tip title="Resultado"}
+::: {.callout-tip title="Result"}
 
-Bajo el esquema de selección de Brewer<!-- index: Algoritmo de selección de Brewer --> las probabilidades de inclusión de primer orden satisfacen la siguiente relación
+Under Brewer's selection scheme<!-- index: Brewer selection algorithm -->, the first-order inclusion probabilities satisfy the following relationship
 $$
 \begin{align*}
 \pi_k=\dfrac{2x_k}{t_x}
 \end{align*}
 $$
-Las probabilidades de inclusión de segundo orden están dadas por
+The second-order inclusion probabilities are given by
 $$
 \begin{align*}
 \pi_{kl}=\dfrac{2x_kx_l}{T_N(\sum_{k\in U}c_k)}\dfrac{T_N-x_k-x_l}{(T_N-2x_k)(T_N-2x_l)}
 \end{align*}
 $$
 
-**Prueba.**
+**Proof.**
 
-La probabilidad de inclusión de primer orden del $k$-ésimo elemento está dada por
+The first-order inclusion probability of the $k$-th element is given by
 $$
 \begin{align*}
 \pi_k&=Pr(k\in S)\\
-&=Pr(\text{$k$ sea seleccionado en la primera extracción})\\
-&+Pr(\text{$k$ sea seleccionado en la segunda extracción})\\
+&=Pr(\text{$k$ is selected in the first draw})\\
+&+Pr(\text{$k$ is selected in the second draw})\\
 &=p_k+p_{k|j}\sum_{\substack{j\in U\\j\neq k}}p_j\\
 &=\frac{{x_k(T_N-x_k)}/{T_N(T_N-2x_k)}}{D}\\
 &+ \sum_{\substack{j\in U\\j\neq k}}\frac{{x_j(T_N-x_j)}/{T_N(T_N-2x_j)}}{D}\frac{x_k}{T_N-x_j}\\
@@ -908,7 +918,7 @@ $$
 &=\frac{x_k/T_N}{D}\left(1+\sum_{j\in U}\frac{x_j}{T_N-2x_j}\right)=\frac{x_k/T_N}{D}\left(2D\right)=\frac{2x_k}{T_N}
 \end{align*}
 $$
-Donde
+where
 $$
 \begin{align*}
 D&=\sum_{k\in U}\frac{x_k(T_N-x_k)}{T_N(T_N-2x_k)}\\
@@ -916,159 +926,159 @@ D&=\sum_{k\in U}\frac{x_k(T_N-x_k)}{T_N(T_N-2x_k)}\\
 &=\frac{1}{2}\left(1+\sum_{k\in U}\frac{x_k}{T_N-2x_k}\right)
 \end{align*}
 $$
-La última relación se tiene puesto que
+The last relationship holds because
 $$
 \begin{align*}
 \sum_{k\in U}\frac{x_k(T_N-x_k)}{T_N(T_N-2x_k)}-\sum_{k\in U}\frac{x_k}{T_N-2x_k}=1
 \end{align*}
 $$
-Análogamente para las probabilidades de inclusión de segundo orden.
+Analogously for the second-order inclusion probabilities.
 
 :::
 
-::: {.callout-tip title="Resultado"}
-Bajo muestreo $\pi PT$ con el algoritmo de selección de Brewer<!-- index: Algoritmo de selección de Brewer -->, se tiene que.
-- $Var_{\pi PT}(\hat{t}_{y,\pi})$ es menor que $Var_{PPT}(\hat{t}_{y,p})$.
-- La estimación de la varianza es siempre positiva.
+::: {.callout-tip title="Result"}
+Under $\pi PT$ sampling with Brewer's selection algorithm<!-- index: Brewer selection algorithm -->, we have that:
+- $Var_{\pi PT}(\hat{t}_{y,\pi})$ is smaller than $Var_{PPS}(\hat{t}_{y,p})$.
+- The variance estimate is always positive.
 
 :::
 
-<!-- index: Selección de muestras -->@Loh afirma que generalmente el muestreo con reemplazo es menos eficiente que el muestreo sin reemplazo. Sin embargo, el muestreo con reemplazo se utiliza con mucha más frecuencia debido a la facilidad que brinda para elegir y analizar las muestras. Se ha investigado mucho acerca del muestreo con probabilidades proporcionales sin reemplazo; hay que notar que la teoría de éstos tipos de muestreo es mucho más complicada. Existen varios algoritmos que permiten la selección de muestras de tamaño $n>2$ con probabilidades de inclusión desiguales; en particular, con probabilidades proporcionales a una característica de información auxiliar^[El lector interesado en conocer aún más acerca de estos algoritmos de selección puede referirse a los siguientes tres libros: @BH, @HajBook y @Til).]. En esta sección, revisaremos algunos de estos esquemas que permiten la selección de muestras para tamaños de muestra fijos y mayores que dos.
+<!-- index: Sample selection -->@Loh states that sampling with replacement is generally less efficient than sampling without replacement. However, sampling with replacement is used much more frequently because of the ease it provides for selecting and analyzing samples. Sampling with proportional probabilities without replacement has been studied extensively; it should be noted that the theory of these types of sampling is much more complicated. Several algorithms allow the selection of samples of size $n>2$ with unequal inclusion probabilities; in particular, with probabilities proportional to an auxiliary information characteristic^[Readers interested in learning more about these selection algorithms may refer to the following three books: @BH, @HajBook, and @Til).]. In this section, we review some of these schemes that allow sample selection for fixed sample sizes greater than two.
 
-### Método de Sunter
+### Sunter's method
 
-<!-- index: Algoritmo de Sunter -->En @Sun y en @Sun86 se propune un procedimiento secuencial que, en general, no es aplicable a cualquier vector de probabilidades de inclusión de primer orden. Este algoritmo de muestreo sólo funciona cuando los elementos de la población son ordenados descendentemente y cuando los elementos con valores más pequeños comparten las mismas probabilidades de inclusión. Este método, que en realidad es una modificación del algoritmo de Fan-Muller-Rezucha para la selección de muestras simples, asume la existencia de una variable auxiliar<!-- index: Variable auxiliar --> que induce probabilidades de inclusión de primer orden dadas por la expresión (4.3.1) y consiste en:
-- Ordenar descendentemente la población de acuerdo con los valores que toma la característica de información auxiliar $x_k$.
-- Realizar $\xi_k\sim U(0,1)$.
-- Para $k=1$, el primer elemento de la lista ordenada es incluido en la muestra sí y solamente sí $\xi_1<\pi_1$.
-- Para $k\geq2$, el $k$-ésimo elemento de la lista ordenada es incluido en la muestra sí y solamente sí
+<!-- index: Sunter algorithm -->@Sun and @Sun86 propose a sequential procedure that, in general, is not applicable to every vector of first-order inclusion probabilities. This sampling algorithm works only when the population elements are ordered in descending order and when the elements with smaller values share the same inclusion probabilities. This method, which is actually a modification of the Fan-Muller-Rezucha algorithm for selecting simple samples, assumes the existence of an auxiliary variable<!-- index: Auxiliary variable --> that induces first-order inclusion probabilities given by expression (4.3.1) and consists of:
+- Ordering the population in descending order according to the values taken by the auxiliary information characteristic $x_k$.
+- Generate $\xi_k\sim U(0,1)$.
+- For $k=1$, the first element of the ordered list is included in the sample if and only if $\xi_1<\pi_1$.
+- For $k\geq2$, the $k$-th element of the ordered list is included in the sample if and only if
 $$
 \xi_k \leq \dfrac{n-n_{k-1}}{n-\sum_{i=1}^{k-1}\pi_i}\pi_k
 $$
-donde $n_{k-1}$ representa el número de elementos que ya han sido seleccionados al final del paso $k-1$.
+where $n_{k-1}$ represents the number of elements that have already been selected at the end of step $k-1$.
 
 
-::: {.callout-tip title="Resultado"}
-Bajo el esquema de selección de Sunter, las probabilidades de inclusión de primer orden están dadas por
+::: {.callout-tip title="Result"}
+Under Sunter's selection scheme, the first-order inclusion probabilities are given by
 
 $$
 \begin{align*}
 \pi_k=\begin{cases}
-\dfrac{nx_k}{T_N}                    &\text{si $k=1,\ldots,k^*-1$}    \\ \\
-\dfrac{n\bar{x}_{k^*}}{T_N}          &\text{si $k=k^*,\ldots,N$}
+\dfrac{nx_k}{T_N}                    &\text{if $k=1,\ldots,k^*-1$}    \\ \\
+\dfrac{n\bar{x}_{k^*}}{T_N}          &\text{if $k=k^*,\ldots,N$}
 \end{cases}
 \end{align*}
 $$
 
-donde $k^*=\min\{k_0,N-n+1\}$ con $k_0$ equivalente al menor $k$ para el cual se cumple que $nx_k/T_k>1$, $T_k=\sum_{j=1}^kx_j$ y
+where $k^*=\min\{k_0,N-n+1\}$, with $k_0$ equivalent to the smallest $k$ for which $nx_k/T_k>1$, $T_k=\sum_{j=1}^kx_j$, and
 
 $$
 \begin{align*}
 \bar{x}_{k^*}=\dfrac{T_{k^*}}{N-k^*+1}
 \end{align*}
 $$
-Por otra parte, se cumple que para todo $k \neq l$, $\pi_{kl}>0$ y $\Delta_{kl}<0$.
+On the other hand, for every $k \neq l$, $\pi_{kl}>0$ and $\Delta_{kl}<0$.
 :::
 
-Con el anterior resultado se establece que este método de selección de muestras no induce probabilidades de inclusión estrictamente proporcionales a la característica de información auxiliar. @Sar afirman que relajar un poco este supuesto es un precio menor que debe pagarse para que el esquema de selección sea ejecutable en la práctica.
+The preceding result establishes that this sample selection method does not induce inclusion probabilities that are strictly proportional to the auxiliary information characteristic. @Sar state that relaxing this assumption slightly is a small price to pay for making the selection scheme executable in practice.
 
-::: {.callout-note title="Ejemplo"}
-Volviendo con la población ejemplo $U$. Suponga que se tiene acceso a los valores de la característica de información auxiliar $x$ para todos los elementos de la población. Es posible seleccionar una muestra $\pi$PT de tamaño $n=3$ con el método de Sunter. Para tal fin, es necesario recurrir a la función `S.piPS` del paquete `TeachingSampling`.
+::: {.callout-note title="Example"}
+Returning to the example population $U$, suppose that the values of the auxiliary information characteristic $x$ are available for all population elements. It is possible to select a $\pi$PS sample of size $n=3$ with Sunter's method. To this end, it is necessary to use the `S.piPS` function from the `TeachingSampling` package.
 
-Esta función consta de tres argumentos: el primero, `x`, hace referencia al vector de información auxiliar continua para toda la población. El segundo, `n`, determina el tamaño de la muestra. Con estos dos argumentos, la función `S.piPS` construye las probabilidades de inclusión proporcionales a la característica de información auxiliar. El tercer argumento, `e`, que es opcional, corresponde a un vector de números aleatorios con el que se procede a ejecutar el esquema de selección de Sunter.
+This function has three arguments: the first, `x`, refers to the vector of continuous auxiliary information for the entire population. The second, `n`, determines the sample size. With these two arguments, the `S.piPS` function constructs the inclusion probabilities proportional to the auxiliary information characteristic. The third argument, `e`, which is optional, corresponds to a vector of random numbers with which Sunter's selection scheme is executed.
 
 ```{r}
 U <- c("Yves", "Ken", "Erik", "Sharon", "Leslie")
 N <- length(U)
 n <- 3
 x <- c(52, 60, 75, 100, 50)
-pik <- (n*x)/sum(x)
+pik <- (n * x) / sum(x)
 
 pik
 sum(pik)
 
-sam <- S.piPS(n, x, e=runif(N))
+sam <- S.piPS(n, x, e = runif(N))
 U[sam]
 x[sam]
 ```
-La función `S.piPS` devuelve un conjunto de índices (distintos por definición) que aplicados a los rótulos poblacionales proporcionan la muestra realizada o seleccionada. Para el anterior ejercicio particular, la muestra realizada estuvo conformada por **Sharon**, **Erik** y **Ken**. Es importante recalcar que esta función no necesita de ningún ordenamiento previo sobre la característica de información auxiliar; en otras palabras, los resultados serán idénticos si se realiza un ordenamiento previo o si no se realiza tal ordenamiento.
+The `S.piPS` function returns a set of indices (distinct by definition) that, when applied to the population labels, provide the realized or selected sample. For the preceding particular exercise, the realized sample consisted of **Sharon**, **Erik**, and **Ken**. It is important to emphasize that this function does not require any prior ordering of the auxiliary information characteristic; in other words, the results will be identical whether or not prior ordering is performed.
 :::
 
-### Método de escisión
+### Splitting method
 
-<!-- index: Algoritmo de escisión -->Desde la publicación de @BH se han propuesto numerosas técnicas de muestreo con probabilidades de inclusión desiguales. Sin embargo, en el artículo de @DT98, se habla de ocho nuevos métodos; entre ellos, el método de escisión. Este método es considerado como un nuevo enfoque que presenta de manera más simple los restantes métodos de selección de muestras con probabilidades desiguales. @Til comenta que el método de escisión es un medio para integrar la presentación de los demás métodos y para hacerlos comparables.
+<!-- index: Splitting algorithm -->Since the publication of @BH, numerous sampling techniques with unequal inclusion probabilities have been proposed. However, the article by @DT98 discusses eight new methods, among them the splitting method. This method is considered a new approach that presents the remaining sample selection methods with unequal probabilities in a simpler way. @Til comments that the splitting method is a means of integrating the presentation of the other methods and making them comparable.
 
-En palabras de uno de los autores [@Til], el método de escisión propuesto por @DT98 es:
+In the words of one of the authors [@Til], the splitting method proposed by @DT98 is:
 
 ::: {.blockquote}
-...un marco de referencia de los métodos de muestreo sin reemplazo, con tamaño muestral fijo y con probabilidades desiguales, en particular con probabilidades proporcionales al tamaño de una característica de información auxiliar.
+...a reference framework for sampling methods without replacement, with fixed sample size and unequal probabilities, in particular with probabilities proportional to the size of an auxiliary information characteristic.
 
-La idea básica del método consiste en dividir el vector de probabilidades de inclusión en dos o más vectores nuevos. A continuación, uno de estos vectores se selecciona aleatoriamente, de tal manera que el promedio de los vectores de como resultado el vector de probabilidades de inclusión. Este simple paso se repite hasta que se obtenga una muestra.
+The basic idea of the method consists of dividing the vector of inclusion probabilities into two or more new vectors. Then, one of these vectors is selected randomly, in such a way that the average of the vectors gives the vector of inclusion probabilities. This simple step is repeated until a sample is obtained.
 
-Con el planteamiento anterior, el método de escisión se puede considerar como un algoritmo de Martingalas que incluye todos los procedimientos de selección individual y secuencial y permite derivar un gran número de algoritmos de muestreo de probabilidades desiguales. Más aun, muchos procedimiento bien conocidos de probabilidades desiguales pueden ser formulados bajo la forma de una partición del vector de probabilidades de inclusión. Por tanto, la presentación puede ser estandarizada, lo cual permite una comparación más simple de procedimientos.
+With the preceding formulation, the splitting method can be considered a martingale algorithm that includes all individual and sequential selection procedures and makes it possible to derive a large number of unequal-probability sampling algorithms. Moreover, many well-known unequal-probability procedures can be formulated as a partition of the vector of inclusion probabilities. Therefore, the presentation can be standardized, allowing a simpler comparison of procedures.
 :::
 
-#### Escisión en dos partes
+#### Splitting into two parts
 
-<!-- index: Algoritmo de escisión -->Este método consiste en seleccionar una muestra, de tamaño $n(S)=n$, de probabilidades desiguales mediante la partición de la probabilidad de inclusión del $k$-ésimo elemento en dos partes $\pi_k^a$ y $\pi_k^b$ tal que
+<!-- index: Splitting algorithm -->This method consists of selecting a sample, of size $n(S)=n$, with unequal probabilities by partitioning the inclusion probability of the $k$-th element into two parts, $\pi_k^a$ and $\pi_k^b$, such that
 
 $$
 \pi_k=\lambda\pi_k^a+(1-\lambda)\pi_k^b
 $$
 
-De tal forma que $0\leq\pi_k^a\leq$ y $0\leq\pi_k^b\leq$ y que
+in such a way that $0\leq\pi_k^a\leq$ and $0\leq\pi_k^b\leq$ and that
 
 $$
 \sum_{k\in U}\pi_k^a=\sum_{k\in U}\pi_k^b=n
 $$
 
-Donde $0<\lambda<1$. La esencia del método es la selección de $n$ elementos con probabilidades desiguales mediante la transformación iterativa del vector de probabilidades de inclusión. Si la escisión es tal que uno o varios de los $\pi_k^a$ y de los $\pi_k^b$ son equivalentes a cero o uno, entonces el problema de muestreo se verá reducido en el siguiente paso. De hecho, un vez que un componente del vector de probabilidades de inclusión converja a cero o uno, es deberá permanecer en este estado hasta que se seleccione una muestra^[Una muestra es seleccionada cuando todas las entradas del vector de probabilidades de inclusión se conviertan en ceros o unos.]. En general, el algoritmo de muestreo de este esquema es el siguiente:
-- Definir $\boldsymbol{\pi}(0)=\boldsymbol{\pi}$.
-- Construir un par de vectores $\boldsymbol{\pi}^a(t)$ y $\boldsymbol{\pi}^b(t)$ y definir un número $\lambda(t) \in (0,1)$ tales que
+where $0<\lambda<1$. The essence of the method is the selection of $n$ elements with unequal probabilities through the iterative transformation of the vector of inclusion probabilities. If the splitting is such that one or several of the $\pi_k^a$ and $\pi_k^b$ are equal to zero or one, then the sampling problem will be reduced in the next step. In fact, once a component of the inclusion probability vector converges to zero or one, it must remain in that state until a sample is selected^[A sample is selected when all entries of the vector of inclusion probabilities become zeros or ones.]. In general, the sampling algorithm for this scheme is as follows:
+- Define $\boldsymbol{\pi}(0)=\boldsymbol{\pi}$.
+- Construct a pair of vectors $\boldsymbol{\pi}^a(t)$ and $\boldsymbol{\pi}^b(t)$ and define a number $\lambda(t) \in (0,1)$ such that
 $$
 \boldsymbol{\pi}(t)=\lambda(t)\boldsymbol{\pi}^a(t)+(1-\lambda(t))\boldsymbol{\pi}^b(t)
 $$
-- Definir para el siguiente paso al vector de probabilidades de inclusión de tal forma que
+- Define the vector of inclusion probabilities for the next step as
 $$
 \boldsymbol{\pi}(t+1)=
 \begin{cases}
-\boldsymbol{\pi}^a(t)          &\text{con probabilidad $\lambda(t)$}    \\
-\boldsymbol{\pi}^b(t)          &\text{con probabilidad $1-\lambda(t)$}
+\boldsymbol{\pi}^a(t)          &\text{with probability $\lambda(t)$}    \\
+\boldsymbol{\pi}^b(t)          &\text{with probability $1-\lambda(t)$}
 \end{cases}
 $$
-- Iterar hasta obtener convergencia; es decir, hasta que todas las entradas del vector de probabilidades de inclusión sean cero o uno en ambas particiones. De esta forma, para cada tiempo $t$, existe una posible muestra correspondiente a $S=\boldsymbol{\pi}(t)$.
+- Iterate until convergence is obtained; that is, until all entries of the vector of inclusion probabilities are zero or one in both partitions. In this way, for each time $t$, there is a possible sample corresponding to $S=\boldsymbol{\pi}(t)$.
 
 
-#### Esquema de soporte mínimo
+#### Minimum support scheme
 
-::: {.callout-important title="Definición"}
-<!-- index: Soporte mínimo -->Si para un vector fijo de probabilidades de inclusión es posible plantear un diseño de muestreo cuyo soporte contenga a lo más $N$ muestras $s$, tales que $p(s)>0$. En tal caso, el diseño de muestreo se dice de soporte mínimo.
+::: {.callout-important title="Definition"}
+<!-- index: Minimum support -->If, for a fixed vector of inclusion probabilities, it is possible to state a sampling design whose support contains at most $N$ samples $s$ such that $p(s)>0$, then the sampling design is said to have minimum support.
 :::
 
-A continuación se presenta el esquema de soporte mínimo que permite seleccionar una muestra en a lo más $N$ pasos.
-- Ordenar el vector de probabilidades de inclusión en orden ascendente, denotado como $(\pi_{(1)},\ldots,\pi_{(k)},\ldots,\pi_{(N)})$
-- (Primera iteración, $t=1$) Calcular
+The minimum support scheme that makes it possible to select a sample in at most $N$ steps is presented below.
+- Sort the vector of inclusion probabilities in ascending order, denoted as $(\pi_{(1)},\ldots,\pi_{(k)},\ldots,\pi_{(N)})$.
+- (First iteration, $t=1$) Calculate
 $$
 \begin{align*}
 \lambda(1)=\min\{1-\pi_{(N-n)},\pi_{(N-n+1)}\}
 \end{align*}
 $$
-Luego, computar las siguientes particiones del vector de probabilidades de inclusión
+Then, compute the following partitions of the vector of inclusion probabilities
 $$
 \begin{align}
 \pi_{(k)}^a(1)&=
 \begin{cases}
-0         &\text{si $k\leq N-n$}    \\
-1         &\text{si $k> N-n$}
+0         &\text{if $k\leq N-n$}    \\
+1         &\text{if $k> N-n$}
 \end{cases}\\ \notag\\
 \pi_{(k)}^b(1)&=
 \begin{cases}
-\frac{\pi_{(k)}}{1-\lambda(1)}       &\text{si $k\leq N-n$}    \\ \\
-\frac{\pi_{(k)}-\lambda(1)}{1-\lambda(1)}          &\text{si $k> N-n$}
+\frac{\pi_{(k)}}{1-\lambda(1)}       &\text{if $k\leq N-n$}    \\ \\
+\frac{\pi_{(k)}-\lambda(1)}{1-\lambda(1)}          &\text{if $k> N-n$}
 \end{cases}
 \end{align}
 $$
-- ($t$-ésima iteración, $t\geq2$) Definir los siguientes conjuntos
+- ($t$-th iteration, $t\geq2$) Define the following sets
 $$
 \begin{align*}
 A(t)&=\{k|0<\pi_{(k)}^b(t-1)<1\}\\
@@ -1076,7 +1086,7 @@ B(t)&=\{k|\pi_{(k)}^b(t-1)=1\}
 \end{align*}
 $$
 
-y las siguientes cantidades:
+and the following quantities:
 
 $$
 \begin{align*}
@@ -1085,7 +1095,7 @@ n^*(t)&=\#B(t)
 \end{align*}
 $$
 
-Luego, para los elementos $k\in A(t)$ calcular
+Then, for the elements $k\in A(t)$, calculate
 
 $$
 \begin{align*}
@@ -1093,48 +1103,48 @@ $$
 \end{align*}
 $$
 
-A continuación, para los elementos $k\in A(t)$ computar las siguientes particiones del vector de probabilidades de inclusión
+Next, for the elements $k\in A(t)$, compute the following partitions of the vector of inclusion probabilities
 
 $$
 \begin{align}
 \pi_{(k)}^a(t)&=
 \begin{cases}
-0         &\text{si $k\leq N^*(t)-n^*(t)$}    \\
-1         &\text{si $k> N^*(t)-n^*(t)$}
+0         &\text{if $k\leq N^*(t)-n^*(t)$}    \\
+1         &\text{if $k> N^*(t)-n^*(t)$}
 \end{cases}\\ \notag\\
 \pi_{(k)}^b(t)&=
 \begin{cases}
-\frac{\pi^b_{(k)}(t-1)}{1-\lambda(t)}                     &\text{si $k\leq N^*(t)-n^*(t)$}    \\ \\
-\frac{\pi^b_{(k)}(t-1)-\lambda(t)}{1-\lambda(t)}          &\text{si $k> N^*(t)-n^*(t)$}
+\frac{\pi^b_{(k)}(t-1)}{1-\lambda(t)}                     &\text{if $k\leq N^*(t)-n^*(t)$}    \\ \\
+\frac{\pi^b_{(k)}(t-1)-\lambda(t)}{1-\lambda(t)}          &\text{if $k> N^*(t)-n^*(t)$}
 \end{cases}
 \end{align}
 $$
-- Iterar hasta obtener convergencia; es decir, hasta que $\pi_{(k)}^b(t)\in\{0,1\}$.
+- Iterate until convergence is obtained; that is, until $\pi_{(k)}^b(t)\in\{0,1\}$.
 
 
-::: {.callout-note title="Ejemplo"}
-En este apartado se muestra paso a paso cómo trabaja el algoritmo de mínimo soporte basado en el método de escisión. Volvemos entonces a nuestra población ejemplo
+::: {.callout-note title="Example"}
+This subsection shows step by step how the minimum support algorithm based on the splitting method works. We therefore return to our example population
 
 $$
 U =\{\textbf{Yves, Ken, Erik, Sharon, Leslie}\}
 $$
 
-El cálculo de las probabilidades de inclusión se hace con respecto a la expresión (4.3.1) donde la característica de información auxiliar corresponde a
+The calculation of the inclusion probabilities is made with respect to expression (4.3.1), where the auxiliary information characteristic corresponds to
 $$
 \mathbf{x} = (52,60,75,100,50)
 $$
 
-Por tanto, el vector de probabilidades de inclusión está dado por
+Therefore, the vector of inclusion probabilities is given by
 
 $$
 \boldsymbol{\pi} = (0.46, 0.53, 0.67, 0.90, 0.44)
 $$
 
-El método exige el ordenamiento del vector de probabilidades de inclusión en orden ascendente. Luego de esto, se tiene que el procedimiento converge en cuatro etapas. La tabla 4.3 muestra la convergencia del método y todas las posibles muestras que surgen del diseño muestral con soporte mínimo. Los cálculos en cada etapa se dan a continuación:
+The method requires the vector of inclusion probabilities to be ordered in ascending order. After this, the procedure is seen to converge in four stages. Table 4.3 shows the convergence of the method and all possible samples arising from the sampling design with minimum support. The calculations at each stage are given below:
 
-: *Diseño de mínimo soporte para la población $U$.*
+: *Minimum support design for population $U$.*
 
-|  |  | Etapa 1 | Etapa 2 | Etapa 3 | Etapa 4 |  |  |  |  |
+|  |  | Stage 1 | Stage 2 | Stage 3 | Stage 4 |  |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  |  | $\lambda(1)=0.53$ | $\lambda(2)=0.06$ | $\lambda(3)=0.02$ | $\lambda(4)=0.78$ |  |  |  |  |
 | $k$ | $\pi_k$ | $\pi_k^a$ | $\pi_k^b$ | $\pi_k^a$ | $\pi_k^b$ | $\pi_k^a$ | $\pi_k^b$ | $\pi_k^a$ | $\pi_k^b$ |
@@ -1150,127 +1160,128 @@ El método exige el ordenamiento del vector de probabilidades de inclusión en o
 - $N^*(4)=2$, $n^*(4)=1$, $\lambda(4)=\min\{1-\pi_{(1)}(3),\pi_{(2)}(3)\}=0.78$
 
 
-Por tanto, el diseño muestral de mínimo soporte está dado por
+Therefore, the minimum support sampling design is given by
 
 $$
 \begin{align*}
 p(s)=
 \begin{cases}
-0.53                                                       &\text{si $s=\{\textbf{Ken, Erik, Sharon}\}$}     \\
-0.0282=(1-0.53) \times 0.06                                &\text{si $s=\{\textbf{Yves, Erik, Sharon}\}$}    \\
-0.0088=(1-0.53-0.0282) \times 0.02                         &\text{si $s=\{\textbf{Leslie, Erik, Sharon}\}$}  \\
-0.3377=(1-0.53-0.0282-0.008) \times 0.78                   &\text{si $s=\{\textbf{Leslie, Yves, Sharon}\}$}    \\
-0.0953=(1-0.53-0.0282-0.008-0.3377)                        &\text{si $s=\{\textbf{Leslie, Yves, Erik}\}$}
+0.53                                                       &\text{if $s=\{\textbf{Ken, Erik, Sharon}\}$}     \\
+0.0282=(1-0.53) \times 0.06                                &\text{if $s=\{\textbf{Yves, Erik, Sharon}\}$}    \\
+0.0088=(1-0.53-0.0282) \times 0.02                         &\text{if $s=\{\textbf{Leslie, Erik, Sharon}\}$}  \\
+0.3377=(1-0.53-0.0282-0.008) \times 0.78                   &\text{if $s=\{\textbf{Leslie, Yves, Sharon}\}$}    \\
+0.0953=(1-0.53-0.0282-0.008-0.3377)                        &\text{if $s=\{\textbf{Leslie, Yves, Erik}\}$}
 \end{cases}
 \end{align*}
 $$
 
 :::
 
-### Estimación de la varianza
+### Variance estimation
 
-<!-- index: Estimación de la varianza -->Existe un número muy grande de diseños y algoritmos de muestreo que trabajan bajo el supuesto de probabilidades de inclusión desiguales. En el caso particular del diseño de muestreo sin reemplazo y proporcional al tamaño de una característica de interés, las probabilidades de inclusión siguen el comportamiento dado por la expresión (4.3.1). Cada uno de estos métodos de muestreo inducen probabilidades de inclusión de primer y segundo orden. Las probabilidades de inclusión de primer orden son esenciales al momento de completar la estrategia de muestreo con el estimador de Horvitz-Thompson. Sin embargo, las probabilidades de inclusión de segundo orden, aunque servirían teóricamente para calcular y estimar la varianza del estimador de Horvitz-Thompson, son ineficientes pues cuando el tamaño de muestra crece, su cálculo se vuelve una total aventura, en muchos casos imposible de finiquitar.
+<!-- index: Variance estimation -->There is a very large number of sampling designs and algorithms that work under the assumption of unequal inclusion probabilities. In the particular case of the sampling design without replacement and proportional to the size of a characteristic of interest, the inclusion probabilities follow the behavior given by expression (4.3.1). Each of these sampling methods induces first- and second-order inclusion probabilities. First-order inclusion probabilities are essential when completing the sampling strategy with the Horvitz-Thompson estimator. However, second-order inclusion probabilities, although theoretically useful for calculating and estimating the variance of the Horvitz-Thompson estimator, are inefficient because when the sample size grows, their calculation becomes a real ordeal and in many cases impossible to finish.
 
-Al respecto @Til comenta, en el prefacio de su libro de algoritmos de muestreo, que <<tiene la convicción de que las probabilidades de inclusión de segundo orden no son usadas para nada>> y añade que <<en la práctica el uso de las probabilidades de inclusión de segundo orden es muchas veces irreal porque son muy difíciles de calcular computacionalmente y $n^2$ términos deben ser sumados para calcular la estimación>>.
+In this regard, @Til comments, in the preface to his book on sampling algorithms, that he is convinced that second-order inclusion probabilities are not used at all, and adds that in practice the use of second-order inclusion probabilities is often unrealistic because they are very difficult to calculate computationally and $n^2$ terms must be summed to calculate the estimate.
 
-Para evitar el cálculo y estimación de la varianza del estimador de Horvitz-Thompson con dobles sumas, @DT05 proponen una aproximación de la varianza^[Existe mucha literatura escrita alrededor del tema de aproximaciones y simplificaciones de la varianza del estimador de Horvitz-Thompson. Para una mejor comprensión del tema @MT05 han escrito un excelente artículo de revisión.] y su respectiva estimación para un diseño exponencial^[Los diseños de muestreo exponenciales son una gran familia que incluyen diseños tales como muestreo aleatorio simple, muestreo multinomial, muestreo de probabilidades desiguales con reemplazo y algunos diseños de probabilidades desiguales sin reemplazo. Para más información acerca de los diseños de muestreo exponenciales el lector deberá remitirse a @Til.] dada por el siguiente resultado
+To avoid calculating and estimating the variance of the Horvitz-Thompson estimator with double sums, @DT05 propose an approximation of the variance^[There is extensive literature on approximations and simplifications of the variance of the Horvitz-Thompson estimator. For a better understanding of the topic, @MT05 have written an excellent review article.] and its corresponding estimate for an exponential design^[Exponential sampling designs are a large family that includes designs such as simple random sampling, multinomial sampling, unequal-probability sampling with replacement, and some unequal-probability designs without replacement. For more information on exponential sampling designs, the reader should refer to @Til.] given by the following result
 
-::: {.callout-tip title="Resultado"}
-Para la familia de diseños exponenciales, la aproximación de la varianza del estimador de Horvitz-Thompson está dada por
+::: {.callout-tip title="Result"}
+For the family of exponential designs, the approximation of the variance of the Horvitz-Thompson estimator is given by
 $$
 Var(\hat{t}_{y,\pi})=\sum_{k\in U} \frac{b_k}{\pi_k^2}(y_k-y_k^*)^2
 $$
-donde
+where
 $$
 y_k^*=\pi_k\dfrac{\sum_{l\in U}b_ly_l/\pi_l}{\sum_{l\in U}b_l}
 $$
-@HajBook ha propuesto la siguiente escogencia de $b_k$
+@HajBook proposed the following choice of $b_k$
 $$
 b_k=\dfrac{N\pi_k (1-\pi_k)}{(N-1)}
 $$
-Un estimador de la anterior aproximación de la varianza está dada por
+An estimator of the preceding variance approximation is given by
 $$
 \widehat{Var}(\hat{t}_{y,\pi})=\sum_{k\in S} \frac{c_k}{\pi_k^2}(y_k-\hat{y}_k^*)^2
 $$
-donde
+where
 $$
 \hat{y}_k^*=\pi_k\dfrac{\sum_{l\in S}c_ly_l/\pi_k}{\sum_{l\in S}c_l}
 $$
-@DEV93 ha propuesto la siguiente escogencia de $c_k$
+@DEV93 proposed the following choice of $c_k$
 $$
 c_k=(1-\pi_k)\dfrac{n}{(n-1)}
 $$
 
 :::
 
-::: {.callout-note title="Ejemplo"}
-Para nuestra población de ejemplo $U$, existen $\binom{N}{n}=10$ posibles muestras $\pi$PT de tamaño $n=3$. Utilizando las probabilidades de inclusión del ejemplo 4.4.1, realice el cálculo léxico-gráfico del estimador de Horvitz-Thompson, calcule la aproximación de la varianza dada por la expresión (4.4.9) y para cada muestra estime esta varianza usando la expresión (4.4.12) y compruebe su insesgamiento.
+::: {.callout-note title="Example"}
+For our example population $U$, there are $\binom{N}{n}=10$ possible $\pi$PS samples of size $n=3$. Using the inclusion probabilities from Example 4.4.1, carry out the lexical-graphic calculation of the Horvitz-Thompson estimator, calculate the variance approximation given by expression (4.4.9), and for each sample estimate this variance using expression (4.4.12) and verify its unbiasedness.
 :::
 
-#### Acerca del muestreo $\pi$PT
+#### About $\pi$PS sampling
 
-<!-- index: Diseño de muestreo $\pi$PT -->En general, la familia de diseños de muestreo $\pi$PT son utilizados cuando el comportamiento de la característica de interés en la población finita es bastante asimétrico. Para la estimación de totales, este diseño es más eficiente, en términos de reducción de la varianza. Sin embargo, cuando se quiere estimar otro tipo de parámetros poblacionales, como razones o medianas, los diseños de muestreo proporcionales al tamaño no son muy apetecidos, pues es difícil encontrar una característica de información auxiliar bien correlacionada con la razón entre las dos características de interés. En resumen, se tiene que:
-- Se utiliza esencialmente para la estimación de totales poblacionales.
-- Al seleccionar hogares no vale la pena utilizar este diseño pues, en general, en cada vivienda hay una misma cantidad de hogares.
-- En encuestas de negocios es bueno utilizar diseños proporcionales porque sí existen diferencias en los tamaños considerados (por ejmeplo en total de ventas mensuales, número de empleados contratados al año, etc.).
-- Debido a que este diseño de muestreo involucra información auxiliar, entonces es más eficiente que el diseño de muestreo aleatorio simple, siempre y cuando la característica de interés esté relacionada positivamente con la información auxiliar.
-- Un defecto de este diseño de muestreo es que su varianza no es una función monótona decreciente. Debido a la configuración particular de la información, la varianza puede crecer si se aumenta el tamaño de muestra.
+<!-- index: $\pi$PS sampling design -->In general, the family of $\pi$PS sampling designs is used when the behavior of the characteristic of interest in the finite population is quite asymmetric. For estimating totals, this design is more efficient in terms of variance reduction. However, when one wants to estimate other types of population parameters, such as ratios or medians, sampling designs proportional to size are not very attractive, because it is difficult to find an auxiliary information characteristic that is well correlated with the ratio between the two characteristics of interest. In summary:
+- It is used essentially for estimating population totals.
+- When selecting households, it is not worthwhile to use this design because, in general, each dwelling has roughly the same number of households.
+- In business surveys it is good to use proportional designs because there are indeed differences in the sizes considered (for example, total monthly sales, number of employees hired per year, and so on).
+- Because this sampling design involves auxiliary information, it is more efficient than the simple random sampling design, provided that the characteristic of interest is positively related to the auxiliary information.
+- A drawback of this sampling design is that its variance is not a monotonically decreasing function. Because of the particular configuration of the information, the variance may increase if the sample size is increased.
 
 
-### Marco y Lucy
+### Marco and Lucy
 
-<!-- index: Marco y Lucy -->En este apartado de Marco y Lucy suponga que se tienen las mismas condiciones que en el apartado de Marco y Lucy del diseño de muestreo PPT (ver la sección 4.2.4). Siendo así, el marco de muestreo permite conocer los valores poblacionales de una característica de información auxiliar. En este caso ésta es la variable `Income`. Dadas las bondades del marco de muestreo, se quiere seleccionar una muestra de tamaño `n=2000` mediante un diseño de muestreo sin reemplazo que induzca probabilidades de inclusión proporcionales a esta característica de información auxiliar.
+<!-- index: Marco and Lucy -->In this Marco and Lucy subsection, suppose that the same conditions hold as in the Marco and Lucy subsection for the PPS sampling design (see Section 4.2.4). Thus, the sampling frame makes it possible to know the population values of an auxiliary information characteristic. In this case, it is the variable `Income`. Given the advantages of the sampling frame, the goal is to select a sample of size `n=2000` using a sampling design without replacement that induces inclusion probabilities proportional to this auxiliary information characteristic.
 
-La selección de la muestra se realiza haciendo uso de la función `S.piPS` del paquete `TeachingSampling` para la cual los argumentos introducidos son: el vector de valores poblacionales de la característica de información auxiliar `Income` y el tamaño de la muestra sin reemplazo `n=2000`. Nótese que esta función utiliza el algoritmo de selección de Sunter. 
+The sample is selected using the `S.piPS` function from the `TeachingSampling` package, for which the arguments entered are: the vector of population values of the auxiliary information characteristic `Income` and the sample size without replacement `n=2000`. Note that this function uses Sunter's selection algorithm.
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 data(BigLucy)
-attach(BigLucy)
-
 N <- dim(BigLucy)[1]
 n <- 2000
-res <- S.piPS(n, Income)
-sam <- res[,1]
-muestra <- BigLucy[sam,]
-attach(muestra)
-head(muestra)
+res <- S.piPS(n, BigLucy$Income)
+sam <- res[, 1]
+sample_data <- BigLucy[sam, ]
+head(sample_data)
 ```
-El resultado de la función `S.piPS` es una muestra ordenada de forma descendente por los valores de la característica de información auxiliar. El siguiente paso es recolectar la información de las características de interés `Employees` e `Taxes` para los elementos incluidos en la muestra realizada.
+The result of the `S.piPS` function is a sample ordered in descending order by the values of the auxiliary information characteristic. The next step is to collect information on the characteristics of interest `Employees` and `Taxes` for the elements included in the realized sample.
 
-Después de recolectar la información, es necesario estimar los totales de las características de interés. En esta etapa se utiliza la función `E.piPS` del paquete `TeachingSampling` cuyos argumentos son: `estima`, correspondiente a la lista que contiene los valores observados en la muestra para cada una de las características de interés y `pik.s`, correspondiente al vector de probabilidades de inclusión (proporcionales a la característica de información auxiliar) de los elementos en la muestra.
+After collecting the information, it is necessary to estimate the totals of the characteristics of interest. At this stage, the `E.piPS` function from the `TeachingSampling` package is used. Its arguments are: `target_variables`, corresponding to the list containing the observed values in the sample for each characteristic of interest, and `pik.s`, corresponding to the vector of inclusion probabilities (proportional to the auxiliary information characteristic) of the elements in the sample.
 
-```{r, results='hide'}
-pik.s <- res[,2]
-estima <- data.frame(Income, Employees, Taxes)
-E.piPS(estima, pik.s)
+```{r, results = 'hide'}
+pik.s <- res[, 2]
+target_variables <- data.frame(
+  Income = sample_data$Income,
+  Employees = sample_data$Employees,
+  Taxes = sample_data$Taxes
+)
+E.piPS(target_variables, pik.s)
 ```
-Los resultados para este ejercicio particular son excelentes. Nótese que los estimativos de la varianza no son exactos, pues están dados por el resultado 4.4.2, aunque sí aproximados. Por otra parte, el resultado 4.3.4 asegura que éstos serían menores a los arrojados por la estrategia de muestreo que utiliza un diseño PPT con reemplazo y el estimador de Hansen-Hurwitz. Por supuesto, este diseño de muestreo es más eficiente que el de Poisson, no es de extrañar que los resultados para la variable Ingreso sean tan exactos. Recuérdese que ésta fue la variable utilizada como característica de información auxiliar. La siguiente tabla muestra los resultado para un ejercicio particular. Una vez más, la característica Impuestos tiene un menor coeficiente de variación estimado puesto que está mucho mejor correlacionada con la variable Ingreso.
+The results for this particular exercise are excellent. Note that the variance estimates are not exact, since they are given by Result 4.4.2, but they are approximations. On the other hand, Result 4.3.4 ensures that they would be smaller than those produced by the sampling strategy that uses a PPS design with replacement and the Hansen-Hurwitz estimator. Of course, this sampling design is more efficient than the Poisson design; it is not surprising that the results for the Income variable are so exact. Recall that this was the variable used as the auxiliary information characteristic. The following table shows the results for a particular exercise. Once again, the Taxes characteristic has a smaller estimated coefficient of variation because it is much better correlated with the Income variable.
 
 ```{r, echo = FALSE}
 #| label: tbl-t4-3
-#| tbl-cap: 'Muestreo $\pi$PT: estimación de los totales de las características de interés'
-Estimaciones = E.piPS(estima, pik.s)
-knitr::kable(Estimaciones)
+#| tbl-cap: '$\pi$PS sampling: estimation of the totals of the characteristics of interest'
+estimates <- E.piPS(target_variables, pik.s)
+knitr::kable(estimates)
 ```
-Véase que para obtener estos resultados, fue necesario conocer el valor de $N$ dado por la longitud del vector de información auxiliar. Nótese que no siempre se puede asegurar el conocimiento del total poblacional. Sin embargo, aunque no se conociera, con la función `HT` se hubiera llegado a los mismos resultados, en términos de la estimación de los totales, pero no se obtendrían los estimativos concernientes a la varianza, tal y como se ilustra a continuación.
+Notice that to obtain these results, it was necessary to know the value of $N$ given by the length of the auxiliary information vector. Note that knowledge of the population total cannot always be guaranteed. However, even if it were not known, the `HT` function would have led to the same results in terms of the estimation of the totals, but the estimates concerning the variance would not be obtained, as illustrated below.
 
 ```{r}
-HT(estima, pik.s)
+HT(target_variables, pik.s)
 ```
-## Ejercicios
-- Demuestre o refute la siguiente afirmación: <<Cuando el comportamiento de la característica de interés es uniforme en la población es más conveniente utilizar diseños de muestreo proporcionales al tamaño de una característica de información auxiliar>>.
-- Demuestre o refute la siguiente afirmación: <<En muestreo Poisson, cuando las probabilidades de inclusión son tales que $\pi_k=n y_k/t_y$ la varianza del estimador de Horvitz-Thompson es nula>>.
-- Complete el cálculo léxico-gráfico del ejemplo 4.1.2.
-- Suponga una población de 10 elementos $U=\{e_1,\ldots, e_{10}\}$ cuyo marco de muestreo contiene una característica de información auxiliar dada por
+## Exercises
+- Prove or refute the following statement: "When the behavior of the characteristic of interest is uniform in the population, it is more convenient to use sampling designs proportional to the size of an auxiliary information characteristic."
+- Prove or refute the following statement: "In Poisson sampling, when the inclusion probabilities are such that $\pi_k=n y_k/t_y$, the variance of the Horvitz-Thompson estimator is zero."
+- Complete the lexical-graphic calculation from Example 4.1.2.
+- Suppose a population of 10 elements $U=\{e_1,\ldots, e_{10}\}$ whose sampling frame contains an auxiliary information characteristic given by
     $$
 \mathbf{x}=(62, 151, 76, 77, 80, 60, 194, 78, 74, 61)
 $$
-- Si se desea seleccionar una muestra sin reemplazo de tamaño esperado $n(S)=6$, utilice la expresión (4.3.2) para construir un vector de probabilidades de inclusión proporcionales a $\mathbf{x}$ tales que $0<\pi_k\leq 1$ para todo $k\in U$ y verifique $\sum_U \pi_k=6$
-- Utilice el algoritmo de la sección 4.1.1 para seleccionar una muestra Poisson teniendo en cuenta que se obtuvo el siguiente conjunto de números aleatorios uniformes
-          $$\beps=\{0.858, 0.698, 0.541, 0.320, 0.965, 0.497, 0.208, 0.006, 0.340, 0.206\}$$
-- Utilice el método de Sunter para seleccionar una muestra $\pi$PT teniendo en cuenta que se obtuvo el siguiente conjunto de números aleatorios uniformes
-          $$\bxi=\{0.322, 0.542, 0.032, 0.141, 0.453, 0.668, 0.174, 0.318, 0.691, 0.006\}$$
-- [@Sar, p. 117] Para estimar el total de la característica de interés $y$ de una población de $N=284$ elementos, se utilizó un diseño de muestreo Poisson de tamaño de muestra esperado $n(S)=10$. Las probabilidades de inclusión fueron proporcionales a una característica de información auxiliar $x$ cuyo total poblacional es $t_x=8182$. Luego, el algoritmo de selección arrojó una muestra de tamaño efectivo de 12 elementos, para las cuales se obtuvo la siguiente información
+- If the goal is to select a sample without replacement with expected size $n(S)=6$, use expression (4.3.2) to construct a vector of inclusion probabilities proportional to $\mathbf{x}$ such that $0<\pi_k\leq 1$ for every $k\in U$ and verify $\sum_U \pi_k=6$.
+- Use the algorithm from Section 4.1.1 to select a Poisson sample, taking into account that the following set of uniform random numbers was obtained
+          $$\boldsymbol{\varepsilon}=\{0.858, 0.698, 0.541, 0.320, 0.965, 0.497, 0.208, 0.006, 0.340, 0.206\}$$
+- Use Sunter's method to select a $\pi$PS sample, taking into account that the following set of uniform random numbers was obtained
+          $$\boldsymbol{\xi}=\{0.322, 0.542, 0.032, 0.141, 0.453, 0.668, 0.174, 0.318, 0.691, 0.006\}$$
+- [@Sar, p. 117] To estimate the total of the characteristic of interest $y$ in a population of $N=284$ elements, a Poisson sampling design with expected sample size $n(S)=10$ was used. The inclusion probabilities were proportional to an auxiliary information characteristic $x$ whose population total is $t_x=8182$. Then, the selection algorithm produced a sample with effective size 12, for which the following information was obtained
 
 | $x_k$ | $y_k$ |
 | --- | --- |
@@ -1286,34 +1297,34 @@ $$
 | 446 | 38945 |
 | 12 | 1162 |
 | 46 | 4852 |
-- Calcule una estimación insesgada para el total poblacional de la característica de interés, reporte el coeficiente de variación estimado y un intervalo de confianza al 95%.
-- Calcule una estimación insesgada para la media poblacional de la característica de interés, reporte el coeficiente de variación estimado y un intervalo de confianza al 95%.
-- Utilice el estimador alternativo para calcular estimaciones tanto del total como de la media poblacional.
-- Complete el cálculo léxico-gráfico del ejemplo 4.4.3.
-- Suponiendo que los datos del ejercicio 4.5 provienen de un diseño de muestreo $\pi$PT, calcule una estimación para el total de la característica de interés. Utilizando la aproximación de la varianza dada en (4.4.12), reporte el coeficiente de variación estimado y un intervalo de confianza al 95%.
-- Utilice el esquema de mínimo soporte para especificar un diseño de muestreo $\pi$PT de tamaño $n=3$ para una población de tamaño $N=6$ cuyo vector de probabilidades de inclusión de primer orden es
-    $$\bpi=(0.07, 0.17, 0.41, 0.61, 0.83, 0.91)'$$
+- Calculate an unbiased estimate for the population total of the characteristic of interest, report the estimated coefficient of variation and a 95% confidence interval.
+- Calculate an unbiased estimate for the population mean of the characteristic of interest, report the estimated coefficient of variation and a 95% confidence interval.
+- Use the alternative estimator to calculate estimates for both the population total and the population mean.
+- Complete the lexical-graphic calculation from Example 4.4.3.
+- Assuming that the data in Exercise 4.5 come from a $\pi$PS sampling design, calculate an estimate for the total of the characteristic of interest. Using the variance approximation given in (4.4.12), report the estimated coefficient of variation and a 95% confidence interval.
+- Use the minimum support scheme to specify a $\pi$PS sampling design of size $n=3$ for a population of size $N=6$ whose vector of first-order inclusion probabilities is
+    $$\boldsymbol{\pi}=(0.07, 0.17, 0.41, 0.61, 0.83, 0.91)'$$
 
-    Demuestre que el procedimiento converge en cuatro pasos que inducen cinco muestras y calcule la probabilidad de selección de cada muestra.
-- Demuestre o refute la siguiente afirmación: <<En muestreo PPT es posible utilizar los estimadores de Horvitz-Thompson y de Hansen-Hurwitz, al comparar las dos estrategias se tiene que las dos aportan la misma precisión pero diferente confiabilidad>>.
-- Complete el cálculo léxico-gráfico del ejemplo 4.2.2.
-- Suponga una población de 12 elementos $U=\{e_1,\ldots, e_{12}\}$ cuyo marco de muestreo contiene una característica de información auxiliar dada por
+    Prove that the procedure converges in four steps that induce five samples, and calculate the selection probability of each sample.
+- Prove or refute the following statement: "In PPS sampling, it is possible to use the Horvitz-Thompson and Hansen-Hurwitz estimators; when comparing the two strategies, both provide the same precision but different reliability."
+- Complete the lexical-graphic calculation from Example 4.2.2.
+- Suppose a population of 12 elements $U=\{e_1,\ldots, e_{12}\}$ whose sampling frame contains an auxiliary information characteristic given by
     $$
 \mathbf{x}=(674, 802, 829, 726, 709, 789, 742, 791, 805, 797, 771, 692)
 $$
-- Si se desea seleccionar una muestra con reemplazo de tamaño $m=6$, construya un vector de probabilidades de selección proporcionales a $\mathbf{x}$ tales que $0<p_k\leq 1$ para todo $k\in U$ y verifique $\sum_U p_k=6$
-- Utilice el método acumulativo total para seleccionar una muestra PPT teniendo en cuenta que para cada una de las seis extracciones se generaron los siguientes números aleatorios uniformes
-          $$\beps=\{0.075, 0.397, 0.280, 0.407, 0.982, 0.782\}$$
-- Utilice el método de Lahiri para seleccionar una muestra PPT usando sus propios números aleatorios $\eta$ y $l$ en cada una de las extracciones.
-- Demuestre o refute la siguiente afirmación: <<Para la estimación de totales, el diseño PPT es preferido sobre el diseño $\pi$PT porque permiten agilizar los cálculos computacionales de varianza y coeficiente de variación>>.
-- Demuestre o refute la siguiente afirmación: <<Para la estimación de totales, el diseño PPT siempre es más eficiente que el diseño de muestreo aleatorio simple con reemplazo>>.
-- Suponga una población de $N=12$ elementos cuyos valores observados para la característica de interés son
+- If the goal is to select a sample with replacement of size $m=6$, construct a vector of selection probabilities proportional to $\mathbf{x}$ such that $0<p_k\leq 1$ for every $k\in U$ and verify $\sum_U p_k=6$.
+- Use the total cumulative method to select a PPS sample, taking into account that for each of the six draws the following uniform random numbers were generated
+          $$\boldsymbol{\varepsilon}=\{0.075, 0.397, 0.280, 0.407, 0.982, 0.782\}$$
+- Use Lahiri's method to select a PPS sample using your own random numbers $\eta$ and $l$ in each draw.
+- Prove or refute the following statement: "For estimating totals, the PPS design is preferred over the $\pi$PS design because it makes the computational calculations of variance and coefficient of variation faster."
+- Prove or refute the following statement: "For estimating totals, the PPS design is always more efficient than the simple random sampling design with replacement."
+- Suppose a population of $N=12$ elements whose observed values for the characteristic of interest are
 $${y}=\{50, 53, 44, 45, 53, 31, 35, 45, 34, 44, 52, 52\}$$
 
-y los valores observados para la característica de información auxiliar son
+and the observed values for the auxiliary information characteristic are
 $${x}=\{1005, 1072,  884,  907, 1068,  625,  705,  909, 692,  891, 1046, 1052\}$$
-- Calcule la correlación entre $y^2/x$ y $x$.
-- Realice un gráfico de dispersión para `y/x` y explique si se puede afirmar que la razón es constante para los elementos de la población.
-- Utilice el análisis de regresión simple para estimar el valor del intercepto y decida si este es estadísticamente diferente de cero.
-- Para un tamaño de muestra $m=6$, utilice la expresión (4.2.13) y los anteriores argumentos para justificar o descalificar la escogencia del diseño de muestreo PPT para esta población.
-- Asumiendo que los datos del ejercicio 4.5 provienen de un diseño de muestreo PPT, calcule la estimación de Hansen-Hurwitz para el total de la característica de interés, reporte el coeficiente de variación estimado y un intervalo de confianza al 95%. También calcule la estimación de Horvitz-Thompson para el total de la característica de interés.
+- Calculate the correlation between $y^2/x$ and $x$.
+- Make a scatterplot for `y/x` and explain whether it can be stated that the ratio is constant for the population elements.
+- Use simple regression analysis to estimate the value of the intercept and decide whether it is statistically different from zero.
+- For a sample size $m=6$, use expression (4.2.13) and the preceding arguments to justify or reject the choice of the PPS sampling design for this population.
+- Assuming that the data in Exercise 4.5 come from a PPS sampling design, calculate the Hansen-Hurwitz estimate for the total of the characteristic of interest, report the estimated coefficient of variation and a 95% confidence interval. Also calculate the Horvitz-Thompson estimate for the total of the characteristic of interest.

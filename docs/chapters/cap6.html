@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.36">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Muestreo de conglomerados – Estrategias de Muestreo</title>
+<title>6&nbsp; Cluster sampling – Sampling Strategies</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -113,17 +113,17 @@ div.csl-indent {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No se han encontrado resultados",
-    "search-matching-documents-text": "documentos encontrados",
-    "search-copy-link-title": "Copiar el enlace en la búsqueda",
-    "search-hide-matches-text": "Ocultar resultados adicionales",
-    "search-more-match-text": "resultado adicional en este documento",
-    "search-more-matches-text": "resultados adicionales en este documento",
-    "search-clear-button-title": "Borrar",
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancelar",
-    "search-submit-button-title": "Enviar",
-    "search-label": "Buscar"
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -166,13 +166,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/cap6.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Muestreo de conglomerados</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/cap6.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cluster sampling</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -184,12 +184,12 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Estrategias de Muestreo</a> 
+      <a href="../">Sampling Strategies</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Buscar"></div>
+        <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -197,97 +197,97 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prólogo</span></a>
+ <span class="menu-text">Foreword</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Encuestas y estudios por muestreo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Surveys and Sampling Studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Muestras probabilísticas y estimadores</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probability Samples and Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Muestras con probabilidades simples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Samples With Simple Probabilities</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Muestras con probabilidades proporcionales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Samples with probabilities proportional to size</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo estratificado</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Stratified sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap6.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Muestreo de conglomerados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cluster sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Muestreo en varias etapas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multistage sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap8.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimación de parámetros diferentes al total</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estimation of Parameters Other than the Total</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimación con información auxiliar</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estimation with Auxiliary Information</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimadores de calibración</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Calibration Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Muestreo balanceado</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Balanced Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Muestreo en dos fases</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Two-Phase Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap13.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Muestreo indirecto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Indirect Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap14.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Encuestas multi-propósito</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Multipurpose Surveys</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/cap15.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Inferencia basada en modelos poblacionales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Model-Based Inference for Populations</span></span></a>
   </div>
 </li>
     </ul>
@@ -297,22 +297,22 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Tabla de contenidos</h2>
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#fundamentos-teóricos-y-notación" id="toc-fundamentos-teóricos-y-notación" class="nav-link active" data-scroll-target="#fundamentos-teóricos-y-notación"><span class="header-section-number">6.1</span> Fundamentos teóricos y notación</a>
+  <li><a href="#theoretical-foundations-and-notation" id="toc-theoretical-foundations-and-notation" class="nav-link active" data-scroll-target="#theoretical-foundations-and-notation"><span class="header-section-number">6.1</span> Theoretical foundations and notation</a>
   <ul class="collapse">
-  <li><a href="#el-estimador-de-horvitz-thompson" id="toc-el-estimador-de-horvitz-thompson" class="nav-link" data-scroll-target="#el-estimador-de-horvitz-thompson"><span class="header-section-number">6.1.1</span> El estimador de Horvitz-Thompson</a></li>
-  <li><a href="#el-estimador-de-hansen-hurwitz" id="toc-el-estimador-de-hansen-hurwitz" class="nav-link" data-scroll-target="#el-estimador-de-hansen-hurwitz"><span class="header-section-number">6.1.2</span> El estimador de Hansen-Hurwitz</a></li>
+  <li><a href="#the-horvitz-thompson-estimator" id="toc-the-horvitz-thompson-estimator" class="nav-link" data-scroll-target="#the-horvitz-thompson-estimator"><span class="header-section-number">6.1.1</span> The Horvitz-Thompson estimator</a></li>
+  <li><a href="#the-hansen-hurwitz-estimator" id="toc-the-hansen-hurwitz-estimator" class="nav-link" data-scroll-target="#the-hansen-hurwitz-estimator"><span class="header-section-number">6.1.2</span> The Hansen-Hurwitz estimator</a></li>
   </ul></li>
-  <li><a href="#muestreo-aleatorio-simple-de-conglomerados" id="toc-muestreo-aleatorio-simple-de-conglomerados" class="nav-link" data-scroll-target="#muestreo-aleatorio-simple-de-conglomerados"><span class="header-section-number">6.2</span> Muestreo aleatorio simple de conglomerados</a>
+  <li><a href="#simple-random-sampling-of-clusters" id="toc-simple-random-sampling-of-clusters" class="nav-link" data-scroll-target="#simple-random-sampling-of-clusters"><span class="header-section-number">6.2</span> Simple random sampling of clusters</a>
   <ul class="collapse">
-  <li><a href="#algoritmos-de-selección" id="toc-algoritmos-de-selección" class="nav-link" data-scroll-target="#algoritmos-de-selección"><span class="header-section-number">6.2.1</span> Algoritmos de selección</a></li>
-  <li><a href="#el-estimador-de-horvitz-thompson-1" id="toc-el-estimador-de-horvitz-thompson-1" class="nav-link" data-scroll-target="#el-estimador-de-horvitz-thompson-1"><span class="header-section-number">6.2.2</span> El estimador de Horvitz-Thompson</a></li>
-  <li><a href="#eficiencia-de-la-estrategia" id="toc-eficiencia-de-la-estrategia" class="nav-link" data-scroll-target="#eficiencia-de-la-estrategia"><span class="header-section-number">6.2.3</span> Eficiencia de la estrategia</a></li>
-  <li><a href="#marco-i-y-lucy" id="toc-marco-i-y-lucy" class="nav-link" data-scroll-target="#marco-i-y-lucy"><span class="header-section-number">6.2.4</span> Marco I y Lucy</a></li>
+  <li><a href="#selection-algorithms" id="toc-selection-algorithms" class="nav-link" data-scroll-target="#selection-algorithms"><span class="header-section-number">6.2.1</span> Selection algorithms</a></li>
+  <li><a href="#the-horvitz-thompson-estimator-1" id="toc-the-horvitz-thompson-estimator-1" class="nav-link" data-scroll-target="#the-horvitz-thompson-estimator-1"><span class="header-section-number">6.2.2</span> The Horvitz-Thompson estimator</a></li>
+  <li><a href="#efficiency-of-the-strategy" id="toc-efficiency-of-the-strategy" class="nav-link" data-scroll-target="#efficiency-of-the-strategy"><span class="header-section-number">6.2.3</span> Efficiency of the strategy</a></li>
+  <li><a href="#marco-i-and-lucy" id="toc-marco-i-and-lucy" class="nav-link" data-scroll-target="#marco-i-and-lucy"><span class="header-section-number">6.2.4</span> Marco I and Lucy</a></li>
   </ul></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">6.3</span> Ejercicios</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6.3</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -321,7 +321,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Muestreo de conglomerados</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cluster sampling</span></h1>
 </div>
 
 
@@ -339,88 +339,88 @@ window.Quarto = {
 
 
 <div class="blockquote">
-<p>En encuestas complejas, los grupos poblacionales de elementos que se forman naturalmente como barrios, municipios o escuelas pueden ser tratados como unidades de muestreo. Este tipo de esquemas de muestreo ayudan a aumentar el tamaño de muestra manteniendo el costo de la encuesta.</p>
-<p><span class="citation" data-cites="Leh">Lehtonen y Pahkinen (<a href="#ref-Leh" role="doc-biblioref">2003</a>)</span></p>
+<p>In complex surveys, population groups of elements that form naturally, such as neighborhoods, municipalities, or schools, can be treated as sampling units. These types of sampling schemes help increase sample size while keeping survey costs under control.</p>
+<p><span class="citation" data-cites="Leh">Lehtonen and Pahkinen (<a href="#ref-Leh" role="doc-biblioref">2003</a>)</span></p>
 </div>
-<p>Las estrategias de muestreo para elementos tienen un común denominador: el marco de muestreo y su prolija identificación y ubicación de los elementos poblacionales, de todos y cada uno de ellos. Cabe resaltar que en la práctica no es muy común el uso de diseños de muestreo que seleccionen muestras de elementos directamente. Lo anterior se debe más a cuestiones financieras y logísticas que a problemas de eficiencia estadística. Piense en lo siguiente: cada investigación requiere un marco de muestreo. Son miles de millares las investigaciones realizadas al año y deberían existir tantos marcos de muestreo como investigaciones realizadas. Por cuestiones de tipo logístico la consecución de un marco de muestreo de elementos es muy costosa porque implicaría realizar un censo, enumerando, identificando y ubicando a cada elemento de la población y esto es, por supuesto, algo utópico.</p>
-<p>Pensando en el más sencillo de los diseños de muestreo, el costo financiero de realizar un estudio mediante un diseño de muestreo aleatorio simple es muy elevado. Por ejemplo suponga que se desea realizar un estudio para evaluar la calidad de vida de las personas en un determinado país. Si llegara a existir un marco de muestreo de elementos, realizar (o seleccionar) una muestra aleatoria simple demandaría la contratación de un encuestador por cada persona encuestada, puesto que la dispersión geográfica natural de los elementos seleccionados en la muestra aleatoria simple sería demasiado alta.</p>
-<p>En el caso anterior, aunque se tuviera un marco de muestreo de elementos, el costo financiero de realizar una muestra aleatoria sería demasiado alto. Una forma de realizar muestras probabilísticas a falta de un marco de muestreo de elementos es seleccionar conglomerados<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> de elementos y realizar el proceso de medición en cada conglomerado. <span class="citation" data-cites="Coc">Cochran (<a href="#ref-Coc" role="doc-biblioref">1977</a>)</span> plantea que, por cuestiones logísticas, es más eficiente seleccionar una muestra de 20 bloques de hogares, cada bloque con 30 hogares, que seleccionar una muestra aleatoria de 600 hogares. En el primer caso sólo se necesitaría la presencia de un encuestador por bloque, mientras que en el segundo, posiblemente, se necesite la presencia de muchos más encuestadores.</p>
-<p>Siempre que se desee seleccionar una muestra probabilística se debe tener un marco de muestreo de manera obligatoria, en los casos en donde se carece de marco muestral es necesario construir uno. Sin embargo, el costo financiero y logístico de levantar un marco de muestreo para elementos es muy alto, en la mayoría de ocasiones. Una forma de construir marcos de muestreo de bajo costo es mediante la aplicación de un diseño de muestreo por conglomerados. Estos conglomerados tienen la ventaja de ser agrupaciones de elementos que se forman de manera natural y además existen entidades gubernamentales que se ocupan de registrar y actualizar la lista de conglomerados existentes en cada sector. Por ejemplo, existe una entidad encargada de la actualización de los sectores cartográficos de una ciudad, existe una entidad encargada de la actualización de los negocios en un sector, existe una entidad que recopila la información concerniente a la ubicación de las escuelas, etc. Para cada entidad existe también un registro de estas aglomeraciones y este será el marco de muestreo que se utilizará en la etapa de diseño.</p>
-<p>Por lo tanto, el marco de muestreo contendrá la ubicación e identificación de cada uno de los conglomerados de elementos existentes en la población. Con este marco de conglomerados, se aplica un diseño de muestreo y una muestra es seleccionada. Cada conglomerado seleccionado en la muestra es visitado y el proceso de medición se realiza para todos los elementos pertenecientes al mismo. Entonces, si el conglomerado seleccionado es una sección cartográfica de la ciudad, se aplicará la encuesta a todos y cada uno de los elementos que conforman la sección. Si el conglomerado seleccionado es una escuela, se aplicará el instrumento de medición a todos y cada uno de los alumnos de la escuela. En otras palabras, se realiza un censo en cada conglomerado que haya sido seleccionado en la muestra.</p>
-<p>Por supuesto, existe una ganancia significativa en términos operativos, logísticos y financieros. Sin embargo, esta ganancia tiene un precio… el precio a pagar está dado en términos de eficiencia estadística de la estrategia de muestreo. Revisando un poco el proceso de aglomeración, hay que tener en cuenta que los conglomerados de elementos tienden, en la mayoría de los casos, a ser homogéneos con respecto a los valores de la característica de interés <span class="math inline">\(y\)</span>. Lo anterior se da porque la agrupación se realiza de forma natural, es decir lo hogares, las secciones cartográficas, las villas, las escuelas, las prisiones, etc. tienden a formarse de manera natural y homogénea. Así que la pérdida de eficiencia estadística es causada por el efecto de conglomerado que conlleva la selección de unidades homogéneas que no contienen información nueva sino, de alguna manera, repetida. ¿Qué nueva información se obtiene, acerca de la población, al añadir un nuevo elemento del mismo conglomerado en la muestra?</p>
-<p>Entre más grande sea el tamaño de la sub-muestra en los conglomerados, entonces más grande será el efecto de diseño. Si dentro de cada conglomerado, el comportamiento de la característica de interés <span class="math inline">\(y\)</span> reflejará el comportamiento estructural de la misma en la población, entonces la eficiencia de una estrategia de muestreo por conglomerados sería similar a la de una muestra aleatoria simple. Pero, en la práctica, la homogeneidad interna de los conglomerados aumenta el error de muestreo. Un error, por desgracia demasiado frecuente, entre los investigadores neófitos es analizar una muestra por conglomerados como una muestra aleatoria simple<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<p>En general se tienen lo siguientes comentarios acerca del muestreo por conglomerados: - Utilizamos muestreo por conglomerados sí: - La construcción de un marco de muestreo de elementos es muy difícil, muy costosa o imposible de conseguir. Enumerar abejas, enumerar clientes, enlistar árboles en un sector, enlistar hogares en los barrios conglomerados (dispersión geográfica, reducción de costos). - La población objetivo se encuentra muy dispersa (geográficamente) o aparece en agrupaciones naturales: familias, escuelas, etc. - Los elementos individuales de una población sólo participan en la muestra si pertenecen a un conglomerado incluido en la muestra. - El muestreo estratificado aumenta la precisión de las estimaciones, mientras que el muestreo por conglomerados tiende a disminuirla. Es un precio que se paga al no poseer un marco de muestreo definido para los elementos de la población objetivo. - Al obtener una muestra de elementos que pertenecen a un conglomerado repetimos la información del conglomerado (dada la agrupación natural). Lo ideal es conseguir información nueva en cada individuo, por lo anterior se pierde precisión en las estimaciones.</p>
-<section id="fundamentos-teóricos-y-notación" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="fundamentos-teóricos-y-notación"><span class="header-section-number">6.1</span> Fundamentos teóricos y notación</h2>
-<!-- index: Diseño de muestreo de conglomerados -->
-<p>Suponga que la población de elementos</p>
+<p>Sampling strategies for elements have a common denominator: the sampling frame and its thorough identification and location of all population elements, each and every one of them. It is worth noting that, in practice, sampling designs that select samples of elements directly are not very common. This is due more to financial and logistical issues than to problems of statistical efficiency. Consider the following: every study requires a sampling frame. Thousands upon thousands of studies are conducted each year, and there should be as many sampling frames as studies conducted. For logistical reasons, obtaining a sampling frame of elements is very costly because it would imply carrying out a census, enumerating, identifying, and locating each population element; this is, of course, utopian.</p>
+<p>Thinking of the simplest sampling design, the financial cost of carrying out a study through a simple random sampling design is very high. For example, suppose the goal is to carry out a study to evaluate the quality of life of people in a certain country. If a sampling frame of elements existed, drawing a simple random sample would require hiring one interviewer for each surveyed person, because the natural geographic dispersion of the elements selected in the simple random sample would be too high.</p>
+<p>In the previous case, even if a sampling frame of elements were available, the financial cost of drawing a random sample would be too high. One way to draw probability samples when a sampling frame of elements is not available is to select clusters<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> of elements and carry out the measurement process in each cluster. <span class="citation" data-cites="Coc">Cochran (<a href="#ref-Coc" role="doc-biblioref">1977</a>)</span> argues that, for logistical reasons, it is more efficient to select a sample of 20 household blocks, each block with 30 households, than to select a random sample of 600 households. In the first case, only one interviewer would be needed per block, whereas in the second, many more interviewers would possibly be needed.</p>
+<p>Whenever one wants to select a probability sample, a sampling frame is mandatory; in cases where there is no sampling frame, it is necessary to build one. However, the financial and logistical cost of building a sampling frame for elements is very high in most cases. One way to build low-cost sampling frames is through the application of a cluster sampling design. These clusters have the advantage of being groupings of elements that form naturally, and there are also government entities responsible for recording and updating the list of existing clusters in each sector. For example, one entity is responsible for updating a city’s cartographic sectors, another for updating businesses in a sector, another compiles information on the location of schools, and so on. For each entity there is also a register of these groupings, and this will be the sampling frame used in the design stage.</p>
+<p>Therefore, the sampling frame will contain the location and identification of each cluster of elements existing in the population. With this cluster frame, a sampling design is applied and a sample is selected. Each cluster selected in the sample is visited, and the measurement process is carried out for all elements belonging to it. Thus, if the selected cluster is a cartographic section of the city, the survey will be applied to each and every element that makes up the section. If the selected cluster is a school, the measurement instrument will be applied to each and every student in the school. In other words, a census is carried out in each cluster selected in the sample.</p>
+<p>Of course, there is a significant gain in operational, logistical, and financial terms. However, this gain has a price… the price to pay is expressed in terms of the statistical efficiency of the sampling strategy. Reviewing the clustering process a little, it must be kept in mind that clusters of elements tend, in most cases, to be homogeneous with respect to the values of the characteristic of interest <span class="math inline">\(y\)</span>. This occurs because the grouping happens naturally; that is, households, cartographic sections, villages, schools, prisons, and so on tend to form naturally and homogeneously. Thus, the loss of statistical efficiency is caused by the cluster effect that comes with selecting homogeneous units that do not contain new information but, in a sense, repeated information. What new information about the population is obtained by adding a new element from the same cluster to the sample?</p>
+<p>The larger the subsample size within the clusters, the larger the design effect will be. If, within each cluster, the behavior of the characteristic of interest <span class="math inline">\(y\)</span> reflected its structural behavior in the population, then the efficiency of a cluster sampling strategy would be similar to that of a simple random sample. But in practice, the internal homogeneity of clusters increases sampling error. An unfortunately frequent error among novice researchers is to analyze a cluster sample as if it were a simple random sample<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>In general, the following comments apply to cluster sampling: - We use cluster sampling if: - Building a sampling frame of elements is very difficult, very costly, or impossible. Enumerating bees, enumerating clients, listing trees in a sector, listing households in clustered neighborhoods (geographic dispersion, cost reduction). - The target population is very dispersed geographically or appears in natural groupings: families, schools, and so on. - The individual elements of a population participate in the sample only if they belong to a cluster included in the sample. - Stratified sampling increases the precision of estimates, while cluster sampling tends to decrease it. This is a price paid for not having a defined sampling frame for the elements of the target population. - When obtaining a sample of elements that belong to a cluster, we repeat the cluster’s information (given the natural grouping). Ideally, new information should be obtained from each individual; for this reason, precision is lost in the estimates.</p>
+<section id="theoretical-foundations-and-notation" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="theoretical-foundations-and-notation"><span class="header-section-number">6.1</span> Theoretical foundations and notation</h2>
+<!-- index: Cluster sampling design -->
+<p>Suppose that the population of elements</p>
 <p><span class="math display">\[
 U=\{1,...,k,...,N\}.
 \]</span></p>
-<p>se divide en <span class="math inline">\(N_I\)</span> sub-grupos poblacionales, llamados conglomerados y denotados como <span class="math inline">\(U_I=\{U_1,\ldots,U_{N_I}\}\)</span>.</p>
-<p>La población de conglomerados estará dada, sin pérdida de generalidad, por</p>
+<p>is divided into <span class="math inline">\(N_I\)</span> population subgroups, called clusters and denoted as <span class="math inline">\(U_I=\{U_1,\ldots,U_{N_I}\}\)</span>.</p>
+<p>The population of clusters will be given, without loss of generality, by</p>
 <p><span class="math display">\[
 U_I=\{1,\dots,N_I\}.
 \]</span></p>
-<p>Estos definen una partición de la población en tal forma que - <span class="math inline">\(U=\bigcup_{i=1}^{N_I}U_i\)</span> - <span class="math inline">\(U_i \bigcap U_j = \emptyset\)</span> para todo <span class="math inline">\(i\neq j\)</span></p>
-<p>El número de unidades <span class="math inline">\(N_i\)</span> en el conglomerado <span class="math inline">\(i\)</span>-ésimo se llama <strong>tamaño del conglomerado</strong> tal que</p>
+<p>These define a partition of the population in such a way that - <span class="math inline">\(U=\bigcup_{i=1}^{N_I}U_i\)</span> - <span class="math inline">\(U_i \bigcap U_j = \emptyset\)</span> para todo <span class="math inline">\(i\neq j\)</span></p>
+<p>The number of units <span class="math inline">\(N_i\)</span> in the <span class="math inline">\(i\)</span>-th cluster is called the <strong>cluster size</strong>, such that</p>
 <p><span class="math display">\[
 N=\sum_{i=1}^{N_I}N_i,
 \]</span></p>
-<p>donde <span class="math inline">\(N\)</span> es el tamaño de la población <span class="math inline">\(U\)</span>. Con la población dividida en <span class="math inline">\(N_I\)</span> conglomerados, los parámetros poblacionales de interés pueden escribirse como: - El total poblacional,</p>
+<p>where <span class="math inline">\(N\)</span> is the size of population <span class="math inline">\(U\)</span>. With the population divided into <span class="math inline">\(N_I\)</span> clusters, the population parameters of interest can be written as: - The population total,</p>
 <p><span class="math display">\[
 t_y=\sum_{k \in U}y_k=\sum_{i=1}^{N_I}\sum_{k\in U_i}y_k=\sum_{i=1}^{N_I}t_{yi}
 \]</span></p>
-<p>donde <span class="math inline">\(t_{yi}=\sum_{k\in U_i}y_k\)</span> es el total del <span class="math inline">\(i\)</span>-ésimo conglomerado. - La media poblacional,</p>
+<p>where <span class="math inline">\(t_{yi}=\sum_{k\in U_i}y_k\)</span> is the total of the <span class="math inline">\(i\)</span>-th cluster. - The population mean,</p>
 <p><span class="math display">\[
 \bar{y}_U=\frac{\sum_{k \in U}y_k}{N}=\frac{1}{N}\sum_{i=1}^{N_I}\sum_{k\in U_i}y_k=\frac{1}{N}\sum_{i=1}^{N_I}N_i\bar{y}_i
 \]</span></p>
-<p>donde <span class="math inline">\(\bar{y}_i=\dfrac{1}{N_i}\sum_{k\in U_i}y_k\)</span> es la media del <span class="math inline">\(i\)</span>-ésimo conglomerado.</p>
-<p>El esquema general del diseño de muestreo por conglomerados está definido de la siguiente forma - Seleccionar una muestra probabilística <span class="math inline">\(s_I\)</span><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> de conglomerados de la población <span class="math inline">\(U_I\)</span> mediante un diseño de muestreo tal que</p>
+<p>where <span class="math inline">\(\bar{y}_i=\dfrac{1}{N_i}\sum_{k\in U_i}y_k\)</span> is the mean of the <span class="math inline">\(i\)</span>-th cluster.</p>
+<p>The general scheme of the cluster sampling design is defined as follows - Select a probability sample <span class="math inline">\(s_I\)</span><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> of clusters from population <span class="math inline">\(U_I\)</span> using a sampling design such that</p>
 <p><span class="math display">\[
-Pr(S_I=s_I)=p_I(s_I) \ \ \ \ \ \ \ \ \ \ \ \ \text{para todo } s_I\in Q_I  .
+Pr(S_I=s_I)=p_I(s_I) \ \ \ \ \ \ \ \ \ \ \ \ \text{for all } s_I\in Q_I  .
 \]</span></p>
-<pre><code>  donde $Q_I$ es el soporte conteniendo todas las posibles muestras de conglomerados.</code></pre>
+<pre><code>  where $Q_I$ is the support containing all possible samples of clusters.</code></pre>
 <ul>
-<li>Todos y cada uno de los elementos pertenecientes a los conglomerados seleccionados son observados y medidos.</li>
+<li>Each and every element belonging to the selected clusters is observed and measured.</li>
 </ul>
-<p>El tamaño de la muestra aleatoria de conglomerados está dado por - <span class="math inline">\(n(S_I)=n_I\)</span> si la muestra es de tamaño fijo, <span class="math inline">\(n(S_I)\)</span> si la muestra es de tamaño variable - <span class="math inline">\(n(S_I)=m_I\)</span> si la muestra es seleccionada con reemplazo</p>
-<p>La muestra aleatoria de elementos viene caracterizada por</p>
+<p>The size of the random sample of clusters is given by - <span class="math inline">\(n(S_I)=n_I\)</span> if the sample is fixed-size, and <span class="math inline">\(n(S_I)\)</span> if the sample is variable-size. - <span class="math inline">\(n(S_I)=m_I\)</span> if the sample is selected with replacement.</p>
+<p>The random sample of elements is characterized by</p>
 <p><span class="math display">\[
 S=\bigcup_{i\in S_I}U_i
 \]</span></p>
-<p>y el tamaño de la muestra<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> de elementos por</p>
+<p>and the sample size<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> of elements by</p>
 <p><span class="math display">\[
 n(S)=\sum_{i\in S_I}N_i
 \]</span></p>
-<p>Si es posible construir o definir un soporte <span class="math inline">\(Q_I\)</span>, también será posible definir (al menos teóricamente) un soporte general <span class="math inline">\(Q\)</span> de elementos conteniendo las posibles muestras de elementos pertenecientes a los conglomerados seleccionados.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo">
+<p>If it is possible to construct or define a support <span class="math inline">\(Q_I\)</span>, it will also be possible to define, at least theoretically, a general support <span class="math inline">\(Q\)</span> of elements containing the possible samples of elements belonging to the selected clusters.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo
+<span class="screen-reader-only">Note</span>Example
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Nuestra población ejemplo <span class="math inline">\(U\)</span> dada por</p>
+<p>Our example population <span class="math inline">\(U\)</span>, given by</p>
 <p><span class="math inline">\(U=\{Yves, Ken, Erik, Sharon, Leslie\}\)</span></p>
-<p>se divide en tres conglomerados de la siguiente forma</p>
+<p>is divided into three clusters as follows</p>
 <p><span class="math inline">\(U_1=\{Yves, Ken\}\)</span></p>
-<p>el segundo conformado por</p>
+<p>the second composed of</p>
 <p><span class="math inline">\(U_2=\{Erik,Sharon\}\)</span></p>
-<p>y el último conglomerado dado por</p>
+<p>and the last cluster given by</p>
 <p><span class="math inline">\(U_3=\{Leslie\}\)</span></p>
-<p>Es claro que, en este caso particular, se tienen <span class="math inline">\(N_I=3\)</span> conglomerados de tamaño diferentes. De esta manera, la población de conglomerados queda definida por</p>
+<p>It is clear that, in this particular case, there are <span class="math inline">\(N_I=3\)</span> clusters of different sizes. In this way, the population of clusters is defined by</p>
 <p><span class="math inline">\(U_I=\{U_1, U_2, U_3\}\)</span></p>
-<p>Suponga que se selecciona una muestra <span class="math inline">\(s_I\)</span> de conglomerados de tamaño <span class="math inline">\(n_I=2\)</span>. La definición del soporte <span class="math inline">\(Q_I\)</span> en R se hace mediante el uso de la función <code>Support</code> del paquete <code>TeachingSampling</code> aplicada a la información a nivel de los conglomerados de la siguiente manera.</p>
+<p>Suppose that a sample <span class="math inline">\(s_I\)</span> of clusters of size <span class="math inline">\(n_I=2\)</span> is selected. The definition of the support <span class="math inline">\(Q_I\)</span> in R is made by using the <code>Support</code> function from the <code>TeachingSampling</code> package, applied to cluster-level information as follows.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Yves"</span>, <span class="st">"Ken"</span>, <span class="st">"Erik"</span>, <span class="st">"Sharon"</span>, <span class="st">"Leslie"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>U1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Yves"</span>, <span class="st">"Ken"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>U2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Erik"</span>, <span class="st">"Sharon"</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>U3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Leslie"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>UI <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"U1"</span>,<span class="st">"U2"</span>,<span class="st">"U3"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>UI <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"U1"</span>, <span class="st">"U2"</span>, <span class="st">"U3"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>N1 <span class="ot">&lt;-</span> <span class="fu">length</span>(U1)</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>N2 <span class="ot">&lt;-</span> <span class="fu">length</span>(U2)</span>
@@ -436,8 +436,8 @@ n(S)=\sum_{i\in S_I}N_i
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>NI <span class="ot">&lt;-</span> <span class="dv">3</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>nI <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>QI  <span class="ot">&lt;-</span>  <span class="fu">Support</span>(NI, nI, UI)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>QI</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>QI <span class="ot">&lt;-</span> <span class="fu">Support</span>(NI, nI, UI)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>QI</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,] "U1" "U2"
@@ -447,68 +447,68 @@ n(S)=\sum_{i\in S_I}N_i
 </div>
 </div>
 </div>
-<section id="el-estimador-de-horvitz-thompson" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="el-estimador-de-horvitz-thompson"><span class="header-section-number">6.1.1</span> El estimador de Horvitz-Thompson</h3>
-<p>Nótese que en el esquema general del muestreo por conglomerados, se utiliza un diseño de muestreo para la selección de los conglomerados en la muestra. Este diseño de muestreo <span class="math inline">\(p_I(s_I)\)</span> puede ser cualquiera de los diseños vistos en los capítulos anteriores, aplicados a la selección, esta vez no de elementos, sino de conglomerados. En general, dado el soporte <span class="math inline">\(Q_I\)</span>, <span class="math inline">\(p_I(s_I)\)</span> puede ser: - <strong>Sin reemplazo:</strong> si todas las posibles muestras en <span class="math inline">\(Q_I\)</span> son sin reemplazo. Muestreo aleatorio simple, Bernoulli, Sistemático, Poisson, <span class="math inline">\(\pi\)</span>PT o estratificado simple. - <strong>Con reemplazo:</strong> si todas las posibles muestras en <span class="math inline">\(Q_I\)</span> son con reemplazo. Muestreo aleatorio simple con reemplazo o muestreo PPT. - <strong>De tamaño fijo:</strong> si todas las posibles muestras en <span class="math inline">\(Q\)</span> tienen el mismo tamaño de muestra <span class="math inline">\(n(S_I)=n_I\)</span>.</p>
-<p>Nótese que el diseño de muestreo <span class="math inline">\(p_I(s_I)\)</span> induce probabilidades de inclusión sobre los conglomerados las cuales están definidas como sigue a continuación.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Definici?n">
+<section id="the-horvitz-thompson-estimator" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="the-horvitz-thompson-estimator"><span class="header-section-number">6.1.1</span> The Horvitz-Thompson estimator</h3>
+<p>Note that in the general cluster sampling scheme, a sampling design is used to select the clusters in the sample. This sampling design <span class="math inline">\(p_I(s_I)\)</span> can be any of the designs seen in previous chapters, applied this time not to the selection of elements, but to the selection of clusters. In general, given the support <span class="math inline">\(Q_I\)</span>, <span class="math inline">\(p_I(s_I)\)</span> can be: - <strong>Without replacement:</strong> if all possible samples in <span class="math inline">\(Q_I\)</span> are without replacement. Simple random sampling, Bernoulli, systematic, Poisson, <span class="math inline">\(\pi\)</span>PS, or simple stratified sampling. - <strong>With replacement:</strong> if all possible samples in <span class="math inline">\(Q_I\)</span> are with replacement. Simple random sampling with replacement or PPS sampling. - <strong>Fixed-size:</strong> if all possible samples in <span class="math inline">\(Q\)</span> have the same sample size <span class="math inline">\(n(S_I)=n_I\)</span>.</p>
+<p>Note that the sampling design <span class="math inline">\(p_I(s_I)\)</span> induces inclusion probabilities over the clusters, which are defined as follows.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definition">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Definici?n
+<span class="screen-reader-only">Important</span>Definition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<!-- index: Probabilidad de inclusión -->
-<p>La probabilidad de inclusión del conglomerado <span class="math inline">\(i\)</span>-ésimo está dada por</p>
+<!-- index: Inclusion probability -->
+<p>The inclusion probability of the <span class="math inline">\(i\)</span>-th cluster is given by</p>
 <p><span class="math display">\[
 \pi_{Ii}=Pr(i \in S_I)=\sum_{s_I \ni i} p_I(s_I).
 \]</span></p>
-<p>mientras que la probabilidad de inclusión de los conglomerados <span class="math inline">\(i\)</span>-ésimo y <span class="math inline">\(j\)</span>-ésimo están dadas por</p>
+<p>whereas the inclusion probability of the <span class="math inline">\(i\)</span>-th and <span class="math inline">\(j\)</span>-th clusters is given by</p>
 <p><span class="math display">\[
-\pi_{Iij}=Pr(i\in S_I\text{ y }j\in S_I)=\sum_{s_I \ni \text{ $i$ y $j$}} p_I(s_I).
+\pi_{Iij}=Pr(i\in S_I\text{ and }j\in S_I)=\sum_{s_I \ni \text{ $i$ and $j$}} p_I(s_I).
 \]</span></p>
-<p>respectivamente. Por supuesto, <span class="math inline">\(\pi_{Iii}=\pi_{Ii}\)</span>.</p>
+<p>respectively. Of course, <span class="math inline">\(\pi_{Iii}=\pi_{Ii}\)</span>.</p>
 </div>
 </div>
-<p>Asimismo, debido a la naturaleza jerárquica de la agrupación de elementos en los conglomerados, el siguiente resultado muestra las probabilidades de inclusión al nivel de los elementos de la población.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>Likewise, because of the hierarchical nature of the grouping of elements in clusters, the following result shows the inclusion probabilities at the level of the population elements.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La probabilidad de que el <span class="math inline">\(k\)</span>-ésimo elemento, sea incluido en la muestra <span class="math inline">\(S\)</span> está dada por</p>
+<p>The probability that the <span class="math inline">\(k\)</span>-th element is included in sample <span class="math inline">\(S\)</span> is given by</p>
 <p><span class="math display">\[
-\pi_{k}=\pi_{Ii} \ \ \ \text{si $k\in U_i$}
+\pi_{k}=\pi_{Ii} \ \ \ \text{if $k\in U_i$}
 \]</span></p>
-<p>Por otro lado, la probabilidad de inclusión de los elementos <span class="math inline">\(k\)</span>-ésimo y <span class="math inline">\(l\)</span>-ésimo está dada por</p>
+<p>On the other hand, the inclusion probability of the <span class="math inline">\(k\)</span>-th and <span class="math inline">\(l\)</span>-th elements is given by</p>
 <p><span class="math display">\[
 \pi_{kl}=\begin{cases}
-            \pi_{Ii}, &amp; \text{si $k,l \in U_i$},\\\\
-            \pi_{Iij}, &amp; \text{si $k\in U_i, l\in U_j, i\neq j$}.
+            \pi_{Ii}, &amp; \text{if $k,l \in U_i$},\\\\
+            \pi_{Iij}, &amp; \text{if $k\in U_i, l\in U_j, i\neq j$}.
             \end{cases}
 \]</span></p>
 </div>
 </div>
-<p>Una vez definidas las probabilidades de inclusión se define la estrategia de muestreo con el uso del estimador de Horvitz-Thompson, dado por el siguiente resultado</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>Once the inclusion probabilities are defined, the sampling strategy is defined through the use of the Horvitz-Thompson estimator, given by the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Bajo un diseño de muestreo por conglomerados, el estimador de Horvitz-Thompson para el total <span class="math inline">\(t_{y}\)</span>, su varianza y su varianza estimada están dados por</p>
+<p>Under a cluster sampling design, the Horvitz-Thompson estimator for the total <span class="math inline">\(t_{y}\)</span>, its variance, and its estimated variance are given by</p>
 <p><span class="math display">\[
 \hat{t}_{y,\pi}=\sum_{i\in S_I}\frac{t_{yi}}{\pi_{Ii}}
 \]</span></p>
@@ -518,9 +518,9 @@ Var_1(\hat{t}_{y,\pi})=\sum\sum_{U_I}\Delta_{Iij}\frac{t_{yi}}{\pi_{Ii}}\frac{t_
 <p><span class="math display">\[
 \widehat{Var}_1(\hat{t}_{y,\pi})=\sum\sum_{S_I} \dfrac{\Delta_{Iij}}{\pi_{Iij}}\frac{t_{yi}}{\pi_{Ii}}\frac{t_{yj}}{\pi_{Ij}}
 \]</span></p>
-<p>respectivamente, con <span class="math inline">\(\Delta_{Iij}=\pi_{Iij}-\pi_{Ii}\pi_{Ij}\)</span> y <span class="math inline">\(t_{yi}\)</span> el total del <span class="math inline">\(i\)</span>-ésimo conglomerado seleccionado. Nótese que <span class="math inline">\(\hat{t}_{y,\pi}\)</span> es insesgado para <span class="math inline">\(t_y\)</span> y que <span class="math inline">\(\widehat{Var}_1(\hat{t}_{y,\pi})\)</span> es insesgado para <span class="math inline">\(Var_1(\hat{t}_{y,\pi})\)</span>.</p>
-<p><strong>Prueba.</strong></p>
-<p>Para el estimador, se tiene que</p>
+<p>respectively, with <span class="math inline">\(\Delta_{Iij}=\pi_{Iij}-\pi_{Ii}\pi_{Ij}\)</span> and <span class="math inline">\(t_{yi}\)</span> the total of the selected <span class="math inline">\(i\)</span>-th cluster. Note that <span class="math inline">\(\hat{t}_{y,\pi}\)</span> is unbiased for <span class="math inline">\(t_y\)</span> and that <span class="math inline">\(\widehat{Var}_1(\hat{t}_{y,\pi})\)</span> is unbiased for <span class="math inline">\(Var_1(\hat{t}_{y,\pi})\)</span>.</p>
+<p><strong>Proof.</strong></p>
+<p>For the estimator, we have</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{t}_{y,\pi}&amp;=\sum_{k\in S}\frac{y_k}{\pi_k}\\
@@ -529,7 +529,7 @@ Var_1(\hat{t}_{y,\pi})=\sum\sum_{U_I}\Delta_{Iij}\frac{t_{yi}}{\pi_{Ii}}\frac{t_
 &amp;=\sum_{i\in S_I}\frac{t_{yi}}{\pi_{Ii}}.
 \end{aligned}
 \]</span></p>
-<p>Para el cálculo de la varianza es necesario verificar que</p>
+<p>For the calculation of the variance, it is necessary to verify that</p>
 <p><span class="math display">\[
 \Delta_{kl}=
 \Delta_{Iij}=
@@ -540,7 +540,7 @@ Var_1(\hat{t}_{y,\pi})=\sum\sum_{U_I}\Delta_{Iij}\frac{t_{yi}}{\pi_{Ii}}\frac{t_
 \end{array}
 \right.
 \]</span></p>
-<p>Entonces se tiene que</p>
+<p>Then we have</p>
 <p><span class="math display">\[
 \begin{aligned}
 Var_1(\hat{t}_{y,\pi})&amp;=\sum_{k\in U}\sum_{l\in U}\Delta_{kl}\frac{y_k}{\pi_k}\frac{y_l}{\pi_l}\\
@@ -549,20 +549,20 @@ Var_1(\hat{t}_{y,\pi})&amp;=\sum_{k\in U}\sum_{l\in U}\Delta_{kl}\frac{y_k}{\pi_
 &amp;=\sum\sum_{U_I}\Delta_{Iij}\frac{t_{yi}}{\pi_{Ii}}\frac{t_{yj}}{\pi_{Ij}}
 \end{aligned}
 \]</span></p>
-<p>Se procede análogamente para la estimación de la varianza.</p>
+<p>The variance estimation proceeds analogously.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si el diseño de muestreo <span class="math inline">\(p_I(s_I)\)</span> es de tamaño fijo, la varianza del estimador de Horvitz-Thompson y su varianza estimada toman la siguiente forma</p>
+<p>If the sampling design <span class="math inline">\(p_I(s_I)\)</span> is fixed-size, the variance of the Horvitz-Thompson estimator and its estimated variance take the following form</p>
 <p><span class="math display">\[
 \begin{aligned}
 Var_2(\hat{t}_{y,\pi})
@@ -571,43 +571,43 @@ Var_2(\hat{t}_{y,\pi})
 &amp;=-\frac{1}{2}\sum\sum_{S_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\left(\frac{t_{yi}}{\pi_{Ii}}-\frac{t_{yj}}{\pi_{Ijl}}\right)^2
 \end{aligned}
 \]</span></p>
-<p>Nótese que <span class="math inline">\(\widehat{Var}_2(\hat{t}_{y,\pi})\)</span> es insesgado para <span class="math inline">\(Var_2(\hat{t}_{y,\pi})\)</span>.</p>
-<p><strong>Prueba.</strong></p>
-<p>La demostración de los anteriores resultados es inmediata siguiendo los lineamentos de la sección del estimador de Horvitz-Thompson del segundo capítulo y notando que <span class="math inline">\(t_y=\sum_{U_I}t_{yi}\)</span>.</p>
+<p>Note that <span class="math inline">\(\widehat{Var}_2(\hat{t}_{y,\pi})\)</span> is unbiased for <span class="math inline">\(Var_2(\hat{t}_{y,\pi})\)</span>.</p>
+<p><strong>Proof.</strong></p>
+<p>The proof of the preceding results is immediate by following the lines of the section on the Horvitz-Thompson estimator in Chapter 2 and noting that <span class="math inline">\(t_y=\sum_{U_I}t_{yi}\)</span>.</p>
 </div>
 </div>
-<p>Al respecto de la construcción del estimador de Horvitz-Thompson bajo muestreo en conglomerados, <span class="citation" data-cites="Baut">Bautista (<a href="#ref-Baut" role="doc-biblioref">1998</a>)</span> deduce que - La eficiencia de la estrategia de muestreo toma su máximo valor cuando los valores <span class="math inline">\(\dfrac{t_{yi}}{\pi_{Ii}}\)</span> son constantes para todo <span class="math inline">\(i=1,\ldots,N_I\)</span>. - Cuando el diseño por conglomerados es tal que asigna probabilidades de inclusión idénticas a cada conglomerado, la estrategia pierde eficiencia, a menos que el comportamiento de los totales de cada conglomerado sea similar.</p>
-<p>Los anteriores comentarios nos llevan a preferir diseños de muestreo que asignen probabilidades de inclusión proporcionales al tamaño del conglomerado. Para esto se debería disponer de información auxiliar continua disponible para toda la población <span class="math inline">\(U_I\)</span> que estuviera bien correlacionada con los totales de la característica de interés en cada conglomerado <span class="math inline">\(t_{yi}\)</span>. En otras palabras, nuestro marco de muestreo es de conglomerados; por tanto, si <span class="math inline">\(x\)</span> representa la información auxiliar continua y <span class="math inline">\(t_{xi}\)</span> el total de la información auxiliar en el <span class="math inline">\(i\)</span>-ésimo conglomerado, la correlación entre <span class="math inline">\(t_{xi}\)</span> y <span class="math inline">\(t_{yi}\)</span> debería ser bastante fuerte y las probabilidades de inclusión de los conglomerados deberían corresponder a</p>
+<p>Regarding the construction of the Horvitz-Thompson estimator under cluster sampling, <span class="citation" data-cites="Baut">Bautista (<a href="#ref-Baut" role="doc-biblioref">1998</a>)</span> deduces that - The efficiency of the sampling strategy takes its maximum value when the values <span class="math inline">\(\dfrac{t_{yi}}{\pi_{Ii}}\)</span> are constant for every <span class="math inline">\(i=1,\ldots,N_I\)</span>. - When the cluster design assigns identical inclusion probabilities to each cluster, the strategy loses efficiency unless the behavior of the totals of each cluster is similar.</p>
+<p>The preceding comments lead us to prefer sampling designs that assign inclusion probabilities proportional to cluster size. For this, continuous auxiliary information should be available for the entire population <span class="math inline">\(U_I\)</span> and should be well correlated with the totals of the characteristic of interest in each cluster <span class="math inline">\(t_{yi}\)</span>. In other words, our sampling frame is a cluster frame; therefore, if <span class="math inline">\(x\)</span> represents the continuous auxiliary information and <span class="math inline">\(t_{xi}\)</span> the total of the auxiliary information in the <span class="math inline">\(i\)</span>-th cluster, the correlation between <span class="math inline">\(t_{xi}\)</span> and <span class="math inline">\(t_{yi}\)</span> should be quite strong, and the inclusion probabilities of the clusters should correspond to</p>
 <p><span class="math display">\[
 \begin{aligned}
 \pi_{Ii}=n_I\frac{t_{xi}}{t_x}
 \end{aligned}
 \]</span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo">
+<div class="callout callout-style-default callout-note callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo
+<span class="screen-reader-only">Note</span>Example
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Nuestra población ejemplo <span class="math inline">\(U_I\)</span> dada por</p>
+<p>Our example population <span class="math inline">\(U_I\)</span>, given by</p>
 <p><span class="math inline">\(U_I\)</span>={U_1, U_2, U_3}</p>
-<p>Suponga que se selecciona una muestra <span class="math inline">\(s_I\)</span> de conglomerados de tamaño <span class="math inline">\(n_I=2\)</span> mediante un diseño de muestreo sin reemplazo tal que</p>
+<p>Suppose that a sample <span class="math inline">\(s_I\)</span> of clusters of size <span class="math inline">\(n_I=2\)</span> is selected using a sampling design without replacement such that</p>
 <p><span class="math display">\[
 p_I(s_I)=\begin{cases}
-            0.5, &amp; \text{si $s_I$=\{U_1, U_2\}},\\
-            0.4, &amp; \text{si $s_I$=\{U_1, U_3\}},\\
-            0.1, &amp; \text{si $s_I$=\{U_2, U_3\}}
+            0.5, &amp; \text{if $s_I$=\{U_1, U_2\}},\\
+            0.4, &amp; \text{if $s_I$=\{U_1, U_3\}},\\
+            0.1, &amp; \text{if $s_I$=\{U_2, U_3\}}
             \end{cases}
 \]</span></p>
-<p>Mediante el siguiente ejercicio léxico-gráfico se comprueba el insesgamiento del estimador de Horvitz-Thompson en R. Para esto utilizamos las funciones <code>Ik</code> y <code>Pik</code> del paquete <code>TeachingSampling</code> a nivel de los conglomerados.</p>
+<p>Through the following lexical-graphic exercise, the unbiasedness of the Horvitz-Thompson estimator is verified in R. For this, we use the <code>Ik</code> and <code>Pik</code> functions from the <code>TeachingSampling</code> package at the cluster level.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.4</span>, <span class="fl">0.1</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Ind <span class="ot">&lt;-</span> <span class="fu">Ik</span>(NI, nI)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(QI, p, Ind)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(QI, p, Ind)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  X1 X2   p X1.1 X2.1 X3
 1 U1 U2 0.5    1    1  0
@@ -615,36 +615,36 @@ p_I(s_I)=\begin{cases}
 3 U2 U3 0.1    0    1  1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pikI <span class="ot">&lt;-</span> <span class="fu">Pik</span>(p, Ind)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pikI</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pikI</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]  0.9  0.6  0.5</code></pre>
 </div>
 </div>
-<p>De esta manera, la probabilidad de inclusión más alta la tiene el conglomerado <span class="math inline">\(U_1\)</span> y la más baja corresponde al conglomerado <span class="math inline">\(U_3\)</span>. Con esto podemos calcular la estimación mediante el uso de la función <code>HT</code> del paquete <code>TeachingSampling</code>.</p>
+<p>In this way, the highest inclusion probability belongs to cluster <span class="math inline">\(U_1\)</span>, and the lowest corresponds to cluster <span class="math inline">\(U_3\)</span>. With this, we can calculate the estimate using the <code>HT</code> function from the <code>TeachingSampling</code> package.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>all.pikI <span class="ot">&lt;-</span> <span class="fu">Support</span>(NI, nI, pikI)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>all.tyI <span class="ot">&lt;-</span> <span class="fu">Support</span>(NI, nI, tyI)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>all.HT <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">3</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  all.HT[k] <span class="ot">&lt;-</span> <span class="fu">HT</span>(all.tyI[k,], all.pikI[k,])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  all.HT[k] <span class="ot">&lt;-</span> <span class="fu">HT</span>(all.tyI[k, ], all.pikI[k, ])</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>all.HT</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>all.HT</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 298 143 295</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(p <span class="sc">*</span> all.HT)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(p <span class="sc">*</span> all.HT)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 236</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>All.samples <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(QI, p, all.pikI, all.tyI, all.HT)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>All.samples <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(QI, p, all.pikI, all.tyI, all.HT)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tbl-t6-1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-t6-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;6.1: Estimaciones para todas las posibles muestras del ejemplo.
+Table&nbsp;6.1: Estimates for all possible samples in the example.
 </figcaption>
 <div aria-describedby="tbl-t6-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="cell caption-top table table-sm table-striped small">
@@ -696,24 +696,24 @@ Tabla&nbsp;6.1: Estimaciones para todas las posibles muestras del ejemplo.
 </div>
 </figure>
 </div>
-<p>Una vez más, nótese que en la estimación intervienen las cantidades de los conglomerados seleccionados en la muestra realizada.</p>
+<p>Once again, note that the estimation involves the quantities of the clusters selected in the realized sample.</p>
 </div>
 </div>
-<section id="estimación-de-otros-parámetros" class="level4" data-number="6.1.1.1">
-<h4 data-number="6.1.1.1" class="anchored" data-anchor-id="estimación-de-otros-parámetros"><span class="header-section-number">6.1.1.1</span> Estimación de otros parámetros</h4>
-<!-- index: Parámetros diferentes al total -->
-<p>Si el tamaño poblacional <span class="math inline">\(N\)</span> es conocido, la media poblacional definida en (<a href="cap2.html#eq-media" class="quarto-xref">ecuación&nbsp;<span>2.3</span></a>) puede ser estimada con el estimador de Horvitz-Thompson.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<section id="estimation-of-other-parameters" class="level4" data-number="6.1.1.1">
+<h4 data-number="6.1.1.1" class="anchored" data-anchor-id="estimation-of-other-parameters"><span class="header-section-number">6.1.1.1</span> Estimation of other parameters</h4>
+<!-- index: Parameters other than the total -->
+<p>If the population size <span class="math inline">\(N\)</span> is known, the population mean defined in (<a href="cap2.html#eq-media" class="quarto-xref">equation&nbsp;<span>2.3</span></a>) can be estimated with the Horvitz-Thompson estimator.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>En muestreo por conglomerado la media poblacional es estimada insesgadamente mediante el uso del estimador de Horvitz-Thompson</p>
+<p>In cluster sampling, the population mean is estimated unbiasedly using the Horvitz-Thompson estimator</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{\bar{Y}}_{\pi}&amp;=\dfrac{1}{N}\left(\hat{t}_{y,\pi}\right)\\
@@ -722,64 +722,64 @@ Tabla&nbsp;6.1: Estimaciones para todas las posibles muestras del ejemplo.
 \]</span></p>
 </div>
 </div>
-<p>Una de las razones por las que se utiliza el muestreo por conglomerados es la falta de un marco de muestreo para elementos. En este caso el desconocimiento del tamaño poblacional es muy típico. Sin embargo, utilizando los principios del estimador de Horvitz-Thompson, es posible estimar el tamaño de la población escribiéndolo como</p>
+<p>One of the reasons cluster sampling is used is the lack of a sampling frame for elements. In this case, not knowing the population size is very typical. However, using the principles of the Horvitz-Thompson estimator, it is possible to estimate the population size by writing it as</p>
 <p><span class="math display">\[
 N=\sum_{i\in U_I} N_i,
 \]</span></p>
-<p>Luego, tenemos el siguiente resultado.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>Then, we have the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>En muestreo por conglomerados el tamaño poblacional es estimado insesgadamente mediante el uso de la siguiente expresión</p>
+<p>In cluster sampling, the population size is estimated unbiasedly using the following expression</p>
 <p><span class="math display">\[
 \hat{N}_{\pi}=\sum_{i\in S_I}\frac{N_i}{\pi_{Ii}}
 \]</span></p>
 </div>
 </div>
-<p>Una vez el tamaño de la población es estimado, es posible utilizar la razón de Hájek <span class="citation" data-cites="Hajek71">(<a href="#ref-Hajek71" role="doc-biblioref">H’ajek 1971</a>)</span> para estimar la media poblacional de la siguiente manera.</p>
+<p>Once the population size has been estimated, it is possible to use the Hájek ratio <span class="citation" data-cites="Hajek71">(<a href="#ref-Hajek71" role="doc-biblioref">H’ajek 1971</a>)</span> to estimate the population mean as follows.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \widetilde{y}_S&amp;=\dfrac{\hat{t}_{y,\pi}}{\hat{N}_{\pi}}\\
 &amp;=\frac{\sum_{i\in S_I}\frac{t_{yi}}{\pi_{Ii}}}{\sum_{i\in S_I}\frac{N_i}{\pi_{Ii}}}
 \end{aligned}
 \]</span></p>
-<p>De hecho, en algunas ocasiones, cuando el diseño de muestreo utilizado induce probabilidades de inclusión desiguales, es mejor utilizar este estimador aun conociendo el tamaño poblacional.</p>
+<p>In fact, on some occasions, when the sampling design used induces unequal inclusion probabilities, it is better to use this estimator even when the population size is known.</p>
 </section>
 </section>
-<section id="el-estimador-de-hansen-hurwitz" class="level3" data-number="6.1.2">
-<h3 data-number="6.1.2" class="anchored" data-anchor-id="el-estimador-de-hansen-hurwitz"><span class="header-section-number">6.1.2</span> El estimador de Hansen-Hurwitz</h3>
-<p>Si la selección de los conglomerados se hace con reemplazo, ya sea utilizando un diseño de muestreo aleatorio simple con reemplazo o, en el caso de tener información auxiliar continua a nivel de los conglomerados, haciendo uso de un diseño de muestreo PPT, es posible utilizar los principios del estimador de Hansen-Hurwitz para completar la estrategia de muestreo.</p>
-<p>En caso de tener acceso a información auxiliar continua, las probabilidad de selección del <span class="math inline">\(i\)</span>-ésimo conglomerado estaría dada por</p>
+<section id="the-hansen-hurwitz-estimator" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="the-hansen-hurwitz-estimator"><span class="header-section-number">6.1.2</span> The Hansen-Hurwitz estimator</h3>
+<p>If the selection of clusters is carried out with replacement, either using a simple random sampling design with replacement or, when continuous auxiliary information is available at the cluster level, using a PPS sampling design, it is possible to use the principles of the Hansen-Hurwitz estimator to complete the sampling strategy.</p>
+<p>If continuous auxiliary information is available, the selection probability of the <span class="math inline">\(i\)</span>-th cluster would be given by</p>
 <p><span class="math display">\[
 p_{Ii}=\frac{t_{xi}}{t_x}
 \]</span></p>
-<p><span class="citation" data-cites="Sam">Sampath (<a href="#ref-Sam" role="doc-biblioref">2001</a>)</span> afirma que en caso de conocerse los tamaños <span class="math inline">\(N_i\)</span> de cada cluster <span class="math inline">\(i=1,\ldots,N_I\)</span>, estos mismos pueden ser utilizados como medidas de tamaño para desarrollar un plan de muestreo con probabilidades proporcionales. El esquema general del muestreo con reemplazo toma la siguiente forma: - Para cada conglomerado de la población <span class="math inline">\(U_I\)</span>, existen números positivos <span class="math inline">\(p_{I1},\ldots,p_{IN_I}\)</span> tales que</p>
+<p><span class="citation" data-cites="Sam">Sampath (<a href="#ref-Sam" role="doc-biblioref">2001</a>)</span> states that if the sizes <span class="math inline">\(N_i\)</span> of each cluster <span class="math inline">\(i=1,\ldots,N_I\)</span> are known, these can be used as size measures to develop a sampling plan with proportional probabilities. The general scheme of sampling with replacement takes the following form: - For each cluster in population <span class="math inline">\(U_I\)</span>, there are positive numbers <span class="math inline">\(p_{I1},\ldots,p_{IN_I}\)</span> such that</p>
 <p><span class="math display">\[
 \sum_{U_I}p_{Ii}=1.
 \]</span></p>
-<p>Estas probabilidades no son necesariamente iguales. - Para seleccionar el primer elemento que pertenecerá a la muestra de tamaño <span class="math inline">\(m_I\)</span>, se lleva a cabo un sorteo aleatorio de tal forma que</p>
+<p>These probabilities are not necessarily equal. - To select the first element that will belong to the sample of size <span class="math inline">\(m_I\)</span>, a random draw is carried out in such a way that</p>
 <p><span class="math display">\[
-Pr(\text{Seleccionar el conglomerado }i)=p_{Ii},\text{   $i \in U_I$}.
-\]</span> - El conglomerado seleccionado es reemplazado en la población y vuelve a ser parte del próximo sorteo aleatorio con la misma probabilidad de selección. En total se realizan <span class="math inline">\(m_I\)</span> sorteos aleatorios independientes.</p>
-<p>Nótese que el sorteo aleatorio se realiza entre los conglomerados, y no entre los elementos; por lo tanto, bajo muestreo en conglomerados no tiene sentido hablar de la probabilidad de selección de un elemento. Una vez que las probabilidades de selección de los conglomerados están definidas, utilizamos el estimador de Hansen-Hurwitz para estimar los parámetros de interés.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+Pr(\text{Select cluster }i)=p_{Ii},\text{   $i \in U_I$}.
+\]</span> - The selected cluster is replaced in the population and again becomes part of the next random draw with the same selection probability. In total, <span class="math inline">\(m_I\)</span> independent random draws are carried out.</p>
+<p>Note that the random draw is carried out among clusters, not among elements; therefore, under cluster sampling it does not make sense to speak of the selection probability of an element. Once the selection probabilities of the clusters are defined, we use the Hansen-Hurwitz estimator to estimate the parameters of interest.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Bajo un diseño de muestreo por conglomerados, el estimador de Hansen-Hurwitz para el total <span class="math inline">\(t_{y}\)</span>, su varianza y su varianza estimada están dados por</p>
+<p>Under a cluster sampling design, the Hansen-Hurwitz estimator for the total <span class="math inline">\(t_{y}\)</span>, its variance, and its estimated variance are given by</p>
 <p><span class="math display">\[
 \hat{t}_{y,p}=\frac{1}{m_I}\sum_{v=1}^{m_I}\frac{t_{{yi}_v}}{p_{Ii_v}}
 \]</span></p>
@@ -789,87 +789,87 @@ Var(\hat{t}_{y,p})=\frac{1}{m_I}\sum_{i=1}^{N_I}p_{Ii}\left(\frac{t_{yi}}{p_{Ii}
 <p><span class="math display">\[
 \widehat{Var}(\hat{t}_{y,p})=\frac{1}{m_I(m_I-1)}\sum_{v=1}^{m_I}\left(\frac{t_{yi_v}}{p_{Ii_v}}-\hat{t}_{y,p}\right)^2
 \]</span></p>
-<p>respectivamente. Nótese que <span class="math inline">\(\hat{t}_{y,p}\)</span> es insesgado para <span class="math inline">\(t_y\)</span> y que <span class="math inline">\(\widehat{Var}(\hat{t}_{y,p})\)</span> es insesgado para <span class="math inline">\(Var(\hat{t}_{y,p})\)</span>.</p>
-<p><strong>Prueba.</strong></p>
-<p>La demostración del resultado sigue los mismos argumentos de la sección del estimador de Hansen-Hurwitz del segundo capítulo y del resultado 2.2.11, definiendo la variable aleatoria <span class="math inline">\(Z_v\)</span> como</p>
+<p>respectively. Note that <span class="math inline">\(\hat{t}_{y,p}\)</span> is unbiased for <span class="math inline">\(t_y\)</span> and that <span class="math inline">\(\widehat{Var}(\hat{t}_{y,p})\)</span> is unbiased for <span class="math inline">\(Var(\hat{t}_{y,p})\)</span>.</p>
+<p><strong>Proof.</strong></p>
+<p>The proof of the result follows the same arguments as the section on the Hansen-Hurwitz estimator in Chapter 2 and Result 2.2.11, defining the random variable <span class="math inline">\(Z_v\)</span> as</p>
 <p><span class="math display">\[
 Z_v=t_{yi}/p_{Ii} \ \ \ \ \ \ i\in U_I \ \ \ v=1,\ldots,m_I
 \]</span></p>
-<p>y notando que</p>
+<p>and noting that</p>
 <p><span class="math display">\[
 Pr\left(Z_v=t_{yi}/p_{Ii}\right)=p_{Ii}
 \]</span></p>
 </div>
 </div>
-<p><span class="citation" data-cites="Coc">Cochran (<a href="#ref-Coc" role="doc-biblioref">1977</a>)</span> afirma que el método de selección de muestras con reemplazo es equivalente al problema estándar de probabilidad en el cual <span class="math inline">\(m_I\)</span> bolas son depositadas en <span class="math inline">\(N_I\)</span> cajas, la probabilidad de que una bola sea depositada en la <span class="math inline">\(i\)</span>-ésima caja está dada por <span class="math inline">\(Z_v\)</span> en cada oportunidad. De esta manera, la distribución conjunta de <span class="math inline">\(n_{Ii}(s_I)\)</span> está dada por una expresión multinomial.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Definici?n">
+<p><span class="citation" data-cites="Coc">Cochran (<a href="#ref-Coc" role="doc-biblioref">1977</a>)</span> states that the method of selecting samples with replacement is equivalent to the standard probability problem in which <span class="math inline">\(m_I\)</span> balls are placed into <span class="math inline">\(N_I\)</span> boxes; the probability that a ball is placed in the <span class="math inline">\(i\)</span>-th box is given by <span class="math inline">\(Z_v\)</span> on each occasion. In this way, the joint distribution of <span class="math inline">\(n_{Ii}(s_I)\)</span> is given by a multinomial expression.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definition">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Definici?n
+<span class="screen-reader-only">Important</span>Definition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<!-- index: Diseño de muestreo con reemplazo -->
-<p>De manera general, un diseño de muestreo con reemplazo de conglomerados se define como</p>
+<!-- index: Sampling design with replacement -->
+<p>In general, a sampling design with replacement of clusters is defined as</p>
 <p><span class="math display">\[
-p_I(s_I)= \begin{cases} \frac{m_I!}{n_{I1}(s_I)!\ldots n_{IN_I}(s_I)!}\prod_{U_I}(p_{Ii})^{n_{Ii}(s_I)}, &amp;\text{si $\sum_{U_I}n_{Ii}(s_I)=m_I$}\\
-0,  &amp;\text{en otro caso}
+p_I(s_I)= \begin{cases} \frac{m_I!}{n_{I1}(s_I)!\ldots n_{IN_I}(s_I)!}\prod_{U_I}(p_{Ii})^{n_{Ii}(s_I)}, &amp;\text{if $\sum_{U_I}n_{Ii}(s_I)=m_I$}\\
+0,  &amp;\text{otherwise}
       \end{cases}
 \]</span></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo">
+<div class="callout callout-style-default callout-note callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo
+<span class="screen-reader-only">Note</span>Example
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Nuestra población ejemplo <span class="math inline">\(U_I\)</span> dada por</p>
+<p>Our example population <span class="math inline">\(U_I\)</span>, given by</p>
 <p><span class="math inline">\(U_I=\)</span>{U_1, U_2, U_3}</p>
-<p>Suponga que se selecciona una muestra <span class="math inline">\(s_I\)</span> con reemplazo de conglomerados de tamaño <span class="math inline">\(m_I=2\)</span> mediante un diseño de muestreo que asigna las siguientes probabilidades de selección a cada conglomerado.</p>
+<p>Suppose that a sample <span class="math inline">\(s_I\)</span> of clusters with replacement of size <span class="math inline">\(m_I=2\)</span> is selected using a sampling design that assigns the following selection probabilities to each cluster.</p>
 <p><span class="math display">\[
 p_{Ii}=\begin{cases}
-            0.80, &amp; \text{si $i=1$},\\
-            0.15, &amp; \text{si $i=2$},\\
-            0.05, &amp; \text{si $i=3$}.
+            0.80, &amp; \text{if $i=1$},\\
+            0.15, &amp; \text{if $i=2$},\\
+            0.05, &amp; \text{if $i=3$}.
             \end{cases}
 \]</span></p>
-<p>Para seleccionar una muestra con reemplazo de la población <span class="math inline">\(U_I\)</span> de tamaño <span class="math inline">\(mI=2\)</span> conglomerados se utiliza la función <code>sample</code> cuyo argumento <code>replace</code> debe aparecer igual a <code>TRUE</code>. Para esto definimos las probabilidades de selección de cada conglomerado.</p>
+<p>To select a sample with replacement from population <span class="math inline">\(U_I\)</span> of size <span class="math inline">\(mI=2\)</span> clusters, the <code>sample</code> function is used, whose <code>replace</code> argument must be equal to <code>TRUE</code>. For this, we define the selection probabilities of each cluster.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>UI <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"U1"</span>, <span class="st">"U2"</span>, <span class="st">"U3"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>NI <span class="ot">&lt;-</span> <span class="dv">3</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mI <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>pIi  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.15</span>, <span class="fl">0.05</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>samI  <span class="ot">&lt;-</span>  <span class="fu">sample</span>(NI, mI, <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span>pIi)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mI   <span class="ot">&lt;-</span>  UI[samI]</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>mI</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>pIi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.15</span>, <span class="fl">0.05</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>samI <span class="ot">&lt;-</span> <span class="fu">sample</span>(NI, mI, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> pIi)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mI <span class="ot">&lt;-</span> UI[samI]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>mI</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "U1" "U2"</code></pre>
 </div>
 </div>
-<p>En este caso particular la muestra con reemplazo está compuesta por <span class="math inline">\(U_3\)</span> y, como era de esperarse, por tener la más alta probabilidad de selección, por <span class="math inline">\(U_1\)</span>. Para estimar el total poblacional, utilizamos la función <code>HH</code> del paquete <code>TeachingSampling</code> con los totales de los conglomerados seleccionados y sus respectivas probabilidades de selección.</p>
+<p>In this particular case, the sample with replacement is composed of <span class="math inline">\(U_3\)</span> and, as expected because it has the highest selection probability, <span class="math inline">\(U_1\)</span>. To estimate the population total, we use the <code>HH</code> function from the <code>TeachingSampling</code> package with the totals of the selected clusters and their respective selection probabilities.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tyIm  <span class="ot">&lt;-</span>  tyI[samI]</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tyIm</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tyIm <span class="ot">&lt;-</span> tyI[samI]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tyIm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  66 135</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pIim  <span class="ot">&lt;-</span>  pIi[samI]</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(mI, pIim, tyIm)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pIim <span class="ot">&lt;-</span> pIi[samI]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(mI, pIim, tyIm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  mI pIim tyIm
 1 U1 0.80   66
 2 U2 0.15  135</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HH</span>(tyIm, pIim)[<span class="dv">1</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HH</span>(tyIm, pIim)[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 491</code></pre>
 </div>
@@ -878,149 +878,149 @@ p_{Ii}=\begin{cases}
 </div>
 </section>
 </section>
-<section id="muestreo-aleatorio-simple-de-conglomerados" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="muestreo-aleatorio-simple-de-conglomerados"><span class="header-section-number">6.2</span> Muestreo aleatorio simple de conglomerados</h2>
-<!-- index: Diseño de muestreo aleatorio de conglomerados -->
-<p>En esta sección se introducen los principios del diseño de muestreo por conglomerados bajo el plan de muestreo más sencillo. La muestra <span class="math inline">\(s_I\)</span> de <span class="math inline">\(n_I\)</span> conglomerados es seleccionada mediante un diseño de muestreo aleatorio simple sin reemplazo. Como se verá a lo largo de la sección, no hay nuevos principios (ni en el diseño de muestreo ni en el desarrollo del estimador) involucrados en la construcción de la estrategia de muestreo, la demostración de los resultados se hace siguiendo las pautas expuestas en el capítulo 2.</p>
-<p>Este diseño de muestreo asume que el comportamiento del total de la característica de interés es constante en cada uno de los conglomerados. En la práctica esta situación se presenta en muy pocas ocasiones, es por esto que este diseño pierde precisión, en la mayoría de ocasiones, ante el muestreo aleatorio simple. Para que este diseño de muestreo sea más eficiente el valor promedio de la característica de interés en cada cluster <span class="math inline">\(\bar{y}_{U_i}\)</span> debería ser proporcional a <span class="math inline">\(\frac{c}{N_i}\)</span>. Se asume que la población <span class="math inline">\(U_I\)</span> está dividida en <span class="math inline">\(N_I\)</span> conglomerados (no necesariamente del mismo tamaño). La muestra sin reemplazo es seleccionada de acuerdo al diseño de muestreo dada en la siguiente definición.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Definici?n">
+<section id="simple-random-sampling-of-clusters" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="simple-random-sampling-of-clusters"><span class="header-section-number">6.2</span> Simple random sampling of clusters</h2>
+<!-- index: Cluster random sampling design -->
+<p>This section introduces the principles of the cluster sampling design under the simplest sampling plan. The sample <span class="math inline">\(s_I\)</span> of <span class="math inline">\(n_I\)</span> clusters is selected using a simple random sampling design without replacement. As will be seen throughout the section, there are no new principles, either in the sampling design or in the development of the estimator, involved in constructing the sampling strategy; the proof of the results follows the guidelines presented in Chapter 2.</p>
+<p>This sampling design assumes that the behavior of the total of the characteristic of interest is constant in each cluster. In practice, this situation occurs very rarely, which is why this design loses precision, in most cases, compared with simple random sampling. For this sampling design to be more efficient, the average value of the characteristic of interest in each cluster <span class="math inline">\(\bar{y}_{U_i}\)</span> should be proportional to <span class="math inline">\(\frac{c}{N_i}\)</span>. It is assumed that population <span class="math inline">\(U_I\)</span> is divided into <span class="math inline">\(N_I\)</span> clusters, not necessarily of the same size. The sample without replacement is selected according to the sampling design given in the following definition.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definition">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Definici?n
+<span class="screen-reader-only">Important</span>Definition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<!-- index: Diseño de muestreo aleatorio de conglomerados -->
-<p>Un diseño de muestreo se dice aleatorio simple para conglomerados si todas las posibles muestras de tamaño <span class="math inline">\(n_I\)</span> tienen la misma probabilidad de ser seleccionadas. Así,</p>
+<!-- index: Cluster random sampling design -->
+<p>A sampling design is said to be simple random for clusters if all possible samples of size <span class="math inline">\(n_I\)</span> have the same probability of being selected. Thus,</p>
 <p><span class="math display">\[
-p_I(s_I)= \begin{cases} \frac{1}{\binom{N_I}{n_I}} &amp;\text{si $\#s_I=n_I$}\\
-0  &amp;\text{en otro caso}
+p_I(s_I)= \begin{cases} \frac{1}{\binom{N_I}{n_I}} &amp;\text{if $\#s_I=n_I$}\\
+0  &amp;\text{otherwise}
       \end{cases}
 \]</span></p>
 </div>
 </div>
-<p>Una vez que la muestra de conglomerados <span class="math inline">\(s_I\)</span> es seleccionada se dispone a realizar una enumeración completa y la respectiva medición y observación de todos y cada uno de los elementos pertenecientes a cada conglomerado seleccionado.</p>
-<section id="algoritmos-de-selección" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="algoritmos-de-selección"><span class="header-section-number">6.2.1</span> Algoritmos de selección</h3>
-<!-- index: Algoritmos de selección -->
-<p>En la selección de las muestras de conglomerados sin reemplazo es posible utilizar los algoritmos de muestreo dados en el capítulo 2, de tal forma que los siguientes pasos se deben realizar: - Separar la población en <span class="math inline">\(N_I\)</span> conglomerados mediante el marco de muestreo de conglomerados. - Realizar una selección de <span class="math inline">\(n_I\)</span> conglomerados mediante cualquiera de los métodos expuestos en la sección 3.2.1; es decir, por el método coordinado negativo o por el método de Fan-Muller-Rezucha.</p>
+<p>Once the cluster sample <span class="math inline">\(s_I\)</span> is selected, a complete enumeration and the corresponding measurement and observation of each and every element belonging to each selected cluster are carried out.</p>
+<section id="selection-algorithms" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="selection-algorithms"><span class="header-section-number">6.2.1</span> Selection algorithms</h3>
+<!-- index: Selection algorithms -->
+<p>When selecting samples of clusters without replacement, it is possible to use the sampling algorithms given in Chapter 2, so the following steps must be carried out: - Separate the population into <span class="math inline">\(N_I\)</span> clusters using the cluster sampling frame. - Select <span class="math inline">\(n_I\)</span> clusters using any of the methods presented in Section 3.2.1; that is, the negative coordination method or the Fan-Muller-Rezucha method.</p>
 </section>
-<section id="el-estimador-de-horvitz-thompson-1" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="el-estimador-de-horvitz-thompson-1"><span class="header-section-number">6.2.2</span> El estimador de Horvitz-Thompson</h3>
-<p>Siguiendo el resultado 6.1.1. las probabilidades de inclusión están dadas por el siguiente resultado.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<section id="the-horvitz-thompson-estimator-1" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="the-horvitz-thompson-estimator-1"><span class="header-section-number">6.2.2</span> The Horvitz-Thompson estimator</h3>
+<p>Following Result 6.1.1, the inclusion probabilities are given by the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Para un diseño de muestreo aleatorio de conglomerados, las probabilidades de inclusión de primer y segundo orden de los conglomerados están dadas por</p>
+<p>For a cluster random sampling design, the first- and second-order inclusion probabilities of the clusters are given by</p>
 <p><span class="math display">\[
 \begin{aligned}
 \pi_{Ii}  &amp;= \frac{n_I}{N_I} \\
   \pi_{Iij} &amp;= \frac{n_I(n_I-1)}{N_I(N_I-1)}
 \end{aligned}
 \]</span></p>
-<p>respectivamente.</p>
+<p>respectively.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El tamaño de la muestra de elemento <span class="math inline">\(s\)</span> es aleatorio y su esperanza está dada por</p>
+<p>The size of the sample of elements <span class="math inline">\(s\)</span> is random and its expectation is given by</p>
 <p><span class="math display">\[
 E(n(S))=N\frac{n_I}{N_I}
 \]</span></p>
-<p><strong>Prueba.</strong></p>
-<p>De la definición de tamaño de muestra esperado, se tiene que</p>
+<p><strong>Proof.</strong></p>
+<p>From the definition of expected sample size, we have</p>
 <p><span class="math display">\[
 E(n(S))=E\left(\sum_{i\in S_I}N_i\right)=\sum_{i\in U_I}N_i\frac{n_I}{N_I}=N\frac{n_I}{N_I}
 \]</span></p>
 </div>
 </div>
-<p>Se sigue del resultado 6.1.2 que la estrategia de muestreo se construye mediante el uso del estimador de Horvitz-Thompson que bajo este diseño de muestreo particular toma la forma del siguiente resultado.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>It follows from Result 6.1.2 that the sampling strategy is constructed using the Horvitz-Thompson estimator, which under this particular sampling design takes the form of the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Para un diseño de muestreo aleatorio de conglomerados, el estimador de Horvitz-Thompson del total poblacional <span class="math inline">\(t_y\)</span>, su varianza y su varianza estimada están dados por</p>
+<p>For a cluster random sampling design, the Horvitz-Thompson estimator of the population total <span class="math inline">\(t_y\)</span>, its variance, and its estimated variance are given by</p>
 <p><span class="math display">\[
 \hat{t}_{y,\pi}=\frac{N_I}{n_I}\sum_{S_I}t_{yi}
 \]</span></p>
 <p><span class="math display">\[
-Var_{MAC}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{yU_I}}
+Var_{CS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{yU_I}}
 \]</span></p>
 <p><span class="math display">\[
-\widehat{Var}_{MAC}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{ys_I}}
+\widehat{Var}_{CS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)S^2_{t_{ys_I}}
 \]</span></p>
-<p>respectivamente, con <span class="math inline">\(S^2_{t_{yU_I}}\)</span> y <span class="math inline">\(S^2_{t_{ys_I}}\)</span> el estimador de la varianza de los totales de los conglomerados para la característica de interés en el universo <span class="math inline">\(U_I\)</span> y en la muestra <span class="math inline">\(s_I\)</span>. Esto es</p>
+<p>respectively, with <span class="math inline">\(S^2_{t_{yU_I}}\)</span> and <span class="math inline">\(S^2_{t_{ys_I}}\)</span> the variance estimator of the cluster totals for the characteristic of interest in universe <span class="math inline">\(U_I\)</span> and in sample <span class="math inline">\(s_I\)</span>. That is,</p>
 <p><span class="math display">\[
 S^2_{t_{yU_I}}=\frac{1}{N_I-1}\sum_{i\in U_I}(t_{yi}-\bar{t}_{U_I})^2,
 \]</span></p>
-<p>donde <span class="math inline">\(\bar{t}_{U_I}=\sum_{i=1}^{N_I}t_{yi}/N_I\)</span>, y <span class="math inline">\(S^2_{t_{yS_I}}\)</span> se define de manera análoga. Nótese que <span class="math inline">\(\hat{t}_{y,\pi}\)</span> es insesgado para el total poblacional <span class="math inline">\(t_y\)</span> de la característica de interés <span class="math inline">\(y\)</span>, y que <span class="math inline">\(\widehat{Var}_{MAC}(\hat{t}_{y,\pi})\)</span> es insesgado para <span class="math inline">\(Var_{MAC}(\hat{t}_{y,\pi})\)</span>.</p>
+<p>where <span class="math inline">\(\bar{t}_{U_I}=\sum_{i=1}^{N_I}t_{yi}/N_I\)</span>, and <span class="math inline">\(S^2_{t_{yS_I}}\)</span> is defined analogously. Note that <span class="math inline">\(\hat{t}_{y,\pi}\)</span> is unbiased for the population total <span class="math inline">\(t_y\)</span> of the characteristic of interest <span class="math inline">\(y\)</span>, and that <span class="math inline">\(\widehat{Var}_{CS}(\hat{t}_{y,\pi})\)</span> is unbiased for <span class="math inline">\(Var_{CS}(\hat{t}_{y,\pi})\)</span>.</p>
 </div>
 </div>
-<p>Nótese que el diseño de muestreo sistemático en un caso especial del muestreo aleatorio de conglomerados cuando se selecciona una muestra <span class="math inline">\(s_I\)</span> de tamaño igual a <span class="math inline">\(n_I=1\)</span>. Al igual que en muestreo sistemático no se tiene un estimador de la varianza cuando se selecciona sólo un conglomerado.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo">
+<p>Note that the systematic sampling design is a special case of cluster random sampling when a sample <span class="math inline">\(s_I\)</span> of size equal to <span class="math inline">\(n_I=1\)</span> is selected. As in systematic sampling, there is no variance estimator when only one cluster is selected.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Example">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo
+<span class="screen-reader-only">Note</span>Example
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Siguiendo con nuestra población ejemplo <span class="math inline">\(U_I\)</span>, existen <span class="math inline">\(\binom{N_I}{m_I}=\binom{3}{2}=3\)</span> posibles muestras de tamaño <span class="math inline">\(m_I=2\)</span>. Realice el cálculo léxico-gráfico del estimador de Horvitz-Thompson y compruebe el insesgamiento y la varianza mediante este diseño de muestreo.</p>
+<p>Continuing with our example population <span class="math inline">\(U_I\)</span>, there are <span class="math inline">\(\binom{N_I}{m_I}=\binom{3}{2}=3\)</span> possible samples of size <span class="math inline">\(m_I=2\)</span>. Carry out the lexical-graphic calculation of the Horvitz-Thompson estimator and verify unbiasedness and the variance using this sampling design.</p>
 </div>
 </div>
-<section id="tamaño-de-muestra" class="level4" data-number="6.2.2.1">
-<h4 data-number="6.2.2.1" class="anchored" data-anchor-id="tamaño-de-muestra"><span class="header-section-number">6.2.2.1</span> Tamaño de muestra</h4>
-<!-- index: Tamaño de muestra -->
-<p>Bajo muestreo aleatorio de conglomerados se utilizan los mismos principios de la estimación del tamaño de muestra en muestreo aleatorio simple reemplazando las cantidades correspondientes de la población de elementos por la población de conglomerados <span class="math inline">\(U_I\)</span>. De tal forma que si requiere estimar el tamaño de muestra dada una precisión absoluta <span class="math inline">\(c\)</span> se tiene:</p>
+<section id="sample-size" class="level4" data-number="6.2.2.1">
+<h4 data-number="6.2.2.1" class="anchored" data-anchor-id="sample-size"><span class="header-section-number">6.2.2.1</span> Sample size</h4>
+<!-- index: Sample size -->
+<p>Under cluster random sampling, the same principles of sample size estimation used in simple random sampling are applied, replacing the corresponding quantities from the population of elements with those from the population of clusters <span class="math inline">\(U_I\)</span>. Thus, if the sample size must be estimated for a given absolute precision <span class="math inline">\(c\)</span>, we have:</p>
 <p><span class="math display">\[
 \begin{aligned}
 n_I\geq\frac{n_{I0}}{1+\frac{n_{I0}}{N_I}}
 \end{aligned}
 \]</span></p>
-<p>con <span class="math inline">\(n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}S^2_{t_{yU_I}}}{c^2}\)</span>. En algunas ocasiones se quiere lograr una precisión relativa <span class="math inline">\(k\)</span>, por tanto:</p>
+<p>with <span class="math inline">\(n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}S^2_{t_{yU_I}}}{c^2}\)</span>. On some occasions, the goal is to achieve a relative precision <span class="math inline">\(k\)</span>; therefore:</p>
 <p><span class="math display">\[
 \begin{aligned}
 n_I\geq\frac{n_{I0}}{1+\frac{n_{I0}}{N_I}}
 \end{aligned}
 \]</span></p>
-<p>con <span class="math inline">\(n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}CV^2}{k^2}\)</span>. Nótese que dado que la población de conglomerados es pequeña, en la mayoría de los casos, es preferible suponer que el estimador sigue una distribución t-student con <span class="math inline">\(N_I-1\)</span> grados de libertad.</p>
+<p>with <span class="math inline">\(n_{I0}=\dfrac{t^2_{1-\alpha/2,N_I-1}CV^2}{k^2}\)</span>. Note that because the population of clusters is small, in most cases it is preferable to assume that the estimator follows a Student’s t distribution with <span class="math inline">\(N_I-1\)</span> degrees of freedom.</p>
 </section>
 </section>
-<section id="eficiencia-de-la-estrategia" class="level3" data-number="6.2.3">
-<h3 data-number="6.2.3" class="anchored" data-anchor-id="eficiencia-de-la-estrategia"><span class="header-section-number">6.2.3</span> Eficiencia de la estrategia</h3>
-<!-- index: Eficiencia de la estrategia -->
-<p>A lo largo del capítulo se ha mencionado que la eficiencia de esta estrategia de muestreo es menor que la del muestreo aleatorio simple sin reemplazo. Intuitivamente se sospecha que, dado que la formación de grupos se presenta en forma natural en la mayoría de los casos, la información de los conglomerados, con respecto al comportamiento estructural de la característica de interés, es homogénea dentro de cada uno de ellos.</p>
-<p>Para corroborar las anteriores afirmaciones vamos a medir la eficiencia de la estrategia utilizando el efecto de diseño. Sin embargo, para unificar el tamaño de la muestra en esta estrategia se supondrá que: - La población <span class="math inline">\(U_I\)</span> está conformada por <span class="math inline">\(N_I\)</span> conglomerados. - Cada conglomerado es de tamaño <span class="math inline">\(M\)</span>. Luego <span class="math inline">\(\#U_i=M \ \ \ i=1,\ldots,N_I\)</span>, además la población de elementos <span class="math inline">\(U\)</span> es de tamaño <span class="math inline">\(N=M\times N_I\)</span>. - Se selecciona una muestra <span class="math inline">\(s_I\)</span> de tamaño igual a <span class="math inline">\(n_I\)</span> conglomerados. De esta forma se han seleccionado en la muestra <span class="math inline">\(M\times n_I\)</span> elementos.</p>
+<section id="efficiency-of-the-strategy" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="efficiency-of-the-strategy"><span class="header-section-number">6.2.3</span> Efficiency of the strategy</h3>
+<!-- index: Efficiency of the strategy -->
+<p>Throughout the chapter, it has been mentioned that the efficiency of this sampling strategy is lower than that of simple random sampling without replacement. Intuitively, it is suspected that, because group formation occurs naturally in most cases, the information in the clusters, with respect to the structural behavior of the characteristic of interest, is homogeneous within each of them.</p>
+<p>To corroborate the preceding statements, we will measure the efficiency of the strategy using the design effect. However, to unify the sample size in this strategy, assume that: - Population <span class="math inline">\(U_I\)</span> consists of <span class="math inline">\(N_I\)</span> clusters. - Each cluster has size <span class="math inline">\(M\)</span>. Thus, <span class="math inline">\(\#U_i=M \ \ \ i=1,\ldots,N_I\)</span>, and the population of elements <span class="math inline">\(U\)</span> has size <span class="math inline">\(N=M\times N_I\)</span>. - A sample <span class="math inline">\(s_I\)</span> of size equal to <span class="math inline">\(n_I\)</span> clusters is selected. In this way, <span class="math inline">\(M\times n_I\)</span> elements have been selected in the sample.</p>
 <div id="tbl-t6-anova" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-t6-anova-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;6.2: Tabla de ANOVA inducida por el muestreo aleatorio de conglomerados.
+Table&nbsp;6.2: ANOVA table induced by cluster random sampling.
 </figcaption>
 <div aria-describedby="tbl-t6-anova-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1032,29 +1032,29 @@ Tabla&nbsp;6.2: Tabla de ANOVA inducida por el muestreo aleatorio de conglomerad
 </colgroup>
 <thead>
 <tr class="header">
-<th>Fuente</th>
-<th>gl</th>
-<th>Suma de cuadrados</th>
-<th>Cuadrado medio</th>
+<th>Source</th>
+<th>df</th>
+<th>Sum of squares</th>
+<th>Mean square</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Entre</td>
+<td>Between</td>
 <td><span class="math inline">\(N_I-1\)</span></td>
-<td><span class="math inline">\(SCE=\sum_{i=1}^{N_I}M\left(\bar{y}_{U_i}-\bar{y}_U\right)^2\)</span></td>
-<td><span class="math inline">\(\dfrac{SCE}{N_I-1}\)</span></td>
+<td><span class="math inline">\(SSB=\sum_{i=1}^{N_I}M\left(\bar{y}_{U_i}-\bar{y}_U\right)^2\)</span></td>
+<td><span class="math inline">\(\dfrac{SSB}{N_I-1}\)</span></td>
 </tr>
 <tr class="even">
-<td>Dentro</td>
+<td>Within</td>
 <td><span class="math inline">\(N_IM-N_I\)</span></td>
-<td><span class="math inline">\(SCD=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_{U_i}\right)^2\)</span></td>
-<td><span class="math inline">\(\dfrac{SCD}{N_IM-N_I}\)</span></td>
+<td><span class="math inline">\(SSW=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_{U_i}\right)^2\)</span></td>
+<td><span class="math inline">\(\dfrac{SSW}{N_IM-N_I}\)</span></td>
 </tr>
 <tr class="odd">
 <td>Total</td>
 <td><span class="math inline">\(N_IM-1\)</span></td>
-<td><span class="math inline">\(SCT=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_U\right)^2\)</span></td>
+<td><span class="math inline">\(SST=\sum_{i=1}^{N_I}\sum_{j=1}^{M}\left(y_{ij}-\bar{y}_U\right)^2\)</span></td>
 <td><span class="math inline">\(s^2_{y_U}\)</span></td>
 </tr>
 </tbody>
@@ -1062,36 +1062,36 @@ Tabla&nbsp;6.2: Tabla de ANOVA inducida por el muestreo aleatorio de conglomerad
 </div>
 </figure>
 </div>
-<p>Los resultados podrán ser comparables si se supone que una muestra de <span class="math inline">\(n_I\)</span> conglomerados es seleccionada de acuerdo a un diseño aleatorio simple de conglomerados. Por otro lado, se supone que se selecciona una muestra de <span class="math inline">\(M\times n_I\)</span> elementos directamente de la población <span class="math inline">\(U\)</span>. Cada vez que la población es dividida en sub-grupos poblacionales es muy útil recurrir a la tabla de análisis de varianza que esta vez toma la forma dada en la <a href="#tbl-t6-anova" class="quarto-xref">tabla&nbsp;<span>6.2</span></a>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>The results can be made comparable by assuming that a sample of <span class="math inline">\(n_I\)</span> clusters is selected according to a simple random cluster design. On the other hand, suppose that a sample of <span class="math inline">\(M\times n_I\)</span> elements is selected directly from population <span class="math inline">\(U\)</span>. Whenever the population is divided into population subgroups, it is very useful to use the analysis of variance table, which this time takes the form given in <a href="#tbl-t6-anova" class="quarto-xref">table&nbsp;<span>6.2</span></a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Utilizando los resultados de la descomposición de las sumas de cuadrados, la varianza de la estrategia por conglomerados toma la siguiente forma</p>
+<p>Using the results of the decomposition of the sums of squares, the variance of the cluster strategy takes the following form</p>
 <p><span class="math display">\[
-Var_{MAC}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SCE}{N_I-1}
+Var_{CS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SSB}{N_I-1}
 \]</span></p>
-<p>mientras que la varianza de la estrategia aleatoria simple, con un tamaño poblacional igual a <span class="math inline">\(N=M\times N_I\)</span> elementos y un tamaño de muestra igual a <span class="math inline">\(n=M\times n_I\)</span> elementos, se puede escribir como</p>
+<p>whereas the variance of the simple random strategy, with population size equal to <span class="math inline">\(N=M\times N_I\)</span> elements and sample size equal to <span class="math inline">\(n=M\times n_I\)</span> elements, can be written as</p>
 <p><span class="math display">\[
-Var_{MAS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SCT}{MN_I-1}
+Var_{SRS}(\hat{t}_{y,\pi})=\frac{N_I^2}{n_I}\left(1-\frac{n_I}{N_I}\right)M\frac{SST}{MN_I-1}
 \]</span></p>
-<p><strong>Prueba.</strong></p>
-<p>Para la varianza de la estrategia por conglomerados se tiene</p>
+<p><strong>Proof.</strong></p>
+<p>For the variance of the cluster strategy, we have</p>
 <p><span class="math display">\[
 \begin{aligned}
-M\frac{SCE}{N_I-1}&amp;=\frac{\sum_{i=1}^{N_I}M^2\left(\bar{y}_{U_i}-\bar{y}_U\right)^2}{N_I-1}\\
+M\frac{SSB}{N_I-1}&amp;=\frac{\sum_{i=1}^{N_I}M^2\left(\bar{y}_{U_i}-\bar{y}_U\right)^2}{N_I-1}\\
 &amp;=\frac{\sum_{i=1}^{N_I}\left(t_{yi}-\bar{t}_{yU_I}\right)^2}{N_I-1}\\
 &amp;=S^2_{t_{yU_I}}
 \end{aligned}
 \]</span></p>
-<p>donde <span class="math inline">\(\bar{y}_{U_i}\)</span> y <span class="math inline">\(t_{yi}\)</span> es el promedio y el total del <span class="math inline">\(i\)</span>-ésimo conglomerado, respectivamente y <span class="math inline">\(\bar{t}_{yU_I}=\frac{\sum_{i=1}^{N_I}t_{yi}}{N_I}\)</span> es el promedio de los totales de los conglomerados.</p>
-<p>Para la varianza de la estrategia aleatoria simple sólo hay que notar que</p>
+<p>where <span class="math inline">\(\bar{y}_{U_i}\)</span> and <span class="math inline">\(t_{yi}\)</span> are the mean and total of the <span class="math inline">\(i\)</span>-th cluster, respectively, and <span class="math inline">\(\bar{t}_{yU_I}=\frac{\sum_{i=1}^{N_I}t_{yi}}{N_I}\)</span> is the average of the cluster totals.</p>
+<p>For the variance of the simple random strategy, it is enough to note that</p>
 <p><span class="math display">\[
 \begin{aligned}
 \frac{N^2}{n}\left(1-\frac{n}{N}\right)&amp;=\frac{(MN_I)^2}{Mn_I}\left(1-\frac{Mn_I}{MN_I}\right)\\
@@ -1100,53 +1100,53 @@ M\frac{SCE}{N_I-1}&amp;=\frac{\sum_{i=1}^{N_I}M^2\left(\bar{y}_{U_i}-\bar{y}_U\r
 \]</span></p>
 </div>
 </div>
-<p>Note que si <span class="math inline">\(SCE\)</span> es alta, entonces la estrategia será menos eficiente. En la práctica es esto lo que ocurre exactamente pues dada la agrupación natural de elementos, el comportamiento de la característica de interés será similar dentro de cada conglomerado. Por tanto, <span class="math inline">\(SCE\)</span> será elevada pues en forma general los conglomerados presentarán un comportamiento heterogéneo. Para verlo con más claridad, se define el coeficiente de correlación intra-clase como</p>
+<p>Note that if <span class="math inline">\(SSB\)</span> is high, then the strategy will be less efficient. In practice, this is exactly what occurs because, given the natural grouping of elements, the behavior of the characteristic of interest will be similar within each cluster. Therefore, <span class="math inline">\(SSB\)</span> will be high because clusters will generally exhibit heterogeneous behavior. To see this more clearly, the intraclass correlation coefficient is defined as</p>
 <p><span class="math display">\[
-\rho=1-\frac{M}{M-1}\frac{SCD}{SCT}
+\rho=1-\frac{M}{M-1}\frac{SSW}{SST}
 \]</span></p>
-<p>Esta medida toma valores positivos si los elementos dentro de los conglomerados tienen un comportamiento similar y negativo cuando el comportamiento de los elementos dentro de los conglomerados es muy disperso. Además, el coeficiente informa qué tan similares son los elementos dentro de los conglomerados y proporciona una medida de homogeneidad dentro de los conglomerados y nos da una realidad más detallada en cuanto al efecto de diseño y pérdida de eficiencia en el muestreo aleatorio de conglomerados como lo afirma el siguiente resultado.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Resultado">
+<p>This measure takes positive values if the elements within the clusters have similar behavior, and negative values when the behavior of the elements within the clusters is highly dispersed. In addition, the coefficient indicates how similar the elements within the clusters are and provides a measure of homogeneity within clusters, giving us a more detailed view of the design effect and efficiency loss in cluster random sampling, as stated in the following result.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Result">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Resultado
+<span class="screen-reader-only">Tip</span>Result
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El efecto de diseño en muestreo aleatorio de conglomerados está dado por</p>
+<p>The design effect in cluster random sampling is given by</p>
 <p><span id="eq-defcon"><span class="math display">\[
-Deff=\frac{Var_{MAC}\hat{t}_{\pi}}{Var_{MAS}\hat{t}_{\pi}}\cong1+(M-1)\rho
+Deff=\frac{Var_{CS}\hat{t}_{\pi}}{Var_{SRS}\hat{t}_{\pi}}\cong1+(M-1)\rho
 \tag{6.1}\]</span></span></p>
-<p><strong>Prueba.</strong></p>
-<p>La aproximación se tiene si se supone que <span class="math inline">\(N_I\)</span>, el número total de conglomerados, es grande tal que</p>
+<p><strong>Proof.</strong></p>
+<p>The approximation holds if <span class="math inline">\(N_I\)</span>, the total number of clusters, is assumed to be large such that</p>
 <p><span class="math display">\[
 M(N_I-1)\cong MN_I-1
 \]</span></p>
-<p>La demostración se completa notando que al realizar el cociente de varianzas, al igual que en la sección del muestreo sistemático, se tiene que</p>
+<p>The proof is completed by noting that, when taking the ratio of variances, as in the section on systematic sampling, we have</p>
 <p><span class="math display">\[
-\frac{SCE}{SCT}=\frac{1+(M-1)\rho}{M}
+\frac{SSB}{SST}=\frac{1+(M-1)\rho}{M}
 \]</span></p>
 </div>
 </div>
-<p>Dado que <span class="math inline">\(\rho\)</span> es generalmente positivo<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> podemos inferir de (<a href="#eq-defcon" class="quarto-xref">ecuación&nbsp;<span>6.1</span></a>) que el muestreo por conglomerados tendrá una mayor varianza que el muestreo aleatorio simple de elementos directamente de la población <span class="math inline">\(U\)</span>. Sin embargo, es plausible sacrificar la eficiencia estadística por el ahorro financiero y logístico característico de las estrategias por conglomerados. Ahora, si <span class="math inline">\(\rho\)</span> es negativo, esta estrategia gana en eficiencia y también en costos operativos.</p>
-<p><span class="citation" data-cites="Loh">Lohr (<a href="#ref-Loh" role="doc-biblioref">2000</a>)</span> afirma que en el caso, muy común en la práctica, en que los conglomerados no sean del mismo tamaño, una medida alternativa a <span class="math inline">\(\rho\)</span> es el coeficiente de determinación <span class="math inline">\(R^2\)</span> definido como</p>
+<p>Because <span class="math inline">\(\rho\)</span> is generally positive<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, we can infer from (<a href="#eq-defcon" class="quarto-xref">equation&nbsp;<span>6.1</span></a>) that cluster sampling will have a larger variance than simple random sampling of elements directly from population <span class="math inline">\(U\)</span>. However, it is plausible to sacrifice statistical efficiency for the financial and logistical savings characteristic of cluster strategies. Now, if <span class="math inline">\(\rho\)</span> is negative, this strategy gains in efficiency and also in operating costs.</p>
+<p><span class="citation" data-cites="Loh">Lohr (<a href="#ref-Loh" role="doc-biblioref">2000</a>)</span> states that in the very common practical case where clusters are not of the same size, an alternative measure to <span class="math inline">\(\rho\)</span> is the coefficient of determination <span class="math inline">\(R^2\)</span>, defined as</p>
 <p><span class="math display">\[
-R^2=1-\frac{CMD}{s^2_{y_U}}
+R^2=1-\frac{MSW}{s^2_{y_U}}
 \]</span></p>
-<p>donde <span class="math inline">\(CMD=\frac{SCD}{N-N_I}\)</span>; con <span class="math inline">\(N\)</span> el número total de elementos en la población <span class="math inline">\(U\)</span>. Ésta es una medida muy conocida y utilizada en el análisis de regresión lineal, y es interpretada como la cantidad de variabilidad explicada por los promedios de cada conglomerado. Si el comportamiento de la característica de interés es homogéneo dentro de los conglomerados, entonces los promedios entre los conglomerados tendrán una muy alta dispersión con respecto a la variación dentro de los conglomerados y <span class="math inline">\(R^2\)</span> tomará valores grandes.</p>
+<p>where <span class="math inline">\(MSW=\frac{SSW}{N-N_I}\)</span>, with <span class="math inline">\(N\)</span> the total number of elements in population <span class="math inline">\(U\)</span>. This is a well-known measure used in linear regression analysis and is interpreted as the amount of variability explained by the means of each cluster. If the behavior of the characteristic of interest is homogeneous within clusters, then the means among clusters will have very high dispersion relative to the variation within clusters, and <span class="math inline">\(R^2\)</span> will take large values.</p>
 </section>
-<section id="marco-i-y-lucy" class="level3" data-number="6.2.4">
-<h3 data-number="6.2.4" class="anchored" data-anchor-id="marco-i-y-lucy"><span class="header-section-number">6.2.4</span> Marco I y Lucy</h3>
-<!-- index: Marco y Lucy -->
-<p>El común denominador de las aplicaciones prácticas con Marco y Lucy en los capítulos anteriores ha sido la identificación y ubicación, a priori, de cada una de las empresas en el sector industrial. Esto ha sido posible gracias a que un marco de muestreo de elementos estuvo disponible. En algunas ocasiones, el marco de muestreo disponible mostró bondades que permitieron la incorporación de información auxiliar, ya sea de tipo continuo o categórico, para mejorar la eficiencia de la estrategia de muestreo utilizada en cada caso.</p>
-<p>En cualquier caso, el gobierno desea obtener estimaciones precisas que le permitan fortalecer sus políticas de apoyo y financiamiento de las empresas en el sector industrial. Sin embargo, el gobierno no está en disposición de entregar una lista de todas las empresas del sector industrial con su respectiva identificación y ubicación debido a políticas de confidencialidad que no le permiten brindar este tipo de información. Por tanto, en esta ocasión no hay tal marco generoso de elementos en la población y el estudio se deberá llevar a cabo con esta restricción de tipo logístico.</p>
-<p>En cualquier estudio por muestreo, siempre debe existir, si no físicamente al menos de forma implícita, un marco de muestreo de la población que permita llegar a la medición de la unidad objetivo de muestreo. Dado que el gobierno no permite la utilización de un marco de muestreo de empresas en el sector industrial, se debe realizar el levantamiento de un marco de muestreo de conglomerados que agrupen estas empresas. Una solución, que es muy utilizada en la práctica, es realizar un muestreo de áreas geográficas. Las empresas, las viviendas, los domicilios, los negocios, etc. están ubicadas en algún lugar del mapa y es poco factible que se muevan de donde han estado instaladas. Por tanto, un marco de muestreo por áreas es una buena solución de tipo logístico para enfrentar la etapa de diseño de este estudio.</p>
-<p>Un inconveniente que se presenta a la hora de realizar un muestreo de conglomerados con un marco discriminado en áreas geográficas es la imposibilidad de conocer cuántas empresas estarán ubicadas en cada zona geográfica. Sin embargo, sí es posible asignar subdivisiones de cada zona geográfica seleccionada a un grupo de encuestadores para que recorran la zona y apliquen el cuestionario a cada una de las empresas del sector. De esta forma, es posible tener una estimación del presupuesto que se requiere. La población <span class="math inline">\(U_I\)</span> de conglomerados, es decir la ciudad, se divide en cinco zonas geográficas, a saber: <strong>Zona A</strong>, ubicada en el sur, <strong>Zona B</strong>, ubicada en el norte, <strong>Zona C</strong>, ubicada en el oriente, <strong>Zona D</strong>, ubicada en el occidente y <strong>Zona E</strong>, ubicada en el centro.</p>
-<p>Recordando los objetivos del estudio, el gobierno quiere medir el crecimiento del sector industrial en la ciudad, mediante tres características importantes: el ingreso y los impuestos declarados en el último año fiscal y la generación de empleos mediante la cantidad de trabajadores que laboran en cada empresa. Seguramente, ni el ingreso, ni los impuestos, ni la cantidad de empleados están correlacionados con la zona geográfica. Podemos afirmar esto porque la ubicación de las empresas es realizada por el gobierno siguiendo diversos criterios.</p>
+<section id="marco-i-and-lucy" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="marco-i-and-lucy"><span class="header-section-number">6.2.4</span> Marco I and Lucy</h3>
+<!-- index: Marco and Lucy -->
+<p>The common denominator of the practical applications with Marco and Lucy in the previous chapters has been the a priori identification and location of each firm in the industrial sector. This has been possible because a sampling frame of elements was available. On some occasions, the available sampling frame had advantages that allowed the incorporation of auxiliary information, whether continuous or categorical, to improve the efficiency of the sampling strategy used in each case.</p>
+<p>In any case, the government wants to obtain precise estimates that allow it to strengthen its support and financing policies for firms in the industrial sector. However, the government is not in a position to provide a list of all firms in the industrial sector with their respective identification and location because confidentiality policies do not allow it to provide this type of information. Therefore, on this occasion there is no such generous frame of elements in the population, and the study must be carried out under this logistical restriction.</p>
+<p>In any sampling study, there must always be, if not physically then at least implicitly, a sampling frame of the population that allows the target sampling unit to be measured. Since the government does not allow the use of a sampling frame of firms in the industrial sector, a cluster sampling frame that groups these firms must be constructed. One solution, widely used in practice, is geographic area sampling. Firms, dwellings, residences, businesses, and so on are located somewhere on the map, and it is not very feasible for them to move from where they have been established. Therefore, an area sampling frame is a good logistical solution for addressing the design stage of this study.</p>
+<p>One difficulty that arises when conducting cluster sampling with a frame disaggregated into geographic areas is the impossibility of knowing how many firms will be located in each geographic zone. However, it is possible to assign subdivisions of each selected geographic zone to a group of interviewers so that they can travel through the zone and apply the questionnaire to each firm in the sector. In this way, it is possible to obtain an estimate of the required budget. The cluster population <span class="math inline">\(U_I\)</span>, that is, the city, is divided into five geographic zones, namely: <strong>Zone A</strong>, located in the south; <strong>Zone B</strong>, located in the north; <strong>Zone C</strong>, located in the east; <strong>Zone D</strong>, located in the west; and <strong>Zone E</strong>, located in the center.</p>
+<p>Recalling the objectives of the study, the government wants to measure the growth of the industrial sector in the city through three important characteristics: income and taxes declared in the last fiscal year, and job creation through the number of workers employed in each firm. Surely neither income, taxes, nor the number of employees is correlated with geographic zone. We can state this because the location of firms is carried out by the government following various criteria.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(Zone, Employees, <span class="at">data=</span>BigLucy, <span class="at">geom=</span><span class="fu">c</span>(<span class="st">"boxplot"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(Zone, Employees, <span class="at">data =</span> BigLucy, <span class="at">geom =</span> <span class="fu">c</span>(<span class="st">"boxplot"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-f6-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1154,14 +1154,14 @@ R^2=1-\frac{CMD}{s^2_{y_U}}
 <img src="cap6_files/figure-html/fig-f6-2-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-f6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;6.1: Boxplot de la característica de interés <code>Employees</code> para cada una de las zonas.
+Figure&nbsp;6.1: Boxplot of the characteristic of interest <code>Employees</code> for each zone.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Es así como en una misma zona geográfica, es posible encontrar una empresa grande rodeada de empresas pequeñas o medianas. Este es un muy buen indicio en la etapa del diseño de muestreo pues quiere decir que el comportamiento de las características de interés dentro de cada área geográfica es muy disperso. La <a href="#fig-f6-2" class="quarto-xref">figura&nbsp;<span>6.1</span></a> presenta el comportamiento de las características de interés en cada una de las cinco zonas geográficas de la ciudad. Nótese que no es posible identificar un comportamiento estructural significativamente diferente en cada zona, sino que por el contrario, el comportamiento es heterogéneo dentro de cada zona y homogéneo entre las zonas.</p>
-<p>Aunque no se conoce el número de empresas en el sector industrial, el gobierno ha estimado según datos de años anteriores la existencia de 85000 empresas para el último año fiscal. Con esta información se ha decidido seleccionar una muestra aleatoria simple de conglomerados de tamaño <span class="math inline">\(n_I=10\)</span>. Por tanto, el tamaño muestral de empresas esperado corresponde a <span class="math inline">\(85000\dfrac{10}{100}=8500\)</span>. De la población de <span class="math inline">\(N_I=100\)</span> conglomerados de áreas se selecciona una muestra aleatoria simple de <span class="math inline">\(n_I=10\)</span> utilizando la función <code>S.SI</code> del paquete <code>TeachingSampling</code>. En este caso particular, los conglomerados incluidos en la muestra sin reemplazo corresponde a la <strong>Zona A</strong> y a la <strong>Zona E</strong>.</p>
+<p>Thus, within the same geographic zone, it is possible to find a large firm surrounded by small or medium firms. This is a very good sign in the sampling design stage because it means that the behavior of the characteristics of interest within each geographic area is highly dispersed. <a href="#fig-f6-2" class="quarto-xref">figure&nbsp;<span>6.1</span></a> presents the behavior of the characteristics of interest in each of the five geographic zones of the city. Note that it is not possible to identify significantly different structural behavior in each zone; on the contrary, the behavior is heterogeneous within each zone and homogeneous across zones.</p>
+<p>Although the number of firms in the industrial sector is not known, the government has estimated, based on data from previous years, the existence of 85000 firms for the last fiscal year. With this information, it has been decided to select a simple random sample of clusters of size <span class="math inline">\(n_I=10\)</span>. Therefore, the expected sample size of firms corresponds to <span class="math inline">\(85000\dfrac{10}{100}=8500\)</span>. From the population of <span class="math inline">\(N_I=100\)</span> area clusters, a simple random sample of <span class="math inline">\(n_I=10\)</span> is selected using the <code>S.SI</code> function from the <code>TeachingSampling</code> package. In this particular case, the clusters included in the sample without replacement correspond to <strong>Zone A</strong> and <strong>Zone E</strong>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BigLucy)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1170,37 +1170,37 @@ Figura&nbsp;6.1: Boxplot de la característica de interés <code>Employees</code
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>nI <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>samI <span class="ot">&lt;-</span> <span class="fu">S.SI</span>(NI, nI)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>muestra <span class="ot">&lt;-</span> UI[samI]</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>muestra</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> UI[samI]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>sample_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "County16" "County19" "County35" "County49" "County5"  "County50"
  [7] "County59" "County74" "County81" "County82"</code></pre>
 </div>
 </div>
-<p>Un equipo de encuestadores se dispone a recolectar la información de cada una de las empresas pertenecientes a los conglomerados seleccionados, el plan operativo es más eficiente entre más entrevistadores sean contratados por cada conglomerado seleccionado. Cuando el proceso de medición termina se tienen dos conjuntos de datos, cada una conteniendo el valor de las características de interés para cada una de las empresas del área, correspondientes a <strong>Zona A</strong> y <strong>Zona E</strong>.</p>
-<p>Con la función <code>rbind</code> es posible unir la información de las zonas geográficas seleccionadas en la muestra. Con ayuda de la función <code>T.SIC(y,C)</code>, del paquete <code>TeachingSampling</code>, es posible obtener los totales de las características de interés en cada conglomerado. Los argumentos de esta función son <code>y</code>, el conjunto de datos (una sola variable o un conjunto de variables) del censo en cada conglomerado y <code>C</code>, una variable que indica la pertenencia del elemento, en este caso de las empresas, al conglomerado. El resultado de la función es el total de elementos en cada conglomerado, así como el total de las características de interés en cada uno de los conglomerados. En este caso particular, el tamaño de la muestra de empresas es <span class="math inline">\(307 + 165=  472\)</span>. Nótese que, como en los casos de estimación de los capítulos anteriores, se crea un conjunto de datos de las características de interés definido por <code>estima &lt;- data.frame(Income, Employees, Taxes)</code>.</p>
+<p>An interviewer team proceeds to collect information from each firm belonging to the selected clusters; the operating plan is more efficient the more interviewers are hired for each selected cluster. When the measurement process ends, there are two data sets, each containing the value of the characteristics of interest for each firm in the area, corresponding to <strong>Zone A</strong> and <strong>Zone E</strong>.</p>
+<p>With the <code>rbind</code> function, it is possible to join the information from the geographic zones selected in the sample. With the help of the <code>T.SIC(y,C)</code> function from the <code>TeachingSampling</code> package, it is possible to obtain the totals of the characteristics of interest in each cluster. The arguments of this function are <code>y</code>, the data set (a single variable or a set of variables) from the census in each cluster, and <code>C</code>, a variable indicating the membership of the element, in this case the firms, in the cluster. The result of the function is the total number of elements in each cluster, as well as the total of the characteristics of interest in each cluster. In this particular case, the sample size of firms is <span class="math inline">\(307 + 165=  472\)</span>. Note that, as in the estimation cases of previous chapters, a data set of the characteristics of interest is created, defined by <code>target_variables &lt;- data.frame(Income, Employees, Taxes)</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Lucy1 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">1</span>]),]</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>Lucy2 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">2</span>]),]</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>Lucy3 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">3</span>]),]</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>Lucy4 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">4</span>]),]</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>Lucy5 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">5</span>]),]</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>Lucy6 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">6</span>]),]</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>Lucy7 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">7</span>]),]</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>Lucy8 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">8</span>]),]</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>Lucy9 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">9</span>]),]</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>Lucy10 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> muestra[<span class="dv">10</span>]),]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Lucy1 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">1</span>]), ]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>Lucy2 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">2</span>]), ]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>Lucy3 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">3</span>]), ]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>Lucy4 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">4</span>]), ]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>Lucy5 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">5</span>]), ]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>Lucy6 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">6</span>]), ]</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>Lucy7 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">7</span>]), ]</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>Lucy8 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">8</span>]), ]</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>Lucy9 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">9</span>]), ]</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>Lucy10 <span class="ot">&lt;-</span> BigLucy[<span class="fu">which</span>(BigLucy<span class="sc">$</span>Zone <span class="sc">==</span> sample_data[<span class="dv">10</span>]), ]</span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>LucyI <span class="ot">&lt;-</span> <span class="fu">rbind</span>(Lucy1, Lucy2, Lucy3, Lucy4, Lucy5, Lucy6, Lucy7, Lucy8, Lucy9, Lucy10)</span>
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>Area <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">as.integer</span>(LucyI<span class="sc">$</span>Zone))</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>estima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Income =</span> LucyI<span class="sc">$</span>Income,</span>
 <span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">Employees =</span> LucyI<span class="sc">$</span>Employees,</span>
 <span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Taxes =</span> LucyI<span class="sc">$</span>Taxes</span>
 <span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>estimaI <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">T.SIC</span>(estima,Area))</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>estimaI</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>cluster_estimate_variables <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">T.SIC</span>(target_variables, Area))</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>cluster_estimate_variables</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Ni Income Employees Taxes
 9  614 179729     31412  2836
@@ -1215,15 +1215,15 @@ Figura&nbsp;6.1: Boxplot de la característica de interés <code>Employees</code
 82 727 434395     55014 13620</code></pre>
 </div>
 </div>
-<p>El tamaño de muestra efectivo fue 4199. Una vez que se tienen los totales de cada zona geográfica, se utiliza la función <code>E.SI(NI,nI,y)</code> del paquete <code>TeachingSampling</code>, definida en el capítulo dos, para obtener las estimaciones de los parámetros de interés.</p>
+<p>The effective sample size was 4199. Once the totals for each geographic zone are available, the <code>E.SI(NI,nI,y)</code> function from the <code>TeachingSampling</code> package, defined in Chapter 2, is used to obtain the estimates of the parameters of interest.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E.SI</span>(NI, nI, estimaI)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E.SI</span>(NI, nI, cluster_estimate_variables)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Los resultados de la estimación se muestran en la siguiente tabla. Es de considerar que la eficiencia de esta estrategia de muestreo es mucho menor que la de una estrategia que utilice un diseño de muestreo aleatorio simple. Nótese que la desviación relativa es mucho mayor.</p>
+<p>The estimation results are shown in the following table. It should be noted that the efficiency of this sampling strategy is much lower than that of a strategy using a simple random sampling design. Note that the relative deviation is much larger.</p>
 <div id="tbl-t6-2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-t6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;6.3: Estimaciones para el diseño de muestreo aleatorio simple de conglomerados.
+Table&nbsp;6.3: Estimates for the simple random cluster sampling design.
 </figcaption>
 <div aria-describedby="tbl-t6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="cell caption-top table table-sm table-striped small">
@@ -1275,13 +1275,13 @@ Tabla&nbsp;6.3: Estimaciones para el diseño de muestreo aleatorio simple de con
 </div>
 </figure>
 </div>
-<p>Es claro que los resultados de esta estrategia de muestreo no son satisfactorios, por lo menos para la estimación de los parámetros de interés de Ingreso e Impuestos. La explicación de la deficiencia de esta estrategia es inmediata al analizar el siguiente gráfico que muestra el comportamiento estructural de los totales en los conglomerados.</p>
+<p>It is clear that the results of this sampling strategy are not satisfactory, at least for estimating the parameters of interest Income and Taxes. The explanation for the deficiency of this strategy is immediate when analyzing the following graph, which shows the structural behavior of the totals in the clusters.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(estimaI<span class="sc">$</span>Income, <span class="at">main =</span> <span class="st">"Totales de Income"</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(estimaI<span class="sc">$</span>Employees, <span class="at">main =</span> <span class="st">"Totales de Employees"</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(estimaI<span class="sc">$</span>Taxes, <span class="at">main =</span> <span class="st">"Totales de Taxes"</span>)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(estimaI<span class="sc">$</span>Ni, <span class="at">main =</span> <span class="st">"Tamaños de los conglomerados"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(cluster_estimate_variables<span class="sc">$</span>Income, <span class="at">main =</span> <span class="st">"Income totals"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(cluster_estimate_variables<span class="sc">$</span>Employees, <span class="at">main =</span> <span class="st">"Employees totals"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(cluster_estimate_variables<span class="sc">$</span>Taxes, <span class="at">main =</span> <span class="st">"Taxes totals"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(cluster_estimate_variables<span class="sc">$</span>Ni, <span class="at">main =</span> <span class="st">"Cluster sizes"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="fig-f6-3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1289,40 +1289,40 @@ Tabla&nbsp;6.3: Estimaciones para el diseño de muestreo aleatorio simple de con
 <img src="cap6_files/figure-html/fig-f6-3-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-f6-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;6.2: Boxplot de las características de interés en cada nivel industrial.
+Figure&nbsp;6.2: Boxplot of the characteristics of interest at each industrial level.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Es notable como el comportamiento de los totales es tan diferente en cada conglomerado en las características Ingreso y Empleados. Sin embargo, el comportamiento es similar en cuanto a la característica Impuestos. Es interesante observar que entre más disimilitud existe entre los totales de los conglomerados, más desviación relativa existe en la estimación. Como se dijo en la introducción de este capítulo, esta estrategia de muestreo es ineficiente en aquellos casos en que los totales de cada conglomerado no están correlacionados con las probabilidades de inclusión a nivel de conglomerados. Observando el gráfico, se establece que Impuestos es la única característica que presenta un comportamiento estable en relación a los conglomerados.</p>
-<p>La regla de oro se mantiene, una estrategia de muestreo es eficiente si las probabilidades de inclusión están correlacionadas con los valores de la característica de interés, en este caso con los totales de cada conglomerados.</p>
+<p>It is notable how different the behavior of the totals is in each cluster for the Income and Employees characteristics. However, the behavior is similar for the Taxes characteristic. It is interesting to observe that the greater the dissimilarity among cluster totals, the greater the relative deviation in the estimate. As stated in the introduction to this chapter, this sampling strategy is inefficient in cases where the totals of each cluster are not correlated with the inclusion probabilities at the cluster level. Observing the graph, it is established that Taxes is the only characteristic that presents stable behavior in relation to the clusters.</p>
+<p>The golden rule remains: a sampling strategy is efficient if the inclusion probabilities are correlated with the values of the characteristic of interest, in this case with the totals of each cluster.</p>
 </section>
 </section>
-<section id="ejercicios" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">6.3</span> Ejercicios</h2>
+<section id="exercises" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="exercises"><span class="header-section-number">6.3</span> Exercises</h2>
 <ul>
-<li>Argumente si las siguientes afirmaciones son falsas o verderas. Sustente su respuesta detallamente.</li>
-<li>En un diseño de muestreo de conglomerados, siempre se tiene un marco de muestreo de elementos de la población.</li>
-<li>En un diseño de muestreo de conglomerados, para la estimación de un total, se obtiene mayor precision si las probabilidades de selección o inclusión son proporcionales a los totales de la característica de interés en los conglomerados.</li>
-<li>En un diseño de muestreo de conglomerados, para la estimación de un total, se obtiene mayor precision si las probabilidades de selección o inclusión son proporcionales a la característica de interés de los elementos en los conglomerados.</li>
-<li>En la estimación de totales poblaciones, se nota que, casi siempre, <span class="math inline">\(Var_{MASC}(t_{y,\pi})\)</span> es mayor a <span class="math inline">\(Var_{MAS}(t_{y,\pi})\)</span>.</li>
-<li>En un diseño de muestreo aleatorio simple de conglomerados de tamaño desigual, hay un aumento significativo de la varianza, respecto a un diseño de muestreo aleatorio simple de conglomerados de igual tamaño.</li>
-<li>En un diseño de muestreo PPT de conglomerados de tamaño desigual (con probabilidad proporcional al tamaño del conglomerado), hay una disminución significativa de la varianza, respecto a un diseño de muestreo aleatorio simple de conglomerados de tamaño desigual.</li>
-<li>Suponga que el objetivo de una encuesta es estimar el ingreso medio en un barrio de la ciudad. Asuma que en ese barrio existen <span class="math inline">\(N_I=60\)</span> manzanas. Se realiza un diseño de muestreo aleatorio simple de conglomerados y se seleccionan <span class="math inline">\(n_I=5\)</span> manzanas, en las cuales se entrevistan a todos los hogares. Los resultados de la encuesta se dan en la <a href="#tbl-tab6-2" class="quarto-xref">tabla&nbsp;<span>6.4</span></a></li>
+<li>Argue whether the following statements are false or true. Support your answer in detail.</li>
+<li>In a cluster sampling design, there is always a sampling frame of population elements.</li>
+<li>In a cluster sampling design, when estimating a total, greater precision is obtained if the selection or inclusion probabilities are proportional to the totals of the characteristic of interest in the clusters.</li>
+<li>In a cluster sampling design, when estimating a total, greater precision is obtained if the selection or inclusion probabilities are proportional to the characteristic of interest of the elements in the clusters.</li>
+<li>In estimating population totals, it is observed that, almost always, <span class="math inline">\(Var_{SRSCS}(t_{y,\pi})\)</span> is greater than <span class="math inline">\(Var_{SRS}(t_{y,\pi})\)</span>.</li>
+<li>In a simple random cluster sampling design with unequal sizes, there is a significant increase in the variance compared with a simple random cluster sampling design with equal sizes.</li>
+<li>In a PPS sampling design of clusters with unequal sizes (with probability proportional to cluster size), there is a significant decrease in the variance compared with a simple random cluster sampling design with unequal sizes.</li>
+<li>Suppose that the objective of a survey is to estimate mean income in a neighborhood of the city. Assume that in that neighborhood there are <span class="math inline">\(N_I=60\)</span> blocks. A simple random cluster sampling design is carried out and <span class="math inline">\(n_I=5\)</span> blocks are selected, in which all households are interviewed. The survey results are given in <a href="#tbl-tab6-2" class="quarto-xref">table&nbsp;<span>6.4</span></a></li>
 </ul>
 <div id="tbl-tab6-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tab6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabla&nbsp;6.4: Tabla de las cinco manzanas seleccionadas: ejercicio 6.2
+Table&nbsp;6.4: Table of the five selected blocks: exercise 6.2
 </figcaption>
 <div aria-describedby="tbl-tab6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>ID Manzana</th>
-<th style="text-align: right;">Hogares en la manzana</th>
-<th style="text-align: right;">Ingreso total en la manzana</th>
+<th>Block ID</th>
+<th style="text-align: right;">Households in the block</th>
+<th style="text-align: right;">Total income in the block</th>
 </tr>
 </thead>
 <tbody>
@@ -1357,25 +1357,25 @@ Tabla&nbsp;6.4: Tabla de las cinco manzanas seleccionadas: ejercicio 6.2
 </figure>
 </div>
 <ul>
-<li>Estime el ingreso total de los hogares en el barrio. Reporte el coeficiente de variación estimado.</li>
-<li>Estime el número de hogares en el barrio. Reporte el coeficiente de variación estimado.</li>
-<li>Asumiendo que en el barrio hay <span class="math inline">\(N=2000\)</span> hogares, estime el ingreso medio de los hogares en el barrio. Reporte el coeficiente de variación estimado.</li>
-<li>Estime el ingreso medio utilizando el estimador de Hájek. Explique la diferencia con respecto a la estimación del punto anterior.</li>
+<li>Estimate the total household income in the neighborhood. Report the estimated coefficient of variation.</li>
+<li>Estimate the number of households in the neighborhood. Report the estimated coefficient of variation.</li>
+<li>Assuming that there are <span class="math inline">\(N=2000\)</span> households in the neighborhood, estimate the mean household income in the neighborhood. Report the estimated coefficient of variation.</li>
+<li>Estimate the mean income using the Hájek estimator. Explain the difference with respect to the estimate from the previous item.</li>
 </ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Baut" class="csl-entry" role="listitem">
-Bautista, J. L. 1998. <em>Diseños de muestreo estad’istico</em>. Universidad Nacional de Colombia.
+Bautista, J. L. 1998. <em>Diseños de Muestreo Estad’istico</em>. Universidad Nacional de Colombia.
 </div>
 <div id="ref-Coc" class="csl-entry" role="listitem">
 Cochran, W. 1977. <em>Sampling Techniques</em>. Wiley.
 </div>
 <div id="ref-Hajek71" class="csl-entry" role="listitem">
-H’ajek, J. 1971. <span>«Comment on An Essay on the Logical Foundations of Survey Sampling, Part One»</span>. <em>The Foundations of Survey Sampling</em>, Godambe, V.P. and Sprott, D.A. eds., 236, Holt, Rinehart, and Winston.
+H’ajek, J. 1971. <span>“Comment on an Essay on the Logical Foundations of Survey Sampling, Part One.”</span> <em>The Foundations of Survey Sampling</em>, Godambe, V.P. and Sprott, D.A. eds., 236, Holt, Rinehart, and Winston.
 </div>
 <div id="ref-Leh" class="csl-entry" role="listitem">
-Lehtonen, R., y E. J. Pahkinen. 2003. <em>Practial methods for design and analysis of complex surveys</em>. 2.ª ed. New York: Wiley.
+Lehtonen, R., and E. J. Pahkinen. 2003. <em>Practial Methods for Design and Analysis of Complex Surveys</em>. 2nd ed. New York: Wiley.
 </div>
 <div id="ref-Loh" class="csl-entry" role="listitem">
 Lohr, S. 2000. <em>Sampling: Design and Analysis</em>. Thompson.
@@ -1388,11 +1388,11 @@ Sampath, S. 2001. <em>Sampling Theory and Methods</em>. Narosa Publishing House.
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Agrupación natural de objetos<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>No es prudente, ni correcto analizar una muestra por conglomerados como si fuera una muestra aleatoria simple porque los errores estándar serán mayores y la interpretación de los resultados será errónea.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Nótese que si <span class="math inline">\(s_I\)</span> representa la muestra realizada de conglomerados, entonces <span class="math inline">\(S_I\)</span> representa la muestra aleatoria la cual es una variable aleatoria.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Dado que, por lo general, el tamaño de los conglomerados varía, se tiene que <span class="math inline">\(n(S)\)</span> es generalmente aleatorio incluso si <span class="math inline">\(n(S_I)\)</span> es de tamaño fijo.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Esto se da porque los conglomerados se forman física y geográficamente como agrupaciones contiguas de elementos que comparten un ambiente natural, entonces el comportamiento de los elementos internamente será similar.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>A natural grouping of objects<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>It is neither prudent nor correct to analyze a cluster sample as if it were a simple random sample, because the standard errors will be larger and the interpretation of the results will be incorrect.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Note that if <span class="math inline">\(s_I\)</span> represents the realized sample of clusters, then <span class="math inline">\(S_I\)</span> represents the random sample, which is a random variable.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Because cluster sizes generally vary, <span class="math inline">\(n(S)\)</span> is generally random even if <span class="math inline">\(n(S_I)\)</span> is fixed-size.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>This occurs because clusters are formed physically and geographically as contiguous groupings of elements that share a natural environment, so the behavior of the elements internally will be similar.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -1564,12 +1564,12 @@ Sampath, S. 2001. <em>Sampling Theory and Methods</em>. Narosa Publishing House.
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copiado");
+      button.setAttribute("title", "Copied!");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copiado");
+        button.setAttribute("data-bs-title", "Copied!");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
@@ -1941,13 +1941,13 @@ Sampath, S. 2001. <em>Sampling Theory and Methods</em>. Narosa Publishing House.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/cap5.html" class="pagination-link" aria-label="Muestreo estratificado">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo estratificado</span></span>
+      <a href="../chapters/cap5.html" class="pagination-link" aria-label="Stratified sampling">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Stratified sampling</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/cap7.html" class="pagination-link" aria-label="Muestreo en varias etapas">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Muestreo en varias etapas</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/cap7.html" class="pagination-link" aria-label="Multistage sampling">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multistage sampling</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1958,7 +1958,7 @@ Sampath, S. 2001. <em>Sampling Theory and Methods</em>. Narosa Publishing House.
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Estrategias de muestreo</p>
+<p>Sampling strategies</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
