@@ -31,5 +31,5 @@ The third part, suitable for a graduate course, attempts to reach the major meth
 
 Of course, this book could not have been written without the enormous influence of my teacher Leonardo Bautista, who taught me that what matters is not memorizing formulas, but giving them meaning and bringing them to life through the use of the best strategy. This applies not only to the practical development of statistical science, but also to everyday life.
 
-Finally, the author expresses his gratitude to God, who has given him everything he has and selected him to belong to the sample; otherwise, these lines would not have been written. To his father for his excellent upbringing, to his grandmother Lola because her prayers have never ceased.
+Finally, the author expresses his gratitude to God, who has given him everything he has and selected him to belong to the sample; otherwise, these lines would not have been written. To his father for his excellent upbringing, to his grandmother Lola because her prayers never ceased.
 
