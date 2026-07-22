@@ -9,6 +9,7 @@ library(knitr)
 opts_chunk$set(cache = TRUE)
 knit_theme$set("acid")
 ```
+
 # Estimation with Auxiliary Information
 
 > Whether the data are useful in estimation will depend on the way in which
@@ -763,3 +764,9 @@ GREG.SI(N, n, target_variables, x, tx, b, b0 = FALSE)
 estimates <- GREG.SI(N, n, target_variables, x, tx, b, b0 = FALSE)
 knitr::kable(estimates)
 ```
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

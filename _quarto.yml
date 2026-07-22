@@ -5,13 +5,19 @@ project:
     - .nojekyll
 
 book:
-  title: "Sampling Strategies"
+  title: "<span style='font-weight: 700'>Sampling</span><br/><i style='color: #00b7ff'>Strategies</i>"
   subtitle: "Survey Design and Parameter Estimation"
   author: "Andrés Gutiérrez"
+  search: true
+  page-navigation: true
+  sidebar:
+    style: floating
+    collapse-level: 1
   date: today
   date-format: long
   chapters:
     - index.qmd
+    - chapters/frontmatter.qmd
     - chapters/cap1.qmd
     - chapters/cap2.qmd
     - chapters/cap3.qmd
@@ -27,7 +33,7 @@ book:
     - chapters/cap13.qmd
     - chapters/cap14.qmd
     - chapters/cap15.qmd
-  page-footer: "Sampling strategies"
+  page-footer: "Sampling Strategies: Sampling Design and Parameter Estimation"
 
 bibliography: references.bib
 lang: en
@@ -45,6 +51,8 @@ format:
     include-after-body: scripts/number-callouts.html
     toc: true
     toc-depth: 3
+    toc-location: right
+    smooth-scroll: true
     number-sections: true
     code-fold: false
 

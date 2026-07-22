@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Andrés Gutiérrez">
-<meta name="dcterms.date" content="2026-07-14">
+<meta name="dcterms.date" content="2026-07-22">
 
 <title>Sampling Strategies</title>
 <style>
@@ -25,26 +25,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -54,7 +35,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapters/cap1.html" rel="next">
+<link href="./chapters/frontmatter.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -92,6 +73,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -106,7 +88,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Foreword</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -121,7 +103,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Sampling Strategies</a> 
+      <a href="./"><span style="font-weight: 700">Sampling</span><br><i style="color: #00b7ff">Strategies</i></a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -134,6 +116,12 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/frontmatter.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Foreword</span></a>
   </div>
 </li>
@@ -237,8 +225,10 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#foreword" id="toc-foreword" class="nav-link active" data-scroll-target="#foreword">Foreword</a></li>
-  <li><a href="#preface" id="toc-preface" class="nav-link" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <ul class="collapse">
+  <li><a href="#how-to-cite-this-book" id="toc-how-to-cite-this-book" class="nav-link" data-scroll-target="#how-to-cite-this-book">How to cite this book</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -247,7 +237,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sampling Strategies</h1>
+<h1 class="title"><span style="font-weight: 700">Sampling</span><br><i style="color: #00b7ff">Strategies</i></h1>
 <p class="subtitle lead">Survey Design and Parameter Estimation</p>
 </div>
 
@@ -265,7 +255,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 14, 2026</p>
+      <p class="date">July 22, 2026</p>
     </div>
   </div>
   
@@ -277,41 +267,15 @@ div.csl-indent {
 </header>
 
 
-<section id="foreword" class="level1 unnumbered">
-<h1 class="unnumbered">Foreword</h1>
-<p>Sampling is perhaps the craft that best characterizes the discipline of statistics. It is nothing less than the planning and execution of an organized collection of information in order to understand or estimate general properties of a population or of a natural phenomenon. To do so, it involves not only the probabilistic selection strategy for a sample, but also the explicit estimator that will provide the value of the parameter which, in the researcher’s judgment, summarizes the property under study.</p>
-<p>There is no doubt that computer systems have contributed enormously to the development of new methods and to the more confident practice of traditional ones. Formulas and algorithms are programmed and put into operation, and all numerical work is left to the computer, including the generation of pseudorandom numbers as the starting point for sample selection and for exploring design properties through simulation methods. Sampling has likewise benefited from abundant and profound developments in other fields of statistics, which have enriched it with new methods in recent years.</p>
-<p>Professor Andrés Gutiérrez undertakes the task of offering readers a conceptually solid book, marked by a balanced intuitive presentation of the concepts and supported by (1) his pedagogical strategy of Marco and Lucy, which keeps one population and one sampling frame throughout the text and allows him to exemplify and compare designs in terms of their efficiency, (2) a rigorous mathematical development of the properties of designs and estimators, and (3) practical work with algorithms using the TeachingSampling package, which he created to illustrate the proposed procedures.</p>
-<p>In this way, students of the subject learn how to apply the different procedures immediately, without needing to search for solutions manually; or, if they wish, they have programs at hand that allow them to compare the results obtained with those they find by their own means. The first part contains the traditional methods usually taught in a first course on sampling. The second is designed for a more advanced undergraduate course. In the third, the author includes recent topics from articles published in specialized journals, topics that appear less often in other texts and that may form part of graduate courses.</p>
-<p>The text is pleasant and clear to read, accompanied by numerous lexicographic examples with small amounts of data that illustrate the details of the possibilities. Without question, the book presented to us by Professor Andrés Gutiérrez bears the mark of serious and innovative personal work that readers will appreciate.</p>
-<div class="text-end">
-<p>Jorge Ortiz Pinilla, PhD.<br>
-Diplôme de docteur de troisième cycle<br>
-Université Henri Poincaré, Nancy 1</p>
-</div>
+<section id="welcome" class="level1 unnumbered">
+<h1 class="unnumbered">Welcome</h1>
+<section id="how-to-cite-this-book" class="level3 unnumbered citation-box">
+<h3 class="unnumbered anchored" data-anchor-id="how-to-cite-this-book">How to cite this book</h3>
+<p>Gutiérrez, A. (2027). <em>Sampling strategies: Survey design and parameter estimation</em>. Unpublished version online.</p>
 </section>
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>Although very powerful, the term sampling strategy has not received the appropriate prominence in the world of sampling. People speak of the efficiency, precision, and even unbiasedness of an estimator without taking into account that such properties are linked to the sampling design used to collect the information. For the author, learning this subject is easier when the sampling design and the estimator of the parameter of interest used in the finite population are valued equally. The golden rule of sampling cannot be ignored: use sampling designs that induce inclusion probabilities (or selection probabilities, as the case may be) proportional to the value of the characteristic of interest in the population, and use estimators that incorporate those probabilities. For this reason, this text has been titled <em>Sampling Strategies, Survey Design, and Parameter Estimation.</em></p>
-<p>In the combined search for a better sampling strategy, this text has been divided into three parts that can be used at different undergraduate levels as well as in graduate courses, depending on the difficulty of the topic. The division of the book follows the theoretical development of sampling through its brief history.</p>
-<p>The first part of the book reviews the most commonly used sampling strategies. With strong statistical and mathematical rigor, readers are introduced to the field of design-based inference, which treats the values of the characteristic of interest as fixed pseudoparameters and not as realizations of random variables. This journey is made more engaging by introducing Marco and Lucy, inseparable companions in each strategy presented, which correspond to data sets obtained for conducting a survey. Thus, Marco is the pseudoname of the sampling frame, and Lucy corresponds to a population of firms in the industrial sector. Unlike most classic sampling books, this text reviews all sampling strategies using a single sampling “frame”, sometimes more generous than at other times, and a single population, “Lucy”, in order to pose a problem that the reader can solve from different angles. This differs from some sampling books, which present solved examples without giving the reader the opportunity to question how the strategy was developed. This part presents three concepts that are decisive when proposing a sampling strategy. The first, and most important, is the support that defines the realization of a probability sample and, consequently, the validity of the inference. Readers can appreciate the importance of this concept by distinguishing it from the random sample, which is nothing more than a random vector. Second, emphasis is placed on the concept of sampling design, treating it as a multivariate probability distribution over the support. In most of the strategies presented in this first part, it is shown that the proposed sampling design indeed satisfies the properties of a probability distribution. Of course, the final concept is the estimator, whose definition and use are more widely known among users. Each chapter and each section include a small lexical-graphic example and an application of the proposed strategy with Marco and Lucy through the computational development of the TeachingSampling package <span class="citation" data-cites="Teaching">(<a href="#ref-Teaching" role="doc-biblioref">Gutierrez 2009</a>)</span>, created in the free R software environment in the most user-friendly way possible.</p>
-<p>The second part of this text concerns the use and exploitation of auxiliary information available in the sampling frame. It reviews not only estimators that improve the efficiency of the strategy, but also incorporates into the estimation process the use of a model that makes it possible to <em>describe</em> the behavior of the characteristic of interest in the population. This represents a very important step in the development of inference by treating, although in isolation, the characteristic of interest as a random variable under the proposed model. This part follows the elegant approach of <span class="citation" data-cites="Beth">Bethelehem and Keller (<a href="#ref-Beth" role="doc-biblioref">1987</a>)</span>, in which no assumptions are made about the validity of the superpopulation model. In this line of thought, the only assertion made is that the residuals of the model do have lower variance than the characteristic of interest. At the end of this part, a very brief introduction is given to inference in finite populations under an assumed-model approach. It is interesting to observe that, over time, the use of these techniques has become increasingly common, especially in the estimation of rare domains, better known as small areas. This section begins with the famous discussion by <span class="citation" data-cites="Basu1971">Basu (<a href="#ref-Basu1971" role="doc-biblioref">1971</a>)</span>, which even today remains a stumbling block between currents of statistics. This type of inference does not consider the sampling design or the way in which the information was collected, but is instead based on the proposed population model used to carry out inference. However, when the population model is wrong, the estimates will be wrong as well.</p>
-<p>The third part, suitable for a graduate course, attempts to reach the major methodological advances that, over time, cease to be innovations and become required techniques for improving the efficiency of the strategy. Among other selected topics, it considers calibration estimators, balanced sampling, and indirect sampling. These contents are subject to a strong personal bias induced by years of attending the sampling seminar at the Universidad Nacional de Colombia.</p>
-<p>Of course, this book could not have been written without the enormous influence of my teacher Leonardo Bautista, who taught me that what matters is not memorizing formulas, but giving them meaning and bringing them to life through the use of the best strategy. This applies not only to the practical development of statistical science, but also to everyday life.</p>
-<p>Finally, the author expresses his gratitude to God, who has given him everything he has and selected him to belong to the sample; otherwise, these lines would not have been written. To his father for his excellent upbringing, to his grandmother Lola because her prayers never ceased.</p>
+<p>This is the online version of <em>Sampling Strategies: Survey Design and Parameter Estimation</em>. The book provides a rigorous and applied introduction to inference for finite populations: it develops the main probability sampling designs, their estimators, and the use of auxiliary information, and introduces contemporary methods such as calibration, balanced sampling, indirect sampling, and multipurpose surveys, with examples and computational applications in R.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-Basu1971" class="csl-entry" role="listitem">
-Basu, D. 1971. <span>“An Essay on the Logical Foundations of Survey Sampling.”</span> <em>Holt, Rinehart and Winston. Toronto</em>, 203–42.
-</div>
-<div id="ref-Beth" class="csl-entry" role="listitem">
-Bethelehem, J. C, and W. A. Keller. 1987. <span>“Linear Weighting of Survey Data.”</span> <em>Journal of Official Statistics</em> 3: 141–53.
-</div>
-<div id="ref-Teaching" class="csl-entry" role="listitem">
-Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling Designs and Parameter Estimation in Finite Population</em>.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -861,8 +825,8 @@ Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling Designs and Parameter Esti
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/cap1.html" class="pagination-link" aria-label="Surveys and Sampling Studies">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Surveys and Sampling Studies</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapters/frontmatter.html" class="pagination-link" aria-label="Foreword">
+        <span class="nav-page-text">Foreword</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -873,7 +837,7 @@ Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling Designs and Parameter Esti
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Sampling strategies</p>
+<p>Sampling Strategies: Sampling Design and Parameter Estimation</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
@@ -884,4 +848,5 @@ Gutierrez, H. A. 2009. <em>TeachingSampling: Sampling Designs and Parameter Esti
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

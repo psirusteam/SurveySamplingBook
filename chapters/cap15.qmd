@@ -982,3 +982,9 @@ Discuss whether the previous sampling mechanisms are ignorable or not.
 1. Show that the general regression predictor $\hat{T}_{Y, greg}=\hat{T}_{Y,\pi}+(\mathbf{T_X}-\mathbf{\hat{T}_{X,\pi}})'\hat{\boldsymbol{\beta}}$ is unbiased under the model $Y_k= \mathbf{X}'_k\boldsymbol{\beta}+\varepsilon_k$. Suppose that the errors have zero mean and constant variance.
 
 # References {-}
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

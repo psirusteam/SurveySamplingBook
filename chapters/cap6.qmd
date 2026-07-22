@@ -838,3 +838,9 @@ The golden rule remains: a sampling strategy is efficient if the inclusion proba
 - Estimate the number of households in the neighborhood. Report the estimated coefficient of variation.
 - Assuming that there are $N=2000$ households in the neighborhood, estimate the mean household income in the neighborhood. Report the estimated coefficient of variation.
 - Estimate the mean income using the Hájek estimator. Explain the difference with respect to the estimate from the previous item.
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

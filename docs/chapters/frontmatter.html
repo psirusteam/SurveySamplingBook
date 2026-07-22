@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>12&nbsp; Two-Phase Sampling – &lt;span style='font-weight: 700'&gt;Sampling&lt;/span&gt;&lt;br/&gt;&lt;i style='color: #00b7ff'&gt;Strategies&lt;/i&gt;</title>
+<title>Foreword – SamplingStrategies</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,41 +22,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -87,8 +52,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/cap13.html" rel="next">
-<link href="../chapters/cap11.html" rel="prev">
+<link href="../chapters/cap1.html" rel="next">
+<link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -128,35 +93,6 @@ div.csl-indent {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -170,7 +106,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/cap12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Two-Phase Sampling</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/frontmatter.html">Foreword</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -203,7 +139,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/frontmatter.html" class="sidebar-item-text sidebar-link">
+  <a href="../chapters/frontmatter.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Foreword</span></a>
   </div>
 </li>
@@ -275,7 +211,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/cap12.html" class="sidebar-item-text sidebar-link active">
+  <a href="../chapters/cap12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Two-Phase Sampling</span></span></a>
   </div>
 </li>
@@ -307,26 +243,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">12.1</span> Introduction</a></li>
-  <li><a href="#the-pi-estimator" id="toc-the-pi-estimator" class="nav-link" data-scroll-target="#the-pi-estimator"><span class="header-section-number">12.2</span> The <strong><span class="math inline">\(\pi^*\)</span></strong> Estimator</a></li>
-  <li><a href="#stratification-in-two-phase-sampling" id="toc-stratification-in-two-phase-sampling" class="nav-link" data-scroll-target="#stratification-in-two-phase-sampling"><span class="header-section-number">12.3</span> Stratification in Two-Phase Sampling</a></li>
-  <li><a href="#selection-proportional-to-size" id="toc-selection-proportional-to-size" class="nav-link" data-scroll-target="#selection-proportional-to-size"><span class="header-section-number">12.4</span> Selection Proportional to Size</a></li>
-  <li><a href="#other-applications" id="toc-other-applications" class="nav-link" data-scroll-target="#other-applications"><span class="header-section-number">12.5</span> Other Applications</a>
-  <ul class="collapse">
-  <li><a href="#improving-the-estimator" id="toc-improving-the-estimator" class="nav-link" data-scroll-target="#improving-the-estimator"><span class="header-section-number">12.5.1</span> Improving the Estimator</a></li>
-  <li><a href="#a-model-for-nonresponse" id="toc-a-model-for-nonresponse" class="nav-link" data-scroll-target="#a-model-for-nonresponse"><span class="header-section-number">12.5.2</span> A Model for Nonresponse</a></li>
-  <li><a href="#sampling-on-occasions" id="toc-sampling-on-occasions" class="nav-link" data-scroll-target="#sampling-on-occasions"><span class="header-section-number">12.5.3</span> Sampling on Occasions</a></li>
-  </ul></li>
-  <li><a href="#frame-and-lucy" id="toc-frame-and-lucy" class="nav-link" data-scroll-target="#frame-and-lucy"><span class="header-section-number">12.6</span> Frame and Lucy</a>
-  <ul class="collapse">
-  <li><a href="#first-configuration-stratification" id="toc-first-configuration-stratification" class="nav-link" data-scroll-target="#first-configuration-stratification"><span class="header-section-number">12.6.1</span> First Configuration: Stratification</a></li>
-  <li><a href="#second-configuration-selection-proportional-to-size" id="toc-second-configuration-selection-proportional-to-size" class="nav-link" data-scroll-target="#second-configuration-selection-proportional-to-size"><span class="header-section-number">12.6.2</span> Second Configuration: Selection Proportional to Size</a></li>
-  <li><a href="#third-configuration-calibration-estimation" id="toc-third-configuration-calibration-estimation" class="nav-link" data-scroll-target="#third-configuration-calibration-estimation"><span class="header-section-number">12.6.3</span> Third Configuration: Calibration Estimation</a></li>
-  </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12.7</span> Exercises</a>
-  <ul class="collapse">
-  <li><a href="#how-to-cite-this-book" id="toc-how-to-cite-this-book" class="nav-link" data-scroll-target="#how-to-cite-this-book">How to cite this book</a></li>
-  </ul></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
   </ul>
 </nav>
     </div>
@@ -335,7 +252,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Two-Phase Sampling</span></h1>
+<h1 class="title">Foreword</h1>
 </div>
 
 
@@ -352,889 +269,38 @@ window.Quarto = {
 </header>
 
 
-<div class="blockquote">
-<p>There are numerous examples showing how available auxiliary information can be used [in the sampling strategy] to achieve greater precision in the estimates. However, if the auxiliary information is not available but is known to be collectable cheaply and on a large scale, it is worthwhile to obtain that information in a first phase and then select a sample for the characteristic of interest. <span class="citation" data-cites="Raj">Raj (<a href="#ref-Raj" role="doc-biblioref">1968</a>)</span></p>
+<p>Sampling is perhaps the craft that best characterizes the discipline of statistics. It is nothing less than the planning and execution of an organized collection of information in order to understand or estimate general properties of a population or of a natural phenomenon. To do so, it involves not only the probabilistic selection strategy for a sample, but also the explicit estimator that will provide the value of the parameter which, in the researcher’s judgment, summarizes the property under study.</p>
+<p>There is no doubt that computer systems have contributed enormously to the development of new methods and to the more confident practice of traditional ones. Formulas and algorithms are programmed and put into operation, and all numerical work is left to the computer, including the generation of pseudorandom numbers as the starting point for sample selection and for exploring design properties through simulation methods. Sampling has likewise benefited from abundant and profound developments in other fields of statistics, which have enriched it with new methods in recent years.</p>
+<p>Professor Andrés Gutiérrez undertakes the task of offering readers a conceptually solid book, marked by a balanced intuitive presentation of the concepts and supported by (1) his pedagogical strategy of Marco and Lucy, which keeps one population and one sampling frame throughout the text and allows him to exemplify and compare designs in terms of their efficiency, (2) a rigorous mathematical development of the properties of designs and estimators, and (3) practical work with algorithms using the TeachingSampling package, which he created to illustrate the proposed procedures.</p>
+<p>In this way, students of the subject learn how to apply the different procedures immediately, without needing to search for solutions manually; or, if they wish, they have programs at hand that allow them to compare the results obtained with those they find by their own means. The first part contains the traditional methods usually taught in a first course on sampling. The second is designed for a more advanced undergraduate course. In the third, the author includes recent topics from articles published in specialized journals, topics that appear less often in other texts and that may form part of graduate courses.</p>
+<p>The text is pleasant and clear to read, accompanied by numerous lexicographic examples with small amounts of data that illustrate the details of the possibilities. Without question, the book presented to us by Professor Andrés Gutiérrez bears the mark of serious and innovative personal work that readers will appreciate.</p>
+<div class="text-end">
+<p>Jorge Ortiz Pinilla, PhD.<br>
+Diplôme de docteur de troisième cycle<br>
+Université Henri Poincaré, Nancy 1</p>
 </div>
-<section id="introduction" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">12.1</span> Introduction</h2>
-<!-- index: Two-phase sampling design -->
-<p>Proposed by <span class="citation" data-cites="Neyman38">Neyman (<a href="#ref-Neyman38" role="doc-biblioref">1938</a>)</span>, two-phase sampling is the appropriate design when there is not full knowledge of the structural behavior of the population of interest. This is reflected in a poor sampling frame that does not include auxiliary information variables of any kind, discrete or continuous, and therefore it is not possible to propose the use of an optimal sampling strategy, such as advanced size-proportional or stratified designs and regression or calibration estimators, for estimating the population parameters of interest.</p>
-<p>In <span class="citation" data-cites="Swe">(<a href="#ref-Swe" role="doc-biblioref">Särndal and Swensson 1987</a>)</span>, a general framework develops the theory of two-phase sampling theoretically and in a way induced by the principles of the Horvitz-Thompson estimator. The two-phase sampling design, also known as biphasic or double sampling, is used when there is little or no knowledge about the behavior of the characteristic of interest across the individuals that make up the population. For example, the combined ratio estimator requires that all population elements can be stratified and that the population total of the auxiliary information characteristic, <span class="math inline">\(t_x=\sum_{U}x_k\)</span>, be known. In many practical cases, however, this type of auxiliary information is not available, such as the membership of population members in specific strata or the population total of the auxiliary information characteristics. In these cases, where the sampling frame contains little or deficient information for proposing an efficient sampling design, the statistician can turn to the following two options <span class="citation" data-cites="Sar">(<a href="#ref-Sar" role="doc-biblioref">Särndal et al. 1992</a>)</span>:</p>
-<ol type="1">
-<li>Use a simple sampling design, such as simple random sampling without replacement or random cluster sampling, and combine it with the Horvitz-Thompson estimator to gain precision as the sample size increases.</li>
-<li>Obtain information about the population to construct a new sampling frame. If the regression estimator is used, the desired precision can be achieved with a moderate sample size.</li>
-</ol>
-<p>Note that assigning a large sample size or constructing a new sampling frame implies the use of economic and logistical resources that the study may not be able to bear. Thus, a third option is to use a two-phase sampling design:</p>
-<ol type="1">
-<li>[a)] In the first phase, a sample of size <span class="math inline">\(n_a\)</span>, moderate but not small, is selected. It will be denoted by <span class="math inline">\(S_a\)</span>. This first sample is selected through a design <span class="math inline">\(p_a(\cdot)\)</span>. For each element in <span class="math inline">\(S_a\)</span>, information must be obtained on one or more auxiliary variables<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This sample is determined by the random variables</li>
-</ol>
-<p><span class="math display">\[
-I_k=
-\begin{cases}
-1,  &amp;\text{if element $k$ is in the first-phase sample}\\
-0,  &amp;\text{if element $k$ is not in the first-phase sample}
-\end{cases}
-\]</span></p>
-<p>Therefore, the inclusion probability of an element in the first sample <span class="math inline">\(S_a\)</span> of the first phase is given by the following expression: <span class="math display">\[
-\pi_{ak}=Pr(I_k=1)=\sum_{s_a \ni k}p_a(s_a)
-\]</span></p>
-<p>and the second-order inclusion probability in <span class="math inline">\(S_a\)</span> is given by <span class="math display">\[
-\pi_{akl}=Pr(I_kI_l=1)=\sum_{S_a \ni \text{ $k$ and $l$}} p_a(s_a)
-\]</span></p>
-<ol type="1">
-<li>[b)] In the second phase, with the help of the information obtained in the first phase, a subsample <span class="math inline">\(S\)</span> of size <span class="math inline">\(n\)</span> is selected from <span class="math inline">\(S_a\)</span> through a sampling design <span class="math inline">\(p(\cdot\mid{s_a})\)</span>. The characteristic of interest is then observed for the elements selected in the subsample. This sample is determined by the random variables <span class="math display">\[
-D_k=
-\begin{cases}
-1, &amp;\text{if element $k$ is in the second-phase sample}\\
-0  &amp;\text{if element $k$ is not in the second-phase sample}
-\end{cases}
-\]</span></li>
-</ol>
-<p>The probability that an element is in this subsample depends on what happened in the first phase. The inclusion probability of the elements in the second-phase sample is given by the following expression: <span class="math display">\[
-\pi_{k \mid s_a}=Pr(D_k=1 \mid \mathbf{I})=\sum_{s \ni k}p(s|s_a)
-\]</span></p>
-<p>where <span class="math inline">\(\mathbf{I}=(I_1,\ldots,I_N)'\)</span> denotes the inclusion vector of the first sample. On the other hand, the second-order inclusion probability in <span class="math inline">\(S\)</span> is given by <span class="math display">\[
-\pi_{kl \mid s_a}=Pr(D_kD_l=1\mid \mathbf{I})=\sum_{S \ni \text{ $k$ and $l$}} p(s|s_a)
-\]</span></p>
-<p>For example, <span class="citation" data-cites="Loh">Lohr (<a href="#ref-Loh" role="doc-biblioref">2000</a>)</span> states that, in a business survey, a first-phase sample could be drawn from tax returns and the income reported by each business selected in that first phase could be recorded. This sample may be large because obtaining the auxiliary information is assumed not to be costly. In a second phase, one could consider selecting a subsample with probability proportional to the income measured in the first phase, or using the income information to stratify the businesses in the first-phase sample and then contacting a subset of businesses in each stratum to obtain the desired information on characteristics of interest such as total expenses or declared taxes.</p>
-<p>The author emphasizes that the sampling design that provides the sampling support covering both the first and second phases is not given by <span class="math inline">\(p_a(s_a)\)</span> nor by <span class="math inline">\(p(s|s_a)\)</span>, but rather, using the theorem of total probability <span class="citation" data-cites="Mood">(<a href="#ref-Mood" role="doc-biblioref">Mood et al. 1974</a>)</span>, is given by the following expression: <span class="math display">\[
-p(s)=\sum_{s_a \supset s}p_a(s_a)p(s|s_a)
-\]</span></p>
-<p>Therefore, the inclusion probability of any element in the final sample <span class="math inline">\(S\)</span> is <span class="math display">\[
-\begin{aligned}
-\pi_{k}=Pr(I_kD_k=1)&amp;=\sum_{s \ni k}\sum_{s_a \supset s}p_a(s_a)p(s|s_a) \notag \\
-&amp;=\sum_{s_a \ni k}\sum_{\substack{S_a \subset S\\s\ni k}}p_a(s_a)p(s|s_a) \notag \\
-&amp;=\sum_{s_a \ni k}p_a(s_a)\sum_{\substack{S_a \subset S\\s\ni k}}p(s|s_a) \notag \\
-&amp;=\sum_{s_a \ni k}p_a(s_a)\pi_{k \mid s_a}
-\end{aligned}
-\]</span></p>
-<p>Therefore, under this type of two-phase sampling scheme, it is not possible to use the principles of the Horvitz-Thompson estimator, in terms of inference for the population total, because although it is possible to know the probabilities induced by <span class="math inline">\(p_a(s_a)\)</span> for each sample <span class="math inline">\(S_a\)</span>, it is not always possible to know the values of the second-phase inclusion probabilities <span class="math inline">\(\pi_{k \mid s_a}\)</span> for each sample <span class="math inline">\(S_a\)</span>, since they depend on the realization of the first sample.</p>
-</section>
-<section id="the-pi-estimator" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="the-pi-estimator"><span class="header-section-number">12.2</span> The <strong><span class="math inline">\(\pi^*\)</span></strong> Estimator</h2>
-<!-- index: $\pi^*$ estimator -->
-<p>Note that another possible estimator of the population total of the characteristic of interest is <span class="math inline">\(\sum_{S_a}y_k/\pi_{ak}\)</span>. This is another useless estimator because it could be calculated only if <span class="math inline">\(y_k\)</span> and <span class="math inline">\(\pi_{ak}\)</span> were known for every <span class="math inline">\(k\in{s_a}\)</span>. But <span class="math inline">\(y_k\)</span> is known only in the subsample for <span class="math inline">\(k\in{s}\)</span>. Therefore, conditional on <span class="math inline">\(s_a\)</span>, the first-phase sample, the quantity <span class="math inline">\(\sum_{s_a}y_k/\pi_{ak}\)</span> is unbiasedly estimated by the conditional Horvitz-Thompson estimator through <span class="math display">\[
-\hat{t}_{y,\pi^*}=\sum_{s}\frac{y_k}{\pi_{k}^*}=\sum_{s}\frac{y_k}{\pi_{ak}\pi_{k\mid{s_a}}}
-\]</span></p>
-<p>and is defined as the <span class="math inline">\(\pi^*\)</span> estimator <span class="citation" data-cites="Swe">(<a href="#ref-Swe" role="doc-biblioref">Särndal and Swensson 1987</a>)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Result">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Result
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In two-phase sampling, the population total <span class="math inline">\(t_y\)</span> is estimated unbiasedly by the <span class="math inline">\(\pi^*\)</span> estimator. In addition, the variance of the estimator and the unbiased estimate of the variance are given by <span class="math display">\[
-Var_{Bif}(\hat{t}_{y,\pi^*})=\sum\sum_U\Delta_{akl}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
-+E_{p_a}\left(\sum\sum_{S_a}\Delta_{kl|S_a}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}\right)
-\]</span> <span class="math display">\[
-\widehat{Var}_{Bif}(\hat{t}_{y,\pi^*})=\sum\sum_S\frac{\Delta_{akl}}{\pi_{kl}^*}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
-+\sum\sum_{S}\frac{\Delta_{kl|S_a}}{\pi_{kl|S_a}}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}
-\]</span></p>
-<p>respectively, with <span class="math inline">\(\pi^*_k=\pi_{ak}\pi_{k|S_a}\)</span>, <span class="math inline">\(\pi^*_{kl}=\pi_{akl}\pi_{kl|S_a}\)</span>, <span class="math inline">\(\Delta_{akl}=\pi_{akl}-\pi_{ak}\pi_{al}\)</span>, and <span class="math inline">\(\Delta_{kl|S_a}=\pi_{kl|S_a}-\pi_{k|S_a}\pi_{l|S_a}\)</span>, where each summand in (12.2.3) is unbiased for its counterpart in (12.2.2).</p>
-<p><strong>Proof.</strong> Using successive conditioning from Result 7.1.3, for the probability structure of the sampling design <span class="math inline">\(p_a\)</span>, we have <span class="math display">\[
-\begin{aligned}
-E_{Bif}(\hat{t}_{y,\pi^*})
-&amp;=E_{p_a}\left(E_p\left(\hat{t}_{y,\pi^*}\left|\right. \mathbf{I}\right)\right)\\
-&amp;=E_{p_a}\left(E_p\left(\sum_{s}\frac{y_k}{\pi_{k}^*}\left|\right. \mathbf{I}\right)\right)\\
-&amp;=E_{p_a}\left(\sum_{S_a}E_p(D_k\mid \mathbf{I})\frac{y_k}{\pi_{ak}\pi_{k\mid{s_a}}}\right)\\
-&amp;=\sum_{U}E_{p_a}(I_k)\frac{y_k}{\pi_{ak}}=\sum_{U}y_k=t_y
-\end{aligned}
-\]</span></p>
-<p>To prove the variance results, a similar argument is used because <span class="math display">\[
-\begin{aligned}
-Var_{Bif}(\hat{t}_{y,\pi^*})=Var_{p_a}(E_p(\hat{t}_{y,\pi^*}|\mathbf{I}))+E_{p_a}(Var_p(\hat{t}_{y,\pi^*}|\mathbf{I}))
-\end{aligned}
-\]</span></p>
-<p>For the first summand, using the principles of the Horvitz-Thompson estimator, we have <span class="math display">\[
-\begin{aligned}
-Var_{p_a}(E_p(\hat{t}_{y,\pi^*}|\mathbf{I}))
-&amp;=Var_{p_a}\left(E_p\left(\sum_{s}\frac{y_k}{\pi_{k}^*}\left|\right. \mathbf{I}\right)\right)\\
-&amp;=Var_{p_a}\left(\sum_{S_a}\frac{y_k}{\pi_{ak}}\right)\\
-&amp;=\sum\sum_U\Delta_{akl}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
-\end{aligned}
-\]</span></p>
-<p>For the second summand, proceeding similarly and setting <span class="math inline">\(y_{ak}=y_k/\pi_{ak}\)</span>, we have <span class="math display">\[
-\begin{aligned}
-E_{p_a}(Var_p(\hat{t}_{y,\pi^*}|\mathbf{I}))
-&amp;=E_{p_a}\left(Var_p\left(\sum_{s}\frac{y_k}{\pi_{k}^*}\left|\right. \mathbf{I}\right)\right)\\
-&amp;=E_{p_a}\left(Var_p\left(\sum_{s}\frac{y_{ak}}{\pi_{k|S_a}}\left|\right. \mathbf{I}\right)\right)\\
-&amp;=E_{p_a}\left(\sum\sum_{S_a}\Delta_{kl|S_a}\frac{y_{ak}}{\pi_{k|S_a}}\frac{y_{al}}{\pi_{l|S_a}}\right)\\
-&amp;=E_{p_a}\left(\sum\sum_{S_a}\Delta_{kl|S_a}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}\right)
-\end{aligned}
-\]</span></p>
-<p>On the other hand, noting that <span class="math inline">\(E(D_kD_l|\mathbf{I})=\pi_{kl|S_a}\)</span> and <span class="math inline">\(E(I_kI_l)=\pi_{akl}\)</span> establishes the unbiasedness of the variance estimate.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Example">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Continuing with our example population <span class="math inline">\(U\)</span> of size <span class="math inline">\(N=5\)</span>, suppose that in the first phase a sample of <span class="math inline">\(n_a=2\)</span> elements is selected according to a simple random sampling design. In the second phase, a subsample of <span class="math inline">\(n=1\)</span> is selected according to a simple random sampling design<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
-<p>For the first phase, using Example 2.1.1, the <span class="math inline">\(\binom{N}{n_a}\)</span> possible samples, together with their respective selection probabilities, are</p>
-<pre class="text"><code>        X1      X2     p_a
-1     Yves      Ken     0.1
-2     Yves     Erik     0.1
-3     Yves   Sharon     0.1
-4     Yves   Leslie     0.1
-5      Ken     Erik     0.1
-6      Ken   Sharon     0.1
-7      Ken   Leslie     0.1
-8     Erik   Sharon     0.1
-9     Erik   Leslie     0.1
-10  Sharon   Leslie     0.1</code></pre>
-<p>The inclusion probability in the first-phase sample, for each of the 5 elements of <span class="math inline">\(U\)</span>, is <span class="math display">\[
-\pi_{ak}=\frac{n_a}{N}=\frac{2}{5}
-\]</span></p>
-<p>For the second phase, there are <span class="math inline">\(\binom{n}{n_a}\)</span> possible subsamples for each first-phase sample. The second-phase sampling design and the overall sampling design are defined as follows:</p>
-<pre class="text"><code>        X1        X2     p_a     S      p( |s_a)     p(s)
-
-1     Yves      Ken     0.1     Yves        0.5      0.05
-                                Ken         0.5      0.05
-
-2     Yves     Erik     0.1     Yves        0.5      0.05
-                                Erik        0.5      0.05
-
-3     Yves   Sharon     0.1     Yves        0.5      0.05
-                                Sharon      0.5      0.05
-
-4     Yves   Leslie     0.1     Yves        0.5      0.05
-                                Leslie      0.5      0.05
-
-5      Ken     Erik     0.1     Ken         0.5      0.05
-                                Erik        0.5      0.05
-
-6      Ken   Sharon     0.1     Ken         0.5      0.05
-                                Sharon      0.5      0.05
-
-7      Ken   Leslie     0.1     Ken         0.5      0.05
-                                Leslie      0.5      0.05
-
-8     Erik   Sharon     0.1     Erik        0.5      0.05
-                                Sharon      0.5      0.05
-
-9     Erik   Leslie     0.1     Erik        0.5      0.05
-                                Leslie      0.5      0.05
-
-10  Sharon   Leslie     0.1     Sharon      0.5      0.05
-                                Leslie      0.5      0.05</code></pre>
-<p>Note that, using the theorem of total probability, the final sampling design, which accounts for the probability dynamics of the first and second phases, is defined as follows: <span class="math display">\[
-p(s)=
-\begin{cases}
-0.2, &amp;\text{if $s=\{\text{Yves}\}$},\\
-0.2, &amp;\text{if $s=\{\text{Ken}\}$},\\
-0.2, &amp;\text{if $s=\{\text{Erik}\}$},\\
-0.2, &amp;\text{if $s=\{\text{Sharon}\}$},\\
-0.2, &amp;\text{if $s=\{\text{Leslie}\}$}.
-\end{cases}
-\]</span></p>
-<p>The inclusion probability of an element of <span class="math inline">\(S_a\)</span> in the subsample of the last phase, conditional on the realization of a particular sample, is given by <span class="math display">\[
-\pi_{k|S_a}=\frac{n_a}{n}=\frac{1}{2}
-\]</span></p>
-<p>Then the conditional inclusion probability of an element of <span class="math inline">\(U\)</span> given by <span class="math inline">\(\pi_k^*\)</span> is <span class="math display">\[
-\pi_k^*=\pi_{ak}\pi_{k|S_a}=\frac{n_a}{N}\frac{n_a}{n}=\frac{n}{N}=\frac{1}{5}
-\]</span></p>
-<p>which, for this particular case, coincides with the element’s inclusion probability, properly speaking, given in (12.1.6). However, almost always <span class="math inline">\(\pi_k^* \neq \pi_k\)</span>, as shown by the following configuration induced by a sampling design with unequal selection probabilities.</p>
-<pre class="text"><code>        X1        X2     p_a     S      p( |S_a)       p(s)
-
-1     Yves      Ken     0.25     Yves        0.9      0.225
-                                 Ken         0.1      0.025
-
-2     Yves     Erik     0.15     Yves        0.8      0.120
-                                 Erik        0.2      0.030
-
-3     Yves   Sharon     0.15     Yves        0.7      0.105
-                                 Sharon      0.3      0.045
-
-4     Yves   Leslie     0.10     Yves        0.6      0.060
-                                 Leslie      0.4      0.040
-
-5      Ken     Erik     0.10     Ken         0.5      0.050
-                                 Erik        0.5      0.050
-
-6      Ken   Sharon     0.05     Ken         0.4      0.020
-                                 Sharon      0.6      0.030
-
-7      Ken   Leslie     0.05     Ken         0.3      0.015
-                                 Leslie      0.7      0.035
-
-8     Erik   Sharon     0.05     Erik        0.2      0.010
-                                 Sharon      0.8      0.040
-
-9     Erik   Leslie     0.05     Erik        0.1      0.005
-                                 Leslie      0.9      0.045
-
-10  Sharon   Leslie     0.05     Sharon      0.5      0.025
-                                 Leslie      0.5      0.025</code></pre>
-<p>Note that, for this configuration, and once again using the theorem of total probability, the final sampling design is defined as follows: <span class="math display">\[
-p(s)=
-\begin{cases}
-0.510, &amp;\text{if $s=\{\text{Yves}\}$},\\
-0.110, &amp;\text{if $s=\{\text{Ken}\}$},\\
-0.140, &amp;\text{if $s=\{\text{Sharon}\}$},\\
-0.095, &amp;\text{if $s=\{\text{Erik}\}$},\\
-0.145, &amp;\text{if $s=\{\text{Leslie}\}$}.
-\end{cases}
-\]</span></p>
-<p>In this case, for the first phase, the inclusion probability in the first-phase sample for each of the 5 elements of <span class="math inline">\(U\)</span> is</p>
-<p><span class="math display">\[
-\pi_{ak}=
-\begin{cases}
-0.65, &amp;\text{if $k=\text{Yves}$},\\
-0.45, &amp;\text{if $k=\text{Ken}$},\\
-0.35, &amp;\text{if $k=\text{Erik}$},\\
-0.30, &amp;\text{if $k=\text{Sharon}$},\\
-0.25, &amp;\text{if $k=\text{Leslie}$}.
-\end{cases}
-\]</span></p>
-<p>The inclusion probability of an element of <span class="math inline">\(S_a\)</span> in the second-phase subsample, conditional on the realization of a particular sample, is given by the following 10 cases, as many cases as first-phase samples:</p>
-<ul>
-<li>If <span class="math inline">\(S_a=S_1\)</span>, then <span class="math display">\[
-\pi_{k|S_a}=
-\begin{cases}
-0.90, &amp;\text{if $k=\text{Yves}$},\\
-0.10, &amp;\text{if $k=\text{Ken}$}.
-\end{cases}
-\]</span></li>
-<li>If <span class="math inline">\(S_a=S_2\)</span>, then <span class="math display">\[
-\pi_{k|S_a}=
-\begin{cases}
-0.80, &amp;\text{if $k=\text{Yves}$},\\
-0.20, &amp;\text{if $k=\text{Erik}$}.
-\end{cases}
-\]</span></li>
-<li>And so on, until</li>
-<li>If <span class="math inline">\(S_a=S_{10}\)</span>, then <span class="math display">\[
-\pi_{k|S_a}=
-\begin{cases}
-0.50, &amp;\text{if $k=\text{Sharon}$},\\
-0.50, &amp;\text{if $k=\text{Leslie}$}.
-\end{cases}
-\]</span></li>
-</ul>
-<p>Therefore, there will also be 10 cases for calculating the quantity <span class="math inline">\(\pi_k^*\)</span>, as follows:</p>
-<ul>
-<li>If <span class="math inline">\(S_a=S_1\)</span>, then <span class="math display">\[
-\pi_{k}^*=
-\begin{cases}
-0.65 \times 0.90 = 0.585, &amp;\text{if $k=\text{Yves}$},\\
-0.45 \times 0.10 = 0.045, &amp;\text{if $k=\text{Ken}$}.
-\end{cases}
-\]</span></li>
-<li>If <span class="math inline">\(S_a=S_2\)</span>, then <span class="math display">\[
-\pi_{k}^*=
-\begin{cases}
-0.65 \times 0.80 = 0.520, &amp;\text{if $k=\text{Yves}$},\\
-0.35 \times 0.20 = 0.007, &amp;\text{if $k=\text{Erik}$}.
-\end{cases}
-\]</span></li>
-<li>And so on, until</li>
-<li>If <span class="math inline">\(S_a=S_{10}\)</span>, then <span class="math display">\[
-\pi_{k}^*=
-\begin{cases}
-0.30 \times 0.50 = 0.150, &amp;\text{if $k=\text{Sharon}$},\\
-0.25 \times 0.50 = 0.125, &amp;\text{if $k=\text{Leslie}$}.
-\end{cases}
-\]</span></li>
-</ul>
-<p>The above shows that <span class="math inline">\(\pi_k^* \neq \pi_k\)</span>, because the inclusion probability is given by <span class="math display">\[
-\pi_{k}=
-\begin{cases}
-0.510, &amp;\text{if $k=\text{Yves}$},\\
-0.110, &amp;\text{if $k=\text{Ken}$},\\
-0.140, &amp;\text{if $k=\text{Erik}$},\\
-0.095, &amp;\text{if $k=\text{Sharon}$},\\
-0.145, &amp;\text{if $k=\text{Leslie}$}.
-\end{cases}
-\]</span></p>
-<p>Note that in practice, with fairly large populations, it is not possible to calculate <span class="math inline">\(\pi_k\)</span>. As an exercise, using the data from Example 2.1.3, the unbiasedness of the <span class="math inline">\(\pi_k^*\)</span> estimator should be verified both in the first configuration and in this last one.</p>
-</div>
-</div>
-</section>
-<section id="stratification-in-two-phase-sampling" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="stratification-in-two-phase-sampling"><span class="header-section-number">12.3</span> Stratification in Two-Phase Sampling</h2>
-<!-- index: Stratified two-phase sampling design -->
-<p><span class="citation" data-cites="HiRa">Hidiroglou and Rao (<a href="#ref-HiRa" role="doc-biblioref">2003</a>)</span> state that <span class="citation" data-cites="Neyman38">Neyman (<a href="#ref-Neyman38" role="doc-biblioref">1938</a>)</span>’s first proposal was stratification in two-phase sampling, where in the first phase a random sample <span class="math inline">\(S_a\)</span> of size <span class="math inline">\(n_a\)</span> is selected. The next step is to observe an auxiliary information variable <span class="math inline">\(x_k\)</span> for each element <span class="math inline">\(k\in S_a\)</span> and, based on the behavior of this characteristic, stratify the sample <span class="math inline">\(S_a\)</span>; that is, every element <span class="math inline">\(k\in S_a\)</span> is classified into one and only one stratum <span class="math inline">\(h\)</span> with <span class="math inline">\(h=1\ldots, H\)</span>, such that <span class="math display">\[
-S_a=\bigcup_{h=1}^H S_{ah} \ \ \ \ \ \ \ \ n_a=\sum_{h=1}^H n_{ah}
-\]</span></p>
-<p>where <span class="math inline">\(S_{ah}\)</span> corresponds to the <span class="math inline">\(h\)</span>-th stratum of size <span class="math inline">\(n_{ah}\)</span>, which is commonly considered random. In the second phase, a sample <span class="math inline">\(S_{h}\)</span> of fixed size <span class="math inline">\(n_h\)</span> is selected for each stratum <span class="math inline">\(h=1,\ldots,H\)</span>, such that <span class="math display">\[
-S=\bigcup_{h=1}^H S_{h} \ \ \ \ \ \ \ \ n=\sum_{h=1}^H n_{h}
-\]</span></p>
-<p>where <span class="math inline">\(S\)</span> corresponds to the second-phase subsample of size <span class="math inline">\(n\)</span>. Note that the first-phase sample <span class="math inline">\(S_a\)</span> is selected through an arbitrary design <span class="math inline">\(p_a(s_a)\)</span>, while the second-phase subsample <span class="math inline">\(S_h\)</span> within each stratum <span class="math inline">\(h=1,\ldots,H\)</span> is also selected through an arbitrary design in each stratum<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, denoted by <span class="math inline">\(p_h(S_h|S_a)\)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Result">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Result
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Under this framework, the population total <span class="math inline">\(t_y\)</span> is estimated unbiasedly by <span class="math display">\[
-\hat{t}_{y,\pi^*}\sum_{h=1}^H\sum_{S_h}\frac{Y_k}{\pi_k^*}
-\]</span> In addition, the variance of the estimator and the unbiased estimate of the variance are given by <span class="math display">\[
-\begin{aligned}
-Var_{Bif}(\hat{t}_{y,\pi^*})&amp;=\sum\sum_U\Delta_{akl}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}\notag\\
-&amp;+E_{p_a}\left(\sum_{h=1}^H\sum\sum_{S_{ah}}\Delta_{kl|S_a}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}\right)
-\end{aligned}
-\]</span> <span class="math display">\[
-\widehat{Var}_{Bif}(\hat{t}_{y,\pi^*})=\sum\sum_S\frac{\Delta_{akl}}{\pi_{kl}^*}\frac{y_k}{\pi_{ak}}\frac{y_l}{\pi_{al}}
-+\sum_{h=1}^H\sum\sum_{S_h}\frac{\Delta_{kl|S_a}}{\pi_{kl|S_a}}\frac{y_k}{\pi_{k}^*}\frac{y_l}{\pi_{l}^*}
-\]</span></p>
-<p>respectively, where each summand in (12.3.3) is unbiased for its counterpart in (12.3.2).</p>
-</div>
-</div>
-<p>Suppose that, in the first phase, a simple random sample <span class="math inline">\(S_a\)</span> of size <span class="math inline">\(n_a\)</span> is drawn from a population of size <span class="math inline">\(N\)</span>. Therefore, <span class="math display">\[
-\pi_{ak}=\frac{n_a}{N}\ \ \ \ \ \ \ \ \
-\pi_{akl}=\frac{n_a(n_a-1)}{N(N-1)}
-\]</span></p>
-<p>Then, with the information collected in the first phase, it is possible to separate the units into <span class="math inline">\(H\)</span> different strata; the stratum to which an element belongs is known only after the first-phase sample is selected. Next, for each stratum, a sample of size <span class="math inline">\(n_h\)</span> is selected through a simple random sampling design, assuming that the strata have size <span class="math inline">\(n_{ah}\)</span> with <span class="math inline">\(h=1,2,...,H\)</span>. Thus, for the second phase, the inclusion probability of an element is given by <span class="math display">\[
-\pi_{k\mid s_a}=\frac{n_h}{n_{ah}}\ \ \ \ \ \ \ \text{for $k\in S_{ah}$ with $h=1,\ldots,H$}
-\]</span></p>
-<p>and the second-order inclusion probability is <span class="math display">\[
-\pi_{kl\mid s_a}=
-\begin{cases}
-\frac{n_h}{n_{ah}}                          &amp;\text{if $k=l \in S_{ah}$}\\ \\
-\frac{n_h(n_h-1)}{n_{ah}(n_{ah}-1)}         &amp;\text{if $k\neq l$, $k,l \in S_{ah}$}\\ \\
-\frac{n_h}{n_{ah}}\frac{n_{h'}}{n_{ah'}}    &amp;\text{if $k\in S_{ah}$, $l\in S_{ah'}$}
-\end{cases}
-\]</span></p>
-<p>From the above, the estimator of the population total is <span class="math display">\[
-\hat{t}_{y,\pi^*}=
-\sum_{S}\frac{y_k}{\pi_{k}^*}=
-\frac{N}{n_a}\sum_{S_h}\frac{n_{ah}}{n_h}y_k
-\]</span></p>
-<p>To calculate the variance, successive conditioning is used as follows: <span class="math display">\[
-\begin{aligned}
-Var_{Bif}(\hat{t}_{y,\pi^*})
-&amp;=Var_{SRS}(E_{STSI}(\hat{t}_{y,\pi^*}\mid \mathbf{I}))+E_{SRS}(Var_{STSI}(\hat{t}_{y,\pi^*}\mid \mathbf{I}))\\
-&amp;=Var_{SRS}\left(\frac{N}{n_a}\sum_{S_a}y_k\right)\\
-&amp;=+E_{SRS}\left(Var_{STSI}\left(\frac{N}{n_a}\sum_{S_h}\frac{n_{ah}}{n_h}y_k\mid \mathbf{I}\right)\right)\\
-&amp;=\underbrace{\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)S^2_{y_U}}_{V_1}
-+\underbrace{\frac{N^2}{n_a^2}E_{SRS}\left(\sum_{h=1}^H\frac{n_{ah}^2}
-{n_h}\left(1-\frac{n_h}{n_{ah}}\right)S^2_{y_{ah}}\right)}_{V_2}
-\end{aligned}
-\]</span></p>
-<p>where the first term refers to the variance of the sample in the first phase, while the second term refers to the additional variance due to subsampling in the second phase. Note that <span class="math inline">\(S^2_{y_{ah}}\)</span> is the variance of the characteristic of interest in the <span class="math inline">\(h\)</span>-th stratum of the first-phase sample. It is important to emphasize that, in the second term, the operator <span class="math inline">\(E_{SRS}\)</span> is specified over each and every possible stratified sample in the second phase.</p>
-<p><span class="citation" data-cites="Rao1973">Rao (<a href="#ref-Rao1973" role="doc-biblioref">1973</a>)</span> proposed the estimation of these variance components, which are estimated unbiasedly by the following expressions: <span class="math display">\[
-\begin{aligned}
-\hat{V}_1=
-\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)
-\sum_{h=1}^H\frac{n_{ah}}{n_a}\left\{(1-Q_h)S^2_{y_{S_h}}+\frac{n_a}{n_a-1}(\bar{y}_{S_h}-\bar{y}_S)\right\}
-\end{aligned}
-\]</span> <span class="math display">\[
-\begin{aligned}
-\hat{V}_2=\frac{N^2}{n_a^2}\left(\sum_{h=1}^H\frac{n_{ah}^2}{n_h}\left(1-\frac{n_h}{n_{ah}}\right)S^2_{y_{ah}}\right)
-\end{aligned}
-\]</span> respectively, where <span class="math inline">\(Q_h=\dfrac{(n_a-n_{ah}}{n_h(n_a-1)}\)</span>. The proof of this result can be consulted in <span class="citation" data-cites="HiRa">Hidiroglou and Rao (<a href="#ref-HiRa" role="doc-biblioref">2003</a>)</span>.</p>
-</section>
-<section id="selection-proportional-to-size" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="selection-proportional-to-size"><span class="header-section-number">12.4</span> Selection Proportional to Size</h2>
-<!-- index: Selection proportional to size -->
-<p>The previous sections have shown how auxiliary information can be used to gain precision and efficiency in estimating the total of a characteristic of interest. In some cases, this information can be used at the design stage and, in others, at the estimation stage. When the goal is to use it at the design stage, a sampling design proportional to some auxiliary information characteristic <span class="math inline">\(x\)</span> can be used. This option is presented here.</p>
-<p>If it is known that the structural behavior of the auxiliary information characteristic is proportional to the behavior of the characteristic of interest, then it would be desirable to select the sample with probability proportional to <span class="math inline">\(x\)</span>. However, this information <span class="math inline">\(x\)</span> is not available at the population level, although it is known to be cheap to obtain at least in a large sample. Therefore, it is collected in an initial sample <span class="math inline">\(s_a\)</span> of size <span class="math inline">\(n_a\)</span> induced by a simple random sampling design from a population of size <span class="math inline">\(N\)</span>. After this auxiliary information becomes available, a subsample <span class="math inline">\(s\)</span> of size <span class="math inline">\(m\)</span> is selected with replacement proportional to the auxiliary information variable <span class="math inline">\(x\)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Result">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Result
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Under this framework, where the initial sample <span class="math inline">\(s_a\)</span> of size <span class="math inline">\(n_a\)</span> is selected by simple random sampling and the subsample <span class="math inline">\(s\)</span> of size <span class="math inline">\(m\)</span> is selected proportional to <span class="math inline">\(x\)</span>, the unbiased estimator of the population total, its variance, and its estimated variance are given by <span class="math display">\[
-\hat{t}_y=\frac{N}{n_a}\hat{t}_{ay}
-=\frac{N}{n_a}\frac{1}{m}\sum_{k\in S}\frac{y_k}{p_{ak}}
-=\frac{N}{n_a}\frac{t_{ax}}{m}\sum_{k\in S}\frac{y_k}{x_k}
-\]</span> <span class="math display">\[
-\begin{aligned}
-Var_{Bif}(\hat{t}_y)&amp;=\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)S^2_{y_U}\notag\\
-&amp;+\frac{N(n_a-1)}{(N-1)n_a}\frac{1}{m}\sum_U\frac{1}{p_{k}}\left(\frac{y_k}{p_{ak}}-t_y\right)^2
-\end{aligned}
-\]</span> { <span class="math display">\[
-\begin{aligned}
-\widehat{Var}_{Bif}(\hat{t}_y)
-&amp;=\frac{N^2}{n}\frac{t_{ax}^2}{m(m-1)}\left[\sum_{k\in S}\frac{y_k^2}{x_k^2}-\frac{1}{m}\left(\sum_{k\in S}\frac{y_k}{x_k}\right)^2\right]\\
-&amp;+\frac{N(N-n_a)}{mn_a(n_a-1)}\left(t_{ax}\sum_{k\in S}\frac{y_k^2}{x_k}+\frac{t_{ax}^2}{n_a(m-1)}
-\left[\sum_{k\in S}\frac{y_k^2}{x_k^2}-\frac{1}{m}\left(\sum_{k\in S}\frac{y_k}{x_k}\right)^2\right]\right)\notag
-\end{aligned}
-\]</span> } respectively, with <span class="math inline">\(\hat{t}_{ay}=\frac{1}{m}\sum_{s}\frac{y_k}{p_{ak}}\)</span>, <span class="math inline">\(p_{ak}=\frac{x_k}{t_{ax}}\)</span>, and <span class="math inline">\(t_{ax}=\sum_{S_a}x_k\)</span>.</p>
-<p><strong>Proof.</strong> Using the property of successive conditioning once again, we have <span class="math display">\[
-\begin{aligned}
-E(\hat{t}_y)&amp;=E_{SRS}\left(\frac{N}{n}E_{PPS}\left(\sum_{s}\frac{y_k}{p_{ak}}|\mathbf{I}\right)\right)\\
-&amp;=E_{SRS}\left(\frac{N}{n}\sum_{s_a}y_k\right)=t_y
-\end{aligned}
-\]</span></p>
-<p>And for the first term of the variance, we have <span class="math display">\[
-\begin{aligned}
-Var_{SRS}(E_{PPS}(\hat{t}_y))=Var_{SRS}\left(\frac{N}{n_a}\sum_{s_a}y_k\right)
-=\frac{N^2}{n_a}\left(1-\frac{n_a}{N}\right)S^2_{y_U}
-\end{aligned}
-\]</span></p>
-<p>For the second term, using Result 2.2.14 and Result 4.2.6, note that <span class="math display">\[
-\begin{aligned}
-Var_{PPS}(\hat{t}_y|\mathbf{I})&amp;=\frac{N^2}{n_a^2}Var_{PPS}\left(\frac{1}{m}\sum_{s}\frac{y_k}{p_k}|\mathbf{I}\right)\\
-&amp;=\frac{N^2}{n_a^2}\frac{1}{m}\sum_{k\in S_a}p_{ak}\left(\frac{y_k}{p_{ak}}-t_{ay}\right)^2
-=\frac{N^2}{n_a^2}\frac{1}{m}\sum_{S_a}\sum_{k&lt;l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2
-\end{aligned}
-\]</span></p>
-<p>Therefore, we have <span class="math display">\[
-\begin{aligned}
-E_{SRS}(Var_{PPS}(\hat{t}_y))
-&amp;=E_{SRS}\left(\frac{N^2}{n_a^2}\frac{1}{m}\sum_{S_a}\sum_{k&lt;l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2\right)\\
-&amp;=E_{SRS}\left(\frac{N^2}{n_a^2}\frac{1}{m}\sum_{U}\sum_{k&lt;l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2I_kI_l\right)\\
-&amp;=\frac{N^2}{n_a^2}\frac{1}{m}\sum_{U}\sum_{k&lt;l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2E_{SRS}(I_kI_l)\\
-&amp;=\frac{N^2n_a(n_a-1)}{n_a^2N(N-1)}\frac{1}{m}\sum_{U}\sum_{k&lt;l}p_kp_l\left(\frac{y_k}{p_k}-\frac{y_l}{p_l}\right)^2\\
-&amp;=\frac{N(n_a-1)}{(N-1)n_a}\frac{1}{m}\sum_U\frac{1}{p_{k}}\left(\frac{y_k}{p_{ak}}-t_y\right)^2
-\end{aligned}
-\]</span></p>
-<p>The above uses the alternative form of the variance of the <span class="math inline">\(PPS\)</span> sampling design. The proof of the unbiased estimate of the estimator’s variance can be consulted in <span class="citation" data-cites="Raj">Raj (<a href="#ref-Raj" role="doc-biblioref">1968</a>)</span>.</p>
-</div>
-</div>
-</section>
-<section id="other-applications" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="other-applications"><span class="header-section-number">12.5</span> Other Applications</h2>
-<!-- index: Two-phase sampling design -->
-<p>This two-phase sampling design has many applications in practice, and the topics discussed so far are only a brief introduction to the complex and vast world of sample surveys, with all their shortcomings and limitations. However, this chapter has shown that it is possible to address these limitations from a theoretical point of view and to find a practical solution to these problems. A brief summary of other applications of two-phase sampling follows.</p>
-<section id="improving-the-estimator" class="level3" data-number="12.5.1">
-<h3 data-number="12.5.1" class="anchored" data-anchor-id="improving-the-estimator"><span class="header-section-number">12.5.1</span> Improving the Estimator</h3>
-<p>This chapter focused on the search for an optimal sampling design and on improving the way samples are selected in the second stage. However, it is possible to consider a very simple sampling design in both stages and, with the help of auxiliary information collected in the first-phase sample, improve the estimator by using the general regression estimator framework or calibration estimators. Of course, depending on the quality of the information obtained, it is possible to improve both the sampling design and the estimator.</p>
-<p>As <span class="citation" data-cites="Est1">Estevao and Särndal (<a href="#ref-Est1" role="doc-biblioref">2001</a>)</span> states, a distinctive feature of two-phase sampling is that auxiliary information can be found at several levels:</p>
-<ul>
-<li>Complete population level: the value of each auxiliary information characteristic is known for every individual belonging to the population.</li>
-<li>Incomplete population level: only the totals of the auxiliary information characteristics are known, not their individual values.</li>
-<li>First-phase level <span class="math inline">\(S_a\)</span>: the value of each auxiliary information characteristic is known for every individual belonging to the first-phase sample <span class="math inline">\(S_a\)</span>.</li>
-<li>Second-phase level <span class="math inline">\(S\)</span>: the value of each auxiliary information characteristic is known for every individual belonging to the second-phase subsample <span class="math inline">\(S\)</span>.</li>
-</ul>
-<p>Some information resides at the population level, while other information resides at the sample level in the first phase of sampling. Even with access to both, the researcher decides at their discretion whether to use both, one of them, or even neither, to obtain efficient estimates. The variance of the estimator, whether regression or calibration, will then depend on the level at which the auxiliary information chosen for use is found. It is important to identify which type of auxiliary information is relevant for the study, since complete auxiliary information is not always available. Even if it is available, it must be decided whether it will be used, because</p>
-<ol type="1">
-<li>In some situations, efficiency can decrease dramatically if some auxiliary information characteristic is ignored in the calibration process. It is even possible to obtain a calibration estimator whose variance is smaller than that of an estimator constructed using complete auxiliary information.</li>
-<li>Complete auxiliary information is not always available, so the objective of improving estimation must be achieved with the information at hand. It is important to understand how this type of limitation affects the variance of the estimator.</li>
-</ol>
-<p><span class="citation" data-cites="Est1">Estevao and Särndal (<a href="#ref-Est1" role="doc-biblioref">2001</a>)</span> have shown that there are exactly ten different cases containing different auxiliary information configurations for calibration estimators, and they account for their variance depending on the case. The treatment by <span class="citation" data-cites="Swe">Särndal and Swensson (<a href="#ref-Swe" role="doc-biblioref">1987</a>)</span> for the general regression estimator is exhaustive and is a very good reference source for two-phase sampling strategies that, at the estimation stage, consider a superpopulation model to assist the efficiency of the estimator. This reading can be complemented with Chapter 9 of <span class="citation" data-cites="Sar">Särndal et al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span>.</p>
-</section>
-<section id="a-model-for-nonresponse" class="level3" data-number="12.5.2">
-<h3 data-number="12.5.2" class="anchored" data-anchor-id="a-model-for-nonresponse"><span class="header-section-number">12.5.2</span> A Model for Nonresponse</h3>
-<!-- index: Nonresponse -->
-<p>People who do not respond often differ crucially from those who do. Thus, the following classification is possible: a) <strong>unit nonresponse</strong>, where the entire observation unit is missing, which usually occurs because the interviewer could not contact the household, the selected person is ill, or the person refuses to participate. At this stage, the interviewer must determine some demographic characteristics of the household for subsequent imputation; and b) <strong>item nonresponse</strong>, where some records of the observation unit are missing although others have in fact been answered. The following are some perspectives for dealing with nonresponse<!-- index: Nonresponse -->:</p>
-<ul>
-<li>Prevention: design the survey so that nonresponse is small. This is the best method for dealing with it.</li>
-<li>Subsample: select a representative subsample of the units that did not respond and make inferences.</li>
-<li>Models: use a model to predict the values of the units that did not respond; that is, replace the records of the missing unit with predicted records resulting from the model.</li>
-<li>Ignoring: it is very common practice to ignore survey nonresponse and make inferences with the data collected from responding units.</li>
-</ul>
-<p>Nonresponse has large effects<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> on the quality of the estimates. For example, if the sample size were increased to address nonresponse, one might end up with a larger number of people from the same class of respondents, increasing homogeneity. Note that bias can increase because resources that could have helped remedy nonresponse were wasted. On the other hand, if the effect of nonresponse is omitted in a victimization survey, the total number of victims is underestimated. Now, two strata are formed in the population, “respondents” and “nonrespondents”, and bias is reduced if the mean is similar in the two strata, an option that is impossible to know because the “nonrespondents” simply do not respond, or if there is little nonresponse.</p>
-<p><span class="citation" data-cites="Loh">Lohr (<a href="#ref-Loh" role="doc-biblioref">2000</a>)</span> suggests that some factors affecting the increase in nonresponse may be:</p>
-<ol type="1">
-<li>Content: surveys related to drug use or finances. The response rate can be bounded if the questions are ordered appropriately.</li>
-<li>Survey timing: some periods produce higher nonresponse rates than others.</li>
-<li>Interviewers: apply standard quality-improvement methods to increase the accuracy and response rate of the interviewers involved in the study.</li>
-<li>Collection method: telephone and mail surveys have lower response rates than personal interviews<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</li>
-<li>Questionnaire design: wording of the questions.</li>
-<li>Burden: excessively long surveys that make the respondent unwilling.</li>
-<li>Survey presentation: this is the first contact between the respondent and the interviewer.</li>
-<li>Incentives: financial incentives or “gifts” increase the response rate. Anti-incentives are also useful, for example suspending a driver’s license when a person refuses to answer.</li>
-</ol>
-<p><span class="citation" data-cites="Brew">Brewer (<a href="#ref-Brew" role="doc-biblioref">2002</a>)</span> states that nonresponse and two-phase sampling are related as follows: the simplest way to deal with nonresponse is to treat the sample of respondents as if they constituted the target sample, or equivalently as if the population of actual respondents and nonrespondents were governed by the same probability structure. In this way, the target sample is treated as the first-phase sample and the set of actual respondents is treated as the second-phase subsample.</p>
-<p><span class="citation" data-cites="Lund">Särndal and Lundström (<a href="#ref-Lund" role="doc-biblioref">2004</a>)</span> mentions that this approach begins with the assumption that the response distribution is known, although in practice it is not. This implies that the first- and second-order response probabilities are given by <span class="math display">\[
-Pr(k\in r|S)=\theta_k \ \ \ \ \ \ Pr(k,l\in r|S)=\theta_{kl}
-\]</span></p>
-<p>which are assumed known, where <span class="math inline">\(r\)</span> denotes the group of actual respondents and <span class="math inline">\(S\)</span> the total sample made up of respondents and nonrespondents. In this way, it is possible to calculate the combined weights, noting the similarity with the construction of the quantity <span class="math inline">\(\pi_k^*\)</span>, <span class="math inline">\((1/\pi_k)\times(1/\theta_k)\)</span> and calculate the following unbiased two-phase estimator: <span class="math display">\[
-\hat{t}_y=\sum_{k\in r}\frac{y_k}{\pi_k\theta_k}
-\]</span></p>
-<p>Because the response probabilities <span class="math inline">\(\theta_k\)</span> are unknown, the previous estimator is impossible to calculate. Therefore, to make it operational, an estimate of them must be found. Suppose that auxiliary information characteristics are available that allow an estimator, or also a predictor, of this probability to be obtained, denoted by <span class="math inline">\(\hat{\theta}_k\)</span>. Therefore, a two-phase estimator that accounts for nonresponse has been obtained by replacing <span class="math inline">\(\theta_k\)</span> with <span class="math inline">\(\hat{\theta}_k\)</span> and is given by <span class="math display">\[
-\hat{t}_y=\sum_{k\in r}\frac{y_k}{\pi_k\hat{\theta}_k}
-\]</span></p>
-<p>There are different ways to find estimators <span class="math inline">\(\hat{\theta}_k\)</span>; some of them are discussed in Chapter 9 of <span class="citation" data-cites="Sar">Särndal et al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span>.</p>
-</section>
-<section id="sampling-on-occasions" class="level3" data-number="12.5.3">
-<h3 data-number="12.5.3" class="anchored" data-anchor-id="sampling-on-occasions"><span class="header-section-number">12.5.3</span> Sampling on Occasions</h3>
-<!-- index: Sampling on occasions -->
-<p>In many research studies, samples are selected repeatedly over time from the same population, and the same characteristic of interest is measured on each occasion. In this way, its structural behavior can be measured over time. Sampling on two occasions considers a finite population and, on the first occasion, a sample <span class="math inline">\(S_a\)</span> is selected through a sampling design <span class="math inline">\(p_a(\cdot)\)</span> and the characteristic of interest <span class="math inline">\(y\)</span> is measured. On the second occasion, two independent samples are selected: an overlapping sample, <span class="math inline">\(S_t\)</span>, from the previous sample <span class="math inline">\(S_a\)</span>, and a nonoverlapping sample, <span class="math inline">\(S_{nt}\)</span>, taken from the complement of the first sample <span class="math inline">\(S_a^c\)</span>. Chapter 9 of <span class="citation" data-cites="Sar">Särndal et al. (<a href="#ref-Sar" role="doc-biblioref">1992</a>)</span> addresses the theory for treating this sampling configuration.</p>
-</section>
-</section>
-<section id="frame-and-lucy" class="level2" data-number="12.6">
-<h2 data-number="12.6" class="anchored" data-anchor-id="frame-and-lucy"><span class="header-section-number">12.6</span> Frame and Lucy</h2>
-<!-- index: Frame and Lucy -->
-<p>The population of industrial-sector firms is used below to illustrate the development of two-phase sampling and how it can substantially improve the sampling strategy. This section considers three configurations that clearly show difficult but common scenarios in practice, where surveys and sampling frames suffer from imperfections and it is necessary to sharpen the statistical tools available for dealing with these problems.</p>
-<section id="first-configuration-stratification" class="level3" data-number="12.6.1">
-<h3 data-number="12.6.1" class="anchored" data-anchor-id="first-configuration-stratification"><span class="header-section-number">12.6.1</span> First Configuration: Stratification</h3>
-<p>In this first scenario, the sampling frame is considered deficient and only includes the location and identification of firms in the industrial sector. Under this framework, it is assumed that absolutely nothing is known about the structural behavior of the population through the variables of interest: Income, Expenses, and Taxes declared during the previous year.</p>
-<p>Suppose that the researcher knows that the industrial sector is divided into three levels: Large, Medium, and Small, and that the behavior of the characteristics of interest is substantially different in each of these population subgroups. If the sampling frame were good enough to determine the classification of each firm into one of these three strata, a stratified sampling design could be used to improve estimation. However, suppose that such information is not available at the population level. Some private entities sell this information at a reasonable price. The bad news is that, because of conflicts of interest, they do not provide the complete list, but rather a subset of 1000 of the 2396 firms in the industrial sector. The good news is that the researcher can choose the one thousand firms as desired.</p>
-<p>Under this configuration, a two-phase sampling design can be used as follows: in the first phase, select a sample of size <span class="math inline">\(n_a=1000\)</span> and obtain the level information for each firm included in this first sample. For this, the <code>S.SI</code> function from the <code>TeachingSampling</code> package is used to obtain the first sample, which will be called <code>phase1_data</code>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BigLucy)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">dim</span>(BigLucy)[<span class="dv">1</span>]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">4000</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> <span class="fu">S.SI</span>(N, n)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>phase1_data <span class="ot">&lt;-</span> BigLucy[sam, ]</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(phase1_data)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(phase1_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             ID        Ubication Level    Zone Income Employees Taxes SPAM ISO
-11 AB0000000011 C0109686K0192211 Small County1    374        34     6  yes  no
-14 AB0000000014 C0189067K0112830 Small County1    330        23     4  yes  no
-32 AB0000000032 C0036536K0265361 Small County1    380        18     6  yes  no
-48 AB0000000048 C0054436K0247461 Small County1    422       101     8  yes  no
-83 AB0000000083 C0206936K0094961 Small County1    260        84     2  yes  no
-84 AB0000000084 C0224613K0077284 Small County1    481        65    10  yes  no
-   Years  Segments
-11    50 County1 2
-14    35 County1 2
-32    48 County1 4
-48    23 County1 5
-83    33 County1 9
-84    17 County1 9</code></pre>
-</div>
-</div>
-<p>The sample taken in the first phase has size 1000 and is divided across the three strata. On the other hand, in the second phase, using the information on stratum membership, a second stratified sample of size <span class="math inline">\(n=2000\)</span> is selected. For this, the <code>S.STSI</code> function from the <code>TeachingSampling</code> package is configured.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>na1 <span class="ot">&lt;-</span> <span class="fu">summary</span>(Level)[[<span class="dv">1</span>]]</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>na2 <span class="ot">&lt;-</span> <span class="fu">summary</span>(Level)[[<span class="dv">2</span>]]</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>na3 <span class="ot">&lt;-</span> <span class="fu">summary</span>(Level)[[<span class="dv">3</span>]]</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>n.a <span class="ot">&lt;-</span> <span class="fu">c</span>(na1, na2, na3)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>n.a</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  141 1248 2611</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">120</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">880</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n3 <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">c</span>(n1, n2, n3)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> <span class="fu">S.STSI</span>(Level, n.a, n)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>phase2_data <span class="ot">&lt;-</span> phase1_data[sam, ]</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(phase2_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>              ID        Ubication Level    Zone Income Employees Taxes SPAM ISO
-32  AB0000000032 C0036536K0265361 Small County1    380        18   6.0  yes  no
-119 AB0000000119 C0113018K0188879 Small County1     84        81   0.5  yes  no
-131 AB0000000131 C0117430K0184467 Small County1    222        34   2.0  yes  no
-253 AB0000000253 C0051568K0250329 Small County1    232        47   2.0   no  no
-328 AB0000000328 C0173183K0128714 Small County1    193        81   1.0   no  no
-349 AB0000000349 C0098285K0203612 Small County1    314        54   4.0   no  no
-    Years   Segments
-32     48  County1 4
-119    26 County1 12
-131    34 County1 14
-253    23 County1 26
-328    13 County1 33
-349    32 County1 35</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(phase2_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The subsample taken in the second phase has size 400 and is divided across the three strata. Once the information has been obtained, the quantities of interest are estimated. For this, the <code>E.STSI</code> function from the <code>TeachingSampling</code> package is used; it returns the estimates expanded to the first-phase sample. To expand them to the population, it is enough to multiply them by the inverse of the inclusion probability of the first sample. The results are shown below.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Income, Employees, Taxes)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>(N <span class="sc">/</span> <span class="fu">sum</span>(n.a)) <span class="sc">*</span> <span class="fu">E.STSI</span>(Level, n.a, n, target_variables)[<span class="dv">1</span>, , ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>               N   Income Employees   Taxes
-Big         3007  3668981    394276  212447
-Medium     26612 17528437   2161437  583627
-Small      55677 15905238   2914967  219646
-Population 85296 37102657   5470681 1015720</code></pre>
-</div>
-</div>
-<p>Note that this strategy is recommended when efficient estimates by population subgroups are desired.</p>
-</section>
-<section id="second-configuration-selection-proportional-to-size" class="level3" data-number="12.6.2">
-<h3 data-number="12.6.2" class="anchored" data-anchor-id="second-configuration-selection-proportional-to-size"><span class="header-section-number">12.6.2</span> Second Configuration: Selection Proportional to Size</h3>
-<p>In this subsection, suppose that the same conditions as in the previous scenario hold. However, the interest is no longer centered on efficient estimation of the totals of the characteristic of interest within some population subgroups, but rather on efficient estimation of the population total of the characteristics of interest. Thus, the goal is to implement a simple random sampling design in a first stage in order to incorporate auxiliary information in the second stage. As before, the <code>S.SI</code> function from the <code>TeachingSampling</code> package is used to select this first sample.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BigLucy)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">dim</span>(BigLucy)[<span class="dv">1</span>]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>na <span class="ot">&lt;-</span> <span class="dv">4000</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> <span class="fu">S.SI</span>(N, na)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>phase1_data <span class="ot">&lt;-</span> BigLucy[sam, ]</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(phase1_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Once the sample has been selected, the researcher is forced to collect auxiliary information that can improve the sampling strategy. In this case, the researcher knows that the Income characteristic is directly related to the characteristics of interest, Number of Employees and Taxes. In addition, this information is easy to obtain because, as in the previous configuration, an entity provides it, although only for 1000 firms under confidentiality clauses. Thus, the researcher collects Income data for the 1000 firms included in the first-phase sample and decides to improve the sampling strategy by incorporating this auxiliary information into the sampling design. In this sense, the researcher decides to use a sampling design proportional to firm Income. The <code>S.PPS</code> function from the <code>TeachingSampling</code> package is used to select the subsample. The subsample has size <span class="math inline">\(m=400\)</span> and is selected with replacement.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">S.PPS</span>(n, Income)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> res[, <span class="dv">1</span>]</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>pk.s <span class="ot">&lt;-</span> res[, <span class="dv">2</span>]</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pk.s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.69</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>phase2_data <span class="ot">&lt;-</span> phase1_data[sam, ]</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(phase2_data)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>target_variables <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Income, Employees, Taxes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>For estimating the population total of the characteristics of interest, the <code>E.PPS</code> function from the <code>TeachingSampling</code> package is used; it provides the estimate expanded in the Phase 1 sample. To expand the results to the population, once again, it is enough to multiply these results by the inverse of the first-phase inclusion probability, given by 2396/1000.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(N <span class="sc">/</span> na) <span class="sc">*</span> <span class="fu">E.PPS</span>(target_variables, pk.s)[<span class="dv">1</span>, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>        N    Income Employees     Taxes 
-    83370  36653418   5251528   1006500 </code></pre>
-</div>
-</div>
-</section>
-<section id="third-configuration-calibration-estimation" class="level3" data-number="12.6.3">
-<h3 data-number="12.6.3" class="anchored" data-anchor-id="third-configuration-calibration-estimation"><span class="header-section-number">12.6.3</span> Third Configuration: Calibration Estimation</h3>
-<p>For this last scenario, suppose that the researcher selects a simple random sample for the first sampling phase in order to collect information that will improve the sampling strategy.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BigLucy)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">dim</span>(BigLucy)[<span class="dv">1</span>]</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>na <span class="ot">&lt;-</span> <span class="dv">4000</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> <span class="fu">S.SI</span>(N, na)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>phase1_data <span class="ot">&lt;-</span> BigLucy[sam, ]</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(phase1_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Now suppose that the entity providing the information is willing to provide, for each firm included in the first-phase sample, not only Income information but also information on the Number of Employees. Thus, the researcher proposes selecting a subsample using a simple random sampling design and combining it with a calibration estimator using the raking method.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>t.ax <span class="ot">&lt;-</span> <span class="fu">c</span>(na, <span class="fu">sum</span>(Income), <span class="fu">sum</span>(Employees))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sam <span class="ot">&lt;-</span> <span class="fu">S.SI</span>(na, n)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>phase2_data <span class="ot">&lt;-</span> phase1_data[sam, ]</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(phase2_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>To estimate the results expanded to the first phase, the <code>calib</code> function from the <code>Sampling</code> package is used; it provides the calibrated weights for Phase 1. Similarly, these results are expanded to the population by multiplying by the inverse of the inclusion probability of the first sample.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sampling)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>y.as <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Income, Employees, Taxes)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>x.as <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, Income, Employees)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>pi.ak <span class="ot">&lt;-</span> <span class="fu">rep</span>(n <span class="sc">/</span> na, <span class="at">times =</span> n)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>w.ak <span class="ot">&lt;-</span> <span class="fu">calib</span>(x.as, <span class="at">d =</span> <span class="dv">1</span> <span class="sc">/</span> pi.ak, t.ax, <span class="at">method =</span> <span class="st">"raking"</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>tc.a <span class="ot">&lt;-</span> <span class="fu">t</span>(w.ak <span class="sc">/</span> pi.ak) <span class="sc">%*%</span> <span class="fu">as.matrix</span>(y.as)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>(N <span class="sc">/</span> na) <span class="sc">*</span> tc.a</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       Income Employees   Taxes
-[1,] 36504065   5388340 1009476</code></pre>
-</div>
-</div>
-<section id="comparison-of-results" class="level4" data-number="12.6.3.1">
-<h4 data-number="12.6.3.1" class="anchored" data-anchor-id="comparison-of-results"><span class="header-section-number">12.6.3.1</span> Comparison of Results</h4>
-<p>Although at first glance the results may not seem very close to the true population totals, note that, in particular for the Income characteristic of interest, a large gain is obtained compared with a simple random sampling design. Note also that, in this case, the calibration estimator gives better results.</p>
-<div id="tbl-tablacalib" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tablacalib-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;12.1: Estimates obtained under different scenarios for two-phase sampling.
-</figcaption>
-<div aria-describedby="tbl-tablacalib-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Method</th>
-<th>Population total</th>
-<th>Estimated total</th>
-<th>Dev. %</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Strata</td>
-<td>28654</td>
-<td>27854</td>
-<td>-2.79</td>
-</tr>
-<tr class="even">
-<td>Proportional</td>
-<td>28654</td>
-<td>30031</td>
-<td>4.81</td>
-</tr>
-<tr class="odd">
-<td>Calibration</td>
-<td>28654</td>
-<td>27995</td>
-<td>-2.29</td>
-</tr>
-</tbody>
-</table>
-</div>
-</figure>
-</div>
-</section>
-</section>
-</section>
-<section id="exercises" class="level2" data-number="12.7">
-<h2 data-number="12.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.7</span> Exercises</h2>
-<ol type="1">
-<li>Suppose a longitudinal study proposes three semipanel-type surveys at different times. For the third measurement, a sampling design with a 20% rotation was used for the following possible specifications:</li>
-</ol>
-<ul>
-<li>Of size <span class="math inline">\(n_1\)</span>, selected only from the sample of the first measurement.</li>
-<li>Of size <span class="math inline">\(n_{12}\)</span>, selected from the samples of measurements one and two.</li>
-<li>Of size <span class="math inline">\(n_{123}\)</span>, selected from the samples of all three measurements.</li>
-<li>Of size <span class="math inline">\(n_{23}\)</span>, selected from the samples of measurements two and three.</li>
-<li>Of size <span class="math inline">\(n_{3}\)</span>, selected from the sample of the third measurement.</li>
-</ul>
-<ol type="1">
-<li><p>Draw a diagram illustrating sample rotation across the three measurements and the relative sizes of the five configurations above.</p></li>
-<li><p>Propose a formula for estimating the population total of the characteristic of interest in the third measurement for the five configurations above.</p></li>
-<li><p>Without writing any statistical formula for the variances, indicate which of these configurations induces greater efficiency in the estimates and why.</p></li>
-<li><p>Suppose a two-phase sampling design. In the first phase, a simple random sample without replacement <span class="math inline">\(s_a\)</span> of size <span class="math inline">\(n_a=150\)</span> was selected. In this phase, information on a characteristic of interest <span class="math inline">\(x\)</span> was collected. In the second phase, it was decided to select a sample <span class="math inline">\(s\)</span> using a Poisson sampling design with expected sample size <span class="math inline">\(n_s=10\)</span>, through inclusion probabilities proportional to the auxiliary information characteristic. The information for the second-phase sample is as follows:</p></li>
-</ol>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>y</th>
-<th>x</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>2653</td>
-<td>33</td>
-</tr>
-<tr class="even">
-<td>17949</td>
-<td>247</td>
-</tr>
-<tr class="odd">
-<td>1060</td>
-<td>12</td>
-</tr>
-<tr class="even">
-<td>1324</td>
-<td>12</td>
-</tr>
-<tr class="odd">
-<td>2223</td>
-<td>18</td>
-</tr>
-<tr class="even">
-<td>2553</td>
-<td>30</td>
-</tr>
-<tr class="odd">
-<td>2216</td>
-<td>20</td>
-</tr>
-<tr class="even">
-<td>13205</td>
-<td>138</td>
-</tr>
-<tr class="odd">
-<td>3475</td>
-<td>35</td>
-</tr>
-<tr class="even">
-<td>7072</td>
-<td>62</td>
-</tr>
-<tr class="odd">
-<td>4623</td>
-<td>47</td>
-</tr>
-</tbody>
-</table>
-<ol type="1">
-<li>Calculate an unbiased estimate for the population total of <span class="math inline">\(y\)</span>, taking into account that the total of the characteristic of interest in the first-phase sample is 4060. Use the following expression to calculate the corresponding estimated coefficient of variation:</li>
-</ol>
-<p><span class="math display">\[
-\begin{aligned}
-\widehat{Var}(\hat{t}_{y,\pi^*})&amp;=
-\left(\frac{N}{n}\bar{x}_{s_a}\right)^2\frac{1}{n_a-1}
-\left[(n_a-f_a)\sum_s \left(\frac{y_k}{x_k}\right)^2-(1-f_a)\left(\sum_s\frac{y_k}{x_k}\right)^2\right]
-- \frac{N}{n}\bar{x}_{s_a}\sum_s\frac{y_k^2}{x_k}
-\end{aligned}
-\]</span></p>
-<ol type="1">
-<li><p>Assume that the second-phase sample from the previous exercise was obtained using PPS sampling. Calculate an unbiased estimate for the population total of <span class="math inline">\(y\)</span> and calculate the corresponding estimated coefficient of variation.</p></li>
-<li><p>Suppose a two-phase sampling design. In the first phase, a simple random sample without replacement <span class="math inline">\(s_a\)</span> of size <span class="math inline">\(n_a=160\)</span> was selected. In this phase, the population was stratified into four subgroups, each of size 40. In the second phase, it was decided to select a stratified random sample of <span class="math inline">\(20\)</span> elements in each stratum, and the characteristic of interest was observed. The results obtained are shown below:</p></li>
-</ol>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Stratum <span class="math inline">\(h\)</span></th>
-<th><span class="math inline">\(\bar{y}_{s_h}\)</span></th>
-<th><span class="math inline">\(S^2_{y_{s_h}}\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>17.05</td>
-<td>19945</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>19.75</td>
-<td>24179</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>22.40</td>
-<td>28359</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>31.25</td>
-<td>42829</td>
-</tr>
-</tbody>
-</table>
-<ol type="1">
-<li>Calculate an unbiased estimate for the population total of <span class="math inline">\(y\)</span>.</li>
-<li>Obtain an estimate of the variance and report the corresponding estimated coefficient of variation.</li>
-<li>Obtain an estimate of the variance and report the corresponding estimated coefficient of variation, assuming that the sample had been obtained from a single-phase stratified random sampling design of size <span class="math inline">\(n=80\)</span>.</li>
-</ol>
-<section id="how-to-cite-this-book" class="level3 unnumbered citation-box">
-<h3 class="unnumbered anchored" data-anchor-id="how-to-cite-this-book">How to cite this book</h3>
-<p>Gutiérrez, A. (2027). <em>Sampling strategies: Survey design and parameter estimation</em>. Unpublished version online.</p>
-</section>
+<section id="preface" class="level1 unnumbered">
+<h1 class="unnumbered">Preface</h1>
+<p>Although very powerful, the term sampling strategy has not received the appropriate prominence in the world of sampling. People speak of the efficiency, precision, and even unbiasedness of an estimator without taking into account that such properties are linked to the sampling design used to collect the information. For the author, learning this subject is easier when the sampling design and the estimator of the parameter of interest used in the finite population are valued equally. The golden rule of sampling cannot be ignored: use sampling designs that induce inclusion probabilities (or selection probabilities, as the case may be) proportional to the value of the characteristic of interest in the population, and use estimators that incorporate those probabilities. For this reason, this text has been titled <em>Sampling Strategies, Survey Design, and Parameter Estimation.</em></p>
+<p>In the combined search for a better sampling strategy, this text has been divided into three parts that can be used at different undergraduate levels as well as in graduate courses, depending on the difficulty of the topic. The division of the book follows the theoretical development of sampling through its brief history.</p>
+<p>The first part of the book reviews the most commonly used sampling strategies. With strong statistical and mathematical rigor, readers are introduced to the field of design-based inference, which treats the values of the characteristic of interest as fixed pseudoparameters and not as realizations of random variables. This journey is made more engaging by introducing Marco and Lucy, inseparable companions in each strategy presented, which correspond to data sets obtained for conducting a survey. Thus, Marco is the pseudoname of the sampling frame, and Lucy corresponds to a population of firms in the industrial sector. Unlike most classic sampling books, this text reviews all sampling strategies using a single sampling “frame”, sometimes more generous than at other times, and a single population, “Lucy”, in order to pose a problem that the reader can solve from different angles. This differs from some sampling books, which present solved examples without giving the reader the opportunity to question how the strategy was developed. This part presents three concepts that are decisive when proposing a sampling strategy. The first, and most important, is the support that defines the realization of a probability sample and, consequently, the validity of the inference. Readers can appreciate the importance of this concept by distinguishing it from the random sample, which is nothing more than a random vector. Second, emphasis is placed on the concept of sampling design, treating it as a multivariate probability distribution over the support. In most of the strategies presented in this first part, it is shown that the proposed sampling design indeed satisfies the properties of a probability distribution. Of course, the final concept is the estimator, whose definition and use are more widely known among users. Each chapter and each section include a small lexical-graphic example and an application of the proposed strategy with Marco and Lucy through the computational development of the TeachingSampling package <span class="citation" data-cites="Teaching">(<a href="#ref-Teaching" role="doc-biblioref">Gutiérrez 2009</a>)</span>, created in the free R software environment in the most user-friendly way possible.</p>
+<p>The second part of this text concerns the use and exploitation of auxiliary information available in the sampling frame. It reviews not only estimators that improve the efficiency of the strategy, but also incorporates into the estimation process the use of a model that makes it possible to <em>describe</em> the behavior of the characteristic of interest in the population. This represents a very important step in the development of inference by treating, although in isolation, the characteristic of interest as a random variable under the proposed model. This part follows the elegant approach of <span class="citation" data-cites="Beth">Bethlehem and Keller (<a href="#ref-Beth" role="doc-biblioref">1987</a>)</span>, in which no assumptions are made about the validity of the superpopulation model. In this line of thought, the only assertion made is that the residuals of the model do have lower variance than the characteristic of interest. At the end of this part, a very brief introduction is given to inference in finite populations under an assumed-model approach. It is interesting to observe that, over time, the use of these techniques has become increasingly common, especially in the estimation of rare domains, better known as small areas. This section begins with the famous discussion by <span class="citation" data-cites="Basu1971">Basu (<a href="#ref-Basu1971" role="doc-biblioref">1971</a>)</span>, which even today remains a stumbling block between currents of statistics. This type of inference does not consider the sampling design or the way in which the information was collected, but is instead based on the proposed population model used to carry out inference. However, when the population model is wrong, the estimates will be wrong as well.</p>
+<p>The third part, suitable for a graduate course, attempts to reach the major methodological advances that, over time, cease to be innovations and become required techniques for improving the efficiency of the strategy. Among other selected topics, it considers calibration estimators, balanced sampling, and indirect sampling. These contents are subject to a strong personal bias induced by years of attending the sampling seminar at the Universidad Nacional de Colombia.</p>
+<p>Of course, this book could not have been written without the enormous influence of my teacher Leonardo Bautista, who taught me that what matters is not memorizing formulas, but giving them meaning and bringing them to life through the use of the best strategy. This applies not only to the practical development of statistical science, but also to everyday life.</p>
+<p>Finally, the author expresses his gratitude to God, who has given him everything he has and selected him to belong to the sample; otherwise, these lines would not have been written. To his father for his excellent upbringing, to his grandmother Lola because her prayers never ceased.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-Brew" class="csl-entry" role="listitem">
-Brewer, K. R. W. 2002. <em>Combined Sampling Inference, Weighting Basu’s Elephants</em>. London: Arnorld.
+<div id="ref-Basu1971" class="csl-entry" role="listitem">
+Basu, D. 1971. <span>“An Essay on the Logical Foundations of Survey Sampling.”</span> <em>Holt, Rinehart and Winston. Toronto</em>, 203–42.
 </div>
-<div id="ref-Est1" class="csl-entry" role="listitem">
-Estevao, V. M., and C-E. Särndal. 2001. <span>“The Ten Cases of Auxiliary Information for Calibration Estimators in Two-Phase Sampling.”</span> <em>Journal of Official Statistics</em> 18: 233–55.
+<div id="ref-Beth" class="csl-entry" role="listitem">
+Bethlehem, J. G., and W. J. Keller. 1987. <span>“Linear Weighting of Survey Data.”</span> <em>Journal of Official Statistics</em> 3: 141–53.
 </div>
-<div id="ref-HiRa" class="csl-entry" role="listitem">
-Hidiroglou, M. A., and J. N. K. Rao. 2003. <span>“Variance Estimation in Two-Phase Sampling.”</span> In <em>Proceedings of Statistics Canada Symposium</em>, edited by Statistics Canada.
-</div>
-<div id="ref-Loh" class="csl-entry" role="listitem">
-Lohr, S. 2000. <em>Sampling: Design and Analysis</em>. Thompson.
-</div>
-<div id="ref-Mood" class="csl-entry" role="listitem">
-Mood, A. M., F. A. Graybill, and D. C. Boes. 1974. <em>Introduction to the Theory of Statistics</em>. 3rd ed. McGraw Hill.
-</div>
-<div id="ref-Neyman38" class="csl-entry" role="listitem">
-Neyman, J. 1938. <span>“Contribution to the Theory of Sampling Human Populations.”</span> <em>Journal of the American Statistical Association</em> 33: 101–16.
-</div>
-<div id="ref-Raj" class="csl-entry" role="listitem">
-Raj, D. 1968. <em>Sampling Theory</em>. McGraw Hill.
-</div>
-<div id="ref-Rao1973" class="csl-entry" role="listitem">
-Rao, J. N. K. 1973. <span>“On Double Sampling for Stratification and Analityc Surveys.”</span> <em>Biometrika</em> 60: 125–33.
-</div>
-<div id="ref-Lund" class="csl-entry" role="listitem">
-Särndal, C. E., and S. Lundström. 2004. <em>Estimation in Surveys with Nonresponse</em>. Wiley.
-</div>
-<div id="ref-Swe" class="csl-entry" role="listitem">
-Särndal, C. E., and B. Swensson. 1987. <span>“A General View of Estimation for Two Phases of Selection with Applications to Two-Phase Sampling and Nonresponse.”</span> <em>International Statistical Review</em> 55: 279–94.
-</div>
-<div id="ref-Sar" class="csl-entry" role="listitem">
-Särndal, C. E., B. Swensson, and J. Wretman. 1992. <em>Model Assisted Survey Sampling</em>. Springer, New York.
+<div id="ref-Teaching" class="csl-entry" role="listitem">
+Gutiérrez, H. A. 2009. <em>TeachingSampling: Sampling Designs and Parameter Estimation in Finite Population</em>.
 </div>
 </div>
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Note that this process is less costly than obtaining the information directly from the population.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Although using a simple random sampling design in both phases is not realistic in practice, this example helps provide a better understanding of the probability structure induced by two-phase sampling.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>The initial proposal by <span class="citation" data-cites="Neyman38">Neyman (<a href="#ref-Neyman38" role="doc-biblioref">1938</a>)</span> was to use a simple random design both for selecting the first sample in the first phase and for selecting the second-phase subsamples in each stratum.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>If one insists on calculating and estimating totals and means without accounting for nonresponse, the technical report must include the corresponding response-rate figure.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Using a CATI system, computer-assisted telephone interviewing, improves data accuracy.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -1782,13 +848,13 @@ Särndal, C. E., B. Swensson, and J. Wretman. 1992. <em>Model Assisted Survey Sa
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/cap11.html" class="pagination-link" aria-label="Balanced Sampling">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Balanced Sampling</span></span>
+      <a href="../index.html" class="pagination-link" aria-label="Welcome">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/cap13.html" class="pagination-link" aria-label="Indirect Sampling">
-        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Indirect Sampling</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/cap1.html" class="pagination-link" aria-label="Surveys and Sampling Studies">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Surveys and Sampling Studies</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

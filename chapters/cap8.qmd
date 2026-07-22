@@ -1371,3 +1371,9 @@ E.Beta(N, n, as.matrix(sample_data$Taxes), sample_data$Income, b0 = FALSE, ck = 
 
 \phantom{Ard}
 \thispagestyle{empty}
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

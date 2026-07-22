@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Calibration Estimators – Sampling Strategies</title>
+<title>10&nbsp; Calibration Estimators – &lt;span style='font-weight: 700'&gt;Sampling&lt;/span&gt;&lt;br/&gt;&lt;i style='color: #00b7ff'&gt;Strategies&lt;/i&gt;</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -126,6 +126,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -184,7 +185,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Sampling Strategies</a> 
+      <a href="../"><span style="font-weight: 700">Sampling</span><br><i style="color: #00b7ff">Strategies</i></a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -197,6 +198,12 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/frontmatter.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Foreword</span></a>
   </div>
 </li>
@@ -326,7 +333,10 @@ window.Quarto = {
   <li><a href="#marco-y-lucy-1" id="toc-marco-y-lucy-1" class="nav-link" data-scroll-target="#marco-y-lucy-1"><span class="header-section-number">10.7</span> Marco y Lucy</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">10.8</span> Discussion</a></li>
   <li><a href="#optimal-calibration-estimators" id="toc-optimal-calibration-estimators" class="nav-link" data-scroll-target="#optimal-calibration-estimators"><span class="header-section-number">10.9</span> Optimal calibration estimators</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.10</span> Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.10</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#how-to-cite-this-book" id="toc-how-to-cite-this-book" class="nav-link" data-scroll-target="#how-to-cite-this-book">How to cite this book</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1909,7 +1919,7 @@ g(\mu_k)=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}
 <section id="exercises" class="level2" data-number="10.10">
 <h2 data-number="10.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.10</span> Exercises</h2>
 <ol type="1">
-<li><span class="citation" data-cites="TiAr">(<a href="#ref-TiAr" role="doc-biblioref">Tille and Ardilly 2006</a>, Exercise 7.1)</span> Using a sampling procedure, the following estimates were obtained for the absolute sizes <span class="math inline">\(\hat{N}_{ij}\)</span> of two subpopulations of interest:</li>
+<li><span class="citation" data-cites="TiAr">(<a href="#ref-TiAr" role="doc-biblioref">Tillé and Ardilly 2006</a>, Exercise 7.1)</span> Using a sampling procedure, the following estimates were obtained for the absolute sizes <span class="math inline">\(\hat{N}_{ij}\)</span> of two subpopulations of interest:</li>
 </ol>
 <table class="caption-top table">
 <thead>
@@ -1946,7 +1956,7 @@ g(\mu_k)=\theta_0+\theta_1x_{k1}+...+\theta_Px_{kP}
 <li><p>Adjust the table to the true marginal population totals using the IPFP algorithm.</p></li>
 <li><p>Adjust the table to the true marginal population totals using the calibration approach with the <em>raking</em> method.</p></li>
 <li><p>Explain the differences or similarities between the preceding estimates.</p></li>
-<li><p><span class="citation" data-cites="TiAr">(<a href="#ref-TiAr" role="doc-biblioref">Tille and Ardilly 2006</a>, Exercise 7.4)</span> Suppose that the following table was obtained and that the true totals for the rows are <span class="math inline">\((84, 37, 444, 464)\)</span> and the true totals for the columns are <span class="math inline">\((49, 859, 11, 10)\)</span>.</p></li>
+<li><p><span class="citation" data-cites="TiAr">(<a href="#ref-TiAr" role="doc-biblioref">Tillé and Ardilly 2006</a>, Exercise 7.4)</span> Suppose that the following table was obtained and that the true totals for the rows are <span class="math inline">\((84, 37, 444, 464)\)</span> and the true totals for the columns are <span class="math inline">\((49, 859, 11, 10)\)</span>.</p></li>
 </ol>
 <table class="caption-top table">
 <thead>
@@ -2014,6 +2024,10 @@ x\ln(x)+1-x, &amp; \text{if $\alpha=1$} \\
 <li><p>The quantity <span class="math inline">\(q_k\)</span> is constant for all individuals under the entropy distance.</p></li>
 <li><p>Under the inverse chi-square distance, minimizing the distance with respect to the calibration restrictions always leads to weights <span class="math inline">\(w_k\)</span> equal to the inverse of the inclusion probability of the <span class="math inline">\(k\)</span>-th element.</p></li>
 </ol>
+<section id="how-to-cite-this-book" class="level3 unnumbered citation-box">
+<h3 class="unnumbered anchored" data-anchor-id="how-to-cite-this-book">How to cite this book</h3>
+<p>Gutiérrez, A. (2027). <em>Sampling strategies: Survey design and parameter estimation</em>. Unpublished version online.</p>
+</section>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
@@ -2045,7 +2059,7 @@ McCullagh, P., and J. A. Nelder. 1989. <em>Generalized Linear Models</em>. Chapm
 Särndal, C-E. 2007. <span>“The Calibration Approach in Survey Theory and Practice.”</span> <em>Survey Methodology</em> 33: 99–119.
 </div>
 <div id="ref-TiAr" class="csl-entry" role="listitem">
-Tille, Y., and P. Ardilly. 2006. <em>Sampling Methods: Exercises and Solutions</em>. Springer.
+Tillé, Y., and P. Ardilly. 2006. <em>Sampling Methods: Exercises and Solutions</em>. Springer.
 </div>
 <div id="ref-Wu1" class="csl-entry" role="listitem">
 Wu, C. 2003. <span>“Optimal Calibration Estimators in Survey Sampling.”</span> <em>Biometrika</em> 90: 937–51.
@@ -2631,7 +2645,7 @@ Wu, C., and R. R. Sitter. 2001. <span>“A Model-Calibration Approach to Using C
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Sampling strategies</p>
+<p>Sampling Strategies: Sampling Design and Parameter Estimation</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
@@ -2642,4 +2656,5 @@ Wu, C., and R. R. Sitter. 2001. <span>“A Model-Calibration Approach to Using C
 
 
 
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

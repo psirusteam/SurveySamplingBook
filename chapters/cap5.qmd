@@ -1286,3 +1286,9 @@ The efficiency gain of this sampling strategy is notable; there is not much more
 | --- | --- | --- |
 | 1 | 1099 | 21855 |
 | 2 | 3446 | 1822736 |
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

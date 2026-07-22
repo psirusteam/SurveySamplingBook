@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Indirect Sampling – Sampling Strategies</title>
+<title>13&nbsp; Indirect Sampling – &lt;span style='font-weight: 700'&gt;Sampling&lt;/span&gt;&lt;br/&gt;&lt;i style='color: #00b7ff'&gt;Strategies&lt;/i&gt;</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -91,6 +91,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -149,7 +150,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Sampling Strategies</a> 
+      <a href="../"><span style="font-weight: 700">Sampling</span><br><i style="color: #00b7ff">Strategies</i></a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -162,6 +163,12 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/frontmatter.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Foreword</span></a>
   </div>
 </li>
@@ -273,7 +280,10 @@ window.Quarto = {
   <li><a href="#some-special-matrices" id="toc-some-special-matrices" class="nav-link" data-scroll-target="#some-special-matrices"><span class="header-section-number">13.3.2</span> Some Special Matrices</a></li>
   </ul></li>
   <li><a href="#lexical-graphic-example" id="toc-lexical-graphic-example" class="nav-link" data-scroll-target="#lexical-graphic-example"><span class="header-section-number">13.4</span> Lexical-Graphic Example</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">13.5</span> Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">13.5</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#how-to-cite-this-book" id="toc-how-to-cite-this-book" class="nav-link" data-scroll-target="#how-to-cite-this-book">How to cite this book</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -300,7 +310,7 @@ window.Quarto = {
 
 
 <div class="blockquote">
-<p>In some situations, the statistician has no sampling frame available… This absence implies that it is not possible to define the selection probability of a sample, making it impossible to calculate the sampling error. In other situations, the statistician does have access to sampling frames that do not correspond directly to the sampling units of the target population. <span class="citation" data-cites="Lav2007">Lavallé (<a href="#ref-Lav2007" role="doc-biblioref">2007</a>)</span></p>
+<p>In some situations, the statistician has no sampling frame available… This absence implies that it is not possible to define the selection probability of a sample, making it impossible to calculate the sampling error. In other situations, the statistician does have access to sampling frames that do not correspond directly to the sampling units of the target population. <span class="citation" data-cites="Lav2007">Lavallée (<a href="#ref-Lav2007" role="doc-biblioref">2007</a>)</span></p>
 </div>
 <p>In practice, element sampling frames are not always available. However, in some cases it is possible to access different list frames of elements that, while not part of the target population, are indirectly related to it. The process of selecting samples under these conditions is called indirect sampling, and it is characterized by the fact that producing estimates of simple totals or means can become a nightmare for the statistician. To solve this problem, the generalized weighting method is used. It is characterized by its simplicity, and its estimators share the desirable property of unbiasedness, even under indirect sampling.</p>
 <p>To produce estimates in social, economic, and similar research generated through a sampling strategy <span class="math inline">\((p(s),\hat{T}(S))\)</span>, access, at least implicitly, to an element sampling frame of the target population, denoted by <span class="math inline">\(U_B\)</span>, is essential. Unfortunately, access to such a sampling frame is often difficult to obtain. However, sometimes it is possible to consider the availability of an element sampling frame<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from some other population <span class="math inline">\(U_A\)</span> linked to the elements of the target population.</p>
@@ -333,7 +343,7 @@ window.Quarto = {
 <li>However, element 1 of population <span class="math inline">\(U_A\)</span> has another child outside the marriage, recorded as the first element of population <span class="math inline">\(B\)</span>.</li>
 <li>The second couple, given by elements 3 and 4 of population <span class="math inline">\(U_A\)</span>, has only one child, recorded as the third and last element of population <span class="math inline">\(U_B\)</span>.</li>
 </ul>
-<p>Usually, when there is a link between the <span class="math inline">\(j\)</span>-th element of population <span class="math inline">\(U_A\)</span> and the <span class="math inline">\(i\)</span>-th element of population <span class="math inline">\(U_B\)</span>, <span class="math inline">\(\theta_{ij}^{AB}\)</span> takes the value one. However, the link can be different from one, as discussed in <span class="citation" data-cites="Lav2007">(<a href="#ref-Lav2007" role="doc-biblioref">Lavallé 2007</a>)</span>.</p>
+<p>Usually, when there is a link between the <span class="math inline">\(j\)</span>-th element of population <span class="math inline">\(U_A\)</span> and the <span class="math inline">\(i\)</span>-th element of population <span class="math inline">\(U_B\)</span>, <span class="math inline">\(\theta_{ij}^{AB}\)</span> takes the value one. However, the link can be different from one, as discussed in <span class="citation" data-cites="Lav2007">(<a href="#ref-Lav2007" role="doc-biblioref">Lavallée 2007</a>)</span>.</p>
 <p>Using indirect sampling, a sample <span class="math inline">\(s_A\)</span> of size <span class="math inline">\(n_A\)</span> is selected through a sampling design <span class="math inline">\(p_A(s_A)\)</span>. Let <span class="math inline">\(\pi^A_j&gt;0\)</span> <span class="math inline">\(\forall j \in U_A\)</span> be the inclusion probability of the <span class="math inline">\(j\)</span>-th element. For each element in the sample <span class="math inline">\(s_A\)</span>, the units in <span class="math inline">\(U_B\)</span> whose correspondence with the elements of population <span class="math inline">\(U_A\)</span> is nonzero are identified, that is, those such that <span class="math inline">\(\theta_{ij}^{AB}&gt;0\)</span>. Let <span class="math inline">\(s_B\)</span> be the set of <span class="math inline">\(n_B\)</span> target population units that could be identified with the help of the elements belonging to population <span class="math inline">\(U_A\)</span>. Therefore</p>
 <p><span class="math display">\[
 s_B=\{i\in B \mid \exists j\in s_A\text{ and }\theta_{ij}^{AB}&gt; 0 \}
@@ -480,7 +490,7 @@ w_i=
 \end{cases}
 \end{aligned}
 \]</span></p>
-<p>In this way, the weights <span class="math inline">\(w_i\)</span> are said to have been obtained through the generalized weighting method, as described in <span class="citation" data-cites="Lav2007">(<a href="#ref-Lav2007" role="doc-biblioref">Lavallé 2007</a>)</span>. Along these lines, returning to our example of the population of parents and children, if the realized sample of parents were given by</p>
+<p>In this way, the weights <span class="math inline">\(w_i\)</span> are said to have been obtained through the generalized weighting method, as described in <span class="citation" data-cites="Lav2007">(<a href="#ref-Lav2007" role="doc-biblioref">Lavallée 2007</a>)</span>. Along these lines, returning to our example of the population of parents and children, if the realized sample of parents were given by</p>
 <p>then the set of children identified by the selected parents would be given by</p>
 <p>and the resulting weights would be</p>
 <ul>
@@ -691,7 +701,7 @@ z_{N_A} \\
 <section id="lexical-graphic-example" class="level2" data-number="13.4">
 <h2 data-number="13.4" class="anchored" data-anchor-id="lexical-graphic-example"><span class="header-section-number">13.4</span> Lexical-Graphic Example</h2>
 <!-- index: Indirect sampling -->
-<p>Suppose that, in the example of the population of Parents and Children, whose link matrix is given by expression (14.1.2), a study is proposed to estimate the total for the Children. For this purpose, following the advice of <span class="citation" data-cites="Lav2007">Lavallé (<a href="#ref-Lav2007" role="doc-biblioref">2007</a>)</span>, assume that the link matrix is given by <span class="math display">\[
+<p>Suppose that, in the example of the population of Parents and Children, whose link matrix is given by expression (14.1.2), a study is proposed to estimate the total for the Children. For this purpose, following the advice of <span class="citation" data-cites="Lav2007">Lavallée (<a href="#ref-Lav2007" role="doc-biblioref">2007</a>)</span>, assume that the link matrix is given by <span class="math display">\[
 \Theta_{AB}=
 \left(
   \begin{array}{ccc}
@@ -805,11 +815,15 @@ p_B(s_B)=
 <li><p>Discuss why adaptive sampling can be viewed as a special case of indirect sampling and propose an estimator involving the generalized weighting method.</p></li>
 <li><p>Discuss why snowball sampling can be viewed as a special case of indirect sampling and propose an estimator involving the generalized weighting method.</p></li>
 </ol>
+<section id="how-to-cite-this-book" class="level3 unnumbered citation-box">
+<h3 class="unnumbered anchored" data-anchor-id="how-to-cite-this-book">How to cite this book</h3>
+<p>Gutiérrez, A. (2027). <em>Sampling strategies: Survey design and parameter estimation</em>. Unpublished version online.</p>
+</section>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Lav2007" class="csl-entry" role="listitem">
-Lavallé, P. 2007. <em>Indirect Smapling</em>. Springer.
+Lavallée, P. 2007. <em>Indirect Sampling</em>. Springer.
 </div>
 </div>
 </section>
@@ -1383,7 +1397,7 @@ Lavallé, P. 2007. <em>Indirect Smapling</em>. Springer.
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Sampling strategies</p>
+<p>Sampling Strategies: Sampling Design and Parameter Estimation</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
@@ -1394,4 +1408,5 @@ Lavallé, P. 2007. <em>Indirect Smapling</em>. Springer.
 
 
 
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

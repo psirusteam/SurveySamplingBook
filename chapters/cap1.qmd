@@ -400,3 +400,9 @@ Small&Income&620&175.186&283&956&268.974&281\\
 \end{tabular}
 }
 \end{table}
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

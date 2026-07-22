@@ -1341,3 +1341,9 @@ $$
 1. Calibration estimators induced by the chi-square distance fully coincide with general regression estimators.
 1. The quantity $q_k$ is constant for all individuals under the entropy distance.
 1. Under the inverse chi-square distance, minimizing the distance with respect to the calibration restrictions always leads to weights $w_k$ equal to the inverse of the inclusion probability of the $k$-th element.
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

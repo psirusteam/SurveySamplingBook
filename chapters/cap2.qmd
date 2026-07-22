@@ -1578,3 +1578,9 @@ Following @Til, a strategy is said to be representative if it makes it possible 
   - Is it possible to use another type of estimator to obtain unbiased estimates of the population total?
 
 13. Rigorously prove that the variance estimator of the Hansen-Hurwitz estimator corresponds to @eq-varhh-est.
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

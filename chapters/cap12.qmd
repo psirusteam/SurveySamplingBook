@@ -783,3 +783,9 @@ $$
 1. Calculate an unbiased estimate for the population total of $y$.
 1. Obtain an estimate of the variance and report the corresponding estimated coefficient of variation.
 1. Obtain an estimate of the variance and report the corresponding estimated coefficient of variation, assuming that the sample had been obtained from a single-phase stratified random sampling design of size $n=80$.
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

@@ -854,3 +854,9 @@ $$
 1. Obtain an expression for Holmberg's inclusion probabilities when all size measures are constant in a multipurpose study.
 
 1. Prove expression (13.3.13).
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

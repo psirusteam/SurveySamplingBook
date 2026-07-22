@@ -545,3 +545,9 @@ Of course, in an illustrative exercise of this kind, it would be possible to cal
 \newpage
 \phantom{Ard}
 \thispagestyle{empty}
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

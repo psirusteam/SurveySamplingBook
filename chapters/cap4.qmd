@@ -1328,3 +1328,9 @@ $${x}=\{1005, 1072,  884,  907, 1068,  625,  705,  909, 692,  891, 1046, 1052\}$
 - Use simple regression analysis to estimate the value of the intercept and decide whether it is statistically different from zero.
 - For a sample size $m=6$, use expression (4.2.13) and the preceding arguments to justify or reject the choice of the PPS sampling design for this population.
 - Assuming that the data in Exercise 4.5 come from a PPS sampling design, calculate the Hansen-Hurwitz estimate for the total of the characteristic of interest, report the estimated coefficient of variation and a 95% confidence interval. Also calculate the Horvitz-Thompson estimate for the total of the characteristic of interest.
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

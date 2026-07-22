@@ -1952,3 +1952,9 @@ The preceding sampling designs belong to the group of constant inclusion-probabi
 
 
 21. Prove or refute the following statement: "In a systematic sampling design, if there is homogeneity within groups and heterogeneity among their means, then this design is less efficient than the simple random sampling design."
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::

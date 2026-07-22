@@ -1175,3 +1175,9 @@ Given the simplification in calculating the variance, @Baut proposes using it ev
 - Is it a good strategy to choose the estimator $\bar{y}_S$ to infer the average number of dog legs in the city?
 
 % --------------------------------------------------------------------------------
+
+::: {.citation-box}
+### How to cite this book  {-}
+
+Gutiérrez, A. (2027). *Sampling strategies: Survey design and parameter estimation*. Unpublished version online.
+:::
